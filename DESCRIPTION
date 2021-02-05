@@ -1,11 +1,20 @@
 Package: latentcor
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+Title: Fast computation of latent correlations for mixed data
+Version: 1.0.0
+Author: c(
+    person(given = "Mingze",
+           family = "Huang",
+           role = c("aut", "cre"),
+           email = "mingzehuang@gmail.com"),
+    person(given = "Irina",
+           family = "Gaynanova",
+           role = c("aut"),
+           email = "irinag@stat.tamu.edu"))
+Maintainer: Mingze Huang <mingzehuang@gmail.com>
+Description: Fast computation of latent correlations for mixed data
+Depends: R (>= 3.0.1), stats, MASS
+Imports: pcaPP, Matrix, fMultivar, mnormt, irlba, chebpol
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
