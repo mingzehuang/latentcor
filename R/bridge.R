@@ -103,3 +103,28 @@ bridgeF_tt <- function(r, zratio1, zratio2){
   )
   return(res)
 }
+bridgeF_nc <- function(r, zration1, zration2){
+  # ternary and continuous
+  de1 <- stats::qnorm(zration1)
+  de2 <- stats::qnorm(zration2)
+  mat <- matrix(c(1, 0, r/sqrt(2),
+                   0, 1, -r/sqrt(2),
+                   r/sqrt(2), -r/sqrt(2), 1), nrow = 3)
+  res <- as.numeric(4*fMultivar::pnorm2d(de2, 0, rho = r/sqrt(2)) - 2*zration2 +
+      2*(mnormt::pmnorm(c(de1, de2, 0), mean = rep(0, 3), varcov = mat)-
+      mnormt::pmnorm(c(de2, de1, 0), mean = rep(0, 3), varcov = mat))
+  )
+  return(res)
+}
+bridgeF_nn <- function(r, zration11, zration12, zration21, zration22){
+  # ternary and ternary
+  de11 <- stats::qnorm(zration11)
+  de12 <- stats::qnorm(zration12)
+  de21 <- stats::qnorm(zration21)
+  de22 <- stats::qnorm(zration22)
+
+  res <- as.numeric(2*fMultivar::pnorm2d(de12, de22, rho = r) * fMultivar::pnorm2d(-de11, -de21, rho = r)
+                    - 2*(zration12 - fMultivar::pnorm2d(de12, de21, rho = r)) * (zration22 - fMultivar::pnorm2d(de11, de22, rho = r)))
+  return(res)
+}
+
