@@ -119,15 +119,15 @@ bridgeF_nc <- function(r, zration1, zration2){
   )
   return(res)
 }
-bridgeF_nn <- function(r, zration11, zration12, zration21, zration22){
+bridgeF_nn <- function(r, zratio11, zratio12, zratio21, zratio22){
   # ternary and ternary
-  de11 <- stats::qnorm(zration11)
-  de12 <- stats::qnorm(zration12)
-  de21 <- stats::qnorm(zration21)
-  de22 <- stats::qnorm(zration22)
+  de11 <- stats::qnorm(zratio11)
+  de12 <- stats::qnorm(zratio12)
+  de21 <- stats::qnorm(zratio21)
+  de22 <- stats::qnorm(zratio22)
 
   res <- as.numeric(2*fMultivar::pnorm2d(de12, de22, rho = r) * fMultivar::pnorm2d(-de11, -de21, rho = r)
-                    - 2*(zration12 - fMultivar::pnorm2d(de12, de21, rho = r)) * (zration22 - fMultivar::pnorm2d(de11, de22, rho = r)))
+                    - 2*(zratio12 - fMultivar::pnorm2d(de12, de21, rho = r)) * (zratio22 - fMultivar::pnorm2d(de11, de22, rho = r)))
   return(res)
 }
 bridgeF_oc <- function(r, ...){
