@@ -10,19 +10,33 @@ fromKtoR <- function(K, zratio = NULL, type = "trunc", tol = 1e-3) {
     # Select bridge function based on the type of variables
     bridge <- bridge_select(type1 = type, type2 = type)
     ###################################################################
-    # Below code is from Yang Ning
     hatR <- matrix(1, d1, d1)
-
-    for(i in 1:(d1 - 1)) {
-      for(j in (i + 1):d1){
+    f1 <- function(r, K_ij, ...)(bridge(r, ...) - K_ij)^2
+    if (type == "trunc" | type == "binary") {
+      for(i in 1:(d1 - 1)) {
+        for(j in (i + 1):d1){
+          f1 <- function(r)(bridge(r, zratio1 = zratio[i], zratio2 = zratio[j]) - K[i, j])^2
+          op <- tryCatch(optimize(f1, lower = -0.99, upper = 0.99, tol = tol)[1], error = function(e) 100)
+          if(op == 100){
+            warning("Optimize returned error one of the pairwise correlations, returning NA")
+            hatR[i, j] <- hatR[j, i] <- NA
+          }else {
+            hatR[i, j] <- hatR[j, i] <- unlist(op)
+          }
+        }
+      }
+    } else if (type == "ternary") {
+      for(i in 1:(d1 - 1)) {
+        for(j in (i + 1):d1){
         # Below change to use the bridgeF_mix function that was selected previously, no need to supply the type anymore
-        f1 <- function(r)(bridge(r, zratio1 = zratio[i], zratio2 = zratio[j]) - K[i,j])^2
-        op <- tryCatch(optimize(f1, lower = -0.99, upper = 0.99, tol = tol)[1], error = function(e) 100)
-        if(op == 100){
-          warning("Optimize returned error one of the pairwise correlations, returning NA")
-          hatR[i, j] <- hatR[j, i] <- NA
-        }else {
-          hatR[i, j] <- hatR[j, i] <- unlist(op)
+          f1 <- function(r)(bridge(r, zratio11 = zratio[i, 1], zratio12 = zratio[i, 2], zratio21 = zratio[j, 1], zratio22 = zratio[j, 2]) - K[i, j])^2
+          op <- tryCatch(optimize(f1, lower = -0.99, upper = 0.99, tol = tol)[1], error = function(e) 100)
+          if(op == 100){
+            warning("Optimize returned error one of the pairwise correlations, returning NA")
+            hatR[i, j] <- hatR[j, i] <- NA
+          }else {
+            hatR[i, j] <- hatR[j, i] <- unlist(op)
+          }
         }
       }
     }
