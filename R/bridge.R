@@ -127,4 +127,19 @@ bridgeF_nn <- function(r, zration11, zration12, zration21, zration22){
                     - 2*(zration12 - fMultivar::pnorm2d(de12, de21, rho = r)) * (zration22 - fMultivar::pnorm2d(de11, de22, rho = r)))
   return(res)
 }
+bridge_pc <- function(r, ...){
+  # p-level ordinal and continuous
+  zratiop <- c(...)
+  p <- length(zratiop) + 1
+  de <- stats::qnorm(zratiop)
+  mat <- matrix(c(1, 0, r/sqrt(2),
+                  0, 1, -r/sqrt(2),
+                  r/sqrt(2), -r/sqrt(2), 1), nrow = 3)
+  res = rep(NA, (p-1))
+  for (i in 1:(p-1)){
+    res[i] = 4*mnormt::pmnorm(c(de[i], de[i+1], 0), mean = rep(0, 3), varcov = mat) - 2 * zratiop[i] * zratiop[i+1]
+  }
+  res_sum = sum(res)
+  return(res_sum)
+}
 
