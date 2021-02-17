@@ -138,22 +138,22 @@ bridgeF_nn <- function(r, zratio1, zratio2){
 }
 bridge_bn <- function(r, zratio1, zratio2){
   # binary and ternary
-  de1 <- stat::qnorm(zratio1)
-  de21 <- stat::qnorm(zratio2[1])
-  de22 <- stat::qnorm(zratio2[2])
+  de1 <- stats::qnorm(zratio1)
+  de21 <- stats::qnorm(zratio2[1])
+  de22 <- stats::qnorm(zratio2[2])
 
-  res <- as.numeric(2 * fMultivar::pnorm2d(de11, de22, rho = r) * (1 - zratio2[1]) -
-         2 * zratio2[2] * (zratio1 - fMultivar::pnorm2d(de11, de21, rho = r)))
+  res <- as.numeric(2 * fMultivar::pnorm2d(de1, de22, rho = r) * (1 - zratio2[1]) -
+         2 * zratio2[2] * (zratio1 - fMultivar::pnorm2d(de1, de21, rho = r)))
   return(res)
 }
 bridge_nb <- function(r, zratio1, zratio2){
   # ternary and binary
-  de1 <- stat::qnorm(zratio2)
-  de21 <- stat::qnorm(zratio1[1])
-  de22 <- stat::qnorm(zratio1[2])
+  de1 <- stats::qnorm(zratio2)
+  de21 <- stats::qnorm(zratio1[1])
+  de22 <- stats::qnorm(zratio1[2])
 
-  res <- as.numeric(2 * fMultivar::pnorm2d(de11, de22, rho = r) * (1 - zratio1[1]) -
-         2 * zratio1[2] * (zratio2 - fMultivar::pnorm2d(de11, de21, rho = r)))
+  res <- as.numeric(2 * fMultivar::pnorm2d(de1, de22, rho = r) * (1 - zratio1[1]) -
+         2 * zratio1[2] * (zratio2 - fMultivar::pnorm2d(de1, de21, rho = r)))
   return(res)
 }
 bridgeF_oc <- function(r, zratio1, zratio2 = NULL){
