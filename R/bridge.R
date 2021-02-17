@@ -23,7 +23,7 @@ bridgeF_bc <- function(r, zratio1, zratio2 = NULL){
 bridgeF_cb <- function(r, zratio1 = NULL, zratio2){
   # continuous and binary
   de2 <- stats::qnorm(zratio2)
-  res <- as.numeric( 4*fMultivar::pnorm2d(0, de2, rho = r/sqrt(2)) - 2*zratio2 )
+  res <- as.numeric(4 * fMultivar::pnorm2d(0, de2, rho = r/sqrt(2)) - 2 * zratio2 )
   return(res)
 }
 bridgeF_tb <- function(r, zratio1, zratio2){
@@ -36,11 +36,9 @@ bridgeF_tb <- function(r, zratio1, zratio2){
   mat2 <- matrix(c(1, 0, -1/sqrt(2),
                    0, 1, -r/sqrt(2),
                    -1/sqrt(2), -r/sqrt(2), 1), nrow = 3)
-  res <- as.numeric(
-    2*(1-zratio1)*(zratio2)-
-      2*mnormt::pmnorm(c(-de1, de2, 0), mean = rep(0, 3), varcov = mat1)-
-      2*mnormt::pmnorm(c(-de1, de2, 0), mean = rep(0, 3), varcov = mat2)
-  )
+  res <- as.numeric(2 * (1-zratio1) * (zratio2) -
+      2 * mnormt::pmnorm(c(-de1, de2, 0), mean = rep(0, 3), varcov = mat1) -
+      2 * mnormt::pmnorm(c(-de1, de2, 0), mean = rep(0, 3), varcov = mat2))
   return(res)
 }
 bridgeF_bt <- function(r, zratio1, zratio2){
@@ -53,11 +51,9 @@ bridgeF_bt <- function(r, zratio1, zratio2){
   mat2 <- matrix(c(1, 0, -1/sqrt(2),
                    0, 1, -r/sqrt(2),
                    -1/sqrt(2), -r/sqrt(2), 1), nrow = 3)
-  res <- as.numeric(
-    2*(1-zratio2)*(zratio1)-
-      2*mnormt::pmnorm(c(-de1, de2, 0), mean = rep(0, 3), varcov = mat1)-
-      2*mnormt::pmnorm(c(-de1, de2, 0), mean = rep(0, 3), varcov = mat2)
-  )
+  res <- as.numeric(2 * (1-zratio2) * (zratio1)-
+      2 * mnormt::pmnorm(c(-de1, de2, 0), mean = rep(0, 3), varcov = mat1)-
+      2 * mnormt::pmnorm(c(-de1, de2, 0), mean = rep(0, 3), varcov = mat2))
   return(res)
 }
 bridgeF_tc <- function(r, zratio1, zratio2 = NULL){
@@ -66,8 +62,8 @@ bridgeF_tc <- function(r, zratio1, zratio2 = NULL){
   mat2 <- matrix(c(1, 1/sqrt(2), r/sqrt(2),
                    1/sqrt(2), 1, r,
                    r/sqrt(2), r, 1), nrow = 3)
-  res <- as.numeric( -2*fMultivar::pnorm2d(-de1, 0, rho = 1/sqrt(2)) +
-                       4*mnormt::pmnorm(c(-de1, 0, 0), mean = rep(0, 3), varcov = mat2) )
+  res <- as.numeric(-2 * fMultivar::pnorm2d(-de1, 0, rho = 1/sqrt(2)) +
+                    4 * mnormt::pmnorm(c(-de1, 0, 0), mean = rep(0, 3), varcov = mat2))
   return(res)
 }
 bridgeF_ct <- function(r, zratio1 = NULL, zratio2){
@@ -76,15 +72,15 @@ bridgeF_ct <- function(r, zratio1 = NULL, zratio2){
   mat2 <- matrix(c(1, 1/sqrt(2), r/sqrt(2),
                    1/sqrt(2), 1, r,
                    r/sqrt(2), r, 1), nrow = 3)
-  res <- as.numeric( -2*fMultivar::pnorm2d(-de1, 0, rho = 1/sqrt(2)) +
-                       4*mnormt::pmnorm(c(-de1, 0, 0), mean = rep(0, 3), varcov = mat2) )
+  res <- as.numeric(-2 * fMultivar::pnorm2d(-de1, 0, rho = 1/sqrt(2)) +
+                    4 * mnormt::pmnorm(c(-de1, 0, 0), mean = rep(0, 3), varcov = mat2))
   return(res)
 }
 bridgeF_bb <- function(r, zratio1, zratio2){
   # binary and binary
   de1 <- stats::qnorm(zratio1)
   de2 <- stats::qnorm(zratio2)
-  res <- as.numeric(2*(fMultivar::pnorm2d(de1, de2, rho = r) - zratio1*zratio2))
+  res <- as.numeric(2 * (fMultivar::pnorm2d(de1, de2, rho = r) - zratio1*zratio2))
   return(res)
 }
 bridgeF_tt <- function(r, zratio1, zratio2){
@@ -101,9 +97,8 @@ bridgeF_tt <- function(r, zratio1, zratio2){
                    1/sqrt(2), r/sqrt(2), 1, r,
                    r/sqrt(2), 1/sqrt(2), r, 1), nrow = 4)
 
-  res <- as.numeric( -2*mnormt::pmnorm(c(-de1, -de2, 0, 0), mean = rep(0, 4), varcov = mat1) +
-                       2*mnormt::pmnorm(c(-de1, -de2, 0, 0), mean = rep(0, 4), varcov = mat2)
-  )
+  res <- as.numeric(-2 * mnormt::pmnorm(c(-de1, -de2, 0, 0), mean = rep(0, 4), varcov = mat1) +
+                    2 * mnormt::pmnorm(c(-de1, -de2, 0, 0), mean = rep(0, 4), varcov = mat2))
   return(res)
 }
 bridgeF_nc <- function(r, zratio1, zratio2 = NULL){
@@ -113,9 +108,9 @@ bridgeF_nc <- function(r, zratio1, zratio2 = NULL){
   mat <- matrix(c(1, 0, r/sqrt(2),
                    0, 1, -r/sqrt(2),
                    r/sqrt(2), -r/sqrt(2), 1), nrow = 3)
-  res <- as.numeric(4*fMultivar::pnorm2d(de2, 0, rho = r/sqrt(2)) - 2*zratio1[2] +
-         4*mnormt::pmnorm(c(de1, de2, 0), mean = rep(0, 3), varcov = mat) - 2*zratio1[1]*zratio1[2]
-  )
+  res <- as.numeric(4 * fMultivar::pnorm2d(de2, 0, rho = r/sqrt(2)) - 2 * zratio1[2] +
+         4 * mnormt::pmnorm(c(de1, de2, 0), mean = rep(0, 3), varcov = mat) -
+         2 * zratio1[1]*zratio1[2])
   return(res)
 }
 bridgeF_cn <- function(r, zratio1 = NULL, zratio2){
@@ -126,8 +121,8 @@ bridgeF_cn <- function(r, zratio1 = NULL, zratio2){
                   0, 1, -r/sqrt(2),
                   r/sqrt(2), -r/sqrt(2), 1), nrow = 3)
   res <- as.numeric(4 * fMultivar::pnorm2d(de2, 0, rho = r/sqrt(2)) - 2 * zratio2[2] +
-         4 * mnormt::pmnorm(c(de1, de2, 0), mean = rep(0, 3), varcov = mat) - 2 * zratio2[1] * zratio2[2]
-  )
+         4 * mnormt::pmnorm(c(de1, de2, 0), mean = rep(0, 3), varcov = mat) -
+         2 * zratio2[1] * zratio2[2])
   return(res)
 }
 bridgeF_nn <- function(r, zratio1, zratio2){
@@ -137,8 +132,8 @@ bridgeF_nn <- function(r, zratio1, zratio2){
   de21 <- stats::qnorm(zratio2[1])
   de22 <- stats::qnorm(zratio2[2])
 
-  res <- as.numeric(2 * fMultivar::pnorm2d(de12, de22, rho = r) * fMultivar::pnorm2d(-de11, -de21, rho = r)
-                    - 2 * (zratio1[2] - fMultivar::pnorm2d(de12, de21, rho = r)) * (zratio2[2] - fMultivar::pnorm2d(de11, de22, rho = r)))
+  res <- as.numeric(2 * fMultivar::pnorm2d(de12, de22, rho = r) * fMultivar::pnorm2d(-de11, -de21, rho = r) -
+         2 * (zratio1[2] - fMultivar::pnorm2d(de12, de21, rho = r)) * (zratio2[2] - fMultivar::pnorm2d(de11, de22, rho = r)))
   return(res)
 }
 bridge_bn <- function(r, zratio1, zratio2){
@@ -147,8 +142,8 @@ bridge_bn <- function(r, zratio1, zratio2){
   de21 <- stat::qnorm(zratio2[1])
   de22 <- stat::qnorm(zratio2[2])
 
-  res <- as.numeric(2 * fMultivar::pnorm2d(de11, de22, rho = r) * (1 - zratio2[1])
-                    - 2 * zratio2[2] * (zratio1 - fMultivar::pnorm2d(de11, de21, rho = r)))
+  res <- as.numeric(2 * fMultivar::pnorm2d(de11, de22, rho = r) * (1 - zratio2[1]) -
+         2 * zratio2[2] * (zratio1 - fMultivar::pnorm2d(de11, de21, rho = r)))
   return(res)
 }
 bridge_nb <- function(r, zratio1, zratio2){
@@ -157,8 +152,8 @@ bridge_nb <- function(r, zratio1, zratio2){
   de21 <- stat::qnorm(zratio1[1])
   de22 <- stat::qnorm(zratio1[2])
 
-  res <- as.numeric(2 * fMultivar::pnorm2d(de11, de22, rho = r) * (1 - zratio1[1])
-                    - 2 * zratio1[2] * (zratio2 - fMultivar::pnorm2d(de11, de21, rho = r)))
+  res <- as.numeric(2 * fMultivar::pnorm2d(de11, de22, rho = r) * (1 - zratio1[1]) -
+         2 * zratio1[2] * (zratio2 - fMultivar::pnorm2d(de11, de21, rho = r)))
   return(res)
 }
 bridgeF_oc <- function(r, zratio1, zratio2 = NULL){
@@ -170,7 +165,8 @@ bridgeF_oc <- function(r, zratio1, zratio2 = NULL){
                   r/sqrt(2), -r/sqrt(2), 1), nrow = 3)
   res = rep(NA, (p-1))
   for (i in 1:(p-1)){
-    res[i] = as.numeric(4 * mnormt::pmnorm(c(de[i], de[i+1], 0), mean = rep(0, 3), varcov = mat) - 2 * zratio1[i] * zratio1[i+1])
+    res[i] = as.numeric(4 * mnormt::pmnorm(c(de[i], de[i + 1], 0), mean = rep(0, 3), varcov = mat) -
+             2 * zratio1[i] * zratio1[i + 1])
   }
   res_sum = sum(res)
   return(res_sum)
@@ -184,7 +180,8 @@ bridgeF_co <- function(r, zratio1 = NULL, zratio2){
                   r/sqrt(2), -r/sqrt(2), 1), nrow = 3)
   res = rep(NA, (p-1))
   for (i in 1:(p-1)){
-    res[i] = as.numeric(4 * mnormt::pmnorm(c(de[i], de[i+1], 0), mean = rep(0, 3), varcov = mat) - 2 * zratio2[i] * zratio2[i+1])
+    res[i] = as.numeric(4 * mnormt::pmnorm(c(de[i], de[i + 1], 0), mean = rep(0, 3), varcov = mat) -
+             2 * zratio2[i] * zratio2[i + 1])
   }
   res_sum = sum(res)
   return(res_sum)
