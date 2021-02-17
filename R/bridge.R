@@ -106,43 +106,86 @@ bridgeF_tt <- function(r, zratio1, zratio2){
   )
   return(res)
 }
-bridgeF_nc <- function(r, zration1, zration2){
+bridgeF_nc <- function(r, zratio1, zratio2 = NULL){
   # ternary and continuous
-  de1 <- stats::qnorm(zration1)
-  de2 <- stats::qnorm(zration2)
+  de1 <- stats::qnorm(zratio1[1])
+  de2 <- stats::qnorm(zratio1[2])
   mat <- matrix(c(1, 0, r/sqrt(2),
                    0, 1, -r/sqrt(2),
                    r/sqrt(2), -r/sqrt(2), 1), nrow = 3)
-  res <- as.numeric(4*fMultivar::pnorm2d(de2, 0, rho = r/sqrt(2)) - 2*zration2 +
-      2*(mnormt::pmnorm(c(de1, de2, 0), mean = rep(0, 3), varcov = mat)-
-      mnormt::pmnorm(c(de2, de1, 0), mean = rep(0, 3), varcov = mat))
+  res <- as.numeric(4*fMultivar::pnorm2d(de2, 0, rho = r/sqrt(2)) - 2*zratio1[2] +
+         4*mnormt::pmnorm(c(de1, de2, 0), mean = rep(0, 3), varcov = mat) - 2*zratio1[1]*zratio1[2]
   )
   return(res)
 }
-bridgeF_nn <- function(r, zratio11, zratio12, zratio21, zratio22){
-  # ternary and ternary
-  de11 <- stats::qnorm(zratio11)
-  de12 <- stats::qnorm(zratio12)
-  de21 <- stats::qnorm(zratio21)
-  de22 <- stats::qnorm(zratio22)
-
-  res <- as.numeric(2*fMultivar::pnorm2d(de12, de22, rho = r) * fMultivar::pnorm2d(-de11, -de21, rho = r)
-                    - 2*(zratio12 - fMultivar::pnorm2d(de12, de21, rho = r)) * (zratio22 - fMultivar::pnorm2d(de11, de22, rho = r)))
+bridgeF_cn <- function(r, zratio1 = NULL, zratio2){
+  # continuous and ternary
+  de1 <- stats::qnorm(zratio2[1])
+  de2 <- stats::qnorm(zratio2[2])
+  mat <- matrix(c(1, 0, r/sqrt(2),
+                  0, 1, -r/sqrt(2),
+                  r/sqrt(2), -r/sqrt(2), 1), nrow = 3)
+  res <- as.numeric(4 * fMultivar::pnorm2d(de2, 0, rho = r/sqrt(2)) - 2 * zratio2[2] +
+         4 * mnormt::pmnorm(c(de1, de2, 0), mean = rep(0, 3), varcov = mat) - 2 * zratio2[1] * zratio2[2]
+  )
   return(res)
 }
-bridgeF_oc <- function(r, ...){
+bridgeF_nn <- function(r, zratio1, zratio2){
+  # ternary and ternary
+  de11 <- stats::qnorm(zratio1[1])
+  de12 <- stats::qnorm(zratio1[2])
+  de21 <- stats::qnorm(zratio2[1])
+  de22 <- stats::qnorm(zratio2[2])
+
+  res <- as.numeric(2 * fMultivar::pnorm2d(de12, de22, rho = r) * fMultivar::pnorm2d(-de11, -de21, rho = r)
+                    - 2 * (zratio1[2] - fMultivar::pnorm2d(de12, de21, rho = r)) * (zratio2[2] - fMultivar::pnorm2d(de11, de22, rho = r)))
+  return(res)
+}
+bridge_bn <- function(r, zratio1, zratio2){
+  # binary and ternary
+  de1 <- stat::qnorm(zratio1)
+  de21 <- stat::qnorm(zratio2[1])
+  de22 <- stat::qnorm(zratio2[2])
+
+  res <- as.numeric(2 * fMultivar::pnorm2d(de11, de22, rho = r) * (1 - zratio2[1])
+                    - 2 * zratio2[2] * (zratio1 - fMultivar::pnorm2d(de11, de21, rho = r)))
+  return(res)
+}
+bridge_nb <- function(r, zratio1, zratio2){
+  # ternary and binary
+  de1 <- stat::qnorm(zratio2)
+  de21 <- stat::qnorm(zratio1[1])
+  de22 <- stat::qnorm(zratio1[2])
+
+  res <- as.numeric(2 * fMultivar::pnorm2d(de11, de22, rho = r) * (1 - zratio1[1])
+                    - 2 * zratio1[2] * (zratio2 - fMultivar::pnorm2d(de11, de21, rho = r)))
+  return(res)
+}
+bridgeF_oc <- function(r, zratio1, zratio2 = NULL){
   # p-level ordinal and continuous
-  zratio <- c(...)
-  p <- length(zratio) + 1
-  de <- stats::qnorm(zratio)
+  p <- length(zratio1) + 1
+  de <- stats::qnorm(zratio1)
   mat <- matrix(c(1, 0, r/sqrt(2),
                   0, 1, -r/sqrt(2),
                   r/sqrt(2), -r/sqrt(2), 1), nrow = 3)
   res = rep(NA, (p-1))
   for (i in 1:(p-1)){
-    res[i] = 4*mnormt::pmnorm(c(de[i], de[i+1], 0), mean = rep(0, 3), varcov = mat) - 2 * zratio[i] * zratio[i+1]
+    res[i] = as.numeric(4 * mnormt::pmnorm(c(de[i], de[i+1], 0), mean = rep(0, 3), varcov = mat) - 2 * zratio1[i] * zratio1[i+1])
   }
   res_sum = sum(res)
   return(res_sum)
 }
-
+bridgeF_co <- function(r, zratio1 = NULL, zratio2){
+  # continuous and p-level ordinal
+  p <- length(zratio2) + 1
+  de <- stats::qnorm(zratio2)
+  mat <- matrix(c(1, 0, r/sqrt(2),
+                  0, 1, -r/sqrt(2),
+                  r/sqrt(2), -r/sqrt(2), 1), nrow = 3)
+  res = rep(NA, (p-1))
+  for (i in 1:(p-1)){
+    res[i] = as.numeric(4 * mnormt::pmnorm(c(de[i], de[i+1], 0), mean = rep(0, 3), varcov = mat) - 2 * zratio2[i] * zratio2[i+1])
+  }
+  res_sum = sum(res)
+  return(res_sum)
+}
