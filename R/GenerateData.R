@@ -81,8 +81,8 @@ blockcor <- function(blockind, rho){
 #'       \item{true_w2: }{normalized true canonical direction of length p2 for \code{X2}.}
 #'       \item{type: }{a vector containing types of two datasets.}
 #'       \item{maxcancor: }{true canonical correlation between \code{Z1} and \code{Z2}.}
-#'       \item{c1: }{vector thresholds for \code{X1} for "trunc", "binary", "ternary" and "ordinal" data type.}
-#'       \item{c2: }{vector thresholds for \code{X2} for "trunc" and "binary" data type.}
+#'       \item{c1: }{a matrix of thresholds for \code{X1} for "trunc", "binary", "ternary" and "ordinal" data type.}
+#'       \item{c2: }{a matrix of thresholds for \code{X2} for "trunc", "binary", "ternary" and "ordinal" data type.}
 #'       \item{Sigma: }{true latent correlation matrix of \code{Z1} and \code{Z2} ((p1+p2) by (p1+p2)).}
 #' }
 #' @export
@@ -96,10 +96,10 @@ GenerateData <- function(n, trueidx1, trueidx2, Sigma1, Sigma2, maxcancor,
 ){
 
   if((type1 != "continuous") & is.null(c1)){
-    stop("c1 has to be defined for truncated continuous and binary data type.")
+    stop("c1 has to be defined for truncated continuous, binary, ternary or ordinal data type.")
   }
   if((type2 != "continuous") & is.null(c2)){
-    stop("c2 has to be defined for truncated continuous and binary data type.")
+    stop("c2 has to be defined for truncated continuous, binary, ternary or ordinal data type.")
   }
 
   p1 <- length(trueidx1)
@@ -138,20 +138,23 @@ GenerateData <- function(n, trueidx1, trueidx2, Sigma1, Sigma2, maxcancor,
   }
 
   if(type1 != "continuous"){
-    if(length(c1) != p1) { stop("The length of threshold vector c1 does not match with the size of the data X1.") }
-    if(length(c1) == 1) { warning("Same threshold is applied to the all variables in the first set.") }
+    if(ncol(c1) != p1) { stop("The length of threshold vector c1 does not match with the size of the data X1.") }
+    if(ncol(c1) == 1) { warning("Same threshold is applied to the all variables in the first set.") }
   }
   if(type2 != "continuous"){
-    if(length(c2) != p2) { stop("The length of threshold vector c2 does not match with the size of the data X2.") }
-    if(length(c2) == 1) { warning("Same threshold is applied to the all variables in the second set.") }
+    if(ncol(c2) != p2) { stop("The length of threshold vector c2 does not match with the size of the data X2.") }
+    if(ncol(c2) == 1) { warning("Same threshold is applied to the all variables in the second set.") }
   }
 
   if(type1 == "continuous") {
     X1 <- Z1
   } else if(type1 == "trunc") {
-    X1 <- ifelse(Z1 > c1, Z1, 0)
+    X1 <- ifelse(Z1 > matrix(c1, nrow = nrow(Z1), ncol = ncol(Z1), byrow = T), Z1, 0)
   } else if (type1 == "binary") {
-    X1 <- ifelse(Z1 > c1, 1, 0)
+    X1 <- ifelse(Z1 > matrix(c1, nrow = nrow(Z1), ncol = ncol(Z1), byrow = T), 1, 0)
+  } else if (type1 == "ternary") {
+    X1[Z1 > matrix(apply(c1, 2, max), nrow = nrow(Z1), ncol = ncol(Z1), byrow = T)] = 2
+    X1[Z1 <= matrix(apply(c1, 2, min), nrow = nrow(Z1), ncol = ncol(Z1), byrow = T)] = 0
   }
 
   if(type2 == "continuous") {
