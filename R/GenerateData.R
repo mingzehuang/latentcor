@@ -65,11 +65,11 @@ blockcor <- function(blockind, rho){
 #' @param maxcancor True canonical correlation between \code{Z1} and \code{Z2}.
 #' @param copula1 Copula type for the first dataset. U1 = f(Z1), which could be either "exp", "cube".
 #' @param copula2 Copula type for the second dataset. U2 = f(Z2), which could be either "exp", "cube".
-#' @param type1 Type of the first dataset \code{X1}. Could be "continuous", "trunc" or "binary".
-#' @param type2 Type of the second dataset \code{X2}. Could be "continuous", "trunc" or "binary".
+#' @param type1 Type of the first dataset \code{X1}. Could be "continuous", "trunc", "binary", "ternary" or "ordinal".
+#' @param type2 Type of the second dataset \code{X2}. Could be "continuous", "trunc", "binary", "ternary" or "ordinal".
 #' @param muZ Mean of latent multivariate normal.
-#' @param c1 Constant threshold for \code{X1} needed for "trunc" and "binary" data type - the default is NULL.
-#' @param c2 Constant threshold for \code{X2} needed for "trunc" and "binary" data type - the default is NULL.
+#' @param c1 Constant threshold for \code{X1} needed for "trunc", "binary", "ternary" and "ordinal" data type - the default is NULL.
+#' @param c2 Constant threshold for \code{X2} needed for "trunc", "binary", "ternary" and "ordinal" data type - the default is NULL.
 #'
 #' @return \code{GenerateData} returns a list containing
 #' \itemize{
@@ -81,8 +81,8 @@ blockcor <- function(blockind, rho){
 #'       \item{true_w2: }{normalized true canonical direction of length p2 for \code{X2}.}
 #'       \item{type: }{a vector containing types of two datasets.}
 #'       \item{maxcancor: }{true canonical correlation between \code{Z1} and \code{Z2}.}
-#'       \item{c1: }{constant threshold for \code{X1} for "trunc" and "binary" data type.}
-#'       \item{c2: }{constant threshold for \code{X2} for "trunc" and "binary" data type.}
+#'       \item{c1: }{vector thresholds for \code{X1} for "trunc", "binary", "ternary" and "ordinal" data type.}
+#'       \item{c2: }{vector thresholds for \code{X2} for "trunc" and "binary" data type.}
 #'       \item{Sigma: }{true latent correlation matrix of \code{Z1} and \code{Z2} ((p1+p2) by (p1+p2)).}
 #' }
 #' @export
