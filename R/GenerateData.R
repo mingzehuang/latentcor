@@ -155,7 +155,7 @@ GenerateData <- function(n, trueidx1, trueidx2, Sigma1, Sigma2, maxcancor,
   } else if (type1 == "ternary") {
     X1[Z1 > matrix(apply(c1, 2, max), nrow = nrow(Z1), ncol = ncol(Z1), byrow = T)] = 2
     X1[Z1 <= matrix(apply(c1, 2, min), nrow = nrow(Z1), ncol = ncol(Z1), byrow = T)] = 0
-  }
+  } else if (type1 == "ordinal")
 
   if(type2 == "continuous") {
     X2 <- Z2
