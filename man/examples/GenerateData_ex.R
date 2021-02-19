@@ -27,6 +27,94 @@ simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor
 X1 <- simdata$X1
 X2 <- simdata$X2
 
+# Data generation
+simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor = maxcancor,
+                        Sigma1 = Sigma1, Sigma2 = Sigma2,
+                        copula1 = "exp", copula2 = "cube",
+                        muZ = mu,
+                        type1 = "trunc", type2 = "continuous",
+                        c1 = rep(1, p1), c2 =  rep(0, p2)
+)
+X1 <- simdata$X1
+X2 <- simdata$X2
+
+# Data generation
+simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor = maxcancor,
+                        Sigma1 = Sigma1, Sigma2 = Sigma2,
+                        copula1 = "exp", copula2 = "cube",
+                        muZ = mu,
+                        type1 = "binary", type2 = "binary",
+                        c1 = rep(1, p1), c2 =  rep(0, p2)
+)
+X1 <- simdata$X1
+X2 <- simdata$X2
+
+# Data generation
+simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor = maxcancor,
+                        Sigma1 = Sigma1, Sigma2 = Sigma2,
+                        copula1 = "exp", copula2 = "cube",
+                        muZ = mu,
+                        type1 = "binary", type2 = "continuous",
+                        c1 = rep(1, p1), c2 =  rep(0, p2)
+)
+X1 <- simdata$X1
+X2 <- simdata$X2
+
+# Data generation
+simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor = maxcancor,
+                        Sigma1 = Sigma1, Sigma2 = Sigma2,
+                        copula1 = "exp", copula2 = "cube",
+                        muZ = mu,
+                        type1 = "trunc", type2 = "binary",
+                        c1 = rep(1, p1), c2 =  rep(0, p2)
+)
+X1 <- simdata$X1
+X2 <- simdata$X2
+
+# Data generation
+simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor = maxcancor,
+                        Sigma1 = Sigma1, Sigma2 = Sigma2,
+                        copula1 = "exp", copula2 = "cube",
+                        muZ = mu,
+                        type1 = "ternary", type2 = "ternary",
+                        c1 = matrix(rep(1:2, p1), nrow = 2, ncol = p1), c2 =  matrix(rep(0:1, p2), nrow = 2, ncol = p2)
+)
+X1 <- simdata$X1
+X2 <- simdata$X2
+
+# Data generation
+simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor = maxcancor,
+                        Sigma1 = Sigma1, Sigma2 = Sigma2,
+                        copula1 = "exp", copula2 = "cube",
+                        muZ = mu,
+                        type1 = "ternary", type2 = "continuous",
+                        c1 = matrix(rep(1:2, p1), nrow = 2, ncol = p1), c2 =  matrix(rep(0:1, p2), nrow = 2, ncol = p2)
+)
+X1 <- simdata$X1
+X2 <- simdata$X2
+
+# Data generation
+simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor = maxcancor,
+                        Sigma1 = Sigma1, Sigma2 = Sigma2,
+                        copula1 = "exp", copula2 = "cube",
+                        muZ = mu,
+                        type1 = "ternary", type2 = "binary",
+                        c1 = matrix(rep(1:2, p1), nrow = 2, ncol = p1), c2 = rep(0, p2)
+)
+X1 <- simdata$X1
+X2 <- simdata$X2
+
+# Data generation
+simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor = maxcancor,
+                        Sigma1 = Sigma1, Sigma2 = Sigma2,
+                        copula1 = "exp", copula2 = "cube",
+                        muZ = mu,
+                        type1 = "ternary", type2 = "trunc",
+                        c1 = matrix(rep(1:2, p1), nrow = 2, ncol = p1), c2 = rep(0, p2)
+)
+X1 <- simdata$X1
+X2 <- simdata$X2
+
 # Check the range of truncation levels of variables
 range(colMeans(X1 == 0))
 range(colMeans(X2 == 0))
