@@ -105,7 +105,12 @@ GenerateData <- function(n, trueidx1, trueidx2, Sigma1, Sigma2, maxcancor,
   p1 <- length(trueidx1)
   p2 <- length(trueidx2)
   p <- p1 + p2
-
+  if(is.null(dim(c1))) {
+    c1 <- matrix(c1, nrow = 1, ncol = length(c1))
+  }
+  if (is.null(dim(c2))) {
+    c2 <- matrix(c2, nrow = 1, ncol = length(c2))
+  }
   # normalize to satisfy t(theta1)%*%Sigma1%*%theta1=1
   th1 <- trueidx1/sqrt(as.numeric(crossprod(trueidx1, Sigma1 %*% trueidx1)))
   th2 <- trueidx2/sqrt(as.numeric(crossprod(trueidx2, Sigma2 %*% trueidx2)))
@@ -153,16 +158,19 @@ GenerateData <- function(n, trueidx1, trueidx2, Sigma1, Sigma2, maxcancor,
   } else if (type1 == "binary") {
     X1 <- ifelse(Z1 > matrix(c1, nrow = nrow(Z1), ncol = ncol(Z1), byrow = T), 1, 0)
   } else if (type1 == "ternary") {
-    X1[Z1 > matrix(apply(c1, 2, max), nrow = nrow(Z1), ncol = ncol(Z1), byrow = T)] = 2
+    X1 <- ifelse(Z1 > matrix(apply(c1, 2, max), nrow = nrow(Z1), ncol = ncol(Z1), byrow = T), 2, 1)
     X1[Z1 <= matrix(apply(c1, 2, min), nrow = nrow(Z1), ncol = ncol(Z1), byrow = T)] = 0
-  } else if (type1 == "ordinal")
+  }
 
   if(type2 == "continuous") {
     X2 <- Z2
   } else if(type2 == "trunc") {
-    X2 <- ifelse(Z2 > c2, Z2, 0)
+    X2 <- ifelse(Z2 > matrix(c2, nrow = nrow(Z2), ncol = ncol(Z2), byrow = T), Z2, 0)
   } else if (type2 == "binary") {
-    X2 <- ifelse(Z2 > c2, 1, 0)
+    X2 <- ifelse(Z2 > matrix(c2, nrow = nrow(Z2), ncol = ncol(Z2), byrow = T), 1, 0)
+  } else if (type2 == "ternary") {
+    X2 <- ifelse(Z2 > matrix(apply(c2, 2, max), nrow = nrow(Z2), ncol = ncol(Z2), byrow = T), 2, 1)
+    X2[Z2 <= matrix(apply(c2, 2, min), nrow = nrow(Z2), ncol = ncol(Z2), byrow = T)] = 0
   }
 
   return(list(Z1 = Z1, Z2 = Z2, X1 = X1, X2 = X2, true_w1 = th1, true_w2 = th2, type = c(type1, type2), maxcancor = maxcancor, c1 = c1, c2 = c2, Sigma = JSigma))
