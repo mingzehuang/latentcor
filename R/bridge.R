@@ -8,6 +8,7 @@ bridge_select <- function(type1 = "trunc", type2 = "continuous") {
   } else if (type1 == "trunc" & type2 == "binary") { bridge_select <- bridgeF_tb
   } else if (type1 == "binary" & type2 == "trunc") { bridge_select <- bridgeF_bt
   } else if (type1 == "ternary" & type2 == "continuous") { bridge_select <- bridgeF_nc
+  } else if (type1 == "continuous" & type2 == "binary") { bridge_select <- bridgeF_cn
   } else if (type1 == "ternary" & type2 == "ternary") { bridge_select <- bridgeF_nn
   # } else if (type1 == "ordinal" & type2 == "continuous") { bridge_select <- bridgeF_oc
   } else {
