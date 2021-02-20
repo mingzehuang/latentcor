@@ -35,8 +35,8 @@ estimateR <- function(X, type = "trunc", method = "approx", use.nearPD = TRUE, n
     stop("nu must be be between 0 and 1.")
   }
 
-  if (!(type %in% c("continuous", "binary","trunc"))){
-    stop("Unrecognized type of data. Should be one of continuous, binary or trunc.")
+  if (!(type %in% c("continuous", "binary", "trunc", "ternary"))){
+    stop("Unrecognized type of data. Should be one of continuous, binary, trunc or ternary")
   }
 
   if (type == "continuous"){
@@ -144,7 +144,7 @@ estimateR_mixed <- function(X1, X2, type1 = "trunc", type2 = "continuous", metho
 
   p1 <- ncol(X1); p2 <- ncol(X2)
 
-  if (sum(c(type1, type2) %in% c("continuous", "binary", "trunc")) != 2){
+  if (sum(c(type1, type2) %in% c("continuous", "binary", "trunc", "ternary")) != 2){
     stop("Unrecognised type of variables. Should be one of continuous, binary or trunc.")
   }
 
