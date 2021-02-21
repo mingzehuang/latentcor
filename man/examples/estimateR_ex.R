@@ -124,10 +124,10 @@ R1_org <- estimateR(X1, type = "ternary", method = "original")$R
 R2_org <- estimateR(X2, type = "ternary", method = "original")$R
 R12_org <- estimateR_mixed(X1, X2, type1 = "ternary", type2 = "ternary", method = "original")$R12
 # Estimate latent correlation matrix with faster approximation method
-R1_approx <- estimateR(X1, type = "ternary", method = "approx")$R
-R2_approx <- estimateR(X2, type = "ternary", method = "approx")$R
-R12_approx <- estimateR_mixed(X1, X2, type1 = "ternary", type2 = "ternary", method = "approx")$R12
-
+# R1_approx <- estimateR(X1, type = "ternary", method = "approx")$R
+# R2_approx <- estimateR(X2, type = "ternary", method = "approx")$R
+# R12_approx <- estimateR_mixed(X1, X2, type1 = "ternary", type2 = "ternary", method = "approx")$R12
+#
 # Data generation
 simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor = maxcancor,
                         Sigma1 = Sigma1, Sigma2 = Sigma2,
@@ -143,9 +143,9 @@ R1_org <- estimateR(X1, type = "ternary", method = "original")$R
 R2_org <- estimateR(X2, type = "continuous", method = "original")$R
 R12_org <- estimateR_mixed(X1, X2, type1 = "ternary", type2 = "continuous", method = "original")$R12
 # Estimate latent correlation matrix with faster approximation method
-# R1_approx <- estimateR(X1, type = "ternary", method = "approx")$R
+# # R1_approx <- estimateR(X1, type = "ternary", method = "approx")$R
 R2_approx <- estimateR(X2, type = "continuous", method = "approx")$R
-# R12_approx <- estimateR_mixed(X1, X2, type1 = "ternary", type2 = "continuous", method = "approx")$R12
+# # R12_approx <- estimateR_mixed(X1, X2, type1 = "ternary", type2 = "continuous", method = "approx")$R12
 
 # Data generation
 simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor = maxcancor,
@@ -163,8 +163,8 @@ R2_org <- estimateR(X2, type = "ternary", method = "original")$R
 R12_org <- estimateR_mixed(X1, X2, type1 = "continuous", type2 = "ternary", method = "original")$R12
 # Estimate latent correlation matrix with faster approximation method
 R1_approx <- estimateR(X1, type = "continuous", method = "approx")$R
-# R2_approx <- estimateR(X2, type = "ternary", method = "approx")$R
-# R12_approx <- estimateR_mixed(X1, X2, type1 = "continuous", type2 = "ternary", method = "approx")$R12
+# # R2_approx <- estimateR(X2, type = "ternary", method = "approx")$R
+# # R12_approx <- estimateR_mixed(X1, X2, type1 = "continuous", type2 = "ternary", method = "approx")$R12
 
 # Data generation
 simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor = maxcancor,
@@ -181,9 +181,9 @@ R1_org <- estimateR(X1, type = "ternary", method = "original")$R
 R2_org <- estimateR(X2, type = "binary", method = "original")$R
 R12_org <- estimateR_mixed(X1, X2, type1 = "ternary", type2 = "binary", method = "original")$R12
 # Estimate latent correlation matrix with faster approximation method
-# R1_approx <- estimateR(X1, type = "ternary", method = "approx")$R
+# # R1_approx <- estimateR(X1, type = "ternary", method = "approx")$R
 R2_approx <- estimateR(X2, type = "binary", method = "approx")$R
-# R12_approx <- estimateR_mixed(X1, X2, type1 = "ternary", type2 = "binary", method = "approx")$R12
+# # R12_approx <- estimateR_mixed(X1, X2, type1 = "ternary", type2 = "binary", method = "approx")$R12
 
 # Data generation
 simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor = maxcancor,
@@ -201,8 +201,8 @@ R2_org <- estimateR(X2, type = "ternary", method = "original")$R
 R12_org <- estimateR_mixed(X1, X2, type1 = "binary", type2 = "ternary", method = "original")$R12
 # Estimate latent correlation matrix with faster approximation method
 R1_approx <- estimateR(X1, type = "binary", method = "approx")$R
-# R2_approx <- estimateR(X2, type = "ternary", method = "approx")$R
-# R12_approx <- estimateR_mixed(X1, X2, type1 = "binary", type2 = "ternary", method = "approx")$R12
+# # R2_approx <- estimateR(X2, type = "ternary", method = "approx")$R
+# # R12_approx <- estimateR_mixed(X1, X2, type1 = "binary", type2 = "ternary", method = "approx")$R12
 
 # Data generation
 simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor = maxcancor,
@@ -217,11 +217,11 @@ X2 <- simdata$X2
 # Estimate latent correlation matrix with original method
 R1_org <- estimateR(X1, type = "ternary", method = "original")$R
 R2_org <- estimateR(X2, type = "trunc", method = "original")$R
-R12_org <- estimateR_mixed(X1, X2, type1 = "ternary", type2 = "trunc", method = "original")$R12
+# # R12_org <- estimateR_mixed(X1, X2, type1 = "ternary", type2 = "trunc", method = "original")$R12
 # Estimate latent correlation matrix with faster approximation method
-# R1_approx <- estimateR(X1, type = "ternary", method = "approx")$R
+# # R1_approx <- estimateR(X1, type = "ternary", method = "approx")$R
 R2_approx <- estimateR(X2, type = "trunc", method = "approx")$R
-# R12_approx <- estimateR_mixed(X1, X2, type1 = "ternary", type2 = "trunc", method = "approx")$R12
+# # R12_approx <- estimateR_mixed(X1, X2, type1 = "ternary", type2 = "trunc", method = "approx")$R12
 
 # Data generation
 simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor = maxcancor,
@@ -236,11 +236,11 @@ X2 <- simdata$X2
 # Estimate latent correlation matrix with original method
 R1_org <- estimateR(X1, type = "trunc", method = "original")$R
 R2_org <- estimateR(X2, type = "ternary", method = "original")$R
-R12_org <- estimateR_mixed(X1, X2, type1 = "trunc", type2 = "ternary", method = "original")$R12
-# Estimate latent correlation matrix with faster approximation method
+# R12_org <- estimateR_mixed(X1, X2, type1 = "trunc", type2 = "ternary", method = "original")$R12
+# # Estimate latent correlation matrix with faster approximation method
 R1_approx <- estimateR(X1, type = "trunc", method = "approx")$R
-R2_approx <- estimateR(X2, type = "ternary", method = "approx")$R
-R12_approx <- estimateR_mixed(X1, X2, type1 = "trunc", type2 = "ternary", method = "approx")$R12
+# R2_approx <- estimateR(X2, type = "ternary", method = "approx")$R
+# R12_approx <- estimateR_mixed(X1, X2, type1 = "trunc", type2 = "ternary", method = "approx")$R12
 
 ### Check the range of truncation levels of variables
 range(colMeans(X1 == 0))
