@@ -29,13 +29,13 @@
 estimateR <- function(X, type = "trunc", method = "approx", use.nearPD = TRUE, nu = 0.01, tol = 1e-3, verbose = FALSE){
   X <- as.matrix(X)
   p <- ncol(X)
-
+  zratio <- NULL
   # shrinkage method
   if(nu < 0 | nu > 1){
     stop("nu must be be between 0 and 1.")
   }
 
-  if (!(type %in% c("continuous", "binary","trunc"))){
+  if (!(type %in% c("continuous", "binary","trunc", "ternary"))){
     stop("Unrecognized type of data. Should be one of continuous, binary or trunc.")
   }
 
@@ -48,8 +48,8 @@ estimateR <- function(X, type = "trunc", method = "approx", use.nearPD = TRUE, n
     }
     R <- sin(pi/2 * K)
   } else {
-    zratio <- colMeans(X == 0)
     if (type == "trunc"){
+      zratio <- matrix(colMeans(X == 0), nrow = p)
       # checking data type
       if(sum(X < 0) > 0) {
         stop("The data of truncated type contains negative values.")
@@ -61,7 +61,8 @@ estimateR <- function(X, type = "trunc", method = "approx", use.nearPD = TRUE, n
       if (sum(zratio == 1) > 0){
         stop("There are variables in the data that have only zeros. Filter those     variables before continuing. \n")
       }
-    } else {
+    } else if (type == "binary") {
+      zratio <- matrix(colMeans(X == 0), nrow = p)
       # checking data type
       if(sum(!(X %in% c(0, 1))) > 0) {
         stop("The data is not \"binary\".")
@@ -69,6 +70,8 @@ estimateR <- function(X, type = "trunc", method = "approx", use.nearPD = TRUE, n
       if (sum(zratio == 1) > 0 | sum(zratio == 0) > 0){
         stop("There are binary variables in the data that have only zeros or only ones. Filter those variables before continuing. \n")
       }
+    } else {
+      zratio <- matrix(c(colMeans(X == 0), 1 - colMeans(X == 2)), nrow = p)
     }
     K <- Kendall_matrix(X)
 
@@ -132,6 +135,8 @@ estimateR <- function(X, type = "trunc", method = "approx", use.nearPD = TRUE, n
 estimateR_mixed <- function(X1, X2, type1 = "trunc", type2 = "continuous", method = "approx", use.nearPD = TRUE, nu = 0.01, tol = 1e-3, verbose = FALSE){
   X1 <- as.matrix(X1)
   X2 <- as.matrix(X2)
+  zratio1 <- NULL
+  zratio2 <- NULL
 
   if (nrow(X1) != nrow(X2)){ # Check of they have the same sample size.
     stop ("X1 and X2 must have the same sample size.")
@@ -144,12 +149,13 @@ estimateR_mixed <- function(X1, X2, type1 = "trunc", type2 = "continuous", metho
 
   p1 <- ncol(X1); p2 <- ncol(X2)
 
-  if (sum(c(type1, type2) %in% c("continuous", "binary", "trunc")) != 2){
+  if (sum(c(type1, type2) %in% c("continuous", "binary", "trunc", "ternary")) != 2){
     stop("Unrecognised type of variables. Should be one of continuous, binary or trunc.")
   }
 
-  zratio1 <- colMeans(X1 == 0)
+
   if (type1 == "trunc"){
+    zratio1 <- matrix(colMeans(X1 == 0), nrow = p1)
     if(sum(X1 < 0) > 0) {
       stop("The data X1 contains negative values.")
     }
@@ -161,6 +167,7 @@ estimateR_mixed <- function(X1, X2, type1 = "trunc", type2 = "continuous", metho
     }
   }
   if (type1 == "binary"){
+    zratio1 <- matrix(colMeans(X1 == 0), nrow = p1)
     if(sum(!(X1 %in% c(0, 1))) > 0) {
       stop("The data X1 is not \"binary\".")
     }
@@ -168,9 +175,12 @@ estimateR_mixed <- function(X1, X2, type1 = "trunc", type2 = "continuous", metho
       warning("There are binary variables in the data that have only zeros or only ones.\n")
     }
   }
+  if (type1 == "ternary"){
+    zratio1 <- matrix(c(colMeans(X1 == 0), 1 - colMeans(X1 == 2)), nrow = p1)
+  }
 
-  zratio2 <- colMeans(X2 == 0)
   if (type2 == "trunc"){
+    zratio2 <- matrix(colMeans(X2 == 0), nrow = p2)
     if(sum(X2 < 0) > 0) {
       stop("The data X2 contains negative values.")
     }
@@ -183,12 +193,16 @@ estimateR_mixed <- function(X1, X2, type1 = "trunc", type2 = "continuous", metho
     }
   }
   if (type2 == "binary"){
+    zratio2 <- matrix(colMeans(X2 == 0), nrow = p2)
     if(sum(!(X2 %in% c(0, 1))) > 0) {
       stop("The data X2 is not \"binary\".")
     }
     if (sum(zratio2 == 1) > 0 | sum(zratio2 == 0) > 0){
       warning("There are binary variables in the data that have only zeros or only ones.\n")
     }
+  }
+  if (type2 == "ternary"){
+    zratio2 <- matrix(c(colMeans(X2 == 0), 1 - colMeans(X2 == 2)), nrow = p2)
   }
 
   if (p1 == 1 & p2 == 1){

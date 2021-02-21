@@ -8,11 +8,15 @@ bridge_select <- function(type1 = "trunc", type2 = "continuous") {
   } else if (type1 == "trunc" & type2 == "binary") { bridge_select <- bridgeF_tb
   } else if (type1 == "binary" & type2 == "trunc") { bridge_select <- bridgeF_bt
   } else if (type1 == "ternary" & type2 == "continuous") { bridge_select <- bridgeF_nc
-  } else if (type1 == "continuous" & type2 == "binary") { bridge_select <- bridgeF_cn
+  } else if (type1 == "continuous" & type2 == "ternary") { bridge_select <- bridgeF_cn
   } else if (type1 == "ternary" & type2 == "ternary") { bridge_select <- bridgeF_nn
+  } else if (type1 == "ternary" & type2 == "binary") {bridge_select <- bridgeF_nb
+  } else if (type1 == "binary" & type2 == "ternary") {bridge_select <- bridgeF_bn
+  # } else if (type1 == "ternary" & type2 == "trunc") {bridge_select <- bridgeF_nt
+  # } else if (type1 == "trunc" & type2 == "ternary") {bridge_select <- bridgeF_tn
   # } else if (type1 == "ordinal" & type2 == "continuous") { bridge_select <- bridgeF_oc
   } else {
-    stop("Unrecognized type of variables. Should be one of continuous, binary or trunc.")
+    stop("Unrecognized type of variables. Should be one of continuous, binary, trunc or ternary.")
   }
 }
 bridgeF_bc <- function(r, zratio1, zratio2 = NULL){
@@ -135,7 +139,7 @@ bridgeF_nn <- function(r, zratio1, zratio2){
          2 * (zratio1[2] - fMultivar::pnorm2d(de1[2], de2[1], rho = r)) * (zratio2[2] - fMultivar::pnorm2d(de1[1], de2[2], rho = r)))
   return(res)
 }
-bridge_bn <- function(r, zratio1, zratio2){
+bridgeF_bn <- function(r, zratio1, zratio2){
   # binary and ternary
   de1 <- stats::qnorm(zratio1)
   de2 <- stats::qnorm(zratio2)
@@ -144,7 +148,7 @@ bridge_bn <- function(r, zratio1, zratio2){
          2 * zratio2[2] * (zratio1 - fMultivar::pnorm2d(de1, de2[1], rho = r)))
   return(res)
 }
-bridge_nb <- function(r, zratio1, zratio2){
+bridgeF_nb <- function(r, zratio1, zratio2){
   # ternary and binary
   de1 <- stats::qnorm(zratio2)
   de2 <- stats::qnorm(zratio1)
