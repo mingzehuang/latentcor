@@ -35,8 +35,8 @@ estimateR <- function(X, type = "trunc", method = "approx", use.nearPD = TRUE, n
     stop("nu must be be between 0 and 1.")
   }
 
-  if (!(type %in% c("continuous", "binary", "trunc", "ternary"))){
-    stop("Unrecognized type of data. Should be one of continuous, binary, trunc or ternary")
+  if (!(type %in% c("continuous", "binary","trunc"))){
+    stop("Unrecognized type of data. Should be one of continuous, binary or trunc.")
   }
 
   if (type == "continuous"){
@@ -48,7 +48,7 @@ estimateR <- function(X, type = "trunc", method = "approx", use.nearPD = TRUE, n
     }
     R <- sin(pi/2 * K)
   } else {
-    zratio <- matrix(colMeans(X == 0), ncol = 1)
+    zratio <- colMeans(X == 0)
     if (type == "trunc"){
       # checking data type
       if(sum(X < 0) > 0) {
@@ -144,11 +144,11 @@ estimateR_mixed <- function(X1, X2, type1 = "trunc", type2 = "continuous", metho
 
   p1 <- ncol(X1); p2 <- ncol(X2)
 
-  if (sum(c(type1, type2) %in% c("continuous", "binary", "trunc", "ternary")) != 2){
+  if (sum(c(type1, type2) %in% c("continuous", "binary", "trunc")) != 2){
     stop("Unrecognised type of variables. Should be one of continuous, binary or trunc.")
   }
 
-  zratio1 <- matrix(colMeans(X1 == 0), ncol = 1)
+  zratio1 <- colMeans(X1 == 0)
   if (type1 == "trunc"){
     if(sum(X1 < 0) > 0) {
       stop("The data X1 contains negative values.")
@@ -169,7 +169,7 @@ estimateR_mixed <- function(X1, X2, type1 = "trunc", type2 = "continuous", metho
     }
   }
 
-  zratio2 <- matrix(colMeans(X2 == 0), ncol = 1)
+  zratio2 <- colMeans(X2 == 0)
   if (type2 == "trunc"){
     if(sum(X2 < 0) > 0) {
       stop("The data X2 contains negative values.")
