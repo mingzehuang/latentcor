@@ -173,7 +173,7 @@ GenerateData <- function(n, trueidx1, trueidx2, Sigma1, Sigma2, maxcancor,
     X2[Z2 <= matrix(apply(c2, 2, min), nrow = nrow(Z2), ncol = ncol(Z2), byrow = T)] = 0
   }
 
-  return(list(Z1 = Z1, Z2 = Z2, X1 = X1, X2 = X2, true_w1 = th1, true_w2 = th2, type = c(type1, type2), maxcancor = maxcancor, c1 = c1, c2 = c2, Sigma = JSigma))
+  return(list(Z1 = Z1, Z2 = Z2, X1 = X1, X2 = X2, true_w1 = th1, true_w2 = th2, type = c(type1, type2), maxcancor = maxcancor, c1 = c1, c2 = c2, Sigma = JSigma, Sigma12 = Sigma12))
 }
 
 

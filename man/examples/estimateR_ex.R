@@ -24,17 +24,21 @@ simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor
 )
 X1 <- simdata$X1
 X2 <- simdata$X2
+Sigma12 <- simdata$Sigma12
 # Estimate latent correlation matrix with original method
 R1_org <- estimateR(X1, type = "trunc", method = "original")$R
 R2_org <- estimateR(X2, type = "trunc", method = "original")$R
 R12_org <- estimateR_mixed(X1, X2, type1 = "trunc", type2 = "trunc", method = "original")$R12
 # Plots
 df1 <- data.frame(c(Sigma1), c(R1_org))
-colnames(df1)=c("Sigma1", "R1_org")
+colnames(df1) = c("Sigma1", "R1_org")
 ggplot(df1, aes(Sigma1, R1_org), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
 df2 <- data.frame(c(Sigma2), c(R2_org))
-colnames(df1)=c("Sigma2", "R2_org")
+colnames(df2) = c("Sigma2", "R2_org")
 ggplot(df2, aes(Sigma2, R2_org), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
+df12 <- data.frame(c(Sigma12), c(R12_org))
+colnames(df12) = c("Sigma12", "R12_org")
+ggplot(df12, aes(Sigma12, R12_org), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color = "red")
 # Estimate latent correlation matrix with faster approximation method
 R1_approx <- estimateR(X1, type = "trunc", method = "approx")$R
 R2_approx <- estimateR(X2, type = "trunc", method = "approx")$R
@@ -50,6 +54,7 @@ simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor
 )
 X1 <- simdata$X1
 X2 <- simdata$X2
+Sigma12 <- simdata$Sigma12
 # Estimate latent correlation matrix with original method
 R1_org <- estimateR(X1, type = "trunc", method = "original")$R
 R2_org <- estimateR(X2, type = "continuous", method = "original")$R
@@ -59,8 +64,11 @@ df1 <- data.frame(c(Sigma1), c(R1_org))
 colnames(df1)=c("Sigma1", "R1_org")
 ggplot(df1, aes(Sigma1, R1_org), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
 df2 <- data.frame(c(Sigma2), c(R2_org))
-colnames(df1)=c("Sigma2", "R2_org")
+colnames(df2)=c("Sigma2", "R2_org")
 ggplot(df2, aes(Sigma2, R2_org), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
+df12 <- data.frame(c(Sigma12), c(R12_org))
+colnames(df12) = c("Sigma12", "R12_org")
+ggplot(df12, aes(Sigma12, R12_org), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color = "red")
 # Estimate latent correlation matrix with faster approximation method
 R1_approx <- estimateR(X1, type = "trunc", method = "approx")$R
 R2_approx <- estimateR(X2, type = "continuous", method = "approx")$R
@@ -76,6 +84,7 @@ simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor
 )
 X1 <- simdata$X1
 X2 <- simdata$X2
+Sigma12 <- simdata$Sigma12
 # Estimate latent correlation matrix with original method
 R1_org <- estimateR(X1, type = "binary", method = "original")$R
 R2_org <- estimateR(X2, type = "binary", method = "original")$R
@@ -85,8 +94,11 @@ df1 <- data.frame(c(Sigma1), c(R1_org))
 colnames(df1)=c("Sigma1", "R1_org")
 ggplot(df1, aes(Sigma1, R1_org), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
 df2 <- data.frame(c(Sigma2), c(R2_org))
-colnames(df1)=c("Sigma2", "R2_org")
+colnames(df2)=c("Sigma2", "R2_org")
 ggplot(df2, aes(Sigma2, R2_org), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
+df12 <- data.frame(c(Sigma12), c(R12_org))
+colnames(df12) = c("Sigma12", "R12_org")
+ggplot(df12, aes(Sigma12, R12_org), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color = "red")
 # Estimate latent correlation matrix with faster approximation method
 R1_approx <- estimateR(X1, type = "binary", method = "approx")$R
 R2_approx <- estimateR(X2, type = "binary", method = "approx")$R
@@ -102,6 +114,7 @@ simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor
 )
 X1 <- simdata$X1
 X2 <- simdata$X2
+Sigma12 <- simdata$Sigma12
 # Estimate latent correlation matrix with original method
 R1_org <- estimateR(X1, type = "binary", method = "original")$R
 R2_org <- estimateR(X2, type = "continuous", method = "original")$R
@@ -111,8 +124,11 @@ df1 <- data.frame(c(Sigma1), c(R1_org))
 colnames(df1)=c("Sigma1", "R1_org")
 ggplot(df1, aes(Sigma1, R1_org), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
 df2 <- data.frame(c(Sigma2), c(R2_org))
-colnames(df1)=c("Sigma2", "R2_org")
+colnames(df2)=c("Sigma2", "R2_org")
 ggplot(df2, aes(Sigma2, R2_org), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
+df12 <- data.frame(c(Sigma12), c(R12_org))
+colnames(df12) = c("Sigma12", "R12_org")
+ggplot(df12, aes(Sigma12, R12_org), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color = "red")
 # Estimate latent correlation matrix with faster approximation method
 R1_approx <- estimateR(X1, type = "binary", method = "approx")$R
 R2_approx <- estimateR(X2, type = "continuous", method = "approx")$R
@@ -128,6 +144,7 @@ simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor
 )
 X1 <- simdata$X1
 X2 <- simdata$X2
+Sigma12 <- simdata$Sigma12
 # Estimate latent correlation matrix with original method
 R1_org <- estimateR(X1, type = "trunc", method = "original")$R
 R2_org <- estimateR(X2, type = "binary", method = "original")$R
@@ -137,8 +154,11 @@ df1 <- data.frame(c(Sigma1), c(R1_org))
 colnames(df1)=c("Sigma1", "R1_org")
 ggplot(df1, aes(Sigma1, R1_org), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
 df2 <- data.frame(c(Sigma2), c(R2_org))
-colnames(df1)=c("Sigma2", "R2_org")
+colnames(df2)=c("Sigma2", "R2_org")
 ggplot(df2, aes(Sigma2, R2_org), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
+df12 <- data.frame(c(Sigma12), c(R12_org))
+colnames(df12) = c("Sigma12", "R12_org")
+ggplot(df12, aes(Sigma12, R12_org), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color = "red")
 # Estimate latent correlation matrix with faster approximation method
 R1_approx <- estimateR(X1, type = "trunc", method = "approx")$R
 R2_approx <- estimateR(X2, type = "binary", method = "approx")$R
@@ -154,6 +174,7 @@ simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor
 )
 X1 <- simdata$X1
 X2 <- simdata$X2
+Sigma12 <- simdata$Sigma12
 # Estimate latent correlation matrix with original method
 R1_org <- estimateR(X1, type = "ternary", method = "original")$R
 R2_org <- estimateR(X2, type = "ternary", method = "original")$R
@@ -163,8 +184,11 @@ df1 <- data.frame(c(Sigma1), c(R1_org))
 colnames(df1)=c("Sigma1", "R1_org")
 ggplot(df1, aes(Sigma1, R1_org), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
 df2 <- data.frame(c(Sigma2), c(R2_org))
-colnames(df1)=c("Sigma2", "R2_org")
+colnames(df2)=c("Sigma2", "R2_org")
 ggplot(df2, aes(Sigma2, R2_org), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
+df12 <- data.frame(c(Sigma12), c(R12_org))
+colnames(df12) = c("Sigma12", "R12_org")
+ggplot(df12, aes(Sigma12, R12_org), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color = "red")
 # Estimate latent correlation matrix with faster approximation method
 # R1_approx <- estimateR(X1, type = "ternary", method = "approx")$R
 # R2_approx <- estimateR(X2, type = "ternary", method = "approx")$R
@@ -180,6 +204,7 @@ simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor
 )
 X1 <- simdata$X1
 X2 <- simdata$X2
+Sigma12 <- simdata$Sigma12
 # Estimate latent correlation matrix with original method
 R1_org <- estimateR(X1, type = "ternary", method = "original")$R
 R2_org <- estimateR(X2, type = "continuous", method = "original")$R
@@ -189,8 +214,11 @@ df1 <- data.frame(c(Sigma1), c(R1_org))
 colnames(df1)=c("Sigma1", "R1_org")
 ggplot(df1, aes(Sigma1, R1_org), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
 df2 <- data.frame(c(Sigma2), c(R2_org))
-colnames(df1)=c("Sigma2", "R2_org")
+colnames(df2)=c("Sigma2", "R2_org")
 ggplot(df2, aes(Sigma2, R2_org), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
+df12 <- data.frame(c(Sigma12), c(R12_org))
+colnames(df12) = c("Sigma12", "R12_org")
+ggplot(df12, aes(Sigma12, R12_org), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color = "red")
 # Estimate latent correlation matrix with faster approximation method
 # # R1_approx <- estimateR(X1, type = "ternary", method = "approx")$R
 R2_approx <- estimateR(X2, type = "continuous", method = "approx")$R
@@ -206,6 +234,7 @@ simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor
 )
 X1 <- simdata$X1
 X2 <- simdata$X2
+Sigma12 <- simdata$Sigma12
 # Estimate latent correlation matrix with original method
 R1_org <- estimateR(X1, type = "continuous", method = "original")$R
 R2_org <- estimateR(X2, type = "ternary", method = "original")$R
@@ -215,8 +244,11 @@ df1 <- data.frame(c(Sigma1), c(R1_org))
 colnames(df1)=c("Sigma1", "R1_org")
 ggplot(df1, aes(Sigma1, R1_org), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
 df2 <- data.frame(c(Sigma2), c(R2_org))
-colnames(df1)=c("Sigma2", "R2_org")
+colnames(df2)=c("Sigma2", "R2_org")
 ggplot(df2, aes(Sigma2, R2_org), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
+df12 <- data.frame(c(Sigma12), c(R12_org))
+colnames(df12) = c("Sigma12", "R12_org")
+ggplot(df12, aes(Sigma12, R12_org), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color = "red")
 # Estimate latent correlation matrix with faster approximation method
 R1_approx <- estimateR(X1, type = "continuous", method = "approx")$R
 # # R2_approx <- estimateR(X2, type = "ternary", method = "approx")$R
@@ -232,6 +264,7 @@ simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor
 )
 X1 <- simdata$X1
 X2 <- simdata$X2
+Sigma12 <- simdata$Sigma12
 # Estimate latent correlation matrix with original method
 R1_org <- estimateR(X1, type = "ternary", method = "original")$R
 R2_org <- estimateR(X2, type = "binary", method = "original")$R
@@ -241,8 +274,11 @@ df1 <- data.frame(c(Sigma1), c(R1_org))
 colnames(df1)=c("Sigma1", "R1_org")
 ggplot(df1, aes(Sigma1, R1_org), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
 df2 <- data.frame(c(Sigma2), c(R2_org))
-colnames(df1)=c("Sigma2", "R2_org")
+colnames(df2)=c("Sigma2", "R2_org")
 ggplot(df2, aes(Sigma2, R2_org), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
+df12 <- data.frame(c(Sigma12), c(R12_org))
+colnames(df12) = c("Sigma12", "R12_org")
+ggplot(df12, aes(Sigma12, R12_org), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color = "red")
 # Estimate latent correlation matrix with faster approximation method
 # # R1_approx <- estimateR(X1, type = "ternary", method = "approx")$R
 R2_approx <- estimateR(X2, type = "binary", method = "approx")$R
@@ -258,6 +294,7 @@ simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor
 )
 X1 <- simdata$X1
 X2 <- simdata$X2
+Sigma12 <- simdata$Sigma12
 # Estimate latent correlation matrix with original method
 R1_org <- estimateR(X1, type = "binary", method = "original")$R
 R2_org <- estimateR(X2, type = "ternary", method = "original")$R
@@ -267,8 +304,11 @@ df1 <- data.frame(c(Sigma1), c(R1_org))
 colnames(df1)=c("Sigma1", "R1_org")
 ggplot(df1, aes(Sigma1, R1_org), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
 df2 <- data.frame(c(Sigma2), c(R2_org))
-colnames(df1)=c("Sigma2", "R2_org")
+colnames(df2)=c("Sigma2", "R2_org")
 ggplot(df2, aes(Sigma2, R2_org), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
+df12 <- data.frame(c(Sigma12), c(R12_org))
+colnames(df12) = c("Sigma12", "R12_org")
+ggplot(df12, aes(Sigma12, R12_org), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color = "red")
 # Estimate latent correlation matrix with faster approximation method
 R1_approx <- estimateR(X1, type = "binary", method = "approx")$R
 # # R2_approx <- estimateR(X2, type = "ternary", method = "approx")$R
@@ -284,6 +324,7 @@ simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor
 )
 X1 <- simdata$X1
 X2 <- simdata$X2
+Sigma12 <- simdata$Sigma12
 # Estimate latent correlation matrix with original method
 R1_org <- estimateR(X1, type = "ternary", method = "original")$R
 R2_org <- estimateR(X2, type = "trunc", method = "original")$R
@@ -293,8 +334,11 @@ df1 <- data.frame(c(Sigma1), c(R1_org))
 colnames(df1)=c("Sigma1", "R1_org")
 ggplot(df1, aes(Sigma1, R1_org), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
 df2 <- data.frame(c(Sigma2), c(R2_org))
-colnames(df1)=c("Sigma2", "R2_org")
+colnames(df2)=c("Sigma2", "R2_org")
 ggplot(df2, aes(Sigma2, R2_org), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
+df12 <- data.frame(c(Sigma12), c(R12_org))
+colnames(df12) = c("Sigma12", "R12_org")
+ggplot(df12, aes(Sigma12, R12_org), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color = "red")
 # Estimate latent correlation matrix with faster approximation method
 # # R1_approx <- estimateR(X1, type = "ternary", method = "approx")$R
 R2_approx <- estimateR(X2, type = "trunc", method = "approx")$R
@@ -310,6 +354,7 @@ simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor
 )
 X1 <- simdata$X1
 X2 <- simdata$X2
+Sigma12 <- simdata$Sigma12
 # Estimate latent correlation matrix with original method
 R1_org <- estimateR(X1, type = "trunc", method = "original")$R
 R2_org <- estimateR(X2, type = "ternary", method = "original")$R
@@ -319,8 +364,11 @@ df1 <- data.frame(c(Sigma1), c(R1_org))
 colnames(df1)=c("Sigma1", "R1_org")
 ggplot(df1, aes(Sigma1, R1_org), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
 df2 <- data.frame(c(Sigma2), c(R2_org))
-colnames(df1)=c("Sigma2", "R2_org")
+colnames(df2)=c("Sigma2", "R2_org")
 ggplot(df2, aes(Sigma2, R2_org), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
+df12 <- data.frame(c(Sigma12), c(R12_org))
+colnames(df12) = c("Sigma12", "R12_org")
+ggplot(df12, aes(Sigma12, R12_org), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color = "red")
 # # Estimate latent correlation matrix with faster approximation method
 R1_approx <- estimateR(X1, type = "trunc", method = "approx")$R
 # R2_approx <- estimateR(X2, type = "ternary", method = "approx")$R
