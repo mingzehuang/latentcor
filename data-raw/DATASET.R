@@ -129,5 +129,39 @@ BBipolgrid <- list(tau, d1, d2)
 # interpolation.
 BBipol <- chebpol::ipol(BBvalue, grid = BBipolgrid, method = "multilin")
 
+
+# # For NN Case
+# # grid values that used to create precomputed values
+# # d1 <- d2 <-
+# # tau <-
+#
+# # create grid input for ipol
+# NNipolgrid <- list(tau, d1, d2)
+#
+# # interpolation.
+# NNipol <- chebpol::ipol(NNvalue, grid = NNipolgrid, method = "multilin")
+#
+# # For NB Case
+# # grid values that used to create precomputed values
+# # d1 <-
+# # d2 <- seq(0.01, 0.99, length.out = 50)
+# # tau <-
+#
+# # create grid input for ipol
+# NBipolgrid <- list(tau, d1, d2)
+#
+# # interpolation.
+# NBipol <- chebpol::ipol(NBvalue, grid = NBipolgrid, method = "multilin")
+#
+# # For NC Case
+# # d1 <-
+# # tau <-
+#
+# # create grid input for ipol
+# NCipolgrid <- list(tau, d1)
+#
+# # interpolation.
+# NCipol <- chebpol::ipol(NCvalue, grid = NCipolgrid, method = "multilin")
+
 usethis::use_data(TCipol, TTipol, TBipol, BCipol, BBipol, internal = TRUE, overwrite = TRUE, compress = "xz")
 
