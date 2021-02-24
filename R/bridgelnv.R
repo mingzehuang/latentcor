@@ -131,30 +131,30 @@ bridgeInv_bb <- function(tau, zratio1, zratio2){
 
 # # wrapper function
 # bridgeInv_nn <- function(tau, zratio1, zratio2){
-#   out <- BBipol(rbind(tau, zratio1, zratio2))
+#   out <- NNipol(rbind(tau, zratio1[1], zratio1[2], zratio2[1], zratio2[2]))
 #   return(out)
 # }
 #
 # # wrapper function
 # bridgeInv_nb <- function(tau, zratio1, zratio2){
-#   out <- BBipol(rbind(tau, zratio1, zratio2))
+#   out <- NBipol(rbind(tau, zratio1[1], zratio1[2], zratio2))
 #   return(out)
 # }
 #
 # # wrapper function
 # bridgeInv_bn <- function(tau, zratio1, zratio2){
-#   out <- BBipol(rbind(tau, zratio1, zratio2))
+#   out <- NBipol(rbind(tau, zratio2[1], zratio2[2], zratio1))
 #   return(out)
 # }
 #
 # # wrapper function
 # bridgeInv_nc <- function(tau, zratio1, zratio2 = NULL){
-#   out <- BBipol(rbind(tau, zratio1))
+#   out <- NCipol(rbind(tau, zratio1[1], zratio1[2]))
 #   return(out)
 # }
 #
 # # wrapper function
 # bridgeInv_cn <- function(tau, zratio1 = NULL, zratio2){
-#   out <- BBipol(rbind(tau, zratio2))
+#   out <- NCipol(rbind(tau, zratio2[1], zratio2[2]))
 #   return(out)
 # }
