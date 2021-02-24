@@ -70,11 +70,11 @@ bridgeInv_select <- function(type1, type2) {
   } else if (type1 == "continuous" & type2 == "binary") { bridgeInv_select <- bridgeInv_cb
   } else if (type1 == "trunc" & type2 == "binary") { bridgeInv_select <- bridgeInv_tb
   } else if (type1 == "binary" & type2 == "trunc") { bridgeInv_select <- bridgeInv_bt
-  # } else if (type1 == "ternary" & type2 == "ternary") {bridgeInv_select <- bridgeInv_nn
-  # } else if (type1 == "ternary" & type2 == "binary") {bridgeInv_select <- bridgeInv_nb
-  # } else if (type1 == "binary" & type2 == "ternary") {bridgeInv_select <- bridgeInv_bn
-  # } else if (type1 == "ternary" & type2 == "continuous") {bridgeInv_select <- bridgeInv_nc
-  # } else if (type1 == "continuous" & type2 == "ternary") {bridgeInv_select <- bridgeInv_cn
+  } else if (type1 == "ternary" & type2 == "ternary") {bridgeInv_select <- bridgeInv_nn
+  } else if (type1 == "ternary" & type2 == "binary") {bridgeInv_select <- bridgeInv_nb
+  } else if (type1 == "binary" & type2 == "ternary") {bridgeInv_select <- bridgeInv_bn
+  } else if (type1 == "ternary" & type2 == "continuous") {bridgeInv_select <- bridgeInv_nc
+  } else if (type1 == "continuous" & type2 == "ternary") {bridgeInv_select <- bridgeInv_cn
   } else {
     stop("Unrecognized type of variables. Should be one of continuous, binary or trunc.")
   }
