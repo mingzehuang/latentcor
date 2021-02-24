@@ -187,7 +187,7 @@ for (i in 1:length(tau_grid)) {
 NBipolgrid <- list(tau_grid, d11_grid, d12_grid, d2_grid)
 # interpolation.
 NBipol <- chebpol::ipol(NBvalue, grid = NBipolgrid, method = "multilin")
-#
+
 # # For NC Case
 # grid values that used to create precomputed values
 tau_grid <- seq(-0.99, 0.99, by = 0.01) # "by" increased from 0.005 to 0.01.
