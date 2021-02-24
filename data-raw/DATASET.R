@@ -143,7 +143,7 @@ for (i in 1:length(tau_grid)) {
         for (m in l:length(d22_grid)) {
           tau <- tau_grid[i]; d1 <- c(d11_grid[j], d12_grid[k]); d2 <- c(d21_grid[l], d22_grid[m])
           f1 <- function(r)(bridgeF_nn(r, zratio1 = d1, zratio2 = d2) - tau)^2
-          op <- tryCatch(optimize(f1, lower = -0.99, upper = 0.99, tol = tol)[1], error = function(e) 100)
+          op <- tryCatch(optimize(f1, lower = -0.99, upper = 0.99, tol = 1e-3)[1], error = function(e) 100)
           if(op == 100) {
             warning("Optimize returned error one of the pairwise correlations, returning NA")
             NNvalue[i, j, k, l, m] <- NA
@@ -172,7 +172,7 @@ for (i in 1:length(tau_grid)) {
       for (l in 1:length(d2_grid)) {
           tau <- tau_grid[i]; d1 <- c(d11_grid[j], d12_grid[k]); d2 <- d2_grid[l]
           f1 <- function(r)(bridgeF_nb(r, zratio1 = d1, zratio2 = d2) - tau)^2
-          op <- tryCatch(optimize(f1, lower = -0.99, upper = 0.99, tol = tol)[1], error = function(e) 100)
+          op <- tryCatch(optimize(f1, lower = -0.99, upper = 0.99, tol = 1e-3)[1], error = function(e) 100)
           if(op == 100) {
             warning("Optimize returned error one of the pairwise correlations, returning NA")
             NBvalue[i, j, k, l] <- NA
@@ -199,7 +199,7 @@ for (i in 1:length(tau_grid)) {
     for (k in j:length(d12_grid)) {
         tau <- tau_grid[i]; d1 <- c(d11_grid[j], d12_grid[k])
         f1 <- function(r)(bridgeF_nc(r, zratio1 = d1) - tau)^2
-        op <- tryCatch(optimize(f1, lower = -0.99, upper = 0.99, tol = tol)[1], error = function(e) 100)
+        op <- tryCatch(optimize(f1, lower = -0.99, upper = 0.99, tol = 1e-3)[1], error = function(e) 100)
         if(op == 100) {
           warning("Optimize returned error one of the pairwise correlations, returning NA")
           NCvalue[i, j, k] <- NA
