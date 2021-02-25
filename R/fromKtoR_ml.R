@@ -6,7 +6,7 @@
 fromKtoR_ml <- function(K, zratio = NULL, type = "trunc", tol = 1e-3) {
   K <- as.matrix(K)
   d1 <- nrow(K)
-  p <- col(zratio)
+  p <- ifelse(is.null(ncol(zratio)), 1, ncol(zratio))
   # If this is just 1 variable, then correlation is automatically 1
   if (d1 == 1){return(as.matrix(1))}
 
@@ -16,7 +16,7 @@ fromKtoR_ml <- function(K, zratio = NULL, type = "trunc", tol = 1e-3) {
     upperR <- c(upper.tri(K)) # length p^2 of true/false with true corresponding to upper.tri
     hatRupper <- rep(NA, sum(upperR)) # length p(p-1)/2
     Kupper <- c(K[upperR]) # upper triangle of K matrix
-    zratio1mat <- zratio2mat <- NA
+    zratio1mat <- zratio2mat <- NULL
     # based on the data type, select bridgeInv and cutoff functions.
     bridgeInv <- bridgeInv_select(type1 = type, type2 = type)
     cutoff <- cutoff_select(type1 = type, type2 = type)
@@ -67,8 +67,8 @@ fromKtoR_ml_mixed <- function(K12, zratio1 = NULL, zratio2 = NULL, type1 = "trun
   K12 <- as.matrix(K12)
   d1 <- nrow(K12)
   d2 <- ncol(K12)
-  p1 <- col(zratio1)
-  p2 <- col(zratio2)
+  p1 <- ifelse(is.null(ncol(zratio1)), 1, ncol(zratio1))
+  p2 <- ifelse(is.null(ncol(zratio2)), 1, ncol(zratio2))
   if (type1 == "continuous" & type2 == "continuous") {
     hatR <- sin(pi/2 * K12)
   } else {
@@ -78,7 +78,7 @@ fromKtoR_ml_mixed <- function(K12, zratio1 = NULL, zratio2 = NULL, type1 = "trun
     # based on the data type, select bridgeInv and cutoff functions.
     bridgeInv <- bridgeInv_select(type1 = type1, type2 = type2)
     cutoff <- cutoff_select(type1 = type1, type2 = type2)
-    zratio1mat <- zratio2mat <- NA
+    zratio1mat <- zratio2mat <- NULL
     # check if there is any element that is outside of the safe boundary for interpolation.
     for (i in 1:p1) {
       for (j in 1:p2) {
@@ -86,7 +86,7 @@ fromKtoR_ml_mixed <- function(K12, zratio1 = NULL, zratio2 = NULL, type1 = "trun
     zratio2mat = cbind(zratio2mat, rep(zratio2[ , j], each = d1))
       }
     }
-    ind_cutoff <- which(abs(K12) > cutoff(zratio1mat, zratio2mat))
+    ind_cutoff <- which(abs(c(K12)) > cutoff(zratio1mat, zratio2mat))
 
     # much faster multi-linear interpolation part using saved ipol function.
     if (length(ind_cutoff) == 0){
