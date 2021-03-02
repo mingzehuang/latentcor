@@ -13,26 +13,52 @@
 # For TC case
 ############################################################################################
 
-load("~/Dropbox/TAMU/Irina/mixedCCAfast/R1_PrecomputedResults/tc_0804.Rda")
+# load("~/Dropbox/TAMU/Irina/mixedCCAfast/R1_PrecomputedResults/tc_0804.Rda")
+#
+# # grid values that used to create precomputed values.
+# # d1 <- log10(seq(1, 10^0.99, length = 50))
+# # tau <- seq(-0.99, 0.99, by = 0.01) # "by" increased from 0.005 to 0.01.
+#
+# # create computed values (in matrix) and grid (in list) for ipol function.
+# value <- matrix(unlist(gridTCinv), ncol = length(d1), byrow = FALSE)
+# grid <- list(tau, d1) # the length of list should be the same as the kinds of inputs.
+#
+# interp_multilin <- chebpol::ipol(value, grid = grid, method = "multilin")
+#
+# # create input values for ipol
+# TCvalue <- matrix(unlist(gridTCinv), ncol = length(d1), byrow = FALSE)
+#
+# # create grid input for ipol
+# TCipolgrid <- list(tau, d1)
+#
+# # interpolation
+# TCipol <- chebpol::ipol(TCvalue, grid = TCipolgrid, method = "multilin")
 
-# grid values that used to create precomputed values.
-# d1 <- log10(seq(1, 10^0.99, length = 50))
-# tau <- seq(-0.99, 0.99, by = 0.01) # "by" increased from 0.005 to 0.01.
+# For TC Case
+# grid values that used to create precomputed values
+tau_grid <- seq(-0.99, 0.99, by = 0.01) # "by" increased from 0.005 to 0.01.
+d1_grid <- log10(seq(1, 10^0.99, length = 50))
+TCvalue <- matrix(NA, length(tau_grid), length(d1_grid))
 
-# create computed values (in matrix) and grid (in list) for ipol function.
-value <- matrix(unlist(gridTCinv), ncol = length(d1), byrow = FALSE)
-grid <- list(tau, d1) # the length of list should be the same as the kinds of inputs.
-
-interp_multilin <- chebpol::ipol(value, grid = grid, method = "multilin")
-
-# create input values for ipol
-TCvalue <- matrix(unlist(gridTCinv), ncol = length(d1), byrow = FALSE)
-
+for (i in 1:length(tau_grid)) {
+  for (j in 1:length(d1_grid)) {
+        tau <- tau_grid[i]; d1 <- d1_grid[j]
+        f1 <- function(r)(bridgeF_tc(r, zratio1 = d1) - tau)^2
+        op <- tryCatch(optimize(f1, lower = -0.99, upper = 0.99, tol = 1e-3)[1], error = function(e) 100)
+        if(op == 100) {
+          warning("Optimize returned error one of the pairwise correlations, returning NA")
+          TCvalue[i, j] <- NA
+        } else {
+          TCvalue[i, j] <- unlist(op)
+        }
+  }
+}
 # create grid input for ipol
-TCipolgrid <- list(tau, d1)
+TCipolgrid <- list(tau_grid, d1_grid)
+# interpolation.
+NBipol <- chebpol::ipol(TCvalue, grid = TCipolgrid, method = "multilin")
 
-# interpolation
-TCipol <- chebpol::ipol(TCvalue, grid = TCipolgrid, method = "multilin")
+
 
 ############################################################################################
 # For TT case
