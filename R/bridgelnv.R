@@ -129,23 +129,23 @@ bridgeInv_bb <- function(tau, zratio1, zratio2){
   return(out)
 }
 
-# # wrapper function
-# bridgeInv_nn <- function(tau, zratio1, zratio2){
-#   out <- NNipol(rbind(t(tau), t(zratio1[ , 1]), t(zratio1[ , 2]), t(zratio2[ ,1]), t(zratio2[ ,2])))
-#   return(out)
-# }
-#
-# # wrapper function
-# bridgeInv_nb <- function(tau, zratio1, zratio2){
-#   out <- NBipol(rbind(t(tau), t(zratio1[ , 1]), t(zratio1[ , 2]), t(zratio2)))
-#   return(out)
-# }
-#
-# # wrapper function
-# bridgeInv_bn <- function(tau, zratio1, zratio2){
-#   out <- NBipol(rbind(t(tau), t(zratio2[ , 1]), t(zratio2[ , 2]), t(zratio1)))
-#   return(out)
-# }
+# wrapper function
+bridgeInv_nn <- function(tau, zratio1, zratio2){
+  out <- NNipol(rbind(t(tau), t(zratio1[ , 1]), t(zratio1[ , 2]), t(zratio2[ ,1]), t(zratio2[ ,2])))
+  return(out)
+}
+
+# wrapper function
+bridgeInv_nb <- function(tau, zratio1, zratio2){
+  out <- NBipol(rbind(t(tau), t(zratio1[ , 1]), t(zratio1[ , 2]), t(zratio2)))
+  return(out)
+}
+
+# wrapper function
+bridgeInv_bn <- function(tau, zratio1, zratio2){
+  out <- NBipol(rbind(t(tau), t(zratio2[ , 1]), t(zratio2[ , 2]), t(zratio1)))
+  return(out)
+}
 
 # wrapper function
 bridgeInv_nc <- function(tau, zratio1, zratio2 = NULL){
