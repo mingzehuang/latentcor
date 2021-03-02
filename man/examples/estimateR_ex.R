@@ -46,13 +46,14 @@ R12_approx <- estimateR_mixed(X1, X2, type1 = "trunc", type2 = "trunc", method =
 # Plots
 df1 <- data.frame(c(Sigma1), c(R1_approx))
 colnames(df1) = c("Sigma1", "R1_approx")
-ggplot(df1, aes(Sigma1, R1_org), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
+ggplot(df1, aes(Sigma1, R1_approx), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
 df2 <- data.frame(c(Sigma2), c(R2_approx))
 colnames(df2) = c("Sigma2", "R2_approx")
-ggplot(df2, aes(Sigma2, R2_org), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
+ggplot(df2, aes(Sigma2, R2_approx), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
 df12 <- data.frame(c(Sigma12), c(R12_approx))
 colnames(df12) = c("Sigma12", "R12_approx")
 ggplot(df12, aes(Sigma12, R12_approx), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color = "red")
+
 # Data generation
 simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor = maxcancor,
                         Sigma1 = Sigma1, Sigma2 = Sigma2,
@@ -82,6 +83,16 @@ ggplot(df12, aes(Sigma12, R12_org), color = "blue") + geom_point() + geom_abline
 R1_approx <- estimateR(X1, type = "trunc", method = "approx")$R
 R2_approx <- estimateR(X2, type = "continuous", method = "approx")$R
 R12_approx <- estimateR_mixed(X1, X2, type1 = "trunc", type2 = "continuous", method = "approx")$R12
+# Plots
+df1 <- data.frame(c(Sigma1), c(R1_approx))
+colnames(df1)=c("Sigma1", "R1_approx")
+ggplot(df1, aes(Sigma1, R1_approx), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
+df2 <- data.frame(c(Sigma2), c(R2_approx))
+colnames(df2)=c("Sigma2", "R2_approx")
+ggplot(df2, aes(Sigma2, R2_approx), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
+df12 <- data.frame(c(Sigma12), c(R12_approx))
+colnames(df12) = c("Sigma12", "R12_approx")
+ggplot(df12, aes(Sigma12, R12_approx), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color = "red")
 
 # Data generation
 simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor = maxcancor,
@@ -112,6 +123,16 @@ ggplot(df12, aes(Sigma12, R12_org), color = "blue") + geom_point() + geom_abline
 R1_approx <- estimateR(X1, type = "binary", method = "approx")$R
 R2_approx <- estimateR(X2, type = "binary", method = "approx")$R
 R12_approx <- estimateR_mixed(X1, X2, type1 = "binary", type2 = "binary", method = "approx")$R12
+# Plots
+df1 <- data.frame(c(Sigma1), c(R1_approx))
+colnames(df1)=c("Sigma1", "R1_approx")
+ggplot(df1, aes(Sigma1, R1_approx), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
+df2 <- data.frame(c(Sigma2), c(R2_approx))
+colnames(df2)=c("Sigma2", "R2_approx")
+ggplot(df2, aes(Sigma2, R2_approx), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
+df12 <- data.frame(c(Sigma12), c(R12_approx))
+colnames(df12) = c("Sigma12", "R12_approx")
+ggplot(df12, aes(Sigma12, R12_approx), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color = "red")
 
 # Data generation
 simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor = maxcancor,
@@ -142,6 +163,16 @@ ggplot(df12, aes(Sigma12, R12_org), color = "blue") + geom_point() + geom_abline
 R1_approx <- estimateR(X1, type = "binary", method = "approx")$R
 R2_approx <- estimateR(X2, type = "continuous", method = "approx")$R
 R12_approx <- estimateR_mixed(X1, X2, type1 = "binary", type2 = "continuous", method = "approx")$R12
+# Plots
+df1 <- data.frame(c(Sigma1), c(R1_approx))
+colnames(df1)=c("Sigma1", "R1_approx")
+ggplot(df1, aes(Sigma1, R1_approx), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
+df2 <- data.frame(c(Sigma2), c(R2_approx))
+colnames(df2)=c("Sigma2", "R2_approx")
+ggplot(df2, aes(Sigma2, R2_approx), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
+df12 <- data.frame(c(Sigma12), c(R12_approx))
+colnames(df12) = c("Sigma12", "R12_approx")
+ggplot(df12, aes(Sigma12, R12_approx), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color = "red")
 
 # Data generation
 simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor = maxcancor,
@@ -172,6 +203,16 @@ ggplot(df12, aes(Sigma12, R12_org), color = "blue") + geom_point() + geom_abline
 R1_approx <- estimateR(X1, type = "trunc", method = "approx")$R
 R2_approx <- estimateR(X2, type = "binary", method = "approx")$R
 R12_approx <- estimateR_mixed(X1, X2, type1 = "trunc", type2 = "binary", method = "approx")$R12
+# Plots
+df1 <- data.frame(c(Sigma1), c(R1_approx))
+colnames(df1)=c("Sigma1", "R1_approx")
+ggplot(df1, aes(Sigma1, R1_approx), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
+df2 <- data.frame(c(Sigma2), c(R2_approx))
+colnames(df2)=c("Sigma2", "R2_approx")
+ggplot(df2, aes(Sigma2, R2_approx), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
+df12 <- data.frame(c(Sigma12), c(R12_approx))
+colnames(df12) = c("Sigma12", "R12_approx")
+ggplot(df12, aes(Sigma12, R12_approx), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color = "red")
 
 # Data generation
 simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor = maxcancor,
@@ -199,10 +240,20 @@ df12 <- data.frame(c(Sigma12), c(R12_org))
 colnames(df12) = c("Sigma12", "R12_org")
 ggplot(df12, aes(Sigma12, R12_org), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color = "red")
 # Estimate latent correlation matrix with faster approximation method
-# R1_approx <- estimateR(X1, type = "ternary", method = "approx")$R
-# R2_approx <- estimateR(X2, type = "ternary", method = "approx")$R
-# R12_approx <- estimateR_mixed(X1, X2, type1 = "ternary", type2 = "ternary", method = "approx")$R12
-#
+R1_approx <- estimateR(X1, type = "ternary", method = "approx")$R
+R2_approx <- estimateR(X2, type = "ternary", method = "approx")$R
+R12_approx <- estimateR_mixed(X1, X2, type1 = "ternary", type2 = "ternary", method = "approx")$R12
+# Plots
+df1 <- data.frame(c(Sigma1), c(R1_approx))
+colnames(df1)=c("Sigma1", "R1_approx")
+ggplot(df1, aes(Sigma1, R1_approx), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
+df2 <- data.frame(c(Sigma2), c(R2_approx))
+colnames(df2)=c("Sigma2", "R2_approx")
+ggplot(df2, aes(Sigma2, R2_approx), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
+df12 <- data.frame(c(Sigma12), c(R12_approx))
+colnames(df12) = c("Sigma12", "R12_approx")
+ggplot(df12, aes(Sigma12, R12_approx), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color = "red")
+
 # Data generation
 simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor = maxcancor,
                         Sigma1 = Sigma1, Sigma2 = Sigma2,
@@ -229,9 +280,19 @@ df12 <- data.frame(c(Sigma12), c(R12_org))
 colnames(df12) = c("Sigma12", "R12_org")
 ggplot(df12, aes(Sigma12, R12_org), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color = "red")
 # Estimate latent correlation matrix with faster approximation method
-# # R1_approx <- estimateR(X1, type = "ternary", method = "approx")$R
+R1_approx <- estimateR(X1, type = "ternary", method = "approx")$R
 R2_approx <- estimateR(X2, type = "continuous", method = "approx")$R
-# # R12_approx <- estimateR_mixed(X1, X2, type1 = "ternary", type2 = "continuous", method = "approx")$R12
+R12_approx <- estimateR_mixed(X1, X2, type1 = "ternary", type2 = "continuous", method = "approx")$R12
+# Plots
+df1 <- data.frame(c(Sigma1), c(R1_approx))
+colnames(df1)=c("Sigma1", "R1_approx")
+ggplot(df1, aes(Sigma1, R1_approx), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
+df2 <- data.frame(c(Sigma2), c(R2_approx))
+colnames(df2)=c("Sigma2", "R2_approx")
+ggplot(df2, aes(Sigma2, R2_approx), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
+df12 <- data.frame(c(Sigma12), c(R12_approx))
+colnames(df12) = c("Sigma12", "R12_approx")
+ggplot(df12, aes(Sigma12, R12_approx), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color = "red")
 
 # Data generation
 simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor = maxcancor,
@@ -260,8 +321,18 @@ colnames(df12) = c("Sigma12", "R12_org")
 ggplot(df12, aes(Sigma12, R12_org), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color = "red")
 # Estimate latent correlation matrix with faster approximation method
 R1_approx <- estimateR(X1, type = "continuous", method = "approx")$R
-# # R2_approx <- estimateR(X2, type = "ternary", method = "approx")$R
-# # R12_approx <- estimateR_mixed(X1, X2, type1 = "continuous", type2 = "ternary", method = "approx")$R12
+R2_approx <- estimateR(X2, type = "ternary", method = "approx")$R
+R12_approx <- estimateR_mixed(X1, X2, type1 = "continuous", type2 = "ternary", method = "approx")$R12
+# Plots
+df1 <- data.frame(c(Sigma1), c(R1_approx))
+colnames(df1)=c("Sigma1", "R1_approx")
+ggplot(df1, aes(Sigma1, R1_approx), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
+df2 <- data.frame(c(Sigma2), c(R2_approx))
+colnames(df2)=c("Sigma2", "R2_approx")
+ggplot(df2, aes(Sigma2, R2_approx), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
+df12 <- data.frame(c(Sigma12), c(R12_approx))
+colnames(df12) = c("Sigma12", "R12_approx")
+ggplot(df12, aes(Sigma12, R12_approx), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color = "red")
 
 # Data generation
 simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor = maxcancor,
@@ -289,9 +360,19 @@ df12 <- data.frame(c(Sigma12), c(R12_org))
 colnames(df12) = c("Sigma12", "R12_org")
 ggplot(df12, aes(Sigma12, R12_org), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color = "red")
 # Estimate latent correlation matrix with faster approximation method
-# # R1_approx <- estimateR(X1, type = "ternary", method = "approx")$R
+R1_approx <- estimateR(X1, type = "ternary", method = "approx")$R
 R2_approx <- estimateR(X2, type = "binary", method = "approx")$R
-# # R12_approx <- estimateR_mixed(X1, X2, type1 = "ternary", type2 = "binary", method = "approx")$R12
+R12_approx <- estimateR_mixed(X1, X2, type1 = "ternary", type2 = "binary", method = "approx")$R12
+# Plots
+df1 <- data.frame(c(Sigma1), c(R1_approx))
+colnames(df1)=c("Sigma1", "R1_approx")
+ggplot(df1, aes(Sigma1, R1_approx), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
+df2 <- data.frame(c(Sigma2), c(R2_approx))
+colnames(df2)=c("Sigma2", "R2_approx")
+ggplot(df2, aes(Sigma2, R2_approx), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
+df12 <- data.frame(c(Sigma12), c(R12_approx))
+colnames(df12) = c("Sigma12", "R12_approx")
+ggplot(df12, aes(Sigma12, R12_approx), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color = "red")
 
 # Data generation
 simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor = maxcancor,
@@ -320,8 +401,18 @@ colnames(df12) = c("Sigma12", "R12_org")
 ggplot(df12, aes(Sigma12, R12_org), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color = "red")
 # Estimate latent correlation matrix with faster approximation method
 R1_approx <- estimateR(X1, type = "binary", method = "approx")$R
-# # R2_approx <- estimateR(X2, type = "ternary", method = "approx")$R
-# # R12_approx <- estimateR_mixed(X1, X2, type1 = "binary", type2 = "ternary", method = "approx")$R12
+R2_approx <- estimateR(X2, type = "ternary", method = "approx")$R
+R12_approx <- estimateR_mixed(X1, X2, type1 = "binary", type2 = "ternary", method = "approx")$R12
+# Plots
+df1 <- data.frame(c(Sigma1), c(R1_approx))
+colnames(df1)=c("Sigma1", "R1_approx")
+ggplot(df1, aes(Sigma1, R1_approx), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
+df2 <- data.frame(c(Sigma2), c(R2_approx))
+colnames(df2)=c("Sigma2", "R2_approx")
+ggplot(df2, aes(Sigma2, R2_approx), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
+df12 <- data.frame(c(Sigma12), c(R12_approx))
+colnames(df12) = c("Sigma12", "R12_approx")
+ggplot(df12, aes(Sigma12, R12_approx), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color = "red")
 
 # Data generation
 simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor = maxcancor,
@@ -345,13 +436,23 @@ ggplot(df1, aes(Sigma1, R1_org), color = "blue") + geom_point() + geom_abline(in
 df2 <- data.frame(c(Sigma2), c(R2_org))
 colnames(df2)=c("Sigma2", "R2_org")
 ggplot(df2, aes(Sigma2, R2_org), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
-df12 <- data.frame(c(Sigma12), c(R12_org))
-colnames(df12) = c("Sigma12", "R12_org")
-ggplot(df12, aes(Sigma12, R12_org), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color = "red")
+# df12 <- data.frame(c(Sigma12), c(R12_org))
+# colnames(df12) = c("Sigma12", "R12_org")
+# ggplot(df12, aes(Sigma12, R12_org), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color = "red")
 # Estimate latent correlation matrix with faster approximation method
-# # R1_approx <- estimateR(X1, type = "ternary", method = "approx")$R
+R1_approx <- estimateR(X1, type = "ternary", method = "approx")$R
 R2_approx <- estimateR(X2, type = "trunc", method = "approx")$R
 # # R12_approx <- estimateR_mixed(X1, X2, type1 = "ternary", type2 = "trunc", method = "approx")$R12
+# Plots
+df1 <- data.frame(c(Sigma1), c(R1_approx))
+colnames(df1)=c("Sigma1", "R1_approx")
+ggplot(df1, aes(Sigma1, R1_approx), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
+df2 <- data.frame(c(Sigma2), c(R2_approx))
+colnames(df2)=c("Sigma2", "R2_approx")
+ggplot(df2, aes(Sigma2, R2_approx), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
+# df12 <- data.frame(c(Sigma12), c(R12_approx))
+# colnames(df12) = c("Sigma12", "R12_approx")
+# ggplot(df12, aes(Sigma12, R12_approx), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color = "red")
 
 # Data generation
 simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor = maxcancor,
@@ -375,13 +476,23 @@ ggplot(df1, aes(Sigma1, R1_org), color = "blue") + geom_point() + geom_abline(in
 df2 <- data.frame(c(Sigma2), c(R2_org))
 colnames(df2)=c("Sigma2", "R2_org")
 ggplot(df2, aes(Sigma2, R2_org), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
-df12 <- data.frame(c(Sigma12), c(R12_org))
-colnames(df12) = c("Sigma12", "R12_org")
-ggplot(df12, aes(Sigma12, R12_org), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color = "red")
+# df12 <- data.frame(c(Sigma12), c(R12_org))
+# colnames(df12) = c("Sigma12", "R12_org")
+# ggplot(df12, aes(Sigma12, R12_org), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color = "red")
 # # Estimate latent correlation matrix with faster approximation method
 R1_approx <- estimateR(X1, type = "trunc", method = "approx")$R
-# R2_approx <- estimateR(X2, type = "ternary", method = "approx")$R
+R2_approx <- estimateR(X2, type = "ternary", method = "approx")$R
 # R12_approx <- estimateR_mixed(X1, X2, type1 = "trunc", type2 = "ternary", method = "approx")$R12
+# Plots
+df1 <- data.frame(c(Sigma1), c(R1_approx))
+colnames(df1)=c("Sigma1", "R1_approx")
+ggplot(df1, aes(Sigma1, R1_approx), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
+df2 <- data.frame(c(Sigma2), c(R2_approx))
+colnames(df2)=c("Sigma2", "R2_approx")
+ggplot(df2, aes(Sigma2, R2_approx), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
+# df12 <- data.frame(c(Sigma12), c(R12_approx))
+# colnames(df12) = c("Sigma12", "R12_approx")
+# ggplot(df12, aes(Sigma12, R12_approx), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color = "red")
 
 ### Check the range of truncation levels of variables
 range(colMeans(X1 == 0))
