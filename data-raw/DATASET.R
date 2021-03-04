@@ -9,6 +9,8 @@
 ############################################################################################
 require(foreach)
 require(doParallel)
+library(foreach)
+library(doParallel)
 ############################################################################################
 # For TC case
 ############################################################################################
@@ -59,8 +61,8 @@ TCvalue <- matrix(NA, length(tau_grid), length(d1_grid))
 cl <- makePSOCKcluster(detectCores())
 registerDoParallel(cl)
 value_list <-
-  foreach (i = tau_grid, .combine = rbind) %:%
-    foreach (j = d1_grid, .combine = c) %dopar% {
+  foreach (i = 1:length(tau_grid), .combine = rbind) %:%
+    foreach (j = 1:length(d1_grid), .combine = c) %dopar% {
       tau <- tau_grid[i]; d1 <- d1_grid[j]
       f1 <- function(r)(bridgeF_tc(r, zratio1 = d1) - tau)^2
       op <- tryCatch(optimize(f1, lower = -0.99, upper = 0.99, tol = 1e-3)[1], error = function(e) 100)
@@ -137,7 +139,7 @@ TTvalue <- array(NA, c(length(tau_grid), length(d1_grid), length(d2_grid)))
 cl <- makePSOCKcluster(detectCores())
 registerDoParallel(cl)
 value_list <-
-  foreach (i = tau_grid) %:% {
+  foreach (i = 1:length(tau_grid)) %:%
     foreach (j = d1_grid) %dopar% {
       value = rep(NA, length(d2_grid))
       for (k in j:length(d2_grid)) {
@@ -153,7 +155,6 @@ value_list <-
       }
       value_list <- value
     }
-  }
 stopCluster(cl)
 for (i in 1:length(tau_grid)) {
   for (j in 1:length(d1_grid)) {
@@ -223,8 +224,8 @@ TBvalue <- array(NA, c(length(tau_grid), length(d1_grid), length(d2_grid)))
 cl <- makePSOCKcluster(detectCores())
 registerDoParallel(cl)
 value_list <-
-  foreach (i = tau_grid) %:%
-    foreach (j = d1_grid, .combine = rbind) %dopar% {
+  foreach (i = 1:length(tau_grid)) %:%
+    foreach (j = 1:length(d1_grid), .combine = rbind) %dopar% {
       value = rep(NA, length(d2_grid))
       for (k in j:length(d2_grid)) {
         tau <- tau_grid[i]; d1 <- d1_grid[j]; d2 <- d2_grid[k]
@@ -298,8 +299,8 @@ BCvalue <- matrix(NA, length(tau_grid), length(d1_grid))
 cl <- makePSOCKcluster(detectCores())
 registerDoParallel(cl)
 value_list <-
-  foreach (i = tau_grid, .combine = rbind) %:%
-    foreach (j = d1_grid, .combine = c) %dopar% {
+  foreach (i = 1:length(tau_grid), .combine = rbind) %:%
+    foreach (j = 1:length(d1_grid), .combine = c) %dopar% {
       tau <- tau_grid[i]; d1 <- d1_grid[j]
       f1 <- function(r)(bridgeF_bc(r, zratio1 = d1) - tau)^2
       op <- tryCatch(optimize(f1, lower = -0.99, upper = 0.99, tol = 1e-3)[1], error = function(e) 100)
@@ -375,8 +376,8 @@ BBvalue <- matrix(NA, length(tau_grid), length(d1_grid), length(d2_grid))
 cl <- makePSOCKcluster(detectCores())
 registerDoParallel(cl)
 value_list <-
-  foreach (i = tau_grid) %:%
-    foreach (j = d1_grid, .combine = rbind) %dopar% {
+  foreach (i = 1:length(tau_grid)) %:%
+    foreach (j = 1:length(d1_grid), .combine = rbind) %dopar% {
       value <- rep(NA, length(d2_grid))
       for (k in 1:length(d2_grid)) {
         tau <- tau_grid[i]; d1 <- d1_grid[j]; d2 <- d2_grid[k]
@@ -436,8 +437,8 @@ NNvalue <- array(NA, c(length(tau_grid), length(d11_grid), length(d12_grid), len
 cl <- makePSOCKcluster(detectCores())
 registerDoParallel(cl)
 value_list <-
-  foreach (i = tau_grid) %:%
-    foreach (j = d11_grid) %dopar% {
+  foreach (i = 1:length(tau_grid)) %:%
+    foreach (j = 1:length(d11_grid)) %dopar% {
       value = array(NA, c(length(d12_grid), length(d21_grid), length(d22_grid)))
       for (k in j:length(d12_grid)) {
         for (l in 1:length(d21_grid)) {
@@ -503,8 +504,8 @@ NBvalue <- array(NA, c(length(tau_grid), length(d11_grid), length(d12_grid), len
 cl <- makePSOCKcluster(detectCores())
 registerDoParallel(cl)
 value_list <-
-  foreach (i = tau_grid) %:%
-    foreach (j = d11_grid) %dopar% {
+  foreach (i = 1:length(tau_grid)) %:%
+    foreach (j = 1:length(d11_grid)) %dopar% {
       value = matrix(NA, nrow = length(d12_grid), ncol = length(d2_grid))
       for (k in j:length(d12_grid)) {
         for (l in 1:length(d2_grid)) {
@@ -564,8 +565,8 @@ NCvalue <- array(NA, c(length(tau_grid), length(d11_grid), length(d12_grid)))
 cl <- makePSOCKcluster(detectCores())
 registerDoParallel(cl)
 value_list <-
-  foreach (i = tau_grid) %:%
-    foreach (j = d11_grid, .combine = rbind) %dopar% {
+  foreach (i = 1:length(tau_grid)) %:%
+    foreach (j = 1:length(d11_grid), .combine = rbind) %dopar% {
       value <- rep(NA, length(d12_grid))
       for (k in j:length(d12_grid)) {
         tau <- tau_grid[i]; d1 <- c(d11_grid[j], d12_grid[k])
