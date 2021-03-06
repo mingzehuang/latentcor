@@ -68,9 +68,9 @@ value_list <-
       op <- tryCatch(optimize(f1, lower = -0.99, upper = 0.99, tol = 1e-3)[1], error = function(e) 100)
       if(op == 100) {
         warning("Optimize returned error one of the pairwise correlations, returning NA")
-        value_list[i, j] <- NA
+        value_list <- NA
       } else {
-        value_list[i, j] <- unlist(op)
+        value_list <- unlist(op)
       }
     }
 stopCluster(cl)
@@ -140,7 +140,7 @@ cl <- makePSOCKcluster(detectCores())
 registerDoParallel(cl)
 value_list <-
   foreach (i = 1:length(tau_grid)) %:%
-    foreach (j = d1_grid) %dopar% {
+    foreach (j = 1:length(d1_grid), .combine = rbind) %dopar% {
       value = rep(NA, length(d2_grid))
       for (k in j:length(d2_grid)) {
         tau <- tau_grid[i]; d1 <- d1_grid[j]; d2 <- d2_grid[k]
@@ -198,7 +198,7 @@ TTipol <- chebpol::ipol(TTvalue, grid = TTipolgrid, method = "multilin")
 # For TB Case
 # grid values that used to create precomputed values
 tau1_grid <- c(seq(-0.5, -0.1, by = 0.007), seq(-0.095, -0.001, by = 0.005))
-tau_grid <- c(tau1, 0, rev(-tau1))
+tau_grid <- c(tau1_grid, 0, rev(-tau1_grid))
 d1_grid <- log10(seq(1, 10^0.99, length = 50))
 d2_grid <- seq(0.01, 0.99, length.out = 50)
 TBvalue <- array(NA, c(length(tau_grid), length(d1_grid), length(d2_grid)))
@@ -276,7 +276,7 @@ TBipol <- chebpol::ipol(TBvalue, grid = TBipolgrid, method = "multilin")
 # For BC Case
 # grid values that used to create precomputed values
 tau1_grid <- c(seq(-0.5, -0.1, by = 0.007), seq(-0.095, -0.001, by = 0.005))
-tau_grid <- c(tau1, 0, rev(-tau1))
+tau_grid <- c(tau1_grid, 0, rev(-tau1_grid))
 d1_grid <- seq(0.01, 0.99, length.out = 50)
 BCvalue <- matrix(NA, length(tau_grid), length(d1_grid))
 
@@ -351,9 +351,9 @@ BCipol <- chebpol::ipol(BCvalue, grid = BCipolgrid, method = "multilin")
 # For BB Case
 # grid values that used to create precomputed values
 tau1_grid <- c(seq(-0.5, -0.1, by = 0.007), seq(-0.095, -0.001, by = 0.005))
-tau_grid <- c(tau1, 0, rev(-tau1))
+tau_grid <- c(tau1_grid, 0, rev(-tau1_grid))
 d1_grid <- d2_grid <- seq(0.01, 0.99, length.out = 50)
-BBvalue <- matrix(NA, length(tau_grid), length(d1_grid), length(d2_grid))
+BBvalue <- array(NA, c(length(tau_grid), length(d1_grid), length(d2_grid)))
 
 # # Single core single thread version
 # for (i in 1:length(tau_grid)) {
