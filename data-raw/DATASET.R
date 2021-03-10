@@ -40,13 +40,13 @@ library(doParallel)
 # grid values that used to create precomputed values
 tau_grid <- seq(-0.99, 0.99, by = 0.01) # "by" increased from 0.005 to 0.01.
 d1_grid <- log10(seq(1, 10^0.99, length = 50))
-TCvalue <- matrix(NA, length(tau_grid), length(d1_grid))
+l_tau_grid <- length(tau_grid); l_d1_grid <- length(d1_grid)
+TCvalue <- matrix(NA, l_tau_grid, l_d1_grid)
 
 # # Single core single thread version
-# for (i in 1:length(tau_grid)) {
-#   for (j in 1:length(d1_grid)) {
-#         tau <- tau_grid[i]; d1 <- d1_grid[j]
-#         f1 <- function(r)(bridgeF_tc(r, zratio1 = d1) - tau)^2
+# for (i in 1:l_tau_grid) {
+#   for (j in 1:l_d1_grid) {
+#         f1 <- function(r)(bridgeF_tc(r, zratio1 = d1_grid[j]) - tau_grid[i])^2
 #         op <- tryCatch(optimize(f1, lower = -0.99, upper = 0.99, tol = 1e-3)[1], error = function(e) 100)
 #         if(op == 100) {
 #           warning("Optimize returned error one of the pairwise correlations, returning NA")
@@ -58,13 +58,12 @@ TCvalue <- matrix(NA, length(tau_grid), length(d1_grid))
 # }
 
 # Parallel version
-cl <- makePSOCKcluster(detectCores())
+cl <- makePSOCKcluster(detectCores()) # Use makeForkCluster() on Linux-based system.
 registerDoParallel(cl)
 value_list <-
-  foreach (i = 1:length(tau_grid), .combine = rbind) %:%
-    foreach (j = 1:length(d1_grid), .combine = c) %dopar% {
-      tau <- tau_grid[i]; d1 <- d1_grid[j]
-      f1 <- function(r)(bridgeF_tc(r, zratio1 = d1) - tau)^2
+  foreach (i = 1:l_tau_grid, .combine = rbind) %:%
+    foreach (j = 1:l_d1_grid, .combine = c) %dopar% {
+      f1 <- function(r)(bridgeF_tc(r, zratio1 = d1_grid[j]) - tau_grid[i])^2
       op <- tryCatch(optimize(f1, lower = -0.99, upper = 0.99, tol = 1e-3)[1], error = function(e) 100)
       if(op == 100) {
         warning("Optimize returned error one of the pairwise correlations, returning NA")
@@ -74,17 +73,15 @@ value_list <-
       }
     }
 stopCluster(cl)
-for (i in 1:length(tau_grid)) {
-  for (j in 1:length(d1_grid)) {
-      TCvalue[i, j] = as.numeric(value_list[i, j])
-  }
-}
+
+TCvalue = value_list
+
 
 # create grid input for ipol
 TCipolgrid <- list(tau_grid, d1_grid)
 # interpolation.
 TCipol <- chebpol::ipol(TCvalue, grid = TCipolgrid, method = "multilin")
-
+save(TCipol, file = "TC_grid.rda")
 
 
 ############################################################################################
@@ -116,14 +113,14 @@ TCipol <- chebpol::ipol(TCvalue, grid = TCipolgrid, method = "multilin")
 # grid values that used to create precomputed values
 tau_grid <- seq(-0.99, 0.99, by = 0.01) # "by" increased from 0.005 to 0.01.
 d1_grid <- d2_grid <- log10(seq(1, 10^0.99, length = 50))
-TTvalue <- array(NA, c(length(tau_grid), length(d1_grid), length(d2_grid)))
+l_tau_grid <- length(tau_grid); l_d1_grid <- length(d1_grid); l_d2_grid <- length(d2_grid)
+TTvalue <- array(NA, c(l_tau_grid, l_d1_grid, l_d2_grid))
 
 # # Single core single thread version
-# for (i in 1:length(tau_grid)) {
-#   for (j in 1:length(d1_grid)) {
-#     for (k in j:length(d2_grid)) {
-#           tau <- tau_grid[i]; d1 <- d1_grid[j]; d2 <- d2_grid[k]
-#           f1 <- function(r)(bridgeF_tt(r, zratio1 = d1, zratio2 = d2) - tau)^2
+# for (i in 1:l_tau_grid) {
+#   for (j in 1:l_d1_grid) {
+#     for (k in 1:l_d2_grid) {
+#           f1 <- function(r)(bridgeF_tt(r, zratio1 = d1_grid[j], zratio2 = d2_grid[k]) - tau_grid[i])^2
 #           op <- tryCatch(optimize(f1, lower = -0.99, upper = 0.99, tol = 1e-3)[1], error = function(e) 100)
 #           if(op == 100) {
 #             warning("Optimize returned error one of the pairwise correlations, returning NA")
@@ -139,12 +136,11 @@ TTvalue <- array(NA, c(length(tau_grid), length(d1_grid), length(d2_grid)))
 cl <- makePSOCKcluster(detectCores())
 registerDoParallel(cl)
 value_list <-
-  foreach (i = 1:length(tau_grid)) %:%
-    foreach (j = 1:length(d1_grid), .combine = rbind) %dopar% {
-      value = rep(NA, length(d2_grid))
-      for (k in j:length(d2_grid)) {
-        tau <- tau_grid[i]; d1 <- d1_grid[j]; d2 <- d2_grid[k]
-        f1 <- function(r)(bridgeF_tt(r, zratio1 = d1, zratio2 = d2) - tau)^2
+  foreach (i = 1:l_tau_grid) %:%
+    foreach (j = 1:l_d1_grid, .combine = rbind) %dopar% {
+      value = rep(NA, l_d2_grid)
+      for (k in 1:l_d2_grid) {
+        f1 <- function(r)(bridgeF_tt(r, zratio1 = d1_grid[j], zratio2 = d2_grid[k]) - tau_grid[i])^2
         op <- tryCatch(optimize(f1, lower = -0.99, upper = 0.99, tol = 1e-3)[1], error = function(e) 100)
         if(op == 100) {
           warning("Optimize returned error one of the pairwise correlations, returning NA")
@@ -156,19 +152,16 @@ value_list <-
       value_list <- value
     }
 stopCluster(cl)
-for (i in 1:length(tau_grid)) {
-  for (j in 1:length(d1_grid)) {
-    for (k in j:length(d2_grid)) {
-      TTvalue[i, j, k] = as.numeric(value_list[[i]][j, k])
-    }
-  }
+
+for (i in 1:l_tau_grid) {
+      TTvalue[i, , ] = value_list[[i]]
 }
 
 # create grid input for ipol
 TTipolgrid <- list(tau_grid, d1_grid, d2_grid)
 # interpolation.
 TTipol <- chebpol::ipol(TTvalue, grid = TTipolgrid, method = "multilin")
-
+save(TTipol, file = "TT_grid.rda")
 ############################################################################################
 # For TB case
 ############################################################################################
@@ -201,14 +194,14 @@ tau1_grid <- c(seq(-0.5, -0.1, by = 0.007), seq(-0.095, -0.001, by = 0.005))
 tau_grid <- c(tau1_grid, 0, rev(-tau1_grid))
 d1_grid <- log10(seq(1, 10^0.99, length = 50))
 d2_grid <- seq(0.01, 0.99, length.out = 50)
-TBvalue <- array(NA, c(length(tau_grid), length(d1_grid), length(d2_grid)))
+l_tau_grid <- length(tau_grid); l_d1_grid <- length(d1_grid); l_d2_grid <- length(d2_grid)
+TBvalue <- array(NA, c(l_tau_grid, l_d1_grid, l_d2_grid))
 
 # # Single core single thread version
-# for (i in 1:length(tau_grid)) {
-#   for (j in 1:length(d1_grid)) {
-#     for (k in j:length(d2_grid)) {
-#       tau <- tau_grid[i]; d1 <- d1_grid[j]; d2 <- d2_grid[k]
-#       f1 <- function(r)(bridgeF_tb(r, zratio1 = d1, zratio2 = d2) - tau)^2
+# for (i in 1:l_tau_grid) {
+#   for (j in 1:l_d1_grid) {
+#     for (k in 1:l_d2_grid) {
+#       f1 <- function(r)(bridgeF_tb(r, zratio1 = d1_grid[j], zratio2 = d2_grid[k]) - tau_grid[i])^2
 #       op <- tryCatch(optimize(f1, lower = -0.99, upper = 0.99, tol = 1e-3)[1], error = function(e) 100)
 #       if(op == 100) {
 #         warning("Optimize returned error one of the pairwise correlations, returning NA")
@@ -224,12 +217,11 @@ TBvalue <- array(NA, c(length(tau_grid), length(d1_grid), length(d2_grid)))
 cl <- makePSOCKcluster(detectCores())
 registerDoParallel(cl)
 value_list <-
-  foreach (i = 1:length(tau_grid)) %:%
-    foreach (j = 1:length(d1_grid), .combine = rbind) %dopar% {
-      value = rep(NA, length(d2_grid))
-      for (k in j:length(d2_grid)) {
-        tau <- tau_grid[i]; d1 <- d1_grid[j]; d2 <- d2_grid[k]
-        f1 <- function(r)(bridgeF_tb(r, zratio1 = d1, zratio2 = d2) - tau)^2
+  foreach (i = 1:l_tau_grid) %:%
+    foreach (j = 1:l_d1_grid, .combine = rbind) %dopar% {
+      value = rep(NA, l_d2_grid)
+      for (k in 1:l_d2_grid) {
+        f1 <- function(r)(bridgeF_tb(r, zratio1 = d1_grid[j], zratio2 = d2_grid[k]) - tau_grid[i])^2
         op <- tryCatch(optimize(f1, lower = -0.99, upper = 0.99, tol = 1e-3)[1], error = function(e) 100)
         if(op == 100) {
           warning("Optimize returned error one of the pairwise correlations, returning NA")
@@ -241,19 +233,16 @@ value_list <-
       value_list <- value
     }
 stopCluster(cl)
-for (i in 1:length(tau_grid)) {
-  for (j in 1:length(d1_grid)) {
-    for (k in j:length(d2_grid)) {
-      TBvalue[i, j, k] = as.numeric(value_list[[i]][j, k])
-    }
-  }
+
+for (i in 1:l_tau_grid) {
+      TBvalue[i, , ] = value_list[[i]]
 }
 
 # create grid input for ipol
 TBipolgrid <- list(tau_grid, d1_grid, d2_grid)
 # interpolation.
 TBipol <- chebpol::ipol(TBvalue, grid = TBipolgrid, method = "multilin")
-
+save(TBipol, file = "TB_grid.rda")
 ############################################################################################
 # For BC case
 ############################################################################################
@@ -278,13 +267,13 @@ TBipol <- chebpol::ipol(TBvalue, grid = TBipolgrid, method = "multilin")
 tau1_grid <- c(seq(-0.5, -0.1, by = 0.007), seq(-0.095, -0.001, by = 0.005))
 tau_grid <- c(tau1_grid, 0, rev(-tau1_grid))
 d1_grid <- seq(0.01, 0.99, length.out = 50)
-BCvalue <- matrix(NA, length(tau_grid), length(d1_grid))
+l_tau_grid <- length(tau_grid); l_d1_grid <- length(d1_grid)
+BCvalue <- matrix(NA, l_tau_grid, l_d1_grid)
 
 # # Single core single thread version
-# for (i in 1:length(tau_grid)) {
-#   for (j in 1:length(d1_grid)) {
-#       tau <- tau_grid[i]; d1 <- d1_grid[j]
-#       f1 <- function(r)(bridgeF_bc(r, zratio1 = d1) - tau)^2
+# for (i in 1:l_tau_grid) {
+#   for (j in 1:l_d1_grid) {
+#       f1 <- function(r)(bridgeF_bc(r, zratio1 = d1_grid[j]) - tau_grid[i])^2
 #       op <- tryCatch(optimize(f1, lower = -0.99, upper = 0.99, tol = 1e-3)[1], error = function(e) 100)
 #       if(op == 100) {
 #         warning("Optimize returned error one of the pairwise correlations, returning NA")
@@ -299,10 +288,9 @@ BCvalue <- matrix(NA, length(tau_grid), length(d1_grid))
 cl <- makePSOCKcluster(detectCores())
 registerDoParallel(cl)
 value_list <-
-  foreach (i = 1:length(tau_grid), .combine = rbind) %:%
-    foreach (j = 1:length(d1_grid), .combine = c) %dopar% {
-      tau <- tau_grid[i]; d1 <- d1_grid[j]
-      f1 <- function(r)(bridgeF_bc(r, zratio1 = d1) - tau)^2
+  foreach (i = 1:l_tau_grid, .combine = rbind) %:%
+    foreach (j = 1:l_d1_grid, .combine = c) %dopar% {
+      f1 <- function(r)(bridgeF_bc(r, zratio1 = d1_grid[j]) - tau_grid[i])^2
       op <- tryCatch(optimize(f1, lower = -0.99, upper = 0.99, tol = 1e-3)[1], error = function(e) 100)
       if(op == 100) {
         warning("Optimize returned error one of the pairwise correlations, returning NA")
@@ -312,17 +300,14 @@ value_list <-
       }
     }
 stopCluster(cl)
-for (i in 1:length(tau_grid)) {
-  for (j in 1:length(d1_grid)) {
-      BCvalue[i, j] = as.numeric(value_list[i, j])
-  }
-}
+
+BCvalue = value_list
 
 # create grid input for ipol
 BCipolgrid <- list(tau_grid, d1_grid)
 # interpolation.
 BCipol <- chebpol::ipol(BCvalue, grid = BCipolgrid, method = "multilin")
-
+save(BCipol, file = "BC_grid.rda")
 ############################################################################################
 # For BB case
 ############################################################################################
@@ -353,14 +338,14 @@ BCipol <- chebpol::ipol(BCvalue, grid = BCipolgrid, method = "multilin")
 tau1_grid <- c(seq(-0.5, -0.1, by = 0.007), seq(-0.095, -0.001, by = 0.005))
 tau_grid <- c(tau1_grid, 0, rev(-tau1_grid))
 d1_grid <- d2_grid <- seq(0.01, 0.99, length.out = 50)
-BBvalue <- array(NA, c(length(tau_grid), length(d1_grid), length(d2_grid)))
+l_tau_grid <- length(tau_grid); l_d1_grid <- length(d1_grid); l_d2_grid <- length(d2_grid)
+BBvalue <- array(NA, c(l_tau_grid, l_d1_grid, l_d2_grid))
 
 # # Single core single thread version
-# for (i in 1:length(tau_grid)) {
-#   for (j in 1:length(d1_grid)) {
-#     for (k in 1:length(d2_grid)) {
-#       tau <- tau_grid[i]; d1 <- d1_grid[j]; d2 <- d2_grid[k]
-#       f1 <- function(r)(bridgeF_bb(r, zratio1 = d1, zratio2 = d2) - tau)^2
+# for (i in 1:l_tau_grid) {
+#   for (j in 1:l_d1_grid) {
+#     for (k in 1:l_d2_grid) {
+#       f1 <- function(r)(bridgeF_bb(r, zratio1 = d1_grid[j], zratio2 = d2_grid[k]) - tau_grid[i])^2
 #       op <- tryCatch(optimize(f1, lower = -0.99, upper = 0.99, tol = 1e-3)[1], error = function(e) 100)
 #       if(op == 100) {
 #         warning("Optimize returned error one of the pairwise correlations, returning NA")
@@ -376,12 +361,11 @@ BBvalue <- array(NA, c(length(tau_grid), length(d1_grid), length(d2_grid)))
 cl <- makePSOCKcluster(detectCores())
 registerDoParallel(cl)
 value_list <-
-  foreach (i = 1:length(tau_grid)) %:%
-    foreach (j = 1:length(d1_grid), .combine = rbind) %dopar% {
-      value <- rep(NA, length(d2_grid))
-      for (k in 1:length(d2_grid)) {
-        tau <- tau_grid[i]; d1 <- d1_grid[j]; d2 <- d2_grid[k]
-        f1 <- function(r)(bridgeF_bb(r, zratio1 = d1, zratio2 = d2) - tau)^2
+  foreach (i = 1:l_tau_grid) %:%
+    foreach (j = 1:l_d1_grid, .combine = rbind) %dopar% {
+      value <- rep(NA, l_d2_grid)
+      for (k in 1:l_d2_grid) {
+        f1 <- function(r)(bridgeF_bb(r, zratio1 = d1_grid[j], zratio2 = d2_grid[k]) - tau_grid[i])^2
         op <- tryCatch(optimize(f1, lower = -0.99, upper = 0.99, tol = 1e-3)[1], error = function(e) 100)
         if(op == 100) {
           warning("Optimize returned error one of the pairwise correlations, returning NA")
@@ -393,33 +377,149 @@ value_list <-
       value_list <- value
     }
 stopCluster(cl)
-for (i in 1:length(tau_grid)) {
-  for (j in 1:length(d1_grid)) {
-    for (k in j:length(d2_grid)) {
-      BBvalue[i, j, k] = as.numeric(value_list[[i]][j, k])
-    }
-  }
+
+for (i in 1:l_tau_grid) {
+      BBvalue[i, , ] = value_list[[i]]
 }
 
 # create grid input for ipol
 BBipolgrid <- list(tau_grid, d1_grid, d2_grid)
 # interpolation.
 BBipol <- chebpol::ipol(BBvalue, grid = BBipolgrid, method = "multilin")
+save(BBipol, file = "BB_grid.rda")
+
+# For NC Case
+# grid values that used to create precomputed values
+tau_grid <- seq(-0.99, 0.99, by = 0.01) # "by" increased from 0.005 to 0.01.
+d11_grid <- d12_grid <- seq(0.01, 0.99, length.out = 50)
+l_tau_grid <- length(tau_grid); l_d11_grid <- length(d11_grid); l_d12_grid <- length(d12_grid)
+NCvalue <- array(NA, c(l_tau_grid, l_d11_grid, l_d12_grid))
+
+# # Single core single thread version
+# for (i in 1:l_tau_grid) {
+#   for (j in 1:l_d11_grid) {
+#     for (k in j:l_d12_grid) {
+#         f1 <- function(r)(bridgeF_nc(r, zratio1 = c(d11_grid[j], d12_grid[k])) - tau_grid[i])^2
+#         op <- tryCatch(optimize(f1, lower = -0.99, upper = 0.99, tol = 1e-3)[1], error = function(e) 100)
+#         if(op == 100) {
+#           warning("Optimize returned error one of the pairwise correlations, returning NA")
+#           NCvalue[i, j, k] <- NA
+#         } else {
+#           NCvalue[i, j, k] <- unlist(op)
+#         }
+#     }
+#   }
+# }
+
+# Parallel version
+cl <- makePSOCKcluster(detectCores())
+registerDoParallel(cl)
+value_list <-
+  foreach (i = 1:l_tau_grid) %:%
+    foreach (j = 1:l_d11_grid, .combine = rbind) %dopar% {
+      value <- rep(NA, l_d12_grid)
+      for (k in j:l_d12_grid) {
+        f1 <- function(r)(bridgeF_nc(r, zratio1 = c(d11_grid[j], d12_grid[k])) - tau_grid[i])^2
+        op <- tryCatch(optimize(f1, lower = -0.99, upper = 0.99, tol = 1e-3)[1], error = function(e) 100)
+        if(op == 100) {
+          warning("Optimize returned error one of the pairwise correlations, returning NA")
+          value[k] <- NA
+        } else {
+          value[k] <- unlist(op)
+        }
+      }
+      value_list <- value
+    }
+stopCluster(cl)
+
+for (i in 1:l_tau_grid) {
+      NCvalue[i, , ] = value_list[[i]]
+}
+
+# create grid input for ipol
+NCipolgrid <- list(tau_grid, d11_grid, d12_grid)
+# interpolation.
+NCipol <- chebpol::ipol(NCvalue, grid = NCipolgrid, method = "multilin")
+save(NCipol, file = "NC_grid.rda")
+
+
+# For NB Case
+# grid values that used to create precomputed values
+tau_grid <- seq(-0.99, 0.99, by = 0.01) # "by" increased from 0.005 to 0.01.
+d11_grid <- d12_grid <- d2_grid <- seq(0.01, 0.99, length.out = 50)
+l_tau_grid <- length(tau_grid); l_d11_grid <- length(d11_grid)
+l_d12_grid <- length(d12_grid); l_d2_grid <- length(d2_grid)
+NBvalue <- array(NA, c(l_tau_grid, l_d11_grid, l_d12_grid, l_d2_grid))
+
+# # Single core single thread version
+# for (i in 1:l_tau_grid) {
+#   for (j in 1:l_d11_grid) {
+#     for (k in j:l_d12_grid) {
+#       for (l in 1:l_d2_grid) {
+#           f1 <- function(r)(bridgeF_nb(r, zratio1 = c(d11_grid[j], d12_grid[k]), zratio2 = d2_grid[l]) - tau_grid[i])^2
+#           op <- tryCatch(optimize(f1, lower = -0.99, upper = 0.99, tol = 1e-3)[1], error = function(e) 100)
+#           if(op == 100) {
+#             warning("Optimize returned error one of the pairwise correlations, returning NA")
+#             NBvalue[i, j, k, l] <- NA
+#           } else {
+#             NBvalue[i, j, k, l] <- unlist(op)
+#           }
+#       }
+#     }
+#   }
+# }
+
+# Parallel version
+cl <- makePSOCKcluster(detectCores())
+registerDoParallel(cl)
+value_list <-
+  foreach (i = 1:l_tau_grid) %:%
+  foreach (j = 1:l_d11_grid) %dopar% {
+    value = matrix(NA, nrow = l_d12_grid, ncol = l_d2_grid)
+    for (k in j:l_d12_grid) {
+      for (l in 1:l_d2_grid) {
+        f1 <- function(r)(bridgeF_nb(r, zratio1 = c(d11_grid[j], d12_grid[k]), zratio2 = d2_grid[l]) - tau_grid[i])^2
+        op <- tryCatch(optimize(f1, lower = -0.99, upper = 0.99, tol = 1e-3)[1], error = function(e) 100)
+        if(op == 100) {
+          warning("Optimize returned error one of the pairwise correlations, returning NA")
+          value[k, l] <- NA
+        } else {
+          value[k, l] <- unlist(op)
+        }
+      }
+    }
+    value_list <- value
+  }
+stopCluster(cl)
+
+for (i in 1:l_tau_grid) {
+  for (j in 1:l_d11_grid) {
+        NBvalue[i, j, , ] = value_list[[i]][[j]]
+  }
+}
+
+# create grid input for ipol
+NBipolgrid <- list(tau_grid, d11_grid, d12_grid, d2_grid)
+# interpolation.
+NBipol <- chebpol::ipol(NBvalue, grid = NBipolgrid, method = "multilin")
+save(NBipol, file = "NB.rda")
+
 
 # For NN Case
 # grid values that used to create precomputed values
 tau_grid <- seq(-0.99, 0.99, by = 0.01) # "by" increased from 0.005 to 0.01.
 d11_grid <- d12_grid <- d21_grid <- d22_grid <- seq(0.01, 0.99, length.out = 50)
-NNvalue <- array(NA, c(length(tau_grid), length(d11_grid), length(d12_grid), length(d21_grid), length(d22_grid)))
+l_tau_grid <- length(tau_grid); l_d11_grid <- length(d11_grid); l_d12_grid <- length(d12_grid)
+l_d21_grid <- length(d21_grid); l_d22_grid <- length(d22_grid)
+NNvalue <- array(NA, c(l_tau_grid, l_d11_grid, l_d12_grid, l_d21_grid, l_d22_grid))
 
 # # Single core single thread version
-# for (i in 1:length(tau_grid)) {
-#   for (j in 1:length(d11_grid)) {
-#     for (k in j:length(d12_grid)) {
-#       for (l in 1:length(d21_grid)) {
-#         for (m in l:length(d22_grid)) {
-#           tau <- tau_grid[i]; d1 <- c(d11_grid[j], d12_grid[k]); d2 <- c(d21_grid[l], d22_grid[m])
-#           f1 <- function(r)(bridgeF_nn(r, zratio1 = d1, zratio2 = d2) - tau)^2
+# for (i in 1:l_tau_grid) {
+#   for (j in 1:l_d11_grid) {
+#     for (k in j:l_d12_grid) {
+#       for (l in 1:l_d21_grid) {
+#         for (m in l:l_d22_grid) {
+#           f1 <- function(r)(bridgeF_nn(r, zratio1 = c(d11_grid[j], d12_grid[k]), zratio2 = c(d21_grid[l], d22_grid[m])) - tau_grid[i])^2
 #           op <- tryCatch(optimize(f1, lower = -0.99, upper = 0.99, tol = 1e-3)[1], error = function(e) 100)
 #           if(op == 100) {
 #             warning("Optimize returned error one of the pairwise correlations, returning NA")
@@ -437,14 +537,13 @@ NNvalue <- array(NA, c(length(tau_grid), length(d11_grid), length(d12_grid), len
 cl <- makePSOCKcluster(detectCores())
 registerDoParallel(cl)
 value_list <-
-  foreach (i = 1:length(tau_grid)) %:%
-    foreach (j = 1:length(d11_grid)) %dopar% {
-      value = array(NA, c(length(d12_grid), length(d21_grid), length(d22_grid)))
-      for (k in j:length(d12_grid)) {
-        for (l in 1:length(d21_grid)) {
-          for (m in l:length(d22_grid)) {
-            tau <- tau_grid[i]; d1 <- c(d11_grid[j], d12_grid[k]); d2 <- c(d21_grid[l], d22_grid[m])
-            f1 <- function(r)(bridgeF_nn(r, zratio1 = d1, zratio2 = d2) - tau)^2
+  foreach (i = 1:l_tau_grid) %:%
+    foreach (j = 1:l_d11_grid) %dopar% {
+      value = array(NA, c(l_d12_grid, l_d21_grid, l_d22_grid))
+      for (k in j:l_d12_grid) {
+        for (l in 1:l_d21_grid) {
+          for (m in l:l_d22_grid) {
+            f1 <- function(r)(bridgeF_nn(r, zratio1 = c(d11_grid[j], d12_grid[k]), zratio2 = c(d21_grid[l], d22_grid[m])) - tau_grid[i])^2
             op <- tryCatch(optimize(f1, lower = -0.99, upper = 0.99, tol = 1e-3)[1], error = function(e) 100)
             if(op == 100) {
               warning("Optimize returned error one of the pairwise correlations, returning NA")
@@ -458,15 +557,10 @@ value_list <-
       value_list <- value
     }
 stopCluster(cl)
-for (i in 1:length(tau_grid)) {
-  for (j in 1:length(d11_grid)) {
-    for (k in j:length(d12_grid)) {
-      for (l in 1:length(d21_grid)) {
-        for (m in l:length(d22_grid)) {
-          NNvalue[i, j, k, l, m] = as.numeric(value_list[[i]][[j]][k, l, m])
-        }
-      }
-    }
+
+for (i in 1:l_tau_grid) {
+  for (j in 1:l_d11_grid) {
+          NNvalue[i, j, , , ] = value_list[[i]][[j]]
   }
 }
 
@@ -474,126 +568,7 @@ for (i in 1:length(tau_grid)) {
 NNipolgrid <- list(tau_grid, d11_grid, d12_grid, d21_grid, d22_grid)
 # interpolation.
 NNipol <- chebpol::ipol(NNvalue, grid = NNipolgrid, method = "multilin")
+save(NNipol, file = "NN_grid.rda")
 
-# For NB Case
-# grid values that used to create precomputed values
-tau_grid <- seq(-0.99, 0.99, by = 0.01) # "by" increased from 0.005 to 0.01.
-d11_grid <- d12_grid <- d2_grid <- seq(0.01, 0.99, length.out = 50)
-NBvalue <- array(NA, c(length(tau_grid), length(d11_grid), length(d12_grid), length(d2_grid)))
-
-# # Single core single thread version
-# for (i in 1:length(tau_grid)) {
-#   for (j in 1:length(d11_grid)) {
-#     for (k in j:length(d12_grid)) {
-#       for (l in 1:length(d2_grid)) {
-#           tau <- tau_grid[i]; d1 <- c(d11_grid[j], d12_grid[k]); d2 <- d2_grid[l]
-#           f1 <- function(r)(bridgeF_nb(r, zratio1 = d1, zratio2 = d2) - tau)^2
-#           op <- tryCatch(optimize(f1, lower = -0.99, upper = 0.99, tol = 1e-3)[1], error = function(e) 100)
-#           if(op == 100) {
-#             warning("Optimize returned error one of the pairwise correlations, returning NA")
-#             NBvalue[i, j, k, l] <- NA
-#           } else {
-#             NBvalue[i, j, k, l] <- unlist(op)
-#           }
-#       }
-#     }
-#   }
-# }
-
-# Parallel version
-cl <- makePSOCKcluster(detectCores())
-registerDoParallel(cl)
-value_list <-
-  foreach (i = 1:length(tau_grid)) %:%
-    foreach (j = 1:length(d11_grid)) %dopar% {
-      value = matrix(NA, nrow = length(d12_grid), ncol = length(d2_grid))
-      for (k in j:length(d12_grid)) {
-        for (l in 1:length(d2_grid)) {
-          tau <- tau_grid[i]; d1 <- c(d11_grid[j], d12_grid[k]); d2 <- d2_grid[l]
-          f1 <- function(r)(bridgeF_nb(r, zratio1 = d1, zratio2 = d2) - tau)^2
-          op <- tryCatch(optimize(f1, lower = -0.99, upper = 0.99, tol = 1e-3)[1], error = function(e) 100)
-          if(op == 100) {
-            warning("Optimize returned error one of the pairwise correlations, returning NA")
-            value[k, l] <- NA
-          } else {
-            value[k, l] <- unlist(op)
-          }
-        }
-      }
-      value_list <- value
-    }
-stopCluster(cl)
-for (i in 1:length(tau_grid)) {
-  for (j in 1:length(d11_grid)) {
-    for (k in j:length(d12_grid)) {
-      for (l in 1:length(d2_grid)) {
-        NBvalue[i, j, k, l] = as.numeric(value_list[[i]][[j]][k, l])
-      }
-    }
-  }
-}
-
-# create grid input for ipol
-NBipolgrid <- list(tau_grid, d11_grid, d12_grid, d2_grid)
-# interpolation.
-NBipol <- chebpol::ipol(NBvalue, grid = NBipolgrid, method = "multilin")
-
-# # For NC Case
-# grid values that used to create precomputed values
-tau_grid <- seq(-0.99, 0.99, by = 0.01) # "by" increased from 0.005 to 0.01.
-d11_grid <- d12_grid <- seq(0.01, 0.99, length.out = 50)
-NCvalue <- array(NA, c(length(tau_grid), length(d11_grid), length(d12_grid)))
-
-# # Single core single thread version
-# for (i in 1:length(tau_grid)) {
-#   for (j in 1:length(d11_grid)) {
-#     for (k in j:length(d12_grid)) {
-#         tau <- tau_grid[i]; d1 <- c(d11_grid[j], d12_grid[k])
-#         f1 <- function(r)(bridgeF_nc(r, zratio1 = d1) - tau)^2
-#         op <- tryCatch(optimize(f1, lower = -0.99, upper = 0.99, tol = 1e-3)[1], error = function(e) 100)
-#         if(op == 100) {
-#           warning("Optimize returned error one of the pairwise correlations, returning NA")
-#           NCvalue[i, j, k] <- NA
-#         } else {
-#           NCvalue[i, j, k] <- unlist(op)
-#         }
-#     }
-#   }
-# }
-
-# Parallel version
-cl <- makePSOCKcluster(detectCores())
-registerDoParallel(cl)
-value_list <-
-  foreach (i = 1:length(tau_grid)) %:%
-    foreach (j = 1:length(d11_grid), .combine = rbind) %dopar% {
-      value <- rep(NA, length(d12_grid))
-      for (k in j:length(d12_grid)) {
-        tau <- tau_grid[i]; d1 <- c(d11_grid[j], d12_grid[k])
-        f1 <- function(r)(bridgeF_nc(r, zratio1 = d1) - tau)^2
-        op <- tryCatch(optimize(f1, lower = -0.99, upper = 0.99, tol = 1e-3)[1], error = function(e) 100)
-        if(op == 100) {
-          warning("Optimize returned error one of the pairwise correlations, returning NA")
-          value[k] <- NA
-        } else {
-          value[k] <- unlist(op)
-        }
-      }
-      value_list <- value
-    }
-stopCluster(cl)
-for (i in 1:length(tau_grid)) {
-  for (j in 1:length(d11_grid)) {
-    for (k in j:length(d12_grid)) {
-      NCvalue[i, j, k] = as.numeric(value_list[[i]][j, k])
-    }
-  }
-}
-
-# create grid input for ipol
-NCipolgrid <- list(tau_grid, d11_grid, d12_grid)
-# interpolation.
-NCipol <- chebpol::ipol(NCvalue, grid = NCipolgrid, method = "multilin")
-
-usethis::use_data(TCipol, TTipol, TBipol, BCipol, BBipol, internal = TRUE, overwrite = TRUE, compress = "xz")
+usethis::use_data(TCipol, TTipol, TBipol, BCipol, BBipol, NCipol, NBipol, internal = TRUE, overwrite = TRUE, compress = "xz")
 
