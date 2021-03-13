@@ -157,33 +157,3 @@ bridgeF_nb <- function(r, zratio1, zratio2){
          2 * zratio1[2] * (zratio2 - fMultivar::pnorm2d(de1, de2[1], rho = r)))
   return(res)
 }
-# bridgeF_oc <- function(r, zratio1, zratio2 = NULL){
-#   # p-level ordinal and continuous
-#   p <- length(zratio1) + 1
-#   de <- stats::qnorm(zratio1)
-#   mat <- matrix(c(1, 0, r/sqrt(2),
-#                   0, 1, -r/sqrt(2),
-#                   r/sqrt(2), -r/sqrt(2), 1), nrow = 3)
-#   res = rep(NA, (p-1))
-#   for (i in 1:(p-1)){
-#     res[i] = as.numeric(4 * mnormt::pmnorm(c(de[i], de[i + 1], 0), mean = rep(0, 3), varcov = mat) -
-#              2 * zratio1[i] * zratio1[i + 1])
-#   }
-#   res_sum = sum(res)
-#   return(res_sum)
-# }
-# bridgeF_co <- function(r, zratio1 = NULL, zratio2){
-#   # continuous and p-level ordinal
-#   p <- length(zratio2) + 1
-#   de <- stats::qnorm(zratio2)
-#   mat <- matrix(c(1, 0, r/sqrt(2),
-#                   0, 1, -r/sqrt(2),
-#                   r/sqrt(2), -r/sqrt(2), 1), nrow = 3)
-#   res = rep(NA, (p-1))
-#   for (i in 1:(p-1)){
-#     res[i] = as.numeric(4 * mnormt::pmnorm(c(de[i], de[i + 1], 0), mean = rep(0, 3), varcov = mat) -
-#              2 * zratio2[i] * zratio2[i + 1])
-#   }
-#   res_sum = sum(res)
-#   return(res_sum)
-# }

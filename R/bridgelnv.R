@@ -17,10 +17,11 @@ cutoff_bc <- function(zratio1, zratio2 = NULL){0.9 * 2 * zratio1 * (1 - zratio1)
 cutoff_cb <- function(zratio1 = NULL, zratio2){0.9 * 2 * zratio2 * (1 - zratio2)}
 cutoff_tb <- function(zratio1, zratio2){0.9 * 2 * pmax(zratio2, 1 - zratio2) * (1 - pmax(zratio2, 1 - zratio2, zratio1))}
 cutoff_bt <- function(zratio1, zratio2){0.9 * 2 * pmax(zratio1, 1 - zratio1) * (1 - pmax(zratio1, 1 - zratio1, zratio2))}
-# cutoff_nb <- function(zratio1, zratio2){0.9}
-# cutoff_bn <- function(zratio1, zratio2){0.9}
 cutoff_nc <- function(zratio1, zratio2){0.9 * 2 * (zratio1[ , 1] * (zratio1[ , 2] - zratio1[ , 1]) + (1 - zratio1[ , 2]) * zratio1[ , 2])}
 cutoff_cn <- function(zratio1, zratio2){0.9 * 2 * (zratio2[ , 1] * (zratio2[ , 2] - zratio2[ , 1]) + (1 - zratio2[ , 2]) * zratio2[ , 2])}
+cutoff_nb <- function(zratio1, zratio2){0.9 * 2 * pmin(zratio1[ , 1] * (zratio1[ , 2] - zratio1[ , 1]) + (1 - zratio1[ , 2]) * zratio1[ , 2], zratio2 * (1 - zratio2))}
+cutoff_bn <- function(zratio1, zratio2){0.9 * 2 * pmin(zratio2[ , 1] * (zratio2[ , 2] - zratio2[ , 1]) + (1 - zratio2[ , 2]) * zratio2[ , 2], zratio1 * (1 - zratio1))}
+cutoff_nn <- function(zratio1, zratio2){0.9 * 2 * pmin(zratio1[ , 1] * (zratio1[ , 2] - zratio1[ , 1]) + (1 - zratio1[ , 2]) * zratio1[ , 2], zratio2[ , 1] * (zratio2[ , 2] - zratio2[ , 1]) + (1 - zratio2[ , 2]) * zratio2[ , 2])}
 
 cutoff_select <- function(type1, type2){
   if (type1 == "binary" & type2 == "binary") {
@@ -39,14 +40,16 @@ cutoff_select <- function(type1, type2){
     cutoff_select <- cutoff_tb
   } else if (type1 == "binary" & type2 == "trunc") {
     cutoff_select <- cutoff_bt
-  # } else if (type1 == "ternary" & type2 == "binary") {
-  #   cutoff_select <- cutoff_nb
-  # } else if (type1 == "binary" & type2 == "ternary") {
-  #   cutoff_select <- cutoff_bn
   } else if (type1 == "ternary" & type2 == "continuous") {
     cutoff_select <- cutoff_nc
   } else if (type1 == "continuous" & type2 == "ternary") {
     cutoff_select <- cutoff_cn
+  } else if (type1 == "ternary" & type2 == "binary") {
+    cutoff_select <- cutoff_nb
+  } else if (type1 == "binary" & type2 == "ternary") {
+    cutoff_select <- cutoff_bn
+  } else if (type1 == "ternary" & type2 == "ternary") {
+    cutoff_select <- cutoff_nn
   } else {
     stop("Unrecognized type of variables. Should be one of continuous, binary or trunc.")
   }
@@ -67,10 +70,11 @@ bridgeInv_select <- function(type1, type2) {
   } else if (type1 == "continuous" & type2 == "binary") { bridgeInv_select <- bridgeInv_cb
   } else if (type1 == "trunc" & type2 == "binary") { bridgeInv_select <- bridgeInv_tb
   } else if (type1 == "binary" & type2 == "trunc") { bridgeInv_select <- bridgeInv_bt
-  # } else if (type1 == "ternary" & type2 == "binary") {bridgeInv_select <- bridgeInv_nb
-  # } else if (type1 == "binary" & type2 == "ternary") {bridgeInv_select <- bridgeInv_bn
+  } else if (type1 == "ternary" & type2 == "binary") {bridgeInv_select <- bridgeInv_nb
+  } else if (type1 == "binary" & type2 == "ternary") {bridgeInv_select <- bridgeInv_bn
   } else if (type1 == "ternary" & type2 == "continuous") {bridgeInv_select <- bridgeInv_nc
   } else if (type1 == "continuous" & type2 == "ternary") {bridgeInv_select <- bridgeInv_cn
+  } else if (type1 == "ternary" & type2 == "ternary") {bridgeInv_select <- bridgeInv_nn
   } else {
     stop("Unrecognized type of variables. Should be one of continuous, binary or trunc.")
   }
@@ -147,4 +151,9 @@ bridgeInv_nc <- function(tau, zratio1, zratio2 = NULL){
 bridgeInv_cn <- function(tau, zratio1 = NULL, zratio2){
   out <- NCipol(rbind(t(tau), t(zratio2[ , 1]), t(zratio2[ , 2])))
   return(out)
+}
+
+# wrapper function
+bridgeInv_nn <- function(tau, zratio1, zratio2){
+  out <- NNipol(rbind(t(tau), t(zratio1[ , 1]), t(zratio1[ , 2]), t(zratio2[ , 1]), t(zratio2[ , 2])))
 }
