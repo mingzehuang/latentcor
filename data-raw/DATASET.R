@@ -661,7 +661,7 @@ for (i in 1:l_tau_grid) {
 NBipolgrid <- list(tau_grid, d11_grid, d12_grid, d2_grid)
 # interpolation.
 NBipol <- chebpol::ipol(NBvalue, grid = NBipolgrid, method = "multilin")
-save(NBipol, file = "NB.rda")
+save(NBipol, file = "NB_grid.rda")
 
 
 # For NN Case

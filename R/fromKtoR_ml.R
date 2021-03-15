@@ -25,15 +25,18 @@ fromKtoR_ml <- function(K, zratio = NULL, type = "trunc", tol = 1e-3) {
       zratio1mat = cbind(zratio1mat, rep(zratio[ , i], d1)[upperR]) # length p(p-1)/2
       zratio2mat = cbind(zratio2mat, rep(zratio[ , i], each = d1)[upperR]) # length p(p-1)/2
     }
-    ind_cutoff <- which(abs(Kupper) > cutoff(zratio1mat, zratio2mat))
-
+    if (type == "ternary") {
+      ind_cutoff <- which((abs(Kupper) > cutoff(zratio1mat, zratio2mat)) | (zratio1mat[ , 1] >= (zratio1mat[ , 2] - 0.01)) | (zratio2mat[ , 1] >= (zratio2mat[ , 2] - 0.01)))
+    } else {
+      ind_cutoff <- which(abs(Kupper) > cutoff(zratio1mat, zratio2mat))
+    }
     if (length(ind_cutoff) == 0){
       # multi-linear interpolation part using saved ipol function.
       hatRupper <- bridgeInv(Kupper, zratio1 = zratio1mat, zratio2 = zratio2mat)
     }else{
-    #   # Interpolate only those elements that are inside
+      # Interpolate only those elements that are inside
       hatRupper[-ind_cutoff] <- bridgeInv(Kupper[-ind_cutoff], zratio1 = zratio1mat[-ind_cutoff, ], zratio2 = zratio2mat[-ind_cutoff, ])
-    #   # Apply original method to the elements outside
+      # Apply original method to the elements outside
       bridge <- bridge_select(type1 = type, type2 = type)
       for(ind in ind_cutoff){
         f1 <- function(r)(bridge(r, zratio1 = zratio1mat[ind, ], zratio2 = zratio2mat[ind, ]) - Kupper[ind])^2
@@ -73,16 +76,24 @@ fromKtoR_ml_mixed <- function(K12, zratio1 = NULL, zratio2 = NULL, type1 = "trun
 
     # based on the data type, select bridgeInv and cutoff functions.
     bridgeInv <- bridgeInv_select(type1 = type1, type2 = type2)
-    # cutoff <- cutoff_select(type1 = type1, type2 = type2)
+    cutoff <- cutoff_select(type1 = type1, type2 = type2)
     zratio1mat <- zratio2mat <- NULL
     # check if there is any element that is outside of the safe boundary for interpolation.
     for (i in 1:p1) {
-      for (j in 1:p2) {
     zratio1mat = cbind(zratio1mat, rep(zratio1[ , i], d2))
-    zratio2mat = cbind(zratio2mat, rep(zratio2[ , j], each = d1))
-      }
     }
-    ind_cutoff <- which(abs(c(K12)) > cutoff(zratio1mat, zratio2mat))
+    for (j in 1:p2) {
+    zratio2mat = cbind(zratio2mat, rep(zratio2[ , j], each = d1))
+    }
+    if (type1 == "ternary" & type2 == "ternary") {
+      ind_cutoff <- which((abs(c(K12)) > cutoff(zratio1mat, zratio2mat)) | (zratio1mat[ , 1] >= (zratio1mat[ , 2] - 0.01)) | (zratio2mat[ , 1] >= (zratio2mat[ , 2] - 0.01)))
+    } else if (type1 == "ternary") {
+      ind_cutoff <- which((abs(c(K12)) > cutoff(zratio1mat, zratio2mat)) | (zratio1mat[ , 1] >= (zratio1mat[ , 2] - 0.01)))
+    } else if (type2 == "ternary") {
+      ind_cutoff <- which((abs(c(K12)) > cutoff(zratio1mat, zratio2mat)) | (zratio2mat[ , 1] >= (zratio2mat[ , 2] - 0.01)))
+    } else {
+      ind_cutoff <- which(abs(c(K12)) > cutoff(zratio1mat, zratio2mat))
+    }
     # much faster multi-linear interpolation part using saved ipol function.
     if (length(ind_cutoff) == 0){
       # Interpolate all the elements
@@ -99,7 +110,7 @@ fromKtoR_ml_mixed <- function(K12, zratio1 = NULL, zratio2 = NULL, type1 = "trun
         op <- tryCatch(optimize(f1, lower = -0.99, upper = 0.99, tol = tol)[1], error = function(e) 100)
         if(op == 100) {
           warning("Optimize returned error one of the pairwise correlations, returning NA")
-          hatRupper[ind] <- NA
+          hatR[ind] <- NA
         } else {
           hatR[ind] <- unlist(op)
         }

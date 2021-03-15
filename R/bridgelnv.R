@@ -3,7 +3,10 @@
 ############################################################################################
 
 #' @importFrom chebpol ipol
+#'
+#'
 NULL
+
 
 ############################################################################################
 # Cutoff criteria based on the combination of variable types
@@ -130,18 +133,6 @@ bridgeInv_bb <- function(tau, zratio1, zratio2){
 }
 
 # wrapper function
-bridgeInv_nb <- function(tau, zratio1, zratio2){
-  out <- NBipol(rbind(t(tau), t(zratio1[ , 1]), t(zratio1[ , 2]), t(zratio2)))
-  return(out)
-}
-
-# wrapper function
-bridgeInv_bn <- function(tau, zratio1, zratio2){
-  out <- NBipol(rbind(t(tau), t(zratio2[ , 1]), t(zratio2[ , 2]), t(zratio1)))
-  return(out)
-}
-
-# wrapper function
 bridgeInv_nc <- function(tau, zratio1, zratio2 = NULL){
   out <- NCipol(rbind(t(tau), t(zratio1[ , 1]), t(zratio1[ , 2])))
   return(out)
@@ -154,6 +145,21 @@ bridgeInv_cn <- function(tau, zratio1 = NULL, zratio2){
 }
 
 # wrapper function
-bridgeInv_nn <- function(tau, zratio1, zratio2){
-  out <- NNipol(rbind(t(tau), t(zratio1[ , 1]), t(zratio1[ , 2]), t(zratio2[ , 1]), t(zratio2[ , 2])))
+bridgeInv_nb <- function(tau, zratio1, zratio2){
+  out <- NBipol(rbind(t(tau), t(zratio1[ , 1]), t(zratio1[ , 2]), t(zratio2)))
+  return(out)
 }
+
+# wrapper function
+bridgeInv_bn <- function(tau, zratio1, zratio2){
+  out <- NBipol(rbind(t(tau), t(zratio2[ , 1]), t(zratio2[ , 2]), t(zratio1)))
+  return(out)
+}
+
+# wrapper function
+bridgeInv_nn <- function(tau, zratio1, zratio2){
+  # out <- NNipol(rbind(t(tau), t(zratio1[ , 1]), t(zratio1[ , 2]), t(zratio2[ , 1]), t(zratio2[ , 2])))
+  out <- rnorm(length(tau))
+  return(out)
+}
+
