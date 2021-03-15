@@ -1,3 +1,4 @@
+
 #' @title Estimate latent correlation matrix
 #'
 #' @description Estimation of latent correlation matrix from observed data of (possibly) mixed types (continuous/biary/truncated continuous) based on the latent Gaussian copula model.
@@ -49,7 +50,7 @@ estimateR <- function(X, type = "trunc", method = "approx", use.nearPD = TRUE, n
     R <- sin(pi/2 * K)
   } else {
     if (type == "trunc"){
-      zratio <- matrix(colMeans(X == 0), nrow = p)
+      zratio <- matrix(colMeans(X == 0))
       # checking data type
       if(sum(X < 0) > 0) {
         stop("The data of truncated type contains negative values.")
@@ -62,7 +63,7 @@ estimateR <- function(X, type = "trunc", method = "approx", use.nearPD = TRUE, n
         stop("There are variables in the data that have only zeros. Filter those     variables before continuing. \n")
       }
     } else if (type == "binary") {
-      zratio <- matrix(colMeans(X == 0), nrow = p)
+      zratio <- matrix(colMeans(X == 0))
       # checking data type
       if(sum(!(X %in% c(0, 1))) > 0) {
         stop("The data is not \"binary\".")
@@ -70,8 +71,8 @@ estimateR <- function(X, type = "trunc", method = "approx", use.nearPD = TRUE, n
       if (sum(zratio == 1) > 0 | sum(zratio == 0) > 0){
         stop("There are binary variables in the data that have only zeros or only ones. Filter those variables before continuing. \n")
       }
-    } else {
-      zratio <- matrix(c(colMeans(X == 0), 1 - colMeans(X == 2)), nrow = p)
+    } else if (type == "ternary") {
+      zratio <- cbind(colMeans(X == 0), 1 - colMeans(X == 2))
     }
     K <- Kendall_matrix(X)
 
@@ -155,7 +156,7 @@ estimateR_mixed <- function(X1, X2, type1 = "trunc", type2 = "continuous", metho
 
 
   if (type1 == "trunc"){
-    zratio1 <- matrix(colMeans(X1 == 0), nrow = p1)
+    zratio1 <- matrix(colMeans(X1 == 0))
     if(sum(X1 < 0) > 0) {
       stop("The data X1 contains negative values.")
     }
@@ -167,7 +168,7 @@ estimateR_mixed <- function(X1, X2, type1 = "trunc", type2 = "continuous", metho
     }
   }
   if (type1 == "binary"){
-    zratio1 <- matrix(colMeans(X1 == 0), nrow = p1)
+    zratio1 <- matrix(colMeans(X1 == 0))
     if(sum(!(X1 %in% c(0, 1))) > 0) {
       stop("The data X1 is not \"binary\".")
     }
@@ -176,11 +177,11 @@ estimateR_mixed <- function(X1, X2, type1 = "trunc", type2 = "continuous", metho
     }
   }
   if (type1 == "ternary"){
-    zratio1 <- matrix(c(colMeans(X1 == 0), 1 - colMeans(X1 == 2)), nrow = p1)
+    zratio1 <- cbind(colMeans(X1 == 0), 1 - colMeans(X1 == 2))
   }
 
   if (type2 == "trunc"){
-    zratio2 <- matrix(colMeans(X2 == 0), nrow = p2)
+    zratio2 <- matrix(colMeans(X2 == 0))
     if(sum(X2 < 0) > 0) {
       stop("The data X2 contains negative values.")
     }
@@ -193,7 +194,7 @@ estimateR_mixed <- function(X1, X2, type1 = "trunc", type2 = "continuous", metho
     }
   }
   if (type2 == "binary"){
-    zratio2 <- matrix(colMeans(X2 == 0), nrow = p2)
+    zratio2 <- matrix(colMeans(X2 == 0))
     if(sum(!(X2 %in% c(0, 1))) > 0) {
       stop("The data X2 is not \"binary\".")
     }
@@ -202,7 +203,7 @@ estimateR_mixed <- function(X1, X2, type1 = "trunc", type2 = "continuous", metho
     }
   }
   if (type2 == "ternary"){
-    zratio2 <- matrix(c(colMeans(X2 == 0), 1 - colMeans(X2 == 2)), nrow = p2)
+    zratio2 <- cbind(colMeans(X2 == 0), 1 - colMeans(X2 == 2))
   }
 
   if (p1 == 1 & p2 == 1){

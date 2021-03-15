@@ -14,7 +14,6 @@ bridge_select <- function(type1 = "trunc", type2 = "continuous") {
   } else if (type1 == "binary" & type2 == "ternary") {bridge_select <- bridgeF_bn
   # } else if (type1 == "ternary" & type2 == "trunc") {bridge_select <- bridgeF_nt
   # } else if (type1 == "trunc" & type2 == "ternary") {bridge_select <- bridgeF_tn
-  # } else if (type1 == "ordinal" & type2 == "continuous") { bridge_select <- bridgeF_oc
   } else {
     stop("Unrecognized type of variables. Should be one of continuous, binary, trunc or ternary.")
   }

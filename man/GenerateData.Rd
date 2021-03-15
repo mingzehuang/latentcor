@@ -37,15 +37,15 @@ GenerateData(
 
 \item{copula2}{Copula type for the second dataset. U2 = f(Z2), which could be either "exp", "cube".}
 
-\item{type1}{Type of the first dataset \code{X1}. Could be "continuous", "trunc" or "binary".}
+\item{type1}{Type of the first dataset \code{X1}. Could be "continuous", "trunc", "binary", "ternary" or "ordinal".}
 
-\item{type2}{Type of the second dataset \code{X2}. Could be "continuous", "trunc" or "binary".}
+\item{type2}{Type of the second dataset \code{X2}. Could be "continuous", "trunc", "binary", "ternary" or "ordinal".}
 
 \item{muZ}{Mean of latent multivariate normal.}
 
-\item{c1}{Constant threshold for \code{X1} needed for "trunc" and "binary" data type - the default is NULL.}
+\item{c1}{Constant threshold for \code{X1} needed for "trunc", "binary", "ternary" and "ordinal" data type - the default is NULL.}
 
-\item{c2}{Constant threshold for \code{X2} needed for "trunc" and "binary" data type - the default is NULL.}
+\item{c2}{Constant threshold for \code{X2} needed for "trunc", "binary", "ternary" and "ordinal" data type - the default is NULL.}
 }
 \value{
 \code{GenerateData} returns a list containing
@@ -58,8 +58,8 @@ GenerateData(
       \item{true_w2: }{normalized true canonical direction of length p2 for \code{X2}.}
       \item{type: }{a vector containing types of two datasets.}
       \item{maxcancor: }{true canonical correlation between \code{Z1} and \code{Z2}.}
-      \item{c1: }{constant threshold for \code{X1} for "trunc" and "binary" data type.}
-      \item{c2: }{constant threshold for \code{X2} for "trunc" and "binary" data type.}
+      \item{c1: }{a matrix of thresholds for \code{X1} for "trunc", "binary", "ternary" and "ordinal" data type.}
+      \item{c2: }{a matrix of thresholds for \code{X2} for "trunc", "binary", "ternary" and "ordinal" data type.}
       \item{Sigma: }{true latent correlation matrix of \code{Z1} and \code{Z2} ((p1+p2) by (p1+p2)).}
 }
 }
@@ -92,6 +92,127 @@ simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor
                         muZ = mu,
                         type1 = "trunc", type2 = "trunc",
                         c1 = rep(1, p1), c2 =  rep(0, p2)
+)
+X1 <- simdata$X1
+X2 <- simdata$X2
+
+# Data generation
+simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor = maxcancor,
+                        Sigma1 = Sigma1, Sigma2 = Sigma2,
+                        copula1 = "exp", copula2 = "cube",
+                        muZ = mu,
+                        type1 = "trunc", type2 = "continuous",
+                        c1 = rep(1, p1), c2 =  rep(0, p2)
+)
+X1 <- simdata$X1
+X2 <- simdata$X2
+
+# Data generation
+simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor = maxcancor,
+                        Sigma1 = Sigma1, Sigma2 = Sigma2,
+                        copula1 = "exp", copula2 = "cube",
+                        muZ = mu,
+                        type1 = "binary", type2 = "binary",
+                        c1 = rep(1, p1), c2 =  rep(0, p2)
+)
+X1 <- simdata$X1
+X2 <- simdata$X2
+
+# Data generation
+simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor = maxcancor,
+                        Sigma1 = Sigma1, Sigma2 = Sigma2,
+                        copula1 = "exp", copula2 = "cube",
+                        muZ = mu,
+                        type1 = "binary", type2 = "continuous",
+                        c1 = rep(1, p1), c2 =  rep(0, p2)
+)
+X1 <- simdata$X1
+X2 <- simdata$X2
+
+# Data generation
+simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor = maxcancor,
+                        Sigma1 = Sigma1, Sigma2 = Sigma2,
+                        copula1 = "exp", copula2 = "cube",
+                        muZ = mu,
+                        type1 = "trunc", type2 = "binary",
+                        c1 = rep(1, p1), c2 =  rep(0, p2)
+)
+X1 <- simdata$X1
+X2 <- simdata$X2
+
+# Data generation
+simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor = maxcancor,
+                        Sigma1 = Sigma1, Sigma2 = Sigma2,
+                        copula1 = "exp", copula2 = "cube",
+                        muZ = mu,
+                        type1 = "ternary", type2 = "ternary",
+                        c1 = matrix(rep(1:2, p1), nrow = 2, ncol = p1), c2 =  matrix(rep(0:1, p2), nrow = 2, ncol = p2)
+)
+X1 <- simdata$X1
+X2 <- simdata$X2
+
+# Data generation
+simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor = maxcancor,
+                        Sigma1 = Sigma1, Sigma2 = Sigma2,
+                        copula1 = "exp", copula2 = "cube",
+                        muZ = mu,
+                        type1 = "ternary", type2 = "continuous",
+                        c1 = matrix(rep(1:2, p1), nrow = 2, ncol = p1), c2 =  matrix(rep(0:1, p2), nrow = 2, ncol = p2)
+)
+X1 <- simdata$X1
+X2 <- simdata$X2
+
+# Data generation
+simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor = maxcancor,
+                        Sigma1 = Sigma1, Sigma2 = Sigma2,
+                        copula1 = "exp", copula2 = "cube",
+                        muZ = mu,
+                        type1 = "continuous", type2 = "ternary",
+                        c1 = matrix(rep(1:2, p1), nrow = 2, ncol = p1), c2 =  matrix(rep(0:1, p2), nrow = 2, ncol = p2)
+)
+X1 <- simdata$X1
+X2 <- simdata$X2
+
+# Data generation
+simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor = maxcancor,
+                        Sigma1 = Sigma1, Sigma2 = Sigma2,
+                        copula1 = "exp", copula2 = "cube",
+                        muZ = mu,
+                        type1 = "ternary", type2 = "binary",
+                        c1 = matrix(rep(1:2, p1), nrow = 2, ncol = p1), c2 = rep(0, p2)
+)
+X1 <- simdata$X1
+X2 <- simdata$X2
+
+# Data generation
+simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor = maxcancor,
+                        Sigma1 = Sigma1, Sigma2 = Sigma2,
+                        copula1 = "exp", copula2 = "cube",
+                        muZ = mu,
+                        type1 = "binary", type2 = "ternary",
+                        c1 = matrix(rep(1:2, p1), nrow = 2, ncol = p1), c2 = rep(0, p2)
+)
+X1 <- simdata$X1
+X2 <- simdata$X2
+
+# Data generation
+simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor = maxcancor,
+                        Sigma1 = Sigma1, Sigma2 = Sigma2,
+                        copula1 = "exp", copula2 = "cube",
+                        muZ = mu,
+                        type1 = "ternary", type2 = "trunc",
+                        c1 = matrix(rep(1:2, p1), nrow = 2, ncol = p1), c2 = rep(0, p2)
+)
+X1 <- simdata$X1
+X2 <- simdata$X2
+
+# Data generation
+simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor = maxcancor,
+                        Sigma1 = Sigma1, Sigma2 = Sigma2,
+                        copula1 = "exp", copula2 = "cube",
+                        muZ = mu,
+                        type1 = "trunc", type2 = "ternary",
+                        c1 = matrix(rep(1:2, p1), nrow = 2, ncol = p1), c2 = rep(0, p2)
 )
 X1 <- simdata$X1
 X2 <- simdata$X2

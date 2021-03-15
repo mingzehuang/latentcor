@@ -1,11 +1,5 @@
 #' Construct a correlation matrix
-#'
 #' Functions to create autocorrelation matrix (p by p) with parameter rho and block correlation matrix (p by p) using group index (of length p) and (possibly) different parameter rho for each group.
-#' @name CorrStructure
-NULL
-#> NULL
-
-
 #' @rdname CorrStructure
 #' @param p Specified matrix dimension.
 #' @param rho Correlation value(s), must be between -0.99 and 0.99. Should be a scalar for \code{autocor}, and either a scalar or a vector of the same length as the maximal \code{blockind} K for \code{blockcor}.
