@@ -5,16 +5,12 @@
 \title{Plot true correlation vs estimated correlation
 \code{PlotCompare} is to check unbiasness of estimation by plotting true correlation from simulation data vs estimated correlation from simulation data.}
 \usage{
-PlotCompare(data1, data2, name1, name2)
+PlotCompare(pairlist, namelist)
 }
 \arguments{
-\item{data1}{First data series.}
+\item{pairlist}{list for data pairs.}
 
-\item{data2}{Second data series.}
-
-\item{name1}{Name for first data series.}
-
-\item{name2}{Name for second data series.}
+\item{namelist}{list for names of data pairs.}
 }
 \value{
 \code{PlotCompare} returns a plot for data1 against data2 and 45 degree benchmark line.
@@ -55,19 +51,28 @@ X2 <- simdata$X2
 Sigma12 <- simdata$Sigma12
 # Estimate latent correlation matrix with original method
 R1_org <- estimateR(X1, type = "trunc", method = "original")$R
-Plot_R1_org <- PlotCompare(Sigma1, R1_org, "Sigma1", "R1_org")
 R2_org <- estimateR(X2, type = "trunc", method = "original")$R
-Plot_R2_org <- PlotCompare(Sigma2, R2_org, "Sigma2", "R2_org")
 R12_org <- estimateR_mixed(X1, X2, type1 = "trunc", type2 = "trunc", method = "original")$R12;
-Plot_R12_org <- PlotCompare(Sigma12, R12_org, "Sigma12", "R12_org")
-
 # Estimate latent correlation matrix with faster approximation method
 R1_approx <- estimateR(X1, type = "trunc", method = "approx")$R
-Plot_R1_approx <- PlotCompare(Sigma1, R1_approx, "Sigma1", "R1_approx")
 R2_approx <- estimateR(X2, type = "trunc", method = "approx")$R
-Plot_R2_approx <- PlotCompare(Sigma2, R2_approx, "Sigma2", "R2_approx")
 R12_approx <- estimateR_mixed(X1, X2, type1 = "trunc", type2 = "trunc", method = "approx")$R12
-Plot_R12_approx <- PlotCompare(Sigma12, R12_approx, "Sigma12", "R12_approx")
+# Plot true latent correlation vs. estimated latent correlation
+Plot <- PlotCompare(list(cbind(c(Sigma1), c(R1_org)),
+                         cbind(c(Sigma2), c(R2_org)),
+                         cbind(c(Sigma12), c(R12_org)),
+                         cbind(c(Sigma1), c(R1_approx)),
+                         cbind(c(Sigma2), c(R2_approx)),
+                         cbind(c(Sigma12), c(R12_approx))
+                         ),
+                    list(c("Sigma1", "R1_org"),
+                         c("Sigma2", "R2_org"),
+                         c("Sigma12", "R12_org"),
+                         c("Sigma1", "R1_approx"),
+                         c("Sigma2", "R2_approx"),
+                         c("Sigma12", "R12_approx")
+                         )
+                    )
 
 # Data generation
 simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor = maxcancor,
@@ -82,19 +87,29 @@ X2 <- simdata$X2
 Sigma12 <- simdata$Sigma12
 # Estimate latent correlation matrix with original method
 R1_org <- estimateR(X1, type = "trunc", method = "original")$R
-Plot_R1_org <- PlotCompare(Sigma1, R1_org, "Sigma1", "R1_org")
 R2_org <- estimateR(X2, type = "continuous", method = "original")$R
-Plot_R2_org <- PlotCompare(Sigma2, R2_org, "Sigma2", "R2_org")
 R12_org <- estimateR_mixed(X1, X2, type1 = "trunc", type2 = "continuous", method = "original")$R12
-Plot_R12_org <- PlotCompare(Sigma12, R12_org, "Sigma12", "R12_org")
-
 # Estimate latent correlation matrix with faster approximation method
 R1_approx <- estimateR(X1, type = "trunc", method = "approx")$R
-Plot_R1_approx <- PlotCompare(Sigma1, R1_approx, "Sigma1", "R1_approx")
 R2_approx <- estimateR(X2, type = "continuous", method = "approx")$R
-Plot_R2_approx <- PlotCompare(Sigma2, R2_approx, "Sigma2", "R2_approx")
 R12_approx <- estimateR_mixed(X1, X2, type1 = "trunc", type2 = "continuous", method = "approx")$R12
-Plot_R12_approx <- PlotCompare(Sigma12, R12_approx, "Sigma12", "R12_approx")
+# Plot true latent correlation vs. estimated latent correlation
+Plot <- PlotCompare(list(cbind(c(Sigma1), c(R1_org)),
+                         cbind(c(Sigma2), c(R2_org)),
+                         cbind(c(Sigma12), c(R12_org)),
+                         cbind(c(Sigma1), c(R1_approx)),
+                         cbind(c(Sigma2), c(R2_approx)),
+                         cbind(c(Sigma12), c(R12_approx))
+),
+list(c("Sigma1", "R1_org"),
+     c("Sigma2", "R2_org"),
+     c("Sigma12", "R12_org"),
+     c("Sigma1", "R1_approx"),
+     c("Sigma2", "R2_approx"),
+     c("Sigma12", "R12_approx")
+)
+)
+
 
 # Data generation
 simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor = maxcancor,
@@ -109,19 +124,28 @@ X2 <- simdata$X2
 Sigma12 <- simdata$Sigma12
 # Estimate latent correlation matrix with original method
 R1_org <- estimateR(X1, type = "binary", method = "original")$R
-Plot_R1_org <- PlotCompare(Sigma1, R1_org, "Sigma1", "R1_org")
 R2_org <- estimateR(X2, type = "binary", method = "original")$R
-Plot_R2_org <- PlotCompare(Sigma2, R2_org, "Sigma2", "R2_org")
 R12_org <- estimateR_mixed(X1, X2, type1 = "binary", type2 = "binary", method = "original")$R12
-Plot_R12_org <- PlotCompare(Sigma12, R12_org, "Sigma12", "R12_org")
-
 # Estimate latent correlation matrix with faster approximation method
 R1_approx <- estimateR(X1, type = "binary", method = "approx")$R
-Plot_R1_approx <- PlotCompare(Sigma1, R1_approx, "Sigma1", "R1_approx")
 R2_approx <- estimateR(X2, type = "binary", method = "approx")$R
-Plot_R2_approx <- PlotCompare(Sigma2, R2_approx, "Sigma2", "R2_approx")
 R12_approx <- estimateR_mixed(X1, X2, type1 = "binary", type2 = "binary", method = "approx")$R12
-Plot_R12_approx <- PlotCompare(Sigma12, R12_approx, "Sigma12", "R12_approx")
+# Plot true latent correlation vs. estimated latent correlation
+Plot <- PlotCompare(list(cbind(c(Sigma1), c(R1_org)),
+                         cbind(c(Sigma2), c(R2_org)),
+                         cbind(c(Sigma12), c(R12_org)),
+                         cbind(c(Sigma1), c(R1_approx)),
+                         cbind(c(Sigma2), c(R2_approx)),
+                         cbind(c(Sigma12), c(R12_approx))
+),
+list(c("Sigma1", "R1_org"),
+     c("Sigma2", "R2_org"),
+     c("Sigma12", "R12_org"),
+     c("Sigma1", "R1_approx"),
+     c("Sigma2", "R2_approx"),
+     c("Sigma12", "R12_approx")
+)
+)
 
 # Data generation
 simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor = maxcancor,
@@ -136,19 +160,28 @@ X2 <- simdata$X2
 Sigma12 <- simdata$Sigma12
 # Estimate latent correlation matrix with original method
 R1_org <- estimateR(X1, type = "binary", method = "original")$R
-Plot_R1_org <- PlotCompare(Sigma1, R1_org, "Sigma1", "R1_org")
 R2_org <- estimateR(X2, type = "continuous", method = "original")$R
-Plot_R2_org <- PlotCompare(Sigma2, R2_org, "Sigma2", "R2_org")
 R12_org <- estimateR_mixed(X1, X2, type1 = "binary", type2 = "continuous", method = "original")$R12
-Plot_R12_org <- PlotCompare(Sigma12, R12_org, "Sigma12", "R12_org")
-
 # Estimate latent correlation matrix with faster approximation method
 R1_approx <- estimateR(X1, type = "binary", method = "approx")$R
-Plot_R1_approx <- PlotCompare(Sigma1, R1_approx, "Sigma1", "R1_approx")
 R2_approx <- estimateR(X2, type = "continuous", method = "approx")$R
-Plot_R2_approx <- PlotCompare(Sigma2, R2_approx, "Sigma2", "R2_approx")
 R12_approx <- estimateR_mixed(X1, X2, type1 = "binary", type2 = "continuous", method = "approx")$R12
-Plot_R12_approx <- PlotCompare(Sigma12, R12_approx, "Sigma12", "R12_approx")
+# Plot true latent correlation vs. estimated latent correlation
+Plot <- PlotCompare(list(cbind(c(Sigma1), c(R1_org)),
+                         cbind(c(Sigma2), c(R2_org)),
+                         cbind(c(Sigma12), c(R12_org)),
+                         cbind(c(Sigma1), c(R1_approx)),
+                         cbind(c(Sigma2), c(R2_approx)),
+                         cbind(c(Sigma12), c(R12_approx))
+),
+list(c("Sigma1", "R1_org"),
+     c("Sigma2", "R2_org"),
+     c("Sigma12", "R12_org"),
+     c("Sigma1", "R1_approx"),
+     c("Sigma2", "R2_approx"),
+     c("Sigma12", "R12_approx")
+)
+)
 
 # Data generation
 simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor = maxcancor,
@@ -164,19 +197,28 @@ Sigma12 <- simdata$Sigma12
 
 # Estimate latent correlation matrix with original method
 R1_org <- estimateR(X1, type = "trunc", method = "original")$R
-Plot_R1_org <- PlotCompare(Sigma1, R1_org, "Sigma1", "R1_org")
 R2_org <- estimateR(X2, type = "binary", method = "original")$R
-Plot_R2_org <- PlotCompare(Sigma2, R2_org, "Sigma2", "R2_org")
 R12_org <- estimateR_mixed(X1, X2, type1 = "trunc", type2 = "binary", method = "original")$R12
-Plot_R12_org <- PlotCompare(Sigma12, R12_org, "Sigma12", "R12_org")
-
 # Estimate latent correlation matrix with faster approximation method
 R1_approx <- estimateR(X1, type = "trunc", method = "approx")$R
-Plot_R1_approx <- PlotCompare(Sigma1, R1_approx, "Sigma1", "R1_approx")
 R2_approx <- estimateR(X2, type = "binary", method = "approx")$R
-Plot_R2_approx <- PlotCompare(Sigma2, R2_approx, "Sigma2", "R2_approx")
 R12_approx <- estimateR_mixed(X1, X2, type1 = "trunc", type2 = "binary", method = "approx")$R12
-Plot_R12_approx <- PlotCompare(Sigma12, R12_approx, "Sigma12", "R12_approx")
+# Plot true latent correlation vs. estimated latent correlation
+Plot <- PlotCompare(list(cbind(c(Sigma1), c(R1_org)),
+                         cbind(c(Sigma2), c(R2_org)),
+                         cbind(c(Sigma12), c(R12_org)),
+                         cbind(c(Sigma1), c(R1_approx)),
+                         cbind(c(Sigma2), c(R2_approx)),
+                         cbind(c(Sigma12), c(R12_approx))
+),
+list(c("Sigma1", "R1_org"),
+     c("Sigma2", "R2_org"),
+     c("Sigma12", "R12_org"),
+     c("Sigma1", "R1_approx"),
+     c("Sigma2", "R2_approx"),
+     c("Sigma12", "R12_approx")
+)
+)
 
 # Data generation
 simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor = maxcancor,
@@ -192,19 +234,28 @@ Sigma12 <- simdata$Sigma12
 
 # Estimate latent correlation matrix with original method
 R1_org <- estimateR(X1, type = "ternary", method = "original")$R
-Plot_R1_org <- PlotCompare(Sigma1, R1_org, "Sigma1", "R1_org")
 R2_org <- estimateR(X2, type = "ternary", method = "original")$R
-Plot_R2_org <- PlotCompare(Sigma2, R2_org, "Sigma2", "R2_org")
 R12_org <- estimateR_mixed(X1, X2, type1 = "ternary", type2 = "ternary", method = "original")$R12
-Plot_R12_org <- PlotCompare(Sigma12, R12_org, "Sigma12", "R12_org")
-
 # Estimate latent correlation matrix with faster approximation method
 R1_approx <- estimateR(X1, type = "ternary", method = "approx")$R
-Plot_R1_approx <- PlotCompare(Sigma1, R1_approx, "Sigma1", "R1_approx")
 R2_approx <- estimateR(X2, type = "ternary", method = "approx")$R
-Plot_R2_approx <- PlotCompare(Sigma2, R2_approx, "Sigma2", "R2_approx")
 R12_approx <- estimateR_mixed(X1, X2, type1 = "ternary", type2 = "ternary", method = "approx")$R12
-Plot_R12_approx <- PlotCompare(Sigma12, R12_approx, "Sigma12", "R12_approx")
+# Plot true latent correlation vs. estimated latent correlation
+Plot <- PlotCompare(list(cbind(c(Sigma1), c(R1_org)),
+                         cbind(c(Sigma2), c(R2_org)),
+                         cbind(c(Sigma12), c(R12_org)),
+                         cbind(c(Sigma1), c(R1_approx)),
+                         cbind(c(Sigma2), c(R2_approx)),
+                         cbind(c(Sigma12), c(R12_approx))
+),
+list(c("Sigma1", "R1_org"),
+     c("Sigma2", "R2_org"),
+     c("Sigma12", "R12_org"),
+     c("Sigma1", "R1_approx"),
+     c("Sigma2", "R2_approx"),
+     c("Sigma12", "R12_approx")
+)
+)
 
 # Data generation
 simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor = maxcancor,
@@ -220,19 +271,28 @@ Sigma12 <- simdata$Sigma12
 
 # Estimate latent correlation matrix with original method
 R1_org <- estimateR(X1, type = "ternary", method = "original")$R
-Plot_R1_org <- PlotCompare(Sigma1, R1_org, "Sigma1", "R1_org")
 R2_org <- estimateR(X2, type = "continuous", method = "original")$R
-Plot_R2_org <- PlotCompare(Sigma2, R2_org, "Sigma2", "R2_org")
 R12_org <- estimateR_mixed(X1, X2, type1 = "ternary", type2 = "continuous", method = "original")$R12
-Plot_R12_org <- PlotCompare(Sigma12, R12_org, "Sigma12", "R12_org")
-
 # Estimate latent correlation matrix with faster approximation method
 R1_approx <- estimateR(X1, type = "ternary", method = "approx")$R
-Plot_R1_approx <- PlotCompare(Sigma1, R1_approx, "Sigma1", "R1_approx")
 R2_approx <- estimateR(X2, type = "continuous", method = "approx")$R
-Plot_R2_approx <- PlotCompare(Sigma2, R2_approx, "Sigma2", "R2_approx")
 R12_approx <- estimateR_mixed(X1, X2, type1 = "ternary", type2 = "continuous", method = "approx")$R12
-Plot_R12_approx <- PlotCompare(Sigma12, R12_approx, "Sigma12", "R12_approx")
+# Plot true latent correlation vs. estimated latent correlation
+Plot <- PlotCompare(list(cbind(c(Sigma1), c(R1_org)),
+                         cbind(c(Sigma2), c(R2_org)),
+                         cbind(c(Sigma12), c(R12_org)),
+                         cbind(c(Sigma1), c(R1_approx)),
+                         cbind(c(Sigma2), c(R2_approx)),
+                         cbind(c(Sigma12), c(R12_approx))
+),
+list(c("Sigma1", "R1_org"),
+     c("Sigma2", "R2_org"),
+     c("Sigma12", "R12_org"),
+     c("Sigma1", "R1_approx"),
+     c("Sigma2", "R2_approx"),
+     c("Sigma12", "R12_approx")
+)
+)
 
 # Data generation
 simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor = maxcancor,
@@ -248,19 +308,29 @@ Sigma12 <- simdata$Sigma12
 
 # Estimate latent correlation matrix with original method
 R1_org <- estimateR(X1, type = "continuous", method = "original")$R
-Plot_R1_org <- PlotCompare(Sigma1, R1_org, "Sigma1", "R1_org")
 R2_org <- estimateR(X2, type = "ternary", method = "original")$R
-Plot_R2_org <- PlotCompare(Sigma2, R2_org, "Sigma2", "R2_org")
 R12_org <- estimateR_mixed(X1, X2, type1 = "continuous", type2 = "ternary", method = "original")$R12
-Plot_R12_org <- PlotCompare(Sigma12, R12_org, "Sigma12", "R12_org")
 
 # Estimate latent correlation matrix with faster approximation method
 R1_approx <- estimateR(X1, type = "continuous", method = "approx")$R
-Plot_R1_approx <- PlotCompare(Sigma1, R1_approx, "Sigma1", "R1_approx")
 R2_approx <- estimateR(X2, type = "ternary", method = "approx")$R
-Plot_R2_approx <- PlotCompare(Sigma2, R2_approx, "Sigma2", "R2_approx")
 R12_approx <- estimateR_mixed(X1, X2, type1 = "continuous", type2 = "ternary", method = "approx")$R12
-Plot_R12_approx <- PlotCompare(Sigma12, R12_approx, "Sigma12", "R12_approx")
+# Plot true latent correlation vs. estimated latent correlation
+Plot <- PlotCompare(list(cbind(c(Sigma1), c(R1_org)),
+                         cbind(c(Sigma2), c(R2_org)),
+                         cbind(c(Sigma12), c(R12_org)),
+                         cbind(c(Sigma1), c(R1_approx)),
+                         cbind(c(Sigma2), c(R2_approx)),
+                         cbind(c(Sigma12), c(R12_approx))
+),
+list(c("Sigma1", "R1_org"),
+     c("Sigma2", "R2_org"),
+     c("Sigma12", "R12_org"),
+     c("Sigma1", "R1_approx"),
+     c("Sigma2", "R2_approx"),
+     c("Sigma12", "R12_approx")
+)
+)
 
 # Data generation
 simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor = maxcancor,
@@ -276,19 +346,28 @@ Sigma12 <- simdata$Sigma12
 
 # Estimate latent correlation matrix with original method
 R1_org <- estimateR(X1, type = "ternary", method = "original")$R
-Plot_R1_org <- PlotCompare(Sigma1, R1_org, "Sigma1", "R1_org")
 R2_org <- estimateR(X2, type = "binary", method = "original")$R
-Plot_R2_org <- PlotCompare(Sigma2, R2_org, "Sigma2", "R2_org")
 R12_org <- estimateR_mixed(X1, X2, type1 = "ternary", type2 = "binary", method = "original")$R12
-Plot_R12_org <- PlotCompare(Sigma12, R12_org, "Sigma12", "R12_org")
-
 # Estimate latent correlation matrix with faster approximation method
 R1_approx <- estimateR(X1, type = "ternary", method = "approx")$R
-Plot_R1_approx <- PlotCompare(Sigma1, R1_approx, "Sigma1", "R1_approx")
 R2_approx <- estimateR(X2, type = "binary", method = "approx")$R
-Plot_R2_approx <- PlotCompare(Sigma2, R2_approx, "Sigma2", "R2_approx")
 R12_approx <- estimateR_mixed(X1, X2, type1 = "ternary", type2 = "binary", method = "approx")$R12
-Plot_R12_approx <- PlotCompare(Sigma12, R12_approx, "Sigma12", "R12_approx")
+# Plot true latent correlation vs. estimated latent correlation
+Plot <- PlotCompare(list(cbind(c(Sigma1), c(R1_org)),
+                         cbind(c(Sigma2), c(R2_org)),
+                         cbind(c(Sigma12), c(R12_org)),
+                         cbind(c(Sigma1), c(R1_approx)),
+                         cbind(c(Sigma2), c(R2_approx)),
+                         cbind(c(Sigma12), c(R12_approx))
+),
+list(c("Sigma1", "R1_org"),
+     c("Sigma2", "R2_org"),
+     c("Sigma12", "R12_org"),
+     c("Sigma1", "R1_approx"),
+     c("Sigma2", "R2_approx"),
+     c("Sigma12", "R12_approx")
+)
+)
 
 # Data generation
 simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor = maxcancor,
@@ -304,19 +383,25 @@ Sigma12 <- simdata$Sigma12
 
 # Estimate latent correlation matrix with original method
 R1_org <- estimateR(X1, type = "binary", method = "original")$R
-Plot_R1_org <- PlotCompare(Sigma1, R1_org, "Sigma1", "R1_org")
 R2_org <- estimateR(X2, type = "ternary", method = "original")$R
-Plot_R2_org <- PlotCompare(Sigma2, R2_org, "Sigma2", "R2_org")
 R12_org <- estimateR_mixed(X1, X2, type1 = "binary", type2 = "ternary", method = "original")$R12
-Plot_R12_org <- PlotCompare(Sigma12, R12_org, "Sigma12", "R12_org")
-
 # Estimate latent correlation matrix with faster approximation method
 R1_approx <- estimateR(X1, type = "binary", method = "approx")$R
-Plot_R1_approx <- PlotCompare(Sigma1, R1_approx, "Sigma1", "R1_approx")
 # R2_approx <- estimateR(X2, type = "ternary", method = "approx")$R
-# Plot_R2_approx <- PlotCompare(Sigma2, R2_approx, "Sigma2", "R2_approx")
 R12_approx <- estimateR_mixed(X1, X2, type1 = "binary", type2 = "ternary", method = "approx")$R12
-Plot_R12_approx <- PlotCompare(Sigma12, R12_approx, "Sigma12", "R12_approx")
+# Plot true latent correlation vs. estimated latent correlation
+Plot <- PlotCompare(list(cbind(c(Sigma1), c(R1_org)),
+                         cbind(c(Sigma2), c(R2_org)),
+                         cbind(c(Sigma12), c(R12_org)),
+                         cbind(c(Sigma1), c(R1_approx)),
+                         cbind(c(Sigma12), c(R12_approx))
+),
+list(c("Sigma1", "R1_org"),
+     c("Sigma2", "R2_org"),
+     c("Sigma12", "R12_org"),
+     c("Sigma1", "R1_approx"),
+     c("Sigma12", "R12_approx"))
+)
 
 # Data generation
 simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor = maxcancor,
@@ -331,19 +416,20 @@ X2 <- simdata$X2
 Sigma12 <- simdata$Sigma12
 # Estimate latent correlation matrix with original method
 R1_org <- estimateR(X1, type = "ternary", method = "original")$R
-Plot_R1_org <- PlotCompare(Sigma1, R1_org, "Sigma1", "R1_org")
 R2_org <- estimateR(X2, type = "trunc", method = "original")$R
-Plot_R2_org <- PlotCompare(Sigma2, R2_org, "Sigma2", "R2_org")
 # R12_org <- estimateR_mixed(X1, X2, type1 = "ternary", type2 = "trunc", method = "original")$R12
-Plot_R12_org <- PlotCompare(Sigma12, R12_org, "Sigma12", "R12_org")
-
 # Estimate latent correlation matrix with faster approximation method
 # R1_approx <- estimateR(X1, type = "ternary", method = "approx")$R
-# Plot_R1_approx <- PlotCompare(Sigma1, R1_approx, "Sigma1", "R1_approx")
 R2_approx <- estimateR(X2, type = "trunc", method = "approx")$R
-Plot_R2_approx <- PlotCompare(Sigma2, R2_approx, "Sigma2", "R2_approx")
 # R12_approx <- estimateR_mixed(X1, X2, type1 = "ternary", type2 = "trunc", method = "approx")$R12
-# Plot_R12_approx <- PlotCompare(Sigma12, R12_approx, "Sigma12", "R12_approx")
+# Plot true latent correlation vs. estimated latent correlation
+Plot <- PlotCompare(list(cbind(c(Sigma1), c(R1_org)),
+                         cbind(c(Sigma2), c(R2_org)),
+                         cbind(c(Sigma2), c(R2_approx))),
+list(c("Sigma1", "R1_org"),
+     c("Sigma2", "R2_org"),
+     c("Sigma2", "R2_approx"))
+)
 
 # Data generation
 simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2, maxcancor = maxcancor,
@@ -359,19 +445,20 @@ Sigma12 <- simdata$Sigma12
 
 # Estimate latent correlation matrix with original method
 R1_org <- estimateR(X1, type = "trunc", method = "original")$R
-Plot_R1_org <- PlotCompare(Sigma1, R1_org, "Sigma1", "R1_org")
 R2_org <- estimateR(X2, type = "ternary", method = "original")$R
-Plot_R2_org <- PlotCompare(Sigma2, R2_org, "Sigma2", "R2_org")
 # R12_org <- estimateR_mixed(X1, X2, type1 = "trunc", type2 = "ternary", method = "original")$R12
-Plot_R12_org <- PlotCompare(Sigma12, R12_org, "Sigma12", "R12_org")
-
 # Estimate latent correlation matrix with faster approximation method
 R1_approx <- estimateR(X1, type = "trunc", method = "approx")$R
-Plot_R1_approx <- PlotCompare(Sigma1, R1_approx, "Sigma1", "R1_approx")
 # R2_approx <- estimateR(X2, type = "ternary", method = "approx")$R
-# Plot_R2_approx <- PlotCompare(Sigma2, R2_approx, "Sigma2", "R2_approx")
 # R12_approx <- estimateR_mixed(X1, X2, type1 = "trunc", type2 = "ternary", method = "approx")$R12
-# Plot_R12_approx <- PlotCompare(Sigma12, R12_approx, "Sigma12", "R12_approx")
+# Plot true latent correlation vs. estimated latent correlation
+Plot <- PlotCompare(list(cbind(c(Sigma1), c(R1_org)),
+                         cbind(c(Sigma2), c(R2_org)),
+                         cbind(c(Sigma1), c(R1_approx))),
+list(c("Sigma1", "R1_org"),
+     c("Sigma2", "R2_org"),
+     c("Sigma1", "R1_approx"))
+)
 
 ### Check the range of truncation levels of variables
 range(colMeans(X1 == 0))
