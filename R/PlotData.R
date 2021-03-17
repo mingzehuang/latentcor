@@ -6,7 +6,7 @@
 #' @return \code{PlotCompare} returns a plot for data1 against data2 and 45 degree benchmark line.
 #' @example man/examples/estimateR_ex.R
 #' @export
-PlotCompare <- function(pairlist, namelist) {
+PlotCompare <- function(pairlist, namelist, title) {
   l_list <- length(pairlist)
   plotlist <- list(rep(NA, l_list))
   for (i in 1:l_list) {
@@ -14,7 +14,7 @@ PlotCompare <- function(pairlist, namelist) {
     colnames(df) = namelist[[i]]
     print(ggplot(df, aes(x = get(paste(namelist[[i]][1])), y = get(paste(namelist[[i]][2]))))
           + geom_point(color = "blue") + geom_abline(intercept = 0, slope = 1, color = "red")
-          +ggtitle("Latent correlation (True vs. Estimated)") +
+          +ggtitle(title) +
             xlab(paste(namelist[[i]][1])) + ylab(paste(namelist[[i]][2])))
   }
 }
