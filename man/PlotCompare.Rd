@@ -5,7 +5,7 @@
 \title{Plot true correlation vs estimated correlation
 \code{PlotCompare} is to check unbiasness of estimation by plotting true correlation from simulation data vs estimated correlation from simulation data.}
 \usage{
-PlotCompare(pairlist, namelist)
+PlotCompare(pairlist, namelist, title)
 }
 \arguments{
 \item{pairlist}{list for data pairs.}
@@ -88,7 +88,8 @@ for (tp1 in c("continuous", "binary", "trunc")) {
                         ),
                   list(c("Sigma1", paste("R1", cp1, cp2, tp1, tp2, md, sep = "_")),
                        c("Sigma2", paste("R2", cp1, cp2, tp1, tp2, md, sep = "_")),
-                       c("Sigma12", paste("R12", cp1, cp2, tp1, tp2, md, sep = "_"))))
+                       c("Sigma12", paste("R12", cp1, cp2, tp1, tp2, md, sep = "_"))),
+                  "Latent correlation (True vs. Estimated)")
     }
   }
 }

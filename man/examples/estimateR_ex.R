@@ -66,7 +66,8 @@ for (tp1 in c("continuous", "binary", "trunc")) {
                         ),
                   list(c("Sigma1", paste("R1", cp1, cp2, tp1, tp2, md, sep = "_")),
                        c("Sigma2", paste("R2", cp1, cp2, tp1, tp2, md, sep = "_")),
-                       c("Sigma12", paste("R12", cp1, cp2, tp1, tp2, md, sep = "_"))))
+                       c("Sigma12", paste("R12", cp1, cp2, tp1, tp2, md, sep = "_"))),
+                  "Latent correlation (True vs. Estimated)")
     }
   }
 }
