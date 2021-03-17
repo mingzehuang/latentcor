@@ -43,6 +43,7 @@ for (cp1 in c("exp", "cube")) {
                                     muZ = mu,
                                     type1 = tp1, type2 = tp2,
                                     c1 = rep(1, p1), c2 =  rep(0, p2))
+          X1 <- simdata$X1; X2 <- simdata$X2; Sigma12 <- simdata$Sigma12
           assign(paste("R1", cp1, cp2, tp1, tp2, md, sep = "_"),
                  estimateR(X1, type = tp1, method = md)$R)
           assign(paste("R2", cp1, cp2, tp1, tp2, md, sep = "_"),
