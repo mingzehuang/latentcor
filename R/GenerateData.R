@@ -99,10 +99,10 @@ GenerateData <- function(n, trueidx1, trueidx2, Sigma1, Sigma2, maxcancor,
   p1 <- length(trueidx1)
   p2 <- length(trueidx2)
   p <- p1 + p2
-  if(is.null(dim(c1))) {
+  if (is.null(dim(c1)) & !(is.null(c1))) {
     c1 <- matrix(c1, nrow = 1, ncol = length(c1))
   }
-  if (is.null(dim(c2))) {
+  if (is.null(dim(c2)) & !(is.null(c2))) {
     c2 <- matrix(c2, nrow = 1, ncol = length(c2))
   }
   # normalize to satisfy t(theta1)%*%Sigma1%*%theta1=1

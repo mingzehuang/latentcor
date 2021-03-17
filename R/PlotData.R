@@ -8,9 +8,13 @@
 #' @export
 PlotCompare <- function(pairlist, namelist) {
   l_list <- length(pairlist)
+  plotlist <- list(rep(NA, l_list))
   for (i in 1:l_list) {
     df <- data.frame(pairlist[[i]])
     colnames(df) = namelist[[i]]
-    ggplot(df, aes(df[paste(namelist[[i]][1])], df[paste(namelist[[i]][2])]), color = "blue") + geom_point() + geom_abline(intercept = 0, slope = 1, color="red")
+    print(ggplot(df, aes(x = get(paste(namelist[[i]][1])), y = get(paste(namelist[[i]][2]))))
+          + geom_point(color = "blue") + geom_abline(intercept = 0, slope = 1, color = "red")
+          +ggtitle("Latent correlation (True vs. Estimated)") +
+            xlab(paste(namelist[[i]][1])) + ylab(paste(namelist[[i]][2])))
   }
 }
