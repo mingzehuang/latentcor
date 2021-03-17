@@ -702,7 +702,8 @@ value_list <-
       for (k in j:l_d12_grid) {
         for (l in 1:l_d21_grid) {
           for (m in l:l_d22_grid) {
-            f1 <- function(r)(bridgeF_nn(r, zratio1 = c(d11_grid[j], d12_grid[k]), zratio2 = c(d21_grid[l], d22_grid[m])) - tau_grid[i])^2
+            f1 <- function(r)(bridgeF_nn(r, zratio1 = c(d11_grid[j], d12_grid[k]),
+                                         zratio2 = c(d21_grid[l], d22_grid[m])) - tau_grid[i])^2
             op <- tryCatch(optimize(f1, lower = -0.99, upper = 0.99, tol = 1e-3)[1], error = function(e) 100)
             if(op == 100) {
               warning("Optimize returned error one of the pairwise correlations, returning NA")

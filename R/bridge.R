@@ -134,8 +134,10 @@ bridgeF_nn <- function(r, zratio1, zratio2){
   de1 <- stats::qnorm(zratio1)
   de2 <- stats::qnorm(zratio2)
 
-  res <- as.numeric(2 * fMultivar::pnorm2d(de1[2], de2[2], rho = r) * fMultivar::pnorm2d(-de1[1], -de2[1], rho = r) -
-         2 * (zratio1[2] - fMultivar::pnorm2d(de1[2], de2[1], rho = r)) * (zratio2[2] - fMultivar::pnorm2d(de1[1], de2[2], rho = r)))
+  res <- as.numeric(2 * fMultivar::pnorm2d(de1[2], de2[2], rho = r) *
+                      fMultivar::pnorm2d(-de1[1], -de2[1], rho = r) -
+         2 * (zratio1[2] - fMultivar::pnorm2d(de1[2], de2[1], rho = r)) *
+           (zratio2[2] - fMultivar::pnorm2d(de1[1], de2[2], rho = r)))
   return(res)
 }
 bridgeF_bn <- function(r, zratio1, zratio2){
