@@ -177,7 +177,8 @@ estimateR_mixed <- function(X1, X2, type1 = "trunc", type2 = "continuous", metho
     }
   }
   if (type1 == "ternary"){
-    zratio1 <- cbind(colMeans(X1 == 0), 1 - colMeans(X1 == 2))
+    zratio11 <- colMeans(X1 == 0)
+    zratio1 <- cbind(zratio11, zratio11 + colMeans(X1 == 1))
   }
 
   if (type2 == "trunc"){
@@ -203,7 +204,8 @@ estimateR_mixed <- function(X1, X2, type1 = "trunc", type2 = "continuous", metho
     }
   }
   if (type2 == "ternary"){
-    zratio2 <- cbind(colMeans(X2 == 0), 1 - colMeans(X2 == 2))
+    zratio21 <- colMeans(X2 == 0)
+    zratio2 <- cbind(zratio21, zratio21 + colMeans(X2 == 1))
   }
 
   if (p1 == 1 & p2 == 1){
