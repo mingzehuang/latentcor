@@ -11,6 +11,8 @@ PlotCompare(pairlist, namelist, title)
 \item{pairlist}{list for data pairs.}
 
 \item{namelist}{list for names of data pairs.}
+
+\item{title}{title for graphs.}
 }
 \value{
 \code{PlotCompare} returns a plot for data1 against data2 and 45 degree benchmark line.

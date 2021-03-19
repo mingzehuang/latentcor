@@ -2,6 +2,7 @@
 #' \code{PlotCompare} is to check unbiasness of estimation by plotting true correlation from simulation data vs estimated correlation from simulation data.
 #' @param pairlist list for data pairs.
 #' @param namelist list for names of data pairs.
+#' @param title title for graphs.
 #' @import ggplot2
 #' @return \code{PlotCompare} returns a plot for data1 against data2 and 45 degree benchmark line.
 #' @example man/examples/estimateR_ex.R
