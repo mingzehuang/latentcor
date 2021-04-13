@@ -133,13 +133,13 @@ bridgeInv_tt <- function(tau, zratio1, zratio2){
 
 # wrapper function
 bridgeInv_nc <- function(tau, zratio1, zratio2 = NULL){
-  out <- NCipol(rbind(t(tau), t(zratio1[ , 1]), t(zratio1[ , 2]))) / 10^7
+  out <- NCipol(rbind(t(tau), t(zratio1[ , 1] / zratio1[ , 2]), t(zratio1[ , 2]))) / 10^7
   return(out)
 }
 
 # wrapper function
 bridgeInv_cn <- function(tau, zratio1 = NULL, zratio2){
-  out <- NCipol(rbind(t(tau), t(zratio2[ , 1]), t(zratio2[ , 2]))) / 10^7
+  out <- NCipol(rbind(t(tau), t(zratio2[ , 1] / zratio2[ , 2]), t(zratio2[ , 2]))) / 10^7
   return(out)
 }
 
