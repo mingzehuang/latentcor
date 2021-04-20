@@ -3,7 +3,7 @@
 
 # K: Kendall's tau matrix.
 # zratio: a column vector of zero proportion values.
-fromKtoR_mlbd <- function(K, zratio = NULL, type = "trunc", tol = 1e-3) {
+fromKtoR_mlbd <- function(K, zratio = NULL, type = "trunc", method = "approx", tol = 1e-3) {
   K <- as.matrix(K)
   d1 <- nrow(K)
   p <- ifelse(is.null(ncol(zratio)), 1, ncol(zratio))
@@ -62,7 +62,7 @@ fromKtoR_mlbd <- function(K, zratio = NULL, type = "trunc", tol = 1e-3) {
 # K12: Kendall's tau matrix.
 # zratio1: a vector of zero proportion values for row variables. The length should match with nrow of K12.
 # zratio2: a vector of zero proportion values for column variables. The length should match with ncol of K12.
-fromKtoR_mlbd_mixed <- function(K12, zratio1 = NULL, zratio2 = NULL, type1 = "trunc", type2 = "continuous", tol = 1e-3) {
+fromKtoR_mlbd_mixed <- function(K12, zratio1 = NULL, zratio2 = NULL, type1 = "trunc", type2 = "continuous", method = "approx", tol = 1e-3) {
 
   K12 <- as.matrix(K12)
   d1 <- nrow(K12)
