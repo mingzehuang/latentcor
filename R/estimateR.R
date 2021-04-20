@@ -77,7 +77,7 @@ estimateR <- function(X, type = "trunc", method = "approx", use.nearPD = TRUE, n
     K <- Kendall_matrix(X)
 
     if (method == "approx"){
-      R <- fromKtoR_ml(K, zratio = zratio, type = type, tol = tol)
+      R <- fromKtoR_mlbd(K, zratio = zratio, type = type, tol = tol)
     } else {
       R <- fromKtoR(K, zratio = zratio, type = type, tol = tol)
     }
@@ -210,7 +210,7 @@ estimateR_mixed <- function(X1, X2, type1 = "trunc", type2 = "continuous", metho
     # This is just pairwise correlation
     k12 = KendallTau(X1, X2)
     if(method == "approx"){
-      r12 = fromKtoR_ml_mixed(k12, zratio1 = zratio1, zratio2 = zratio2, type1 = type1, type2 = type2, tol = tol)
+      r12 = fromKtoR_mlbd_mixed(k12, zratio1 = zratio1, zratio2 = zratio2, type1 = type1, type2 = type2, tol = tol)
     }else{
       r12 = fromKtoR_mixed(k12, zratio1 = zratio1, zratio2 = zratio2, type1 = type1, type2 = type2, tol = tol)
     }
@@ -239,7 +239,7 @@ estimateR_mixed <- function(X1, X2, type1 = "trunc", type2 = "continuous", metho
     }else{
       K1 <- Kendall_matrix(X1)
       if (method == "approx"){
-        R1 <- fromKtoR_ml(K1, zratio = zratio1, type = type1, tol = tol)
+        R1 <- fromKtoR_mlbd(K1, zratio = zratio1, type = type1, tol = tol)
       } else {
         R1 <- fromKtoR(K1, zratio = zratio1, type = type1, tol = tol)
       }
@@ -257,7 +257,7 @@ estimateR_mixed <- function(X1, X2, type1 = "trunc", type2 = "continuous", metho
     }else{
       K2 <- Kendall_matrix(X2)
       if (method == "approx"){
-        R2 <- fromKtoR_ml(K2, zratio = zratio2, type = type2, tol = tol)
+        R2 <- fromKtoR_mlbd(K2, zratio = zratio2, type = type2, tol = tol)
       } else if(method == "original"){
         R2 <- fromKtoR(K2, zratio = zratio2, type = type2, tol = tol)
       }
@@ -266,7 +266,7 @@ estimateR_mixed <- function(X1, X2, type1 = "trunc", type2 = "continuous", metho
     K12 <- Kendall_matrix(X1, X2)
 
     if (method == "approx"){
-      R12 <- fromKtoR_ml_mixed(K12, zratio1 = zratio1, zratio2 = zratio2, type1 = type1, type2 = type2, tol = tol)
+      R12 <- fromKtoR_mlbd_mixed(K12, zratio1 = zratio1, zratio2 = zratio2, type1 = type1, type2 = type2, tol = tol)
     } else {
       R12 <- fromKtoR_mixed(K12, zratio1 = zratio1, zratio2 = zratio2, type1 = type1, type2 = type2, tol = tol)
     }

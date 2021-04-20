@@ -3,7 +3,7 @@
 
 # K: Kendall's tau matrix.
 # zratio: a column vector of zero proportion values.
-fromKtoR_ml <- function(K, zratio = NULL, type = "trunc", tol = 1e-3) {
+fromKtoR_mlbd <- function(K, zratio = NULL, type = "trunc", tol = 1e-3) {
   K <- as.matrix(K)
   d1 <- nrow(K)
   p <- ifelse(is.null(ncol(zratio)), 1, ncol(zratio))
@@ -18,15 +18,19 @@ fromKtoR_ml <- function(K, zratio = NULL, type = "trunc", tol = 1e-3) {
     zratio1mat <- zratio2mat <- NULL
     # based on the data type, select bridgeInv and cutoff functions.
     bridgeInv <- bridgeInv_select(type1 = type, type2 = type)
-    cutoff <- cutoff_select(type1 = type, type2 = type)
+
 
     # check if there is any element that is outside of the safe boundary for interpolation.
     for (i in 1:p) {
       zratio1mat = cbind(zratio1mat, rep(zratio[ , i], d1)[upperR]) # length p(p-1)/2
       zratio2mat = cbind(zratio2mat, rep(zratio[ , i], each = d1)[upperR]) # length p(p-1)/2
     }
-      ind_cutoff <- which(abs(Kupper) > cutoff(zratio1mat, zratio2mat))
-
+    if (method = "ml") {
+      ind_cutoff = NULL
+    } else {
+    cutoff <- cutoff_select(type1 = type, type2 = type)
+    ind_cutoff <- which(abs(Kupper) > cutoff(zratio1mat, zratio2mat))
+    }
     if (length(ind_cutoff) == 0){
       # multi-linear interpolation part using saved ipol function.
       hatRupper <- bridgeInv(Kupper, zratio1 = zratio1mat, zratio2 = zratio2mat)
@@ -58,7 +62,7 @@ fromKtoR_ml <- function(K, zratio = NULL, type = "trunc", tol = 1e-3) {
 # K12: Kendall's tau matrix.
 # zratio1: a vector of zero proportion values for row variables. The length should match with nrow of K12.
 # zratio2: a vector of zero proportion values for column variables. The length should match with ncol of K12.
-fromKtoR_ml_mixed <- function(K12, zratio1 = NULL, zratio2 = NULL, type1 = "trunc", type2 = "continuous", tol = 1e-3) {
+fromKtoR_mlbd_mixed <- function(K12, zratio1 = NULL, zratio2 = NULL, type1 = "trunc", type2 = "continuous", tol = 1e-3) {
 
   K12 <- as.matrix(K12)
   d1 <- nrow(K12)
@@ -73,7 +77,6 @@ fromKtoR_ml_mixed <- function(K12, zratio1 = NULL, zratio2 = NULL, type1 = "trun
 
     # based on the data type, select bridgeInv and cutoff functions.
     bridgeInv <- bridgeInv_select(type1 = type1, type2 = type2)
-    cutoff <- cutoff_select(type1 = type1, type2 = type2)
     zratio1mat <- zratio2mat <- NULL
     # check if there is any element that is outside of the safe boundary for interpolation.
     for (i in 1:p1) {
@@ -82,14 +85,11 @@ fromKtoR_ml_mixed <- function(K12, zratio1 = NULL, zratio2 = NULL, type1 = "trun
     for (j in 1:p2) {
     zratio2mat = cbind(zratio2mat, rep(zratio2[ , j], each = d1))
     }
-    if (type1 == "ternary" & type2 == "ternary") {
-      ind_cutoff <- which((abs(c(K12)) > cutoff(zratio1mat, zratio2mat)) | (zratio1mat[ , 1] >= (zratio1mat[ , 2] - 0.01)) | (zratio2mat[ , 1] >= (zratio2mat[ , 2] - 0.01)))
-    } else if (type1 == "ternary") {
-      ind_cutoff <- which((abs(c(K12)) > cutoff(zratio1mat, zratio2mat)) | (zratio1mat[ , 1] >= (zratio1mat[ , 2] - 0.01)))
-    } else if (type2 == "ternary") {
-      ind_cutoff <- which((abs(c(K12)) > cutoff(zratio1mat, zratio2mat)) | (zratio2mat[ , 1] >= (zratio2mat[ , 2] - 0.01)))
+    if (method = "ml") {
+      ind_cutoff = NULL
     } else {
-      ind_cutoff <- which(abs(c(K12)) > cutoff(zratio1mat, zratio2mat))
+    cutoff <- cutoff_select(type1 = type1, type2 = type2)
+    ind_cutoff <- which(abs(c(K12)) > cutoff(zratio1mat, zratio2mat))
     }
     # much faster multi-linear interpolation part using saved ipol function.
     if (length(ind_cutoff) == 0){
