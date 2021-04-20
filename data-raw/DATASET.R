@@ -567,9 +567,7 @@ NNipolgrid <- list(tau_grid, d1_grid, d2_grid)
 NNipol <- chebpol::ipol(NNvalue, grid = NNipolgrid, method = "multilin")
 save(NNipol, file = "NN_grid.rda")
 
-usethis::use_data(TCipol, TTipol, TBipol, BCipol, BBipol, NCipol, NBipol, internal = TRUE, overwrite = TRUE, compress = "xz")
-
-save(BCvalue, BBvalue, TCvalue, TBvalue, TTvalue, NCvalue, NBvalue, NNvalue, file = "try.rda", compress = "xz", compression_level = 9)
+usethis::use_data(BCipol, BBipol, TCipol, TBipol, TTipol, NCipol, NBipol, NNipol, internal = TRUE, overwrite = TRUE, compress = "xz")
 
 library(MASS)
 library(microbenchmark)
@@ -750,5 +748,5 @@ BB_eval <-
     BB_eval <- data.frame(LatentR = latentRseq[trueR], TruncRate = zratioseq[zrate], medianTime = apply(time_all, 2, summary)[3, ], MeanAD = c(0, mean(abs(Kcor_org - Kcor_ml)), mean(abs(Kcor_org - Kcor_mlbd))), MaxAD = c(0, max(abs(Kcor_org - Kcor_ml)), max(abs(Kcor_org - Kcor_mlbd))), method = c("org", "ipol", "ipol_UB"))
   }
 save(BB_eval, file = "BB_eval")
-save(BCipol, BBipol, TCipol, TBipol, TTipol, NCipol, NBipol, file = "all_grid.rda",
+save(BCipol, BBipol, TCipol, TBipol, TTipol, NCipol, NBipol, NNipol, file = "all_grid.rda",
      compress = "xz")

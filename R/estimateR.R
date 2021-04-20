@@ -203,7 +203,6 @@ estimateR_mixed <- function(X1, X2, type1 = "trunc", type2 = "continuous", metho
     }
   }
   if (type2 == "ternary"){
-    zratio21 <-
     zratio2 <- cbind(colMeans(X2 == 0), 1 - colMeans(X2 == 2))
   }
 

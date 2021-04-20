@@ -25,11 +25,8 @@ fromKtoR_ml <- function(K, zratio = NULL, type = "trunc", tol = 1e-3) {
       zratio1mat = cbind(zratio1mat, rep(zratio[ , i], d1)[upperR]) # length p(p-1)/2
       zratio2mat = cbind(zratio2mat, rep(zratio[ , i], each = d1)[upperR]) # length p(p-1)/2
     }
-    if (type == "ternary") {
-      ind_cutoff <- which((abs(Kupper) > cutoff(zratio1mat, zratio2mat)) | (zratio1mat[ , 1] >= (zratio1mat[ , 2] - 0.01)) | (zratio2mat[ , 1] >= (zratio2mat[ , 2] - 0.01)))
-    } else {
       ind_cutoff <- which(abs(Kupper) > cutoff(zratio1mat, zratio2mat))
-    }
+
     if (length(ind_cutoff) == 0){
       # multi-linear interpolation part using saved ipol function.
       hatRupper <- bridgeInv(Kupper, zratio1 = zratio1mat, zratio2 = zratio2mat)
