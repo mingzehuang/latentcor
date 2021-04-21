@@ -75,12 +75,7 @@ estimateR <- function(X, type = "trunc", method = "approx", use.nearPD = TRUE, n
       zratio <- cbind(colMeans(X == 0), 1 - colMeans(X == 2))
     }
     K <- Kendall_matrix(X)
-
-    if (method == "approx"){
-      R <- fromKtoR_mlbd(K, zratio = zratio, type = type, method = method, tol = tol)
-    } else {
-      R <- fromKtoR(K, zratio = zratio, type = type, tol = tol)
-    }
+    R <- fromKtoR(K, zratio = zratio, type = type, method = method, tol = tol)
   }
 
   # nearPD to make it semi pos-definite
@@ -209,11 +204,7 @@ estimateR_mixed <- function(X1, X2, type1 = "trunc", type2 = "continuous", metho
   if (p1 == 1 & p2 == 1){
     # This is just pairwise correlation
     k12 = KendallTau(X1, X2)
-    if(method == "approx"){
-      r12 = fromKtoR_mlbd_mixed(k12, zratio1 = zratio1, zratio2 = zratio2, type1 = type1, type2 = type2, method = method, tol = tol)
-    }else{
-      r12 = fromKtoR_mixed(k12, zratio1 = zratio1, zratio2 = zratio2, type1 = type1, type2 = type2, tol = tol)
-    }
+    r12 = fromKtoR_mixed(k12, zratio1 = zratio1, zratio2 = zratio2, type1 = type1, type2 = type2, method = method, tol = tol)
     return(list(type = c(type1, type2), R1 = 1, R2 = 1, R12 = r12, R = matrix(c(1, r12, r12, 1), 2, 2)))
   }
 
@@ -238,11 +229,7 @@ estimateR_mixed <- function(X1, X2, type1 = "trunc", type2 = "continuous", metho
       R1 <- sin(pi/2 * K1)
     }else{
       K1 <- Kendall_matrix(X1)
-      if (method == "approx"){
-        R1 <- fromKtoR_mlbd(K1, zratio = zratio1, type = type1, method = method, tol = tol)
-      } else {
-        R1 <- fromKtoR(K1, zratio = zratio1, type = type1, tol = tol)
-      }
+      R1 <- fromKtoR(K1, zratio = zratio1, type = type1, method = method, tol = tol)
     }
     # Continue with 2nd dataset
     if (p2 == 1){
@@ -256,20 +243,11 @@ estimateR_mixed <- function(X1, X2, type1 = "trunc", type2 = "continuous", metho
       R2 <- sin(pi/2 * K2)
     }else{
       K2 <- Kendall_matrix(X2)
-      if (method == "approx"){
-        R2 <- fromKtoR_mlbd(K2, zratio = zratio2, type = type2, method = method, tol = tol)
-      } else if(method == "original"){
-        R2 <- fromKtoR(K2, zratio = zratio2, type = type2, tol = tol)
-      }
+      R2 <- fromKtoR(K2, zratio = zratio2, type = type2, method = method, tol = tol)
     }
     # Do cross-product
     K12 <- Kendall_matrix(X1, X2)
-
-    if (method == "approx"){
-      R12 <- fromKtoR_mlbd_mixed(K12, zratio1 = zratio1, zratio2 = zratio2, type1 = type1, type2 = type2, method = method, tol = tol)
-    } else {
-      R12 <- fromKtoR_mixed(K12, zratio1 = zratio1, zratio2 = zratio2, type1 = type1, type2 = type2, tol = tol)
-    }
+    R12 <- fromKtoR_mixed(K12, zratio1 = zratio1, zratio2 = zratio2, type1 = type1, type2 = type2, method = method, tol = tol)
 
     Rall <- rbind(cbind(R1, R12), cbind(t(R12), R2))
 

@@ -11,57 +11,18 @@ NULL
 ############################################################################################
 # Cutoff criteria based on the combination of variable types
 ############################################################################################
-# For ml only
-# cutoff_bc <- function(zratio1, zratio2 = NULL){rep(1, length(zratio1))}
-# For mlbd
 cutoff_bc <- function(zratio1, zratio2 = NULL){0.9 * 2 * zratio1 * (1 - zratio1)}
-# For ml only
-# cutoff_cb <- function(zratio1 = NULL, zratio2){rep(1, length(zratio2))}
-# For mlbd
 cutoff_cb <- function(zratio1 = NULL, zratio2){0.9 * 2 * zratio2 * (1 - zratio2)}
-# For ml only
-# cutoff_bb <- function(zratio1, zratio2){rep(1, length(zratio1))}
-# For mlbd
 cutoff_bb <- function(zratio1, zratio2){0.9 * 2 * pmin(zratio1, zratio2)*(1-pmax(zratio1, zratio2))}
-# For ml only
-# cutoff_tc <- function(zratio1, zratio2 = NULL){rep(1, length(zratio1))}
-# For mlbd
 cutoff_tc <- function(zratio1, zratio2 = NULL){0.9 * (1 - zratio1^2)}
-# For ml only
-# cutoff_ct <- function(zratio1 = NULL, zratio2){rep(1, length(zratio2))}
-# For mlbd
 cutoff_ct <- function(zratio1 = NULL, zratio2){0.9 * (1 - zratio2^2)}
-# For ml only
-# cutoff_tb <- function(zratio1, zratio2){rep(1, length(zratio1))}
-# For mlbd
 cutoff_tb <- function(zratio1, zratio2){0.9 * 2 * pmax(zratio2, 1 - zratio2) * (1 - pmax(zratio2, 1 - zratio2, zratio1))}
-# For ml only
-# cutoff_bt <- function(zratio1, zratio2){rep(1, length(zratio1))}
-# For mlbd
 cutoff_bt <- function(zratio1, zratio2){0.9 * 2 * pmax(zratio1, 1 - zratio1) * (1 - pmax(zratio1, 1 - zratio1, zratio2))}
-# For ml only
-# cutoff_tt <- function(zratio1, zratio2){rep(1, length(zratio1))}
-# For mlbd
 cutoff_tt <- function(zratio1, zratio2){0.9 * (1 - pmax(zratio1, zratio2)^2)}
-# For ml only
-# cutoff_nc <- function(zratio1, zratio2 = NULL){rep(1, nrow(zratio1))}
-# For mlbd
 cutoff_nc <- function(zratio1, zratio2 = NULL){0.9 * 2 * (zratio1[ , 1] * (zratio1[ , 2] - zratio1[ , 1]) + (1 - zratio1[ , 2]) * zratio1[ , 2])}
-# For ml only
-# cutoff_cn <- function(zratio1 = NULL, zratio2){rep(1, nrow(zratio2))}
-# For mlbd
 cutoff_cn <- function(zratio1 = NULL, zratio2){0.9 * 2 * (zratio2[ , 1] * (zratio2[ , 2] - zratio2[ , 1]) + (1 - zratio2[ , 2]) * zratio2[ , 2])}
-# For ml only
-# cutoff_nb <- function(zratio1, zratio2){rep(1, nrow(zratio1))}
-# For mlbd
 cutoff_nb <- function(zratio1, zratio2){0.9 * 2 * pmin(zratio1[ , 1] * (zratio1[ , 2] - zratio1[ , 1]) + (1 - zratio1[ , 2]) * zratio1[ , 2], zratio2 * (1 - zratio2))}
-# For ml only
-# cutoff_bn <- function(zratio1, zratio2){rep(1, nrow(zratio1))}
-# For mlbd
 cutoff_bn <- function(zratio1, zratio2){0.9 * 2 * pmin(zratio2[ , 1] * (zratio2[ , 2] - zratio2[ , 1]) + (1 - zratio2[ , 2]) * zratio2[ , 2], zratio1 * (1 - zratio1))}
-# For ml only
-# cutoff_nn <- function(zratio1, zratio2){rep(1, nrow(zratio1))}
-# For mlbd
 cutoff_nn <- function(zratio1, zratio2){0.9 * 2 * pmin(zratio1[ , 1] * (zratio1[ , 2] - zratio1[ , 1]) + (1 - zratio1[ , 2]) * zratio1[ , 2],
                                                        zratio2[ , 1] * (zratio2[ , 2] - zratio2[ , 1]) + (1 - zratio2[ , 2]) * zratio2[ , 2])}
 

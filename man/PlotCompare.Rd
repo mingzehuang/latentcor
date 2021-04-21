@@ -46,19 +46,19 @@ simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2,
                         Sigma1 = Sigma1, Sigma2 = Sigma2,
                         copula1 = "exp", copula2 = "cube",
                         muZ = mu,
-                        type1 = "trunc", type2 = "trunc",
-                        c1 = rep(1, p1), c2 =  rep(0, p2)
+                        type1 = "binary", type2 = "continuous",
+                        c1 = rep(1, p1), c2 =  NULL,
 )
 X1 <- simdata$X1; X2 <- simdata$X2; Sigma12_tt <- simdata$Sigma12
 # Estimate latent correlation matrix with original method
-R1_tt_org <- estimateR(X1, type = "trunc", method = "original")$R
-R2_tt_org <- estimateR(X2, type = "trunc", method = "original")$R
-R12_tt_org <- estimateR_mixed(X1, X2, type1 = "trunc", type2 = "trunc",
+R1_tt_org <- estimateR(X1, type = "binary", method = "original")$R
+R2_tt_org <- estimateR(X2, type = "continuous", method = "original")$R
+R12_tt_org <- estimateR_mixed(X1, X2, type1 = "binary", type2 = "continuous",
                               method = "original")$R12;
 cp1 <- "exp"; cp2 <- "cube"
-for (tp1 in c("continuous", "binary", "trunc")) {
-  for (tp2 in c("continuous", "binary", "trunc")) {
-    for (md in c("original", "approx")) {
+for (tp1 in c("continuous", "binary", "ternary")) {
+  for (tp2 in c("continuous", "binary", "ternary")) {
+    for (md in c("original", "ml", "approx")) {
       c1 <- c2 <- NULL
       if (tp1 == "binary" | tp1 == "trunc") {
         c1 <- rep(1, p1)
