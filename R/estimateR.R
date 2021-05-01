@@ -50,7 +50,7 @@ estimateR <- function(X, type = "trunc", method = "approx", use.nearPD = TRUE, n
     R <- sin(pi/2 * K)
   } else {
     if (type == "trunc"){
-      zratio <- matrix(colMeans(X == 0))
+      zratio <- as.matrix(colMeans(X == 0))
       # checking data type
       if(sum(X < 0) > 0) {
         stop("The data of truncated type contains negative values.")
@@ -63,7 +63,7 @@ estimateR <- function(X, type = "trunc", method = "approx", use.nearPD = TRUE, n
         stop("There are variables in the data that have only zeros. Filter those     variables before continuing. \n")
       }
     } else if (type == "binary") {
-      zratio <- matrix(colMeans(X == 0))
+      zratio <- as.matrix(colMeans(X == 0))
       # checking data type
       if(sum(!(X %in% c(0, 1))) > 0) {
         stop("The data is not \"binary\".")
@@ -151,7 +151,7 @@ estimateR_mixed <- function(X1, X2, type1 = "trunc", type2 = "continuous", metho
 
 
   if (type1 == "trunc"){
-    zratio1 <- matrix(colMeans(X1 == 0))
+    zratio1 <- as.matrix(colMeans(X1 == 0))
     if(sum(X1 < 0) > 0) {
       stop("The data X1 contains negative values.")
     }
@@ -163,7 +163,7 @@ estimateR_mixed <- function(X1, X2, type1 = "trunc", type2 = "continuous", metho
     }
   }
   if (type1 == "binary"){
-    zratio1 <- matrix(colMeans(X1 == 0))
+    zratio1 <- as.matrix(colMeans(X1 == 0))
     if(sum(!(X1 %in% c(0, 1))) > 0) {
       stop("The data X1 is not \"binary\".")
     }
@@ -176,7 +176,7 @@ estimateR_mixed <- function(X1, X2, type1 = "trunc", type2 = "continuous", metho
   }
 
   if (type2 == "trunc"){
-    zratio2 <- matrix(colMeans(X2 == 0))
+    zratio2 <- as.matrix(colMeans(X2 == 0))
     if(sum(X2 < 0) > 0) {
       stop("The data X2 contains negative values.")
     }
@@ -189,7 +189,7 @@ estimateR_mixed <- function(X1, X2, type1 = "trunc", type2 = "continuous", metho
     }
   }
   if (type2 == "binary"){
-    zratio2 <- matrix(colMeans(X2 == 0))
+    zratio2 <- as.matrix(colMeans(X2 == 0))
     if(sum(!(X2 %in% c(0, 1))) > 0) {
       stop("The data X2 is not \"binary\".")
     }

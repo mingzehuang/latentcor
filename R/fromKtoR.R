@@ -30,8 +30,8 @@ fromKtoR <- function(K, zratio = NULL, type = "trunc", method = "approx", tol = 
     } else if (method == "original") {
       ind_cutoff = 1:length(Kupper)
     } else {
-    cutoff <- cutoff_select(type1 = type, type2 = type)
-    ind_cutoff <- which(abs(Kupper) > cutoff(zratio1mat, zratio2mat))
+    #cutoff <- cutoff_select(type1 = type, type2 = type)
+    ind_cutoff <- which(abs(Kupper) > cutoff(type1 = type, type2 = type, zratio1 = zratio1mat, zratio2 = zratio2mat))
     }
     if (length(ind_cutoff) == 0){
       # multi-linear interpolation part using saved ipol function.
@@ -92,8 +92,8 @@ fromKtoR_mixed <- function(K12, zratio1 = NULL, zratio2 = NULL, type1 = "trunc",
     } else if (method == "original") {
       ind_cutoff = 1:length(K12)
     } else {
-    cutoff <- cutoff_select(type1 = type1, type2 = type2)
-    ind_cutoff <- which(abs(c(K12)) > cutoff(zratio1mat, zratio2mat))
+    #cutoff <- cutoff_select(type1 = type1, type2 = type2)
+    ind_cutoff <- which(abs(c(K12)) > cutoff(type1 = type1, type2 = type2, zratio1 = zratio1mat, zratio2 = zratio2mat))
     }
     # much faster multi-linear interpolation part using saved ipol function.
     if (length(ind_cutoff) == 0){

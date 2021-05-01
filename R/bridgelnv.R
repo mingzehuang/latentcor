@@ -12,50 +12,51 @@ NULL
 # Cutoff criteria based on the combination of variable types
 ############################################################################################
 cutoff_bc <- function(zratio1, zratio2 = NULL){0.9 * 2 * zratio1 * (1 - zratio1)}
-cutoff_cb <- function(zratio1 = NULL, zratio2){cutoff_bc(zratio1 = zratio2)}
+#cutoff_cb <- function(zratio1 = NULL, zratio2){cutoff_bc(zratio1 = zratio2)}
 cutoff_bb <- function(zratio1, zratio2){0.9 * 2 * pmin(zratio1, zratio2)*(1-pmax(zratio1, zratio2))}
 cutoff_tc <- function(zratio1, zratio2 = NULL){0.9 * (1 - zratio1^2)}
-cutoff_ct <- function(zratio1 = NULL, zratio2){cutoff_tc(zratio1 = zratio2)}
+#cutoff_ct <- function(zratio1 = NULL, zratio2){cutoff_tc(zratio1 = zratio2)}
 cutoff_tb <- function(zratio1, zratio2){0.9 * 2 * pmax(zratio2, 1 - zratio2) * (1 - pmax(zratio2, 1 - zratio2, zratio1))}
-cutoff_bt <- function(zratio1, zratio2){cutoff_tb(zratio1 = zratio2, zratio2 = zratio1)}
+#cutoff_bt <- function(zratio1, zratio2){cutoff_tb(zratio1 = zratio2, zratio2 = zratio1)}
 cutoff_tt <- function(zratio1, zratio2){0.9 * (1 - pmax(zratio1, zratio2)^2)}
 cutoff_nc <- function(zratio1, zratio2 = NULL){0.9 * 2 * (zratio1[ , 1] * (zratio1[ , 2] - zratio1[ , 1]) + (1 - zratio1[ , 2]) * zratio1[ , 2])}
-cutoff_cn <- function(zratio1 = NULL, zratio2){cutoff_nc(zratio1 = zratio2)}
+#cutoff_cn <- function(zratio1 = NULL, zratio2){cutoff_nc(zratio1 = zratio2)}
 cutoff_nb <- function(zratio1, zratio2){0.9 * 2 * pmin(zratio1[ , 1] * (zratio1[ , 2] - zratio1[ , 1]) + (1 - zratio1[ , 2]) * zratio1[ , 2], zratio2 * (1 - zratio2))}
-cutoff_bn <- function(zratio1, zratio2){cutoff_nb(zratio1 = zratio2, zratio2 = zratio1)}
+#cutoff_bn <- function(zratio1, zratio2){cutoff_nb(zratio1 = zratio2, zratio2 = zratio1)}
 cutoff_nn <- function(zratio1, zratio2){0.9 * 2 * pmin(zratio1[ , 1] * (zratio1[ , 2] - zratio1[ , 1]) + (1 - zratio1[ , 2]) * zratio1[ , 2],
                                                        zratio2[ , 1] * (zratio2[ , 2] - zratio2[ , 1]) + (1 - zratio2[ , 2]) * zratio2[ , 2])}
 
-cutoff_select <- function(type1, type2){
+cutoff_select <- function(type1, type2, zratio1, zratio2){
   if (type1 == "binary" & type2 == "binary") {
-    cutoff_select <- cutoff_bb
+    out <- cutoff_bb(zratio1 = zratio1, zratio2 = zratio2)
   } else if (type1 == "trunc" & type2 == "trunc") {
-    cutoff_select <- cutoff_tt
+    out <- cutoff_tt(zratio1 = zratio1, zratio2 = zratio2)
   } else if (type1 == "trunc" & type2 == "continuous") {
-    cutoff_select <- cutoff_tc
+    out <- cutoff_tc(zratio1 = zratio1)
   } else if (type1 == "continuous" & type2 == "trunc") {
-    cutoff_select <- cutoff_ct
+    out <- cutoff_tc(zratio1 = zratio2)
   } else if (type1 == "binary" & type2 == "continuous") {
-    cutoff_select <- cutoff_bc
+    out <- cutoff_bc(zratio1 = zratio1)
   } else if (type1 == "continuous" & type2 == "binary") {
-    cutoff_select <- cutoff_cb
+    out <- cutoff_bc(zratio1 = zratio2)
   } else if (type1 == "trunc" & type2 == "binary") {
-    cutoff_select <- cutoff_tb
+    out <- cutoff_tb(zratio1 = zratio1, zratio2 = zratio2)
   } else if (type1 == "binary" & type2 == "trunc") {
-    cutoff_select <- cutoff_bt
+    out <- cutoff_tb(zratio1 = zratio2, zratio2 = zratio1)
   } else if (type1 == "ternary" & type2 == "continuous") {
-    cutoff_select <- cutoff_nc
+    out <- cutoff_nc(zratio1 = zratio1)
   } else if (type1 == "continuous" & type2 == "ternary") {
-    cutoff_select <- cutoff_cn
+    out <- cutoff_nc(zratio1 = zratio2)
   } else if (type1 == "ternary" & type2 == "binary") {
-    cutoff_select <- cutoff_nb
+    out <- cutoff_nb(zratio1 = zratio1, zratio2 = zratio2)
   } else if (type1 == "binary" & type2 == "ternary") {
-    cutoff_select <- cutoff_bn
+    out <- cutoff_nb(zratio1 = zratio2, zratio2 = zratio1)
   } else if (type1 == "ternary" & type2 == "ternary") {
-    cutoff_select <- cutoff_nn
+    out <- cutoff_nn(zratio1 = zratio1, zratio2 = zratio2)
   } else {
     stop("Unrecognized type of variables. Should be one of continuous, binary or trunc.")
   }
+  return(out)
 }
 
 
