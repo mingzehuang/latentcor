@@ -86,77 +86,78 @@ bridgeInv_select <- function(type1, type2) {
 
 # wrapper function for BC
 bridgeInv_bc <- function(tau, zratio1, zratio2 = NULL){
-  out <- BCipol(rbind(t(tau), t(zratio1))) / 10^7
+  out <- BCipol(rbind(t(tau / (2 * zratio1 * (1 - zratio1))), t(zratio1))) / 10^7
   return(out)
 }
 
 # wrapper function for CB
 bridgeInv_cb <- function(tau, zratio1 = NULL, zratio2){
-  out <- BCipol(rbind(t(tau), t(zratio2))) / 10^7
+  out <- BCipol(rbind(t(tau / (2 * zratio2 * (1 - zratio2))), t(zratio2))) / 10^7
   return(out)
 }
 
 # wrapper function
 bridgeInv_bb <- function(tau, zratio1, zratio2){
-  out <- BBipol(rbind(t(tau), t(zratio1), t(zratio2))) / 10^7
+  out <- BBipol(rbind(t(tau / (2 * pmin(zratio1, zratio2)*(1-pmax(zratio1, zratio2)))), t(zratio1), t(zratio2))) / 10^7
   return(out)
 }
 
 # wrapper functions
 bridgeInv_tc <- function(tau, zratio1, zratio2 = NULL){
-  out <- TCipol(rbind(t(tau), t(zratio1))) / 10^7
+  out <- TCipol(rbind(t(tau / (1 - zratio1^2)), t(zratio1))) / 10^7
   return(out)
 }
 
 bridgeInv_ct <- function(tau, zratio1 = NULL, zratio2){
-  out <- TCipol(rbind(t(tau), t(zratio2))) / 10^7
+  out <- TCipol(rbind(t(tau / (1 - zratio2^2)), t(zratio2))) / 10^7
   return(out)
 }
 
 # wrapper functions
 bridgeInv_tb <- function(tau, zratio1, zratio2){
-  out <- TBipol(rbind(t(tau), t(zratio1), t(zratio2))) / 10^7
+  out <- TBipol(rbind(t(tau / (2 * pmax(zratio2, 1 - zratio2) * (1 - pmax(zratio2, 1 - zratio2, zratio1)))), t(zratio1), t(zratio2))) / 10^7
   return(out)
 }
 
 bridgeInv_bt <- function(tau, zratio1, zratio2){
-  out <- TBipol(rbind(t(tau), t(zratio2), t(zratio1))) / 10^7
+  out <- TBipol(rbind(t(tau / (2 * pmax(zratio1, 1 - zratio1) * (1 - pmax(zratio1, 1 - zratio1, zratio2)))), t(zratio2), t(zratio1))) / 10^7
   return(out)
 }
 
 # wrapper function
 bridgeInv_tt <- function(tau, zratio1, zratio2){
-  out <- TTipol(rbind(t(tau), t(zratio1), t(zratio2))) / 10^7
+  out <- TTipol(rbind(t(tau / (1 - pmax(zratio1, zratio2)^2)), t(zratio1), t(zratio2))) / 10^7
   return(out)
 }
 
 # wrapper function
 bridgeInv_nc <- function(tau, zratio1, zratio2 = NULL){
-  out <- NCipol(rbind(t(tau), t(zratio1[ , 1] / zratio1[ , 2]), t(zratio1[ , 2]))) / 10^7
+  out <- NCipol(rbind(t(tau / (2 * (zratio1[ , 1] * (zratio1[ , 2] - zratio1[ , 1]) + (1 - zratio1[ , 2]) * zratio1[ , 2]))), t(zratio1[ , 1] / zratio1[ , 2]), t(zratio1[ , 2]))) / 10^7
   return(out)
 }
 
 # wrapper function
 bridgeInv_cn <- function(tau, zratio1 = NULL, zratio2){
-  out <- NCipol(rbind(t(tau), t(zratio2[ , 1] / zratio2[ , 2]), t(zratio2[ , 2]))) / 10^7
+  out <- NCipol(rbind(t(tau / (2 * (zratio2[ , 1] * (zratio2[ , 2] - zratio2[ , 1]) + (1 - zratio2[ , 2]) * zratio2[ , 2]))), t(zratio2[ , 1] / zratio2[ , 2]), t(zratio2[ , 2]))) / 10^7
   return(out)
 }
 
 # wrapper function
 bridgeInv_nb <- function(tau, zratio1, zratio2){
-  out <- NBipol(rbind(t(tau), t(zratio1[ , 1] / zratio1[ , 2]), t(zratio1[ , 2]), t(zratio2))) / 10^7
+  out <- NBipol(rbind(t(tau / (2 * pmin(zratio1[ , 1] * (zratio1[ , 2] - zratio1[ , 1]) + (1 - zratio1[ , 2]) * zratio1[ , 2], zratio2 * (1 - zratio2)))), t(zratio1[ , 1] / zratio1[ , 2]), t(zratio1[ , 2]), t(zratio2))) / 10^7
   return(out)
 }
 
 # wrapper function
 bridgeInv_bn <- function(tau, zratio1, zratio2){
-  out <- NBipol(rbind(t(tau), t(zratio2[ , 1] / zratio2[ , 2]), t(zratio2[ , 2]), t(zratio1))) / 10^7
+  out <- NBipol(rbind(t(tau / (2 * pmin(zratio2[ , 1] * (zratio2[ , 2] - zratio2[ , 1]) + (1 - zratio2[ , 2]) * zratio2[ , 2], zratio1 * (1 - zratio1)))), t(zratio2[ , 1] / zratio2[ , 2]), t(zratio2[ , 2]), t(zratio1))) / 10^7
   return(out)
 }
 
 # wrapper function
 bridgeInv_nn <- function(tau, zratio1, zratio2){
-  out <- NNipol(rbind(t(tau), t(zratio1[ , 1] / zratio1[ , 2]), t(zratio1[ , 2]), t(zratio2[ , 1] / zratio2[ , 2]), t(zratio2[ , 2]))) / 10^7
+  out <- NNipol(rbind(t(tau / (2 * pmin(zratio1[ , 1] * (zratio1[ , 2] - zratio1[ , 1]) + (1 - zratio1[ , 2]) * zratio1[ , 2],
+                                        zratio2[ , 1] * (zratio2[ , 2] - zratio2[ , 1]) + (1 - zratio2[ , 2]) * zratio2[ , 2]))), t(zratio1[ , 1] / zratio1[ , 2]), t(zratio1[ , 2]), t(zratio2[ , 1] / zratio2[ , 2]), t(zratio2[ , 2]))) / 10^7
   return(out)
 }
 
