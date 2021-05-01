@@ -91,10 +91,7 @@ bridgeInv_bc <- function(tau, zratio1, zratio2 = NULL){
 }
 
 # wrapper function for CB
-bridgeInv_cb <- function(tau, zratio1 = NULL, zratio2){
-  out <- BCipol(rbind(t(tau / (2 * zratio2 * (1 - zratio2))), t(zratio2))) / 10^7
-  return(out)
-}
+bridgeInv_cb <- function(tau, zratio1 = NULL, zratio2){bridgeInv_bc(tau = tau, zratio1 = zratio2)}
 
 # wrapper function
 bridgeInv_bb <- function(tau, zratio1, zratio2){
@@ -108,10 +105,7 @@ bridgeInv_tc <- function(tau, zratio1, zratio2 = NULL){
   return(out)
 }
 
-bridgeInv_ct <- function(tau, zratio1 = NULL, zratio2){
-  out <- TCipol(rbind(t(tau / (1 - zratio2^2)), t(zratio2))) / 10^7
-  return(out)
-}
+bridgeInv_ct <- function(tau, zratio1 = NULL, zratio2){bridgeInv_tc(tau = tau, zratio1 = zratio2)}
 
 # wrapper functions
 bridgeInv_tb <- function(tau, zratio1, zratio2){
@@ -119,10 +113,7 @@ bridgeInv_tb <- function(tau, zratio1, zratio2){
   return(out)
 }
 
-bridgeInv_bt <- function(tau, zratio1, zratio2){
-  out <- TBipol(rbind(t(tau / (2 * pmax(zratio1, 1 - zratio1) * (1 - pmax(zratio1, 1 - zratio1, zratio2)))), t(zratio2), t(zratio1))) / 10^7
-  return(out)
-}
+bridgeInv_bt <- function(tau, zratio1, zratio2){bridgeInv_tb(tau = tau, zratio1 = zratio2, zratio2 = zratio1)}
 
 # wrapper function
 bridgeInv_tt <- function(tau, zratio1, zratio2){
@@ -137,10 +128,7 @@ bridgeInv_nc <- function(tau, zratio1, zratio2 = NULL){
 }
 
 # wrapper function
-bridgeInv_cn <- function(tau, zratio1 = NULL, zratio2){
-  out <- NCipol(rbind(t(tau / (2 * (zratio2[ , 1] * (zratio2[ , 2] - zratio2[ , 1]) + (1 - zratio2[ , 2]) * zratio2[ , 2]))), t(zratio2[ , 1] / zratio2[ , 2]), t(zratio2[ , 2]))) / 10^7
-  return(out)
-}
+bridgeInv_cn <- function(tau, zratio1 = NULL, zratio2){bridgeInv_nc(tau = tau, zratio1 = zratio2)}
 
 # wrapper function
 bridgeInv_nb <- function(tau, zratio1, zratio2){
@@ -149,10 +137,7 @@ bridgeInv_nb <- function(tau, zratio1, zratio2){
 }
 
 # wrapper function
-bridgeInv_bn <- function(tau, zratio1, zratio2){
-  out <- NBipol(rbind(t(tau / (2 * pmin(zratio2[ , 1] * (zratio2[ , 2] - zratio2[ , 1]) + (1 - zratio2[ , 2]) * zratio2[ , 2], zratio1 * (1 - zratio1)))), t(zratio2[ , 1] / zratio2[ , 2]), t(zratio2[ , 2]), t(zratio1))) / 10^7
-  return(out)
-}
+bridgeInv_bn <- function(tau, zratio1, zratio2){bridgeInv_nb(tau = tau, zratio1 = zratio2, zratio2 = zratio1)}
 
 # wrapper function
 bridgeInv_nn <- function(tau, zratio1, zratio2){
