@@ -12,17 +12,17 @@ NULL
 # Cutoff criteria based on the combination of variable types
 ############################################################################################
 cutoff_bc <- function(zratio1, zratio2 = NULL){0.9 * 2 * zratio1 * (1 - zratio1)}
-cutoff_cb <- function(zratio1 = NULL, zratio2){0.9 * 2 * zratio2 * (1 - zratio2)}
+cutoff_cb <- function(zratio1 = NULL, zratio2){cutoff_bc(zratio1 = zratio2)}
 cutoff_bb <- function(zratio1, zratio2){0.9 * 2 * pmin(zratio1, zratio2)*(1-pmax(zratio1, zratio2))}
 cutoff_tc <- function(zratio1, zratio2 = NULL){0.9 * (1 - zratio1^2)}
-cutoff_ct <- function(zratio1 = NULL, zratio2){0.9 * (1 - zratio2^2)}
+cutoff_ct <- function(zratio1 = NULL, zratio2){cutoff_tc(zratio1 = zratio2)}
 cutoff_tb <- function(zratio1, zratio2){0.9 * 2 * pmax(zratio2, 1 - zratio2) * (1 - pmax(zratio2, 1 - zratio2, zratio1))}
-cutoff_bt <- function(zratio1, zratio2){0.9 * 2 * pmax(zratio1, 1 - zratio1) * (1 - pmax(zratio1, 1 - zratio1, zratio2))}
+cutoff_bt <- function(zratio1, zratio2){cutoff_tb(zratio1 = zratio2, zratio2 = zratio1)}
 cutoff_tt <- function(zratio1, zratio2){0.9 * (1 - pmax(zratio1, zratio2)^2)}
 cutoff_nc <- function(zratio1, zratio2 = NULL){0.9 * 2 * (zratio1[ , 1] * (zratio1[ , 2] - zratio1[ , 1]) + (1 - zratio1[ , 2]) * zratio1[ , 2])}
-cutoff_cn <- function(zratio1 = NULL, zratio2){0.9 * 2 * (zratio2[ , 1] * (zratio2[ , 2] - zratio2[ , 1]) + (1 - zratio2[ , 2]) * zratio2[ , 2])}
+cutoff_cn <- function(zratio1 = NULL, zratio2){cutoff_nc(zratio1 = zratio2)}
 cutoff_nb <- function(zratio1, zratio2){0.9 * 2 * pmin(zratio1[ , 1] * (zratio1[ , 2] - zratio1[ , 1]) + (1 - zratio1[ , 2]) * zratio1[ , 2], zratio2 * (1 - zratio2))}
-cutoff_bn <- function(zratio1, zratio2){0.9 * 2 * pmin(zratio2[ , 1] * (zratio2[ , 2] - zratio2[ , 1]) + (1 - zratio2[ , 2]) * zratio2[ , 2], zratio1 * (1 - zratio1))}
+cutoff_bn <- function(zratio1, zratio2){cutoff_nb(zratio1 = zratio2, zratio2 = zratio1)}
 cutoff_nn <- function(zratio1, zratio2){0.9 * 2 * pmin(zratio1[ , 1] * (zratio1[ , 2] - zratio1[ , 1]) + (1 - zratio1[ , 2]) * zratio1[ , 2],
                                                        zratio2[ , 1] * (zratio2[ , 2] - zratio2[ , 1]) + (1 - zratio2[ , 2]) * zratio2[ , 2])}
 
