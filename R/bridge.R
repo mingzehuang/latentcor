@@ -4,7 +4,17 @@
 #'
 NULL
 
-r_sol <- function(type1, type2, tau, zratio1, zratio2, method, tol = NULL) {
+R_sol <- function(type1, type2, tau, zratio1, zratio2, method, tol, ratio) {
+  out <- rep(NA, length(tau))
+  cutoff <- cutoff(type1 = type1, type2 = type2, tau = abs(tau), zratio1 = zratio1, zratio2 = zratio2, method = method, ratio = ratio)
+  out[which(!(cutoff))] <- r_sol(type1 = type1, type2 = type2, tau = tau[which(!(cutoff))], zratio1 = zratio1[which(!(cutoff)), ], zratio2 = zratio2[which(!(cutoff)), ], method = "ml")
+  for(ind in which(cutoff)){
+    out[ind] = r_sol(type1 = type1, type2 = type2, tau = tau[ind], zratio1 = zratio1[ind, ], zratio2 = zratio2[ind, ], method = "original", tol = tol)
+  }
+  return(out)
+}
+
+r_sol <- function(type1, type2, tau, zratio1, zratio2, method, tol) {
   if (method == "original") {
     f <- function(r)(bridge(type1 = type1, type2 = type2, r = r, zratio1 = zratio1, zratio2 = zratio2) - tau)^2
     op <- tryCatch(optimize(f, lower = -0.999, upper = 0.999, tol = tol)[1], error = function(e) 100)
@@ -153,51 +163,48 @@ bridgeF_nn <- function(r, zratio1, zratio2){
 ############################################################################################
 # For multilinear interpolation approximation for bridge Inverse
 ############################################################################################
-
+bound_bc <- function(zratio1){2 * zratio1 * (1 - zratio1)}
+bound_bb <- function(zratio1, zratio2){2 * pmin(zratio1, zratio2)*(1-pmax(zratio1, zratio2))}
+bound_tc <- function(zratio1){1 - zratio1^2}
+bound_tb <- function(zratio1, zratio2){2 * pmax(zratio2, 1 - zratio2) * (1 - pmax(zratio2, 1 - zratio2, zratio1))}
+bound_tt <- function(zratio1, zratio2){1 - pmax(zratio1, zratio2)^2}
+bound_nc <- function(zratio1){2 * (zratio1[ , 1] * (zratio1[ , 2] - zratio1[ , 1]) + (1 - zratio1[ , 2]) * zratio1[ , 2])}
+bound_nb <- function(zratio1, zratio2){2 * pmin(zratio1[ , 1] * (zratio1[ , 2] - zratio1[ , 1]) + (1 - zratio1[ , 2]) * zratio1[ , 2], zratio2 * (1 - zratio2))}
+bound_nn <- function(zratio1, zratio2){2 * pmin(zratio1[ , 1] * (zratio1[ , 2] - zratio1[ , 1]) + (1 - zratio1[ , 2]) * zratio1[ , 2],
+                                                zratio2[ , 1] * (zratio2[ , 2] - zratio2[ , 1]) + (1 - zratio2[ , 2]) * zratio2[ , 2])}
 ############################################################################################
-# Cutoff criteria based on the combination of variable types
-############################################################################################
-cutoff_bc <- function(zratio1){0.9 * 2 * zratio1 * (1 - zratio1)}
-cutoff_bb <- function(zratio1, zratio2){0.9 * 2 * pmin(zratio1, zratio2)*(1-pmax(zratio1, zratio2))}
-cutoff_tc <- function(zratio1){0.9 * (1 - zratio1^2)}
-cutoff_tb <- function(zratio1, zratio2){0.9 * 2 * pmax(zratio2, 1 - zratio2) * (1 - pmax(zratio2, 1 - zratio2, zratio1))}
-cutoff_tt <- function(zratio1, zratio2){0.9 * (1 - pmax(zratio1, zratio2)^2)}
-cutoff_nc <- function(zratio1){0.9 * 2 * (zratio1[ , 1] * (zratio1[ , 2] - zratio1[ , 1]) + (1 - zratio1[ , 2]) * zratio1[ , 2])}
-cutoff_nb <- function(zratio1, zratio2){0.9 * 2 * pmin(zratio1[ , 1] * (zratio1[ , 2] - zratio1[ , 1]) + (1 - zratio1[ , 2]) * zratio1[ , 2], zratio2 * (1 - zratio2))}
-cutoff_nn <- function(zratio1, zratio2){0.9 * 2 * pmin(zratio1[ , 1] * (zratio1[ , 2] - zratio1[ , 1]) + (1 - zratio1[ , 2]) * zratio1[ , 2],
-                                                       zratio2[ , 1] * (zratio2[ , 2] - zratio2[ , 1]) + (1 - zratio2[ , 2]) * zratio2[ , 2])}
 
-cutoff <- function(type1, type2, tau, zratio1, zratio2, method){
+cutoff <- function(type1, type2, tau, zratio1, zratio2, method, ratio){
   if (method == "original") {
     out <- rep(TRUE, length(tau))
   } else if (method == "ml") {
     out <- rep(FALSE, length(tau))
   } else if (type1 == "binary" & type2 == "continuous") {
-    out <- c(tau) > cutoff_bc(zratio1 = zratio1)
+    out <- tau > ratio * bound_bc(zratio1 = zratio1)
   } else if (type1 == "continuous" & type2 == "binary") {
-    out <- c(tau) > cutoff_bc(zratio1 = zratio2)
+    out <- tau > ratio * bound_bc(zratio1 = zratio2)
   } else if (type1 == "binary" & type2 == "binary") {
-    out <- c(tau) > cutoff_bb(zratio1 = zratio1, zratio2 = zratio2)
+    out <- tau > ratio * bound_bb(zratio1 = zratio1, zratio2 = zratio2)
   } else if (type1 == "trunc" & type2 == "continuous") {
-    out <- c(tau) > cutoff_tc(zratio1 = zratio1)
+    out <- tau > ratio * bound_tc(zratio1 = zratio1)
   } else if (type1 == "continuous" & type2 == "trunc") {
-    out <- c(tau) > cutoff_tc(zratio1 = zratio2)
+    out <- tau > ratio * bound_tc(zratio1 = zratio2)
   } else if (type1 == "trunc" & type2 == "binary") {
-    out <- c(tau) > cutoff_tb(zratio1 = zratio1, zratio2 = zratio2)
+    out <- tau > ratio * bound_tb(zratio1 = zratio1, zratio2 = zratio2)
   } else if (type1 == "binary" & type2 == "trunc") {
-    out <- c(tau) > cutoff_tb(zratio1 = zratio2, zratio2 = zratio1)
+    out <- tau > ratio * bound_tb(zratio1 = zratio2, zratio2 = zratio1)
   } else if (type1 == "trunc" & type2 == "trunc") {
-    out <- c(tau) > cutoff_tt(zratio1 = zratio1, zratio2 = zratio2)
+    out <- tau > ratio * bound_tt(zratio1 = zratio1, zratio2 = zratio2)
   } else if (type1 == "ternary" & type2 == "continuous") {
-    out <- c(tau) > cutoff_nc(zratio1 = zratio1)
+    out <- tau > ratio * bound_nc(zratio1 = zratio1)
   } else if (type1 == "continuous" & type2 == "ternary") {
-    out <- c(tau) > cutoff_nc(zratio1 = zratio2)
+    out <- tau > ratio * bound_nc(zratio1 = zratio2)
   } else if (type1 == "ternary" & type2 == "binary") {
-    out <- c(tau) > cutoff_nb(zratio1 = zratio1, zratio2 = zratio2)
+    out <- tau > ratio * bound_nb(zratio1 = zratio1, zratio2 = zratio2)
   } else if (type1 == "binary" & type2 == "ternary") {
-    out <- c(tau) > cutoff_nb(zratio1 = zratio2, zratio2 = zratio1)
+    out <- tau > ratio * bound_nb(zratio1 = zratio2, zratio2 = zratio1)
   } else if (type1 == "ternary" & type2 == "ternary") {
-    out <- c(tau) > cutoff_nn(zratio1 = zratio1, zratio2 = zratio2)
+    out <- tau > ratio * bound_nn(zratio1 = zratio1, zratio2 = zratio2)
   } else {
     stop("Unrecognized type of variables. Should be one of continuous, binary or trunc.")
   }
@@ -246,50 +253,49 @@ bridgeInv <- function(type1, type2, tau, zratio1, zratio2) {
 
 # wrapper function for BC
 bridgeInv_bc <- function(tau, zratio1){
-  out <- BCipol(rbind(t(tau / (2 * zratio1 * (1 - zratio1))), t(zratio1))) / 10^7
+  out <- BCipol(t(cbind(tau / bound_bc(zratio1 = zratio1), zratio1))) / 10^7
   return(out)
 }
 
 # wrapper function
 bridgeInv_bb <- function(tau, zratio1, zratio2){
-  out <- BBipol(rbind(t(tau / (2 * pmin(zratio1, zratio2)*(1-pmax(zratio1, zratio2)))), t(zratio1), t(zratio2))) / 10^7
+  out <- BBipol(t(cbind(tau / bound_bb(zratio1 = zratio1, zratio2 = zratio2), zratio1, zratio2))) / 10^7
   return(out)
 }
 
 # wrapper functions
 bridgeInv_tc <- function(tau, zratio1){
-  out <- TCipol(rbind(t(tau / (1 - zratio1^2)), t(zratio1))) / 10^7
+  out <- TCipol(t(cbind(tau / bound_tc(zratio1 = zratio1), zratio1))) / 10^7
   return(out)
 }
 
 # wrapper functions
 bridgeInv_tb <- function(tau, zratio1, zratio2){
-  out <- TBipol(rbind(t(tau / (2 * pmax(zratio2, 1 - zratio2) * (1 - pmax(zratio2, 1 - zratio2, zratio1)))), t(zratio1), t(zratio2))) / 10^7
+  out <- TBipol(t(cbind(tau / bound_tb(zratio1 = zratio1, zratio2 = zratio2), zratio1, zratio2))) / 10^7
   return(out)
 }
 
 # wrapper function
 bridgeInv_tt <- function(tau, zratio1, zratio2){
-  out <- TTipol(rbind(t(tau / (1 - pmax(zratio1, zratio2)^2)), t(zratio1), t(zratio2))) / 10^7
+  out <- TTipol(t(cbind(tau / bound_tt(zratio1 = zratio1, zratio2 = zratio2), zratio1, zratio2))) / 10^7
   return(out)
 }
 
 # wrapper function
 bridgeInv_nc <- function(tau, zratio1){
-  out <- NCipol(rbind(t(tau / (2 * (zratio1[ , 1] * (zratio1[ , 2] - zratio1[ , 1]) + (1 - zratio1[ , 2]) * zratio1[ , 2]))), t(zratio1[ , 1] / zratio1[ , 2]), t(zratio1[ , 2]))) / 10^7
+  out <- NCipol(t(cbind(tau / bound_nc(zratio1 = zratio1), zratio1[ , 1] / zratio1[ , 2], zratio1[ , 2]))) / 10^7
   return(out)
 }
 
 # wrapper function
 bridgeInv_nb <- function(tau, zratio1, zratio2){
-  out <- NBipol(rbind(t(tau / (2 * pmin(zratio1[ , 1] * (zratio1[ , 2] - zratio1[ , 1]) + (1 - zratio1[ , 2]) * zratio1[ , 2], zratio2 * (1 - zratio2)))), t(zratio1[ , 1] / zratio1[ , 2]), t(zratio1[ , 2]), t(zratio2))) / 10^7
+  out <- NBipol(t(cbind(tau / bound_nb(zratio1 = zratio1, zratio2 = zratio2), zratio1[ , 1] / zratio1[ , 2], zratio1[ , 2], zratio2))) / 10^7
   return(out)
 }
 
 # wrapper function
 bridgeInv_nn <- function(tau, zratio1, zratio2){
-  out <- NNipol(rbind(t(tau / (2 * pmin(zratio1[ , 1] * (zratio1[ , 2] - zratio1[ , 1]) + (1 - zratio1[ , 2]) * zratio1[ , 2],
-                                        zratio2[ , 1] * (zratio2[ , 2] - zratio2[ , 1]) + (1 - zratio2[ , 2]) * zratio2[ , 2]))), t(zratio1[ , 1] / zratio1[ , 2]), t(zratio1[ , 2]), t(zratio2[ , 1] / zratio2[ , 2]), t(zratio2[ , 2]))) / 10^7
+  out <- NNipol(t(cbind(tau / bound_nn(zratio1 = zratio1, zratio2 = zratio2), zratio1[ , 1] / zratio1[ , 2], zratio1[ , 2], zratio2[ , 1] / zratio2[ , 2], zratio2[ , 2]))) / 10^7
   return(out)
 }
 

@@ -3,7 +3,7 @@
 
 # K: Kendall's tau matrix.
 # zratio: a column vector of zero proportion values.
-fromKtoR <- function(K, zratio = NULL, type = "trunc", method = "approx", tol = 1e-3) {
+fromKtoR <- function(K, zratio = NULL, type = "trunc", method = "approx", tol = 1e-3, ratio = 0.9) {
   K <- as.matrix(K)
   d1 <- nrow(K)
   p <- ifelse(is.null(ncol(zratio)), 1, ncol(zratio))
@@ -13,8 +13,7 @@ fromKtoR <- function(K, zratio = NULL, type = "trunc", method = "approx", tol = 
     hatR <- sin(pi/2 * K)
   } else { # if the type is either "trunc" or "binary"
     upperR <- c(upper.tri(K)) # length p^2 of true/false with true corresponding to upper.tri
-    hatRupper <- rep(NA, sum(upperR)) # length p(p-1)/2
-    Kupper <- c(K[upperR]) # upper triangle of K matrix
+    Kupper <- K[upperR] # upper triangle of K matrix
     zratio1mat <- zratio2mat <- NULL
 
     # check if there is any element that is outside of the safe boundary for interpolation.
@@ -22,12 +21,7 @@ fromKtoR <- function(K, zratio = NULL, type = "trunc", method = "approx", tol = 
       zratio1mat = cbind(zratio1mat, rep(zratio[ , i], d1)[upperR]) # length p(p-1)/2
       zratio2mat = cbind(zratio2mat, rep(zratio[ , i], each = d1)[upperR]) # length p(p-1)/2
     }
-    cutoff <- cutoff(type1 = type, type2 = type, tau = abs(Kupper), zratio1 = zratio1mat, zratio2 = zratio2mat, method = method)
-    # Interpolate only those elements that are inside
-    hatRupper[which(!(cutoff))] <- r_sol(type1 = type, type2 = type, tau = Kupper[which(!(cutoff))], zratio1 = zratio1mat[which(!(cutoff)), ], zratio2 = zratio2mat[which(!(cutoff)), ], method = "ml")
-    for(ind in which(cutoff)){
-      hatRupper[ind] = r_sol(type1 = type, type2 = type, tau = Kupper[ind], zratio1 = zratio1mat[ind, ], zratio2 = zratio2mat[ind, ], method = "original", tol = tol)
-    }
+    hatRupper = R_sol(type1 = type, type2 = type, tau = c(Kupper), zratio1 = zratio1mat, zratio2 = zratio2mat, method = method, tol = tol, ratio = ratio)
     # Get upperR into hatR
     hatR <- matrix(0, d1, d1)
     hatR[upperR] <- hatRupper
@@ -40,7 +34,7 @@ fromKtoR <- function(K, zratio = NULL, type = "trunc", method = "approx", tol = 
 # K12: Kendall's tau matrix.
 # zratio1: a vector of zero proportion values for row variables. The length should match with nrow of K12.
 # zratio2: a vector of zero proportion values for column variables. The length should match with ncol of K12.
-fromKtoR_mixed <- function(K12, zratio1 = NULL, zratio2 = NULL, type1 = "trunc", type2 = "continuous", method = "approx", tol = 1e-3) {
+fromKtoR_mixed <- function(K12, zratio1 = NULL, zratio2 = NULL, type1 = "trunc", type2 = "continuous", method = "approx", tol = 1e-3, ratio = 0.9) {
 
   K12 <- as.matrix(K12)
   d1 <- nrow(K12)
@@ -50,8 +44,6 @@ fromKtoR_mixed <- function(K12, zratio1 = NULL, zratio2 = NULL, type1 = "trunc",
   if (type1 == "continuous" & type2 == "continuous") {
     hatR <- sin(pi/2 * K12)
   } else {
-    # if the case is either CT, TC, TT, BC, BB or TB.
-    hatR <- matrix(NA, d1, d2)
     zratio1mat <- zratio2mat <- NULL
     # check if there is any element that is outside of the safe boundary for interpolation.
     for (i in 1:p1) {
@@ -60,13 +52,8 @@ fromKtoR_mixed <- function(K12, zratio1 = NULL, zratio2 = NULL, type1 = "trunc",
     for (j in 1:p2) {
       zratio2mat = cbind(zratio2mat, rep(zratio2[ , j], each = d1))
     }
-    cutoff <- cutoff(type1 = type1, type2 = type2, tau = abs(K12), zratio1 = zratio1mat, zratio2 = zratio2mat, method = method)
-    # Interpolate only those elements that are inside
-    hatR[which(!(cutoff))] <- r_sol(type1 = type1, type2 = type2, tau = c(K12[which(!(cutoff))]), zratio1 = zratio1mat[which(!(cutoff)), ], zratio2 = zratio2mat[which(!(cutoff)), ], method = "ml")
-    for(ind in which(cutoff)){
-      hatR[ind] = r_sol(type1 = type1, type2 = type2, tau = K12[ind], zratio1 = zratio1mat[ind, ], zratio2 = zratio2mat[ind, ], method = "original", tol = tol)
-    }
+    hatR = R_sol(type1 = type1, type2 = type2, tau = c(K12), zratio1 = zratio1mat, zratio2 = zratio2mat, method = method, tol = tol, ratio = ratio)
     # done with for the pairs that are outside of the safe boundary for multi-linear interpolation.
   }
-  return(hatR)
+  return(matrix(hatR, d1, d2))
 }
