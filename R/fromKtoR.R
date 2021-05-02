@@ -16,41 +16,17 @@ fromKtoR <- function(K, zratio = NULL, type = "trunc", method = "approx", tol = 
     hatRupper <- rep(NA, sum(upperR)) # length p(p-1)/2
     Kupper <- c(K[upperR]) # upper triangle of K matrix
     zratio1mat <- zratio2mat <- NULL
-    # based on the data type, select bridgeInv and cutoff functions.
-    bridgeInv <- bridgeInv_select(type1 = type, type2 = type)
-
 
     # check if there is any element that is outside of the safe boundary for interpolation.
     for (i in 1:p) {
       zratio1mat = cbind(zratio1mat, rep(zratio[ , i], d1)[upperR]) # length p(p-1)/2
       zratio2mat = cbind(zratio2mat, rep(zratio[ , i], each = d1)[upperR]) # length p(p-1)/2
     }
-    if (method == "ml") {
-      ind_cutoff = NULL
-    } else if (method == "original") {
-      ind_cutoff = 1:length(Kupper)
-    } else {
-    #cutoff <- cutoff_select(type1 = type, type2 = type)
-    ind_cutoff <- which(abs(Kupper) > cutoff(type1 = type, type2 = type, zratio1 = zratio1mat, zratio2 = zratio2mat))
-    }
-    if (length(ind_cutoff) == 0){
-      # multi-linear interpolation part using saved ipol function.
-      hatRupper <- bridgeInv(Kupper, zratio1 = zratio1mat, zratio2 = zratio2mat)
-    }else{
-      # Interpolate only those elements that are inside
-      hatRupper[-ind_cutoff] <- bridgeInv(Kupper[-ind_cutoff], zratio1 = zratio1mat[-ind_cutoff, ], zratio2 = zratio2mat[-ind_cutoff, ])
-      # Apply original method to the elements outside
-      bridge <- bridge_select(type1 = type, type2 = type)
-      for(ind in ind_cutoff){
-        f1 <- function(r)(bridge(r, zratio1 = zratio1mat[ind, ], zratio2 = zratio2mat[ind, ]) - Kupper[ind])^2
-        op <- tryCatch(optimize(f1, lower = -0.99, upper = 0.99, tol = tol)[1], error = function(e) 100)
-        if(op == 100) {
-          warning("Optimize returned error one of the pairwise correlations, returning NA")
-          hatRupper[ind] <- NA
-        } else {
-          hatRupper[ind] <- unlist(op)
-        }
-      }
+    cutoff <- cutoff(type1 = type, type2 = type, tau = abs(Kupper), zratio1 = zratio1mat, zratio2 = zratio2mat, method = method)
+    # Interpolate only those elements that are inside
+    hatRupper[which(!(cutoff))] <- r_sol(type1 = type, type2 = type, tau = Kupper[which(!(cutoff))], zratio1 = zratio1mat[which(!(cutoff)), ], zratio2 = zratio2mat[which(!(cutoff)), ], method = "ml")
+    for(ind in which(cutoff)){
+      hatRupper[ind] = r_sol(type1 = type, type2 = type, tau = Kupper[ind], zratio1 = zratio1mat[ind, ], zratio2 = zratio2mat[ind, ], method = "original", tol = tol)
     }
     # Get upperR into hatR
     hatR <- matrix(0, d1, d1)
@@ -76,49 +52,21 @@ fromKtoR_mixed <- function(K12, zratio1 = NULL, zratio2 = NULL, type1 = "trunc",
   } else {
     # if the case is either CT, TC, TT, BC, BB or TB.
     hatR <- matrix(NA, d1, d2)
-
-    # based on the data type, select bridgeInv and cutoff functions.
-    bridgeInv <- bridgeInv_select(type1 = type1, type2 = type2)
     zratio1mat <- zratio2mat <- NULL
     # check if there is any element that is outside of the safe boundary for interpolation.
     for (i in 1:p1) {
-    zratio1mat = cbind(zratio1mat, rep(zratio1[ , i], d2))
+      zratio1mat = cbind(zratio1mat, rep(zratio1[ , i], d2))
     }
     for (j in 1:p2) {
-    zratio2mat = cbind(zratio2mat, rep(zratio2[ , j], each = d1))
+      zratio2mat = cbind(zratio2mat, rep(zratio2[ , j], each = d1))
     }
-    if (method == "ml") {
-      ind_cutoff = NULL
-    } else if (method == "original") {
-      ind_cutoff = 1:length(K12)
-    } else {
-    #cutoff <- cutoff_select(type1 = type1, type2 = type2)
-    ind_cutoff <- which(abs(c(K12)) > cutoff(type1 = type1, type2 = type2, zratio1 = zratio1mat, zratio2 = zratio2mat))
-    }
-    # much faster multi-linear interpolation part using saved ipol function.
-    if (length(ind_cutoff) == 0){
-      # Interpolate all the elements
-      hatR <- matrix(bridgeInv(c(K12), zratio1 = zratio1mat, zratio2 = zratio2mat), d1, d2)
-    }else{
-      # Interpolate only those elements that are inside
-      hatR[-ind_cutoff] <- bridgeInv(c(K12[-ind_cutoff]), zratio1 = zratio1mat[-ind_cutoff, ], zratio2 = zratio2mat[-ind_cutoff, ])
-
-      # Apply original method to the elements outside
-      bridge <- bridge_select(type1 = type1, type2 = type2)
-
-      for(ind in ind_cutoff){
-        f1 <- function(r)(bridge(r, zratio1 = zratio1mat[ind, ], zratio2 = zratio2mat[ind, ]) - K12[ind])^2
-        op <- tryCatch(optimize(f1, lower = -0.99, upper = 0.99, tol = tol)[1], error = function(e) 100)
-        if(op == 100) {
-          warning("Optimize returned error one of the pairwise correlations, returning NA")
-          hatR[ind] <- NA
-        } else {
-          hatR[ind] <- unlist(op)
-        }
-      }
+    cutoff <- cutoff(type1 = type1, type2 = type2, tau = abs(K12), zratio1 = zratio1mat, zratio2 = zratio2mat, method = method)
+    # Interpolate only those elements that are inside
+    hatR[which(!(cutoff))] <- r_sol(type1 = type1, type2 = type2, tau = c(K12[which(!(cutoff))]), zratio1 = zratio1mat[which(!(cutoff)), ], zratio2 = zratio2mat[which(!(cutoff)), ], method = "ml")
+    for(ind in which(cutoff)){
+      hatR[ind] = r_sol(type1 = type1, type2 = type2, tau = K12[ind], zratio1 = zratio1mat[ind, ], zratio2 = zratio2mat[ind, ], method = "original", tol = tol)
     }
     # done with for the pairs that are outside of the safe boundary for multi-linear interpolation.
   }
-
   return(hatR)
 }

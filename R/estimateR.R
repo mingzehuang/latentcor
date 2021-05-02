@@ -84,7 +84,7 @@ estimateR <- function(X, type = "trunc", method = "approx", use.nearPD = TRUE, n
       if(verbose){
         message(" minimum eigenvalue of correlation estimator is ", min(eigen(R)$values), "\n nearPD is used")
       }
-      R <- as.matrix(Matrix::nearPD(R, corr = TRUE)$mat)
+      R <- as.matrix(Matrix::nearPD(R, corr = TRUE, maxit = 1000)$mat)
     }
   }
 
@@ -256,7 +256,7 @@ estimateR_mixed <- function(X1, X2, type1 = "trunc", type2 = "continuous", metho
         if(verbose) {
           message(" minimum eigenvalue of correlation estimator is ", min(eigen(Rall)$values), "\n nearPD is used")
         }
-        Rall <- as.matrix(Matrix::nearPD(Rall, corr = TRUE)$mat)
+        Rall <- as.matrix(Matrix::nearPD(Rall, corr = TRUE, maxit = 1000)$mat)
       }
     }
 
