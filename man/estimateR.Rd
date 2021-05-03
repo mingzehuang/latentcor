@@ -12,7 +12,8 @@ estimateR(
   use.nearPD = TRUE,
   nu = 0.01,
   tol = 0.001,
-  verbose = FALSE
+  verbose = FALSE,
+  ratio = 0.9
 )
 
 estimateR_mixed(
@@ -24,7 +25,8 @@ estimateR_mixed(
   use.nearPD = TRUE,
   nu = 0.01,
   tol = 0.001,
-  verbose = FALSE
+  verbose = FALSE,
+  ratio = 0.9
 )
 }
 \arguments{
@@ -41,6 +43,8 @@ estimateR_mixed(
 \item{tol}{Desired accuracy when calculating the solution of bridge function.}
 
 \item{verbose}{If \code{verbose = FALSE}, printing information whether nearPD is used or not is disabled. The default value is FALSE.}
+
+\item{ratio}{The maximum ratio of Kendall's tau and boundary to implement multilinear interpolation.}
 
 \item{X1}{A numeric data matrix (n by p1).}
 

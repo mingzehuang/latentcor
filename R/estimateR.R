@@ -11,6 +11,7 @@
 #' @param nu Shrinkage parameter for correlation matrix, must be between 0 and 1, the default value is 0.01.
 #' @param tol Desired accuracy when calculating the solution of bridge function.
 #' @param verbose If \code{verbose = FALSE}, printing information whether nearPD is used or not is disabled. The default value is FALSE.
+#' @param ratio The maximum ratio of Kendall's tau and boundary to implement multilinear interpolation.
 #' @return \code{estimateR} returns
 #' \itemize{
 #'       \item{type: }{Type of the data matrix \code{X}}
@@ -27,7 +28,7 @@
 #' @import stats
 #' @importFrom Matrix nearPD
 #' @example man/examples/estimateR_ex.R
-estimateR <- function(X, type = "trunc", method = "approx", use.nearPD = TRUE, nu = 0.01, tol = 1e-3, verbose = FALSE){
+estimateR <- function(X, type = "trunc", method = "approx", use.nearPD = TRUE, nu = 0.01, tol = 1e-3, verbose = FALSE, ratio = 0.9){
   X <- as.matrix(X)
   p <- ncol(X)
   zratio <- NULL
@@ -75,7 +76,7 @@ estimateR <- function(X, type = "trunc", method = "approx", use.nearPD = TRUE, n
       zratio <- cbind(colMeans(X == 0), 1 - colMeans(X == 2))
     }
     K <- Kendall_matrix(X)
-    R <- fromKtoR(K, zratio = zratio, type = type, method = method, tol = tol)
+    R <- fromKtoR(K = K, zratio = zratio, type = type, method = method, tol = tol, ratio = ratio)
   }
 
   # nearPD to make it semi pos-definite
@@ -128,7 +129,8 @@ estimateR <- function(X, type = "trunc", method = "approx", use.nearPD = TRUE, n
 #'
 #' @export
 #' @importFrom Matrix nearPD
-estimateR_mixed <- function(X1, X2, type1 = "trunc", type2 = "continuous", method = "approx", use.nearPD = TRUE, nu = 0.01, tol = 1e-3, verbose = FALSE){
+estimateR_mixed <- function(X1, X2, type1 = "trunc", type2 = "continuous", method = "approx", use.nearPD = TRUE, nu = 0.01, tol = 1e-3, verbose = FALSE, ratio = 0.9){
+
   X1 <- as.matrix(X1)
   X2 <- as.matrix(X2)
   zratio1 <- NULL
@@ -204,14 +206,14 @@ estimateR_mixed <- function(X1, X2, type1 = "trunc", type2 = "continuous", metho
   if (p1 == 1 & p2 == 1){
     # This is just pairwise correlation
     k12 = KendallTau(X1, X2)
-    r12 = fromKtoR_mixed(k12, zratio1 = zratio1, zratio2 = zratio2, type1 = type1, type2 = type2, method = method, tol = tol)
+    r12 = fromKtoR_mixed(K12 = k12, zratio1 = zratio1, zratio2 = zratio2, type1 = type1, type2 = type2, method = method, tol = tol, ratio = ratio)
     return(list(type = c(type1, type2), R1 = 1, R2 = 1, R12 = r12, R = matrix(c(1, r12, r12, 1), 2, 2)))
   }
 
   if (type1 == type2) {
     ################### both datasets are of the same type. CC, TT or BB case.
     Xcomb <- cbind(X1, X2)
-    R.final <- estimateR(Xcomb, type = type1, method = method, use.nearPD = use.nearPD, nu = nu, tol = tol)$R
+    R.final <- estimateR(Xcomb, type = type1, method = method, use.nearPD = use.nearPD, nu = nu, tol = tol, ratio = ratio)$R
     R1 <- R.final[1:p1, 1:p1]
     R2 <- R.final[(p1 + 1):(p1 + p2), (p1 + 1):(p1 + p2)]
     R12 <- R.final[1:p1, (p1 + 1):(p1 + p2)]
@@ -227,9 +229,10 @@ estimateR_mixed <- function(X1, X2, type1 = "trunc", type2 = "continuous", metho
         K1 <- pcaPP::cor.fk(X1)
       }
       R1 <- sin(pi/2 * K1)
+      zratio1 = NULL
     }else{
       K1 <- Kendall_matrix(X1)
-      R1 <- fromKtoR(K1, zratio = zratio1, type = type1, method = method, tol = tol)
+      R1 <- fromKtoR(K = K1, zratio = zratio1, type = type1, method = method, tol = tol, ratio = ratio)
     }
     # Continue with 2nd dataset
     if (p2 == 1){
@@ -241,13 +244,14 @@ estimateR_mixed <- function(X1, X2, type1 = "trunc", type2 = "continuous", metho
         K2 <- pcaPP::cor.fk(X2)
       }
       R2 <- sin(pi/2 * K2)
+      zratio2 = NULL
     }else{
       K2 <- Kendall_matrix(X2)
-      R2 <- fromKtoR(K2, zratio = zratio2, type = type2, method = method, tol = tol)
+      R2 <- fromKtoR(K = K2, zratio = zratio2, type = type2, method = method, tol = tol, ratio = ratio)
     }
     # Do cross-product
     K12 <- Kendall_matrix(X1, X2)
-    R12 <- fromKtoR_mixed(K12, zratio1 = zratio1, zratio2 = zratio2, type1 = type1, type2 = type2, method = method, tol = tol)
+    R12 <- fromKtoR_mixed(K12, zratio1 = zratio1, zratio2 = zratio2, type1 = type1, type2 = type2, method = method, tol = tol, ratio = ratio)
 
     Rall <- rbind(cbind(R1, R12), cbind(t(R12), R2))
 
