@@ -4,6 +4,7 @@
 # K: Kendall's tau matrix.
 # zratio: a column vector of zero proportion values.
 fromKtoR <- function(K, zratio, type, method, tol, ratio) {
+  K = as.matrix(K)
   # If this is just 1 variable, then correlation is automatically 1
   if (length(K) == 1){return(as.matrix(1))}
   else {
@@ -25,6 +26,7 @@ fromKtoR <- function(K, zratio, type, method, tol, ratio) {
 # zratio1: a vector of zero proportion values for row variables. The length should match with nrow of K12.
 # zratio2: a vector of zero proportion values for column variables. The length should match with ncol of K12.
 fromKtoR_mixed <- function(K12, zratio1, zratio2, type1, type2, method, tol, ratio) {
+  K = as.matrix(K)
   d1 <- nrow(K12);  d2 <- ncol(K12)
   if (!(is.null(zratio1))) {zratio1 = apply(zratio1, 2, function(x){rep(x, d2)})}
   if (!(is.null(zratio2))) {zratio2 = apply(zratio2, 2, function(x){rep(x, each = d1)})}
