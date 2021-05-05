@@ -154,10 +154,11 @@ bound_bb <- function(zratio1, zratio2){2 * pmin(zratio1, zratio2)*(1-pmax(zratio
 bound_tc <- function(zratio1){1 - zratio1^2}
 bound_tb <- function(zratio1, zratio2){2 * pmax(zratio2, 1 - zratio2) * (1 - pmax(zratio2, 1 - zratio2, zratio1))}
 bound_tt <- function(zratio1, zratio2){1 - pmax(zratio1, zratio2)^2}
-bound_nc <- function(zratio1){2 * (zratio1[ , 1] * (zratio1[ , 2] - zratio1[ , 1]) + (1 - zratio1[ , 2]) * zratio1[ , 2])}
-bound_nb <- function(zratio1, zratio2){2 * pmin(zratio1[ , 1] * (zratio1[ , 2] - zratio1[ , 1]) + (1 - zratio1[ , 2]) * zratio1[ , 2], zratio2 * (1 - zratio2))}
-bound_nn <- function(zratio1, zratio2){2 * pmin(zratio1[ , 1] * (zratio1[ , 2] - zratio1[ , 1]) + (1 - zratio1[ , 2]) * zratio1[ , 2],
-                                                zratio2[ , 1] * (zratio2[ , 2] - zratio2[ , 1]) + (1 - zratio2[ , 2]) * zratio2[ , 2])}
+bound_nc <- function(zratio1){2 * (zratio1[ , 1] * (1 - zratio1[ , 1]) + (1 - zratio1[ , 2]) * (zratio1[ , 2] - zratio1[ , 1]))}
+bound_nb <- function(zratio1, zratio2){2 * pmin(zratio1[ , 1] * (1 - zratio1[ , 1]) + (1 - zratio1[ , 2]) * (zratio1[ , 2] - zratio1[ , 1]),
+                                                zratio2 * (1 - zratio2))}
+bound_nn <- function(zratio1, zratio2){2 * pmin(zratio1[ , 1] * (1 - zratio1[ , 1]) + (1 - zratio1[ , 2]) * (zratio1[ , 2] - zratio1[ , 1]),
+                                                zratio2[ , 1] * (1 - zratio2[ , 1]) + (1 - zratio2[ , 2]) * (zratio2[ , 2] - zratio2[ , 1]))}
 ############################################################################################
 
 cutoff <- function(type1, type2, tau, zratio1, zratio2, method, ratio){

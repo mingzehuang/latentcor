@@ -28,6 +28,8 @@
 #' @import stats
 #' @importFrom Matrix nearPD
 #' @example man/examples/estimateR_ex.R
+#'
+
 estimateR <- function(X, type = "trunc", method = "approx", use.nearPD = TRUE, nu = 0.01, tol = 1e-3, verbose = FALSE, ratio = 0.9){
   X <- as.matrix(X)
   p <- ncol(X)
