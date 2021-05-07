@@ -10,7 +10,9 @@ R_sol <- function(type1, type2, tau, zratio1, zratio2, method, tol, ratio) {
   cutoff <- cutoff(type1 = type1, type2 = type2, tau = abs(tau), zratio1 = zratio1, zratio2 = zratio2, method = method, ratio = ratio)
   outside <- which(cutoff)
   inside <- which(!(cutoff))
-  out[inside] <- r_ml(type1 = type1, type2 = type2, tau = tau[inside], zratio1 = as.matrix(zratio1[inside, ], nrow=length(inside)), zratio2 = as.matrix(zratio2[inside, ], nrow = length(inside)))
+  if (length(inside) > 0) {
+    out[inside] <- r_ml(type1 = type1, type2 = type2, tau = tau[inside], zratio1 = matrix(zratio1[inside, ], nrow=length(inside)), zratio2 = matrix(zratio2[inside, ], nrow = length(inside)))
+  }
   for(ind in outside){
     out[ind] = r_sol(type1 = type1, type2 = type2, tau = tau[ind], zratio1 = zratio1[ind, ], zratio2 = zratio2[ind, ], tol = tol)
   }
