@@ -131,7 +131,7 @@ estimateR <- function(X, type = "trunc", method = "approx", use.nearPD = TRUE, n
 #'
 #' @export
 #' @importFrom Matrix nearPD
-estimateR_mixed <- function(X1, X2, type1 = "trunc", type2 = "continuous", method = "approx", use.nearPD = TRUE, nu = 0.01, tol = 1e-3, verbose = FALSE, ratio = 0.9){
+estimateR_mixed <- function(X1, X2, type1 = "trunc", type2 = "continuous", method = "approx", use.nearPD = TRUE, nu = 0.01, tol = 1e-6, verbose = FALSE, ratio = 0.9){
 
   X1 <- as.matrix(X1)
   X2 <- as.matrix(X2)
