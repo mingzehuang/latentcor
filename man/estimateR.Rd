@@ -11,7 +11,7 @@ estimateR(
   method = "approx",
   use.nearPD = TRUE,
   nu = 0.01,
-  tol = 0.001,
+  tol = 1e-06,
   verbose = FALSE,
   ratio = 0.9
 )
@@ -24,7 +24,7 @@ estimateR_mixed(
   method = "approx",
   use.nearPD = TRUE,
   nu = 0.01,
-  tol = 0.001,
+  tol = 1e-06,
   verbose = FALSE,
   ratio = 0.9
 )
