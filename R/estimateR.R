@@ -30,7 +30,7 @@
 #' @example man/examples/estimateR_ex.R
 #'
 
-estimateR <- function(X, type = "trunc", method = "approx", use.nearPD = TRUE, nu = 0.01, tol = 1e-3, verbose = FALSE, ratio = 0.9){
+estimateR <- function(X, type = "trunc", method = "approx", use.nearPD = TRUE, nu = 0.01, tol = 1e-6, verbose = FALSE, ratio = 0.9){
   X <- as.matrix(X)
   p <- ncol(X)
   zratio <- NULL
