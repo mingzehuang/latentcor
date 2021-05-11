@@ -45,6 +45,8 @@ bridge <- function(type1, type2, r, zratio1, zratio2) {
     out <- bridgeF_nc(r = r, zratio1 = zratio1)
   } else if (type1 == "ternary" & type2 == "binary") {
     out <- bridgeF_nb(r = r, zratio1 = zratio1, zratio2 = zratio2)
+  } else if (type1 == "ternary" & type2 == "trunc") {
+    out <- bridgeF_nt(r = r, zratio1 = zratio1, zratio2 = zratio2)
   } else if (type1 == "ternary" & type2 == "ternary") {
     out <- bridgeF_nn(r = r, zratio1 = zratio1, zratio2 = zratio2)
   } else {
@@ -136,6 +138,32 @@ bridgeF_nb <- function(r, zratio1, zratio2){
   return(res)
 }
 
+bridgeF_nt <- function(r, zratio1, zratio2){
+  # ternary and binary
+  de1 <- stats::qnorm(zratio1)
+  de2 <- stats::qnorm(zratio2)
+
+  mat1 <- matrix(c(1, 0, 0,
+                   0, 1, r,
+                   0, r, 1), nrow = 3)
+
+  mat2 <- matrix(c(1, 0, 0, r/sqrt(2),
+                   0, 1, -r, r/sqrt(2),
+                   0, -r, 1, -1/sqrt(2),
+                   r/sqrt(2), r/sqrt(2), -1/sqrt(2), 1), nrow = 4)
+
+  mat3 <- matrix(c(1, 0, r, r/sqrt(2),
+                   0, 1, 0, r/sqrt(2),
+                   r, 0, 1, 1/sqrt(2),
+                   r/sqrt(2), r/sqrt(2), 1/sqrt(2), 1), nrow = 4)
+
+  res <- as.numeric(- 2 * (1 - zratio1[1]) * zratio1[2]
+                    + 2 * mnormt::pmnorm(c(-de1[1], de1[2], de2), mean = rep(0, 3), varcov = mat1)
+                    + 2 * mnormt::pmnorm(c(-de1[1], de1[2], -de2, 0), mean = rep(0, 4), varcov = mat2)
+                    + 2 * mnormt::pmnorm(c(-de1[1], de1[2], -de2, 0), mean = rep(0, 4), varcov = mat3))
+  return(res)
+}
+
 bridgeF_nn <- function(r, zratio1, zratio2){
   # ternary and ternary
   de1 <- stats::qnorm(zratio1)
@@ -159,6 +187,7 @@ bound_tt <- function(zratio1, zratio2){1 - pmax(zratio1, zratio2)^2}
 bound_nc <- function(zratio1){2 * (zratio1[ , 1] * (1 - zratio1[ , 1]) + (1 - zratio1[ , 2]) * (zratio1[ , 2] - zratio1[ , 1]))}
 bound_nb <- function(zratio1, zratio2){2 * pmin(zratio1[ , 1] * (1 - zratio1[ , 1]) + (1 - zratio1[ , 2]) * (zratio1[ , 2] - zratio1[ , 1]),
                                                 zratio2 * (1 - zratio2))}
+bound_nt <- function(zratio1, zratio2){1 - pmax(zratio1[ , 1], zratio1[ , 2] - zratio1[ , 1], 1 - zratio1[ , 2], zratio2)^2}
 bound_nn <- function(zratio1, zratio2){2 * pmin(zratio1[ , 1] * (1 - zratio1[ , 1]) + (1 - zratio1[ , 2]) * (zratio1[ , 2] - zratio1[ , 1]),
                                                 zratio2[ , 1] * (1 - zratio2[ , 1]) + (1 - zratio2[ , 2]) * (zratio2[ , 2] - zratio2[ , 1]))}
 ############################################################################################
@@ -182,6 +211,8 @@ cutoff <- function(type1, type2, tau, zratio1, zratio2, method, ratio){
     out <- tau > ratio * bound_nc(zratio1 = zratio1)
   } else if (type1 == "ternary" & type2 == "binary") {
     out <- tau > ratio * bound_nb(zratio1 = zratio1, zratio2 = zratio2)
+  } else if (type1 == "ternary" & type2 == "trunc") {
+    out <- tau > ratio * bound_nt(zratio1 = zratio1, zratio2 = zratio2)
   } else if (type1 == "ternary" & type2 == "ternary") {
     out <- tau > ratio * bound_nn(zratio1 = zratio1, zratio2 = zratio2)
   } else {
@@ -211,6 +242,8 @@ r_ml <- function(type1, type2, tau, zratio1, zratio2) {
     out <- NCipol(t(cbind(tau / bound_nc(zratio1 = zratio1), zratio1[ , 1] / zratio1[ , 2], zratio1[ , 2]))) / 10^7
   } else if (type1 == "ternary" & type2 == "binary") {
     out <- NBipol(t(cbind(tau / bound_nb(zratio1 = zratio1, zratio2 = zratio2), zratio1[ , 1] / zratio1[ , 2], zratio1[ , 2], zratio2))) / 10^7
+  } else if (type1 == "ternary" & type2 == "trunc") {
+    out <- NTipol(t(cbind(tau / bound_nt(zratio1 = zratio1, zratio2 = zratio2), zratio1[ , 1] / zratio1[ , 2], zratio1[ , 2], zratio2))) / 10^7
   } else if (type1 == "ternary" & type2 == "ternary") {
     out <- NNipol(t(cbind(tau / bound_nn(zratio1 = zratio1, zratio2 = zratio2), zratio1[ , 1] / zratio1[ , 2], zratio1[ , 2], zratio2[ , 1] / zratio2[ , 2], zratio2[ , 2]))) / 10^7
   } else {

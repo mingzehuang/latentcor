@@ -32,7 +32,7 @@ fromKtoR_mixed <- function(K12, zratio1, zratio2, type1, type2, method, tol, rat
   if (!(is.null(zratio2))) {zratio2 = apply(zratio2, 2, function(x){rep(x, each = d1)})}
   if ((type1 == "continuous" & type2 == "binary") | (type1 == "continuous" & type2 == "trunc") |
       (type1 == "binary" & type2 == "trunc") | (type1 == "continuous" & type2 == "ternary") |
-      (type1 == "binary" & type2 == "ternary")) {
+      (type1 == "binary" & type2 == "ternary") | (type1 == "trunc" & type2 == "ternary")) {
     hatR = R_sol(type1 = type2, type2 = type1, tau = c(t(K12)), zratio1 = matrix(zratio2, nrow = length(K12)), zratio2 = matrix(zratio1, nrow = length(K12)), method = method, tol = tol, ratio = ratio)
     return(matrix(hatR, d1, d2, byrow = TRUE))
   } else {
