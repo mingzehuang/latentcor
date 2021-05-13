@@ -152,7 +152,7 @@ GenerateData <- function(n, trueidx1, trueidx2, Sigma1, Sigma2, maxcancor,
   } else if (type1 == "binary") {
     X1 <- ifelse(Z1 > matrix(c1, nrow = nrow(Z1), ncol = ncol(Z1), byrow = T), 1, 0)
   } else if (type1 == "ternary") {
-    X1 <- ifelse(Z1 > matrix(apply(c1, 2, max), nrow = nrow(Z1), ncol = ncol(Z1), byrow = T), 2, 1)
+    X1 <- ifelse(Z1 >= matrix(apply(c1, 2, max), nrow = nrow(Z1), ncol = ncol(Z1), byrow = T), 2, 1)
     X1[Z1 <= matrix(apply(c1, 2, min), nrow = nrow(Z1), ncol = ncol(Z1), byrow = T)] = 0
   }
 
@@ -163,7 +163,7 @@ GenerateData <- function(n, trueidx1, trueidx2, Sigma1, Sigma2, maxcancor,
   } else if (type2 == "binary") {
     X2 <- ifelse(Z2 > matrix(c2, nrow = nrow(Z2), ncol = ncol(Z2), byrow = T), 1, 0)
   } else if (type2 == "ternary") {
-    X2 <- ifelse(Z2 > matrix(apply(c2, 2, max), nrow = nrow(Z2), ncol = ncol(Z2), byrow = T), 2, 1)
+    X2 <- ifelse(Z2 >= matrix(apply(c2, 2, max), nrow = nrow(Z2), ncol = ncol(Z2), byrow = T), 2, 1)
     X2[Z2 <= matrix(apply(c2, 2, min), nrow = nrow(Z2), ncol = ncol(Z2), byrow = T)] = 0
   }
 

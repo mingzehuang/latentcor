@@ -39,8 +39,8 @@ estimateR <- function(X, type = "trunc", method = "approx", use.nearPD = TRUE, n
     stop("nu must be be between 0 and 1.")
   }
 
-  if (!(type %in% c("continuous", "binary","trunc", "ternary"))){
-    stop("Unrecognized type of data. Should be one of continuous, binary or trunc.")
+  if (!(type %in% c("continuous", "binary","trunc", "ternary", "dtrunc"))){
+    stop("Unrecognized type of data. Should be one of continuous, binary, trunc, ternary or dtrunc.")
   }
 
   if (type == "continuous"){
@@ -76,6 +76,8 @@ estimateR <- function(X, type = "trunc", method = "approx", use.nearPD = TRUE, n
       }
     } else if (type == "ternary") {
       zratio <- cbind(colMeans(X == 0), 1 - colMeans(X == 2))
+    # } else if (type == "dtrunc") {
+    #   zratio <- cbind(colMeans(X == 0), 1 - colMeans(X == 1))
     }
     K <- Kendall_matrix(X)
     R <- fromKtoR(K = K, zratio = zratio, type = type, method = method, tol = tol, ratio = ratio)
@@ -149,7 +151,7 @@ estimateR_mixed <- function(X1, X2, type1 = "trunc", type2 = "continuous", metho
 
   p1 <- ncol(X1); p2 <- ncol(X2)
 
-  if (sum(c(type1, type2) %in% c("continuous", "binary", "trunc", "ternary")) != 2){
+  if (sum(c(type1, type2) %in% c("continuous", "binary", "trunc", "ternary", "dtrunc")) != 2){
     stop("Unrecognised type of variables. Should be one of continuous, binary or trunc.")
   }
 
@@ -178,6 +180,9 @@ estimateR_mixed <- function(X1, X2, type1 = "trunc", type2 = "continuous", metho
   if (type1 == "ternary"){
     zratio1 <- cbind(colMeans(X1 == 0), 1 - colMeans(X1 == 2))
   }
+  # if (type1 == "dtrunc"){
+  #   zratio1 <- cbind(colMeans(X1 == 0), 1 - colMeans(X1 == 1))
+  # }
 
   if (type2 == "trunc"){
     zratio2 <- as.matrix(colMeans(X2 == 0))
@@ -204,6 +209,9 @@ estimateR_mixed <- function(X1, X2, type1 = "trunc", type2 = "continuous", metho
   if (type2 == "ternary"){
     zratio2 <- cbind(colMeans(X2 == 0), 1 - colMeans(X2 == 2))
   }
+  # if (type2 == "dtrunc"){
+  #   zratio2 <- cbind(colMeans(X2 == 0), 1 - colMeans(X2 == 1))
+  # }
 
   if (p1 == 1 & p2 == 1){
     # This is just pairwise correlation
