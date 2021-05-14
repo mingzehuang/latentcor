@@ -1,5 +1,26 @@
+#'
+#' @import stats
+#' @importFrom Matrix nearPD
+#'
+NULL
+
 ##### This is going to be approximate version of fromKtoR which is much faster using multilinear interpolation. (07-23-2020)
 ##### multilinear interpolation method is from ipol in chebpol package.
+
+
+Kendall = function(X, type){
+  if (type == "continuous"){
+    if (any(is.na(X))){
+      # If there are any missing measurements, use slower function
+      K <- cor(X, method = "kendall", use = "pairwise.complete.obs")
+    }else{
+      K <- pcaPP::cor.fk(X)
+    }
+  } else {
+    K <- Kendall_matrix(X)
+  }
+  return(K)
+}
 
 # K: Kendall's tau matrix.
 # zratio: a column vector of zero proportion values.
@@ -7,7 +28,9 @@ fromKtoR <- function(K, zratio, type, method, tol, ratio) {
   K = as.matrix(K)
   # If this is just 1 variable, then correlation is automatically 1
   if (length(K) == 1){return(as.matrix(1))}
-  else {
+  else if (type == "continuous"){
+    hatR <- sin(pi/2 * K)
+  } else {
     d1 <- nrow(K)
     zratio1 = apply(zratio, 2, function(x){rep(x, d1)})
     zratio2 = apply(zratio, 2, function(x){rep(x, each = d1)})
@@ -18,8 +41,8 @@ fromKtoR <- function(K, zratio, type, method, tol, ratio) {
     hatR[upperR] <- hatRupper
     hatR <- hatR + t(hatR)
     diag(hatR) <- 1
-    return(hatR)
   }
+  return(hatR)
 }
 
 # K12: Kendall's tau matrix.
@@ -39,4 +62,18 @@ fromKtoR_mixed <- function(K12, zratio1, zratio2, type1, type2, method, tol, rat
     hatR = R_sol(type1 = type1, type2 = type2, tau = c(K12), zratio1 = matrix(zratio1, nrow = length(K12)), zratio2 = matrix(zratio2, nrow = length(K12)), method = method, tol = tol, ratio = ratio)
     return(matrix(hatR, d1, d2))
   }
+}
+
+R_adj = function(R, use.nearPD, verbose, nu) {
+  # nearPD to make it semi pos-definite
+  if (use.nearPD == TRUE){
+    if (min(eigen(R)$values) < 0) {
+      if(verbose){
+        message(" minimum eigenvalue of correlation estimator is ", min(eigen(R)$values), "\n nearPD is used")
+      }
+      R <- as.matrix(Matrix::nearPD(R, corr = TRUE, maxit = 1000)$mat)
+    }
+  }
+  R = (1 - nu) * R + nu * diag(nrow(R))
+  return(R)
 }

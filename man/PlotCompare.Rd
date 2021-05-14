@@ -95,8 +95,8 @@ for (tp1 in c("continuous", "binary", "ternary", "trunc")) {
     }
   }
 }
-
-# # Data generation
+#
+# #Data generation
 # simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2,
 #                         maxcancor = maxcancor,
 #                         Sigma1 = Sigma1, Sigma2 = Sigma2,
@@ -108,9 +108,9 @@ for (tp1 in c("continuous", "binary", "ternary", "trunc")) {
 #
 # )
 # X1 <- simdata$X1; X2 <- simdata$X2; Sigma12_dc <- simdata$Sigma12
-# # Estimate latent correlation matrix with original method
-# R1_dc_org <- estimateR(X1, type = "continuous", method = "original")$R
-# R2_dc_org <- estimateR(X2, type = "dtrunc", method = "original")$R
+# # # Estimate latent correlation matrix with original method
+# # R1_dc_org <- estimateR(X1, type = "continuous", method = "original")$R
+# # # R2_dc_org <- estimateR(X2, type = "dtrunc", method = "original")$R
 # R12_dc_org <- estimateR_mixed(X1, X2, type1 = "continuous", type2 = "dtrunc",
 #                               method = "original")$R12
 # # Estimate latent correlation matrix with faster approximation method

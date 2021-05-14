@@ -25,82 +25,20 @@
 #' Yoon G., Müller C.L., Gaynanova I. (2020) "Fast computation of latent correlations" <arXiv:2006.13875>.
 #'
 #' @export
-#' @import stats
-#' @importFrom Matrix nearPD
 #' @example man/examples/estimateR_ex.R
 #'
 
-estimateR <- function(X, type = "trunc", method = "approx", use.nearPD = TRUE, nu = 0.01, tol = 1e-6, verbose = FALSE, ratio = 0.9){
+estimateR <- function(X, type, method, use.nearPD = TRUE, nu = 0.01, tol = 1e-6, verbose = FALSE, ratio = 0.9){
   X <- as.matrix(X)
   p <- ncol(X)
-  zratio <- NULL
-  # shrinkage method
-  if(nu < 0 | nu > 1){
-    stop("nu must be be between 0 and 1.")
-  }
-
-  if (!(type %in% c("continuous", "binary","trunc", "ternary", "dtrunc"))){
-    stop("Unrecognized type of data. Should be one of continuous, binary, trunc, ternary or dtrunc.")
-  }
-
-  if (type == "continuous"){
-    if (any(is.na(X))){
-      # If there are any missing measurements, use slower function
-      K <- cor(X, method = "kendall", use = "pairwise.complete.obs")
-    }else{
-      K <- pcaPP::cor.fk(X)
-    }
-    R <- sin(pi/2 * K)
-  } else {
-    if (type == "trunc"){
-      zratio <- as.matrix(colMeans(X == 0))
-      # checking data type
-      if(sum(X < 0) > 0) {
-        stop("The data of truncated type contains negative values.")
-      }
-      # checking proportion of zero values
-      if(sum(zratio) == 0){
-        message("The data does not contain zeros. Consider changing the type to \"continuous\".")
-      }
-      if (sum(zratio == 1) > 0){
-        stop("There are variables in the data that have only zeros. Filter those     variables before continuing. \n")
-      }
-    } else if (type == "binary") {
-      zratio <- as.matrix(colMeans(X == 0))
-      # checking data type
-      if(sum(!(X %in% c(0, 1))) > 0) {
-        stop("The data is not \"binary\".")
-      }
-      if (sum(zratio == 1) > 0 | sum(zratio == 0) > 0){
-        stop("There are binary variables in the data that have only zeros or only ones. Filter those variables before continuing. \n")
-      }
-    } else if (type == "ternary") {
-      zratio <- cbind(colMeans(X == 0), 1 - colMeans(X == 2))
-    # } else if (type == "dtrunc") {
-    #   zratio <- cbind(colMeans(X == 0), 1 - colMeans(X == 1))
-    }
-    K <- Kendall_matrix(X)
-    R <- fromKtoR(K = K, zratio = zratio, type = type, method = method, tol = tol, ratio = ratio)
-  }
-
-  # nearPD to make it semi pos-definite
-  if (use.nearPD == TRUE){
-    if (min(eigen(R)$values) < 0) {
-      if(verbose){
-        message(" minimum eigenvalue of correlation estimator is ", min(eigen(R)$values), "\n nearPD is used")
-      }
-      R <- as.matrix(Matrix::nearPD(R, corr = TRUE, maxit = 1000)$mat)
-    }
-  }
-
-  # Shrinkage adjustment by nu
-  R.final <- (1 - nu) * R + nu * diag(p)
-
+  zratio = zratio(X = X, type = type)
+  K = Kendall(X = X, type = type)
+  R = fromKtoR(K = K, zratio = zratio, type = type, method = method, tol = tol, ratio = ratio)
+  R.final = R_adj(R = R, use.nearPD = use.nearPD, verbose = verbose, nu = nu)
   ### To keep the correct column names for each matrices
   if(length(colnames(X)) == p){
     colnames(R.final) <- rownames(R.final) <- c(colnames(X))
   }
-
   return(list(type = type, R = R.final))
 }
 
@@ -132,86 +70,24 @@ estimateR <- function(X, type = "trunc", method = "approx", use.nearPD = TRUE, n
 #' }
 #'
 #' @export
-#' @importFrom Matrix nearPD
-estimateR_mixed <- function(X1, X2, type1 = "trunc", type2 = "continuous", method = "approx", use.nearPD = TRUE, nu = 0.01, tol = 1e-6, verbose = FALSE, ratio = 0.9){
-
-  X1 <- as.matrix(X1)
-  X2 <- as.matrix(X2)
-  zratio1 <- NULL
-  zratio2 <- NULL
-
-  if (nrow(X1) != nrow(X2)){ # Check of they have the same sample size.
-    stop ("X1 and X2 must have the same sample size.")
-  }
-
+estimateR_mixed <- function(X1, X2 = NULL, type1, type2 = NULL, method = "approx", use.nearPD = TRUE, nu = 0.01, tol = 1e-6, verbose = FALSE, ratio = 0.9){
   # shrinkage method
   if(nu < 0 | nu > 1){
     stop("nu must be be between 0 and 1.")
   }
-
-  p1 <- ncol(X1); p2 <- ncol(X2)
-
-  if (sum(c(type1, type2) %in% c("continuous", "binary", "trunc", "ternary", "dtrunc")) != 2){
-    stop("Unrecognised type of variables. Should be one of continuous, binary or trunc.")
+  if (is.null(X2)) {
+    out = estimateR(X = X1, type = type1, method = method, use.nearPD = use.nearPD, nu = nu, tol = tol, verbose = verbose, ratio = ratio)
+    return(out)
+  } else {
+  X1 <- as.matrix(X1)
+  p1 <- ncol(X1)
+  zratio1 = zratio(X = X1, type = type1)
+  X2 <- as.matrix(X2)
+  p2 <- ncol(X2)
+  if (nrow(X1) != nrow(X2)){ # Check of they have the same sample size.
+    stop ("X1 and X2 must have the same sample size.")
   }
-
-
-  if (type1 == "trunc"){
-    zratio1 <- as.matrix(colMeans(X1 == 0))
-    if(sum(X1 < 0) > 0) {
-      stop("The data X1 contains negative values.")
-    }
-    if(sum(zratio1) == 0){
-      message("The data X1 does not contain zeros. Consider changing the type to \"continuous\".")
-    }
-    if (sum(zratio1 == 1) > 0){
-      warning("There are truncated variables in the data that have only zeros.\n")
-    }
-  }
-  if (type1 == "binary"){
-    zratio1 <- as.matrix(colMeans(X1 == 0))
-    if(sum(!(X1 %in% c(0, 1))) > 0) {
-      stop("The data X1 is not \"binary\".")
-    }
-    if (sum(zratio1 == 1) > 0 | sum(zratio1 == 0) > 0){
-      warning("There are binary variables in the data that have only zeros or only ones.\n")
-    }
-  }
-  if (type1 == "ternary"){
-    zratio1 <- cbind(colMeans(X1 == 0), 1 - colMeans(X1 == 2))
-  }
-  # if (type1 == "dtrunc"){
-  #   zratio1 <- cbind(colMeans(X1 == 0), 1 - colMeans(X1 == 1))
-  # }
-
-  if (type2 == "trunc"){
-    zratio2 <- as.matrix(colMeans(X2 == 0))
-    if(sum(X2 < 0) > 0) {
-      stop("The data X2 contains negative values.")
-    }
-    if(sum(zratio2) == 0){
-      message("The data X2 does not contain zeros. Consider changing the type to \"continuous\".")
-    }
-
-    if (sum(zratio2 == 1) > 0){
-      warning("There are truncated variables in the data that have only zeros.\n")
-    }
-  }
-  if (type2 == "binary"){
-    zratio2 <- as.matrix(colMeans(X2 == 0))
-    if(sum(!(X2 %in% c(0, 1))) > 0) {
-      stop("The data X2 is not \"binary\".")
-    }
-    if (sum(zratio2 == 1) > 0 | sum(zratio2 == 0) > 0){
-      warning("There are binary variables in the data that have only zeros or only ones.\n")
-    }
-  }
-  if (type2 == "ternary"){
-    zratio2 <- cbind(colMeans(X2 == 0), 1 - colMeans(X2 == 2))
-  }
-  # if (type2 == "dtrunc"){
-  #   zratio2 <- cbind(colMeans(X2 == 0), 1 - colMeans(X2 == 1))
-  # }
+  zratio2 = zratio(X = X2, type = type2)
 
   if (p1 == 1 & p2 == 1){
     # This is just pairwise correlation
@@ -231,33 +107,17 @@ estimateR_mixed <- function(X1, X2, type1 = "trunc", type2 = "continuous", metho
     ################### datasets are of different type
     # Start with 1st dataset
     if (p1 == 1){
-      R1 <- 1
-    }else if (type1 == "continuous"){
-      if (any(is.na(X1))){
-        K1 <- cor(X1, method = "kendall", use = "pairwise.complete.obs")
-      }else{
-        K1 <- pcaPP::cor.fk(X1)
-      }
-      R1 <- sin(pi/2 * K1)
-      zratio1 = NULL
-    }else{
-      K1 <- Kendall_matrix(X1)
-      R1 <- fromKtoR(K = K1, zratio = zratio1, type = type1, method = method, tol = tol, ratio = ratio)
+      R1 <- as.matrix(1)
+    }else {
+      K1 = Kendall(X = X1, type = type1)
+      R1 = fromKtoR(K = K1, zratio = zratio1, type = type1, method = method, tol = tol, ratio = ratio)
     }
     # Continue with 2nd dataset
     if (p2 == 1){
-      R2 <- 1
-    }else if (type2 == "continuous"){
-      if (any(is.na(X2))){
-        K2 <- cor(X2, method = "kendall", use = "pairwise.complete.obs")
-      }else{
-        K2 <- pcaPP::cor.fk(X2)
-      }
-      R2 <- sin(pi/2 * K2)
-      zratio2 = NULL
-    }else{
-      K2 <- Kendall_matrix(X2)
-      R2 <- fromKtoR(K = K2, zratio = zratio2, type = type2, method = method, tol = tol, ratio = ratio)
+      R2 <- as.matrix(1)
+    }else {
+      K2 = Kendall(X = X2, type = type2)
+      R2 = fromKtoR(K = K2, zratio = zratio2, type = type2, method = method, tol = tol, ratio = ratio)
     }
     # Do cross-product
     K12 <- Kendall_matrix(X1, X2)
@@ -265,17 +125,7 @@ estimateR_mixed <- function(X1, X2, type1 = "trunc", type2 = "continuous", metho
 
     Rall <- rbind(cbind(R1, R12), cbind(t(R12), R2))
 
-    if (use.nearPD == TRUE){
-      if(min(eigen(Rall)$values) < 0) {
-        if(verbose) {
-          message(" minimum eigenvalue of correlation estimator is ", min(eigen(Rall)$values), "\n nearPD is used")
-        }
-        Rall <- as.matrix(Matrix::nearPD(Rall, corr = TRUE, maxit = 1000)$mat)
-      }
-    }
-
-    # Shrinkage step based on nu
-    R.final <- (1 - nu) * Rall + nu * diag(p1 + p2)
+    R.final = R_adj(R = Rall, use.nearPD = use.nearPD, verbose = verbose, nu = nu)
 
     ### To keep the column names in R according to column names that are originally supplied in each matrix
     if(length(colnames(X1)) == p1 & length(colnames(X2)) == p2){
@@ -293,6 +143,6 @@ estimateR_mixed <- function(X1, X2, type1 = "trunc", type2 = "continuous", metho
     R2 <- R.final[(p1 + 1):(p1 + p2), (p1 + 1):(p1 + p2)]
     R12 <- R.final[1:p1, (p1 + 1):(p1 + p2)]
   }
-
   return(list(type = c(type1, type2), R1 = R1, R2 = R2, R12 = R12, R = R.final))
+  }
 }

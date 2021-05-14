@@ -1,8 +1,41 @@
 #'
 #' @importFrom chebpol ipol
 #'
-#'
 NULL
+
+zratio = function(X, type) {
+  if (type == "continuous") {
+    zratio = NULL
+  } else if (type == "trunc"){
+    zratio <- as.matrix(colMeans(X == 0))
+    # checking data type
+    if(sum(X < 0) > 0) {
+      stop("The data of truncated type contains negative values.")
+    }
+    # checking proportion of zero values
+    if(sum(zratio) == 0){
+      message("The data does not contain zeros. Consider changing the type to \"continuous\".")
+    }
+    if (sum(zratio == 1) > 0){
+      stop("There are variables in the data that have only zeros. Filter those     variables before continuing. \n")
+    }
+  } else if (type == "binary") {
+    zratio <- as.matrix(colMeans(X == 0))
+    # checking data type
+    if(sum(!(X %in% c(0, 1))) > 0) {
+      stop("The data is not \"binary\".")
+    }
+    if (sum(zratio == 1) > 0 | sum(zratio == 0) > 0){
+      stop("There are binary variables in the data that have only zeros or only ones. Filter those variables before continuing. \n")
+    }
+  } else if (type == "ternary") {
+    zratio <- cbind(colMeans(X == 0), 1 - colMeans(X == 2))
+    # } else if (type == "dtrunc") {
+    #   zratio <- cbind(colMeans(X == 0), 1 - colMeans(X == 1))
+  }
+  return(zratio)
+}
+
 
 R_sol <- function(type1, type2, tau, zratio1, zratio2, method, tol, ratio) {
   out <- rep(NA, length(tau))
@@ -48,8 +81,8 @@ bridge <- function(type1, type2, r, zratio1, zratio2) {
     out <- bridgeF_nt(r = r, zratio1 = zratio1, zratio2 = zratio2)
   } else if (type1 == "ternary" & type2 == "ternary") {
     out <- bridgeF_nn(r = r, zratio1 = zratio1, zratio2 = zratio2)
-  # } else if (type1 == "dtrunc" & type2 == "continuous") {
-  #   out <- bridgeF_dc(r = r, zratio1 = zratio1)
+  } else if (type1 == "dtrunc" & type2 == "continuous") {
+    out <- bridgeF_dc(r = r, zratio1 = zratio1)
   } else {
     stop("Unrecognized type of variables. Should be one of continuous, binary, trunc or ternary.")
   }
@@ -119,7 +152,6 @@ bridgeF_tt <- function(r, zratio1, zratio2){
 bridgeF_nc <- function(r, zratio1){
   # ternary and continuous
   de1 <- stats::qnorm(zratio1)
-#  de2 <- stats::qnorm(zratio1[2])
   mat <- matrix(c(1, 0, r/sqrt(2),
                    0, 1, -r/sqrt(2),
                    r/sqrt(2), -r/sqrt(2), 1), nrow = 3)
@@ -177,21 +209,28 @@ bridgeF_nn <- function(r, zratio1, zratio2){
   return(res)
 }
 
-bridgeF_dc <- function(r, zratio1){
-  de1 <- stats::qnorm(zratio1)
-
-  mat1 <- matrix(c(1, 0, - 1/sqrt(2), - r/sqrt(2),
-                   0, 1, - 1/sqrt(2), - r/sqrt(2),
-                   - 1/sqrt(2), - 1/sqrt(2), 1, r,
-                   - r/sqrt(2), -r/sqrt(2), r, 1), nrow = 4)
-  mat2 <- matrix(c(1, 0, - 1/sqrt(2), r/sqrt(2),
-                   0, 1, - 1/sqrt(2), r/sqrt(2),
-                   - 1/sqrt(2), - 1/sqrt(2), 1, - r,
-                   r/sqrt(2), r/sqrt(2), - r, 1), nrow = 4)
-
-  res <- as.numeric(2 * mnormt::pmnorm(c(-de1[1], de1[2], 0, 0), mean = rep(0, 4), varcov = mat1)
-                    - 2 * mnormt::pmnorm(c(-de1[1], de1[2], 0, 0), mean = rep(0, 4), varcov = mat2))
-}
+# bridgeF_dc <- function(r, zratio1){
+#   de1 <- stats::qnorm(zratio1)
+#
+#   mat1 <- matrix(c(1, 0, r/sqrt(2),
+#                    0, 1, r/sqrt(2),
+#                    r/sqrt(2), r/sqrt(2), 1), nrow = 3)
+#   mat2 <- matrix(c(1, 0, - 1/sqrt(2),
+#                    0, 1, - 1/sqrt(2),
+#                    - 1/sqrt(2), - 1/sqrt(2), 1), nrow = 3)
+#   mat3 <- matrix(c(1, 0, - 1/sqrt(2), - r/sqrt(2),
+#                    0, 1, - 1/sqrt(2), - r/sqrt(2),
+#                    - 1/sqrt(2), - 1/sqrt(2), 1, r,
+#                    - r/sqrt(2), - r/sqrt(2), r, 1), nrow = 4)
+#
+#   res <- as.numeric(2 * zratio1[1]^2 - 4 * zratio1[1] + 2 * zratio1[1] * zratio1[2] + 2 * zratio1[2]^2 - 2 * zratio1[2]
+#                     + 4 * mnormt::pmnorm(c(de1[1], -de1[1], 0), mean = rep(0, 3), varcov = mat1)
+#                     + 4 * mnormt::pmnorm(c(de1[2], -de1[2], 0), mean = rep(0, 3), varcov = mat1)
+#                     + 4 * mnormt::pmnorm(c(de1[1], -de1[2], 0), mean = rep(0, 3), varcov = mat1)
+#                     - 2 * mnormt::pmnorm(c(-de1[1], de1[2], 0), mean = rep(0, 3), varcov = mat2)
+#                     + 4 * mnormt::pmnorm(c(-de1[1], de1[2], 0, 0), mean = rep(0, 4), varcov = mat3))
+#   return(res)
+# }
 ############################################################################################
 # For multilinear interpolation approximation for bridge Inverse
 ############################################################################################
