@@ -1,4 +1,5 @@
 
+library(MASS)
 library(ggplot2)
 ### Data setting
 n <- 1000; p1 <- 15; p2 <- 10 # sample size and dimensions for two datasets.
@@ -27,10 +28,10 @@ simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2,
 )
 X1 <- simdata$X1; X2 <- simdata$X2; Sigma12_tt <- simdata$Sigma12
 # Estimate latent correlation matrix with original method
-R1_tt_org <- estimateR(X1, type = "binary", method = "original")$R
-R2_tt_org <- estimateR(X2, type = "continuous", method = "original")$R
-R12_tt_org <- estimateR_mixed(X1, X2, type1 = "binary", type2 = "continuous",
-                              method = "original")$R12;
+R1_tt_org <- estR(X1, "binary", method = "original")
+R2_tt_org <- estR(X2, "continuous", method = "original")
+R12_tt_org <- estR(X1, type1 = "binary", X2, type2 = "continuous",
+                              method = "original");
 cp1 <- "exp"; cp2 <- "cube"
 for (tp1 in c("continuous", "binary", "ternary", "trunc")) {
   for (tp2 in c("continuous", "binary", "ternary", "trunc")) {
@@ -55,11 +56,11 @@ for (tp1 in c("continuous", "binary", "ternary", "trunc")) {
                                     c1 = c1, c2 = c2)
       X1 <- simdata$X1; X2 <- simdata$X2; Sigma12 <- simdata$Sigma12
       assign(paste("R1", cp1, cp2, tp1, tp2, md, sep = "_"),
-             estimateR(X1, type = tp1, method = md)$R)
+             estR(X1, tp1, method = md))
       assign(paste("R2", cp1, cp2, tp1, tp2, md, sep = "_"),
-             estimateR(X2, type = tp2, method = md)$R)
+             estR(X2, tp2, method = md))
       assign(paste("R12", cp1, cp2, tp1, tp2, md, sep = "_"),
-             estimateR_mixed(X1, X2, type1 = tp1, type2 = tp2, method = md)$R12)
+             estR(X1 = X1, type1 = tp1, X2 = X2, type2 = tp2, method = md))
       PlotCompare(list(cbind(c(Sigma1), c(get(paste("R1", cp1, cp2, tp1, tp2, md, sep = "_")))),
                        cbind(c(Sigma2), c(get(paste("R2", cp1, cp2, tp1, tp2, md, sep = "_")))),
                        cbind(c(Sigma12), c(get(paste("R12", cp1, cp2, tp1, tp2, md, sep = "_"))))

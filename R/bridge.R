@@ -45,8 +45,8 @@ R_sol <- function(type1, type2, tau, zratio1, zratio2, method, tol, ratio) {
   if (length(inside) > 0) {
     out[inside] <- r_ml(type1 = type1, type2 = type2, tau = tau[inside], zratio1 = matrix(zratio1[inside, ], nrow=length(inside)), zratio2 = matrix(zratio2[inside, ], nrow = length(inside)))
   }
-  for(ind in outside){
-    out[ind] = r_sol(type1 = type1, type2 = type2, tau = tau[ind], zratio1 = zratio1[ind, ], zratio2 = zratio2[ind, ], tol = tol)
+  if (length(outside) > 0) {
+    out[outside] = sapply(outside, function(x){r_sol(type1 = type1, type2 = type2, tau = tau[x], zratio1 = zratio1[x, ], zratio2 = zratio2[x, ], tol = tol)})
   }
   return(out)
 }

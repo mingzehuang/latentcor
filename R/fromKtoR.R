@@ -51,16 +51,21 @@ fromKtoR <- function(K, zratio, type, method, tol, ratio) {
 fromKtoR_mixed <- function(K12, zratio1, zratio2, type1, type2, method, tol, ratio) {
   K12 = as.matrix(K12)
   d1 <- nrow(K12);  d2 <- ncol(K12)
-  if (!(is.null(zratio1))) {zratio1 = apply(zratio1, 2, function(x){rep(x, d2)})}
-  if (!(is.null(zratio2))) {zratio2 = apply(zratio2, 2, function(x){rep(x, each = d1)})}
-  if ((type1 == "continuous" & type2 == "binary") | (type1 == "continuous" & type2 == "trunc") |
-      (type1 == "binary" & type2 == "trunc") | (type1 == "continuous" & type2 == "ternary") |
-      (type1 == "binary" & type2 == "ternary") | (type1 == "trunc" & type2 == "ternary")) {
-    hatR = R_sol(type1 = type2, type2 = type1, tau = c(t(K12)), zratio1 = matrix(zratio2, nrow = length(K12)), zratio2 = matrix(zratio1, nrow = length(K12)), method = method, tol = tol, ratio = ratio)
-    return(matrix(hatR, d1, d2, byrow = TRUE))
-  } else {
-    hatR = R_sol(type1 = type1, type2 = type2, tau = c(K12), zratio1 = matrix(zratio1, nrow = length(K12)), zratio2 = matrix(zratio2, nrow = length(K12)), method = method, tol = tol, ratio = ratio)
+  if (type1 == "continuous" & type2 == "continuous") {
+    hatR <- sin(pi/2 * K12)
     return(matrix(hatR, d1, d2))
+  } else {
+    if (!(is.null(zratio1))) {zratio1 = apply(zratio1, 2, function(x){rep(x, d2)})}
+    if (!(is.null(zratio2))) {zratio2 = apply(zratio2, 2, function(x){rep(x, each = d1)})}
+    if ((type1 == "continuous" & type2 == "binary") | (type1 == "continuous" & type2 == "trunc") |
+       (type1 == "binary" & type2 == "trunc") | (type1 == "continuous" & type2 == "ternary") |
+       (type1 == "binary" & type2 == "ternary") | (type1 == "trunc" & type2 == "ternary")) {
+      hatR = R_sol(type1 = type2, type2 = type1, tau = c(t(K12)), zratio1 = matrix(zratio2, nrow = length(K12)), zratio2 = matrix(zratio1, nrow = length(K12)), method = method, tol = tol, ratio = ratio)
+      return(matrix(hatR, d1, d2, byrow = TRUE))
+    } else {
+      hatR = R_sol(type1 = type1, type2 = type2, tau = c(K12), zratio1 = matrix(zratio1, nrow = length(K12)), zratio2 = matrix(zratio2, nrow = length(K12)), method = method, tol = tol, ratio = ratio)
+      return(matrix(hatR, d1, d2))
+    }
   }
 }
 
@@ -75,5 +80,32 @@ R_adj = function(R, use.nearPD, verbose, nu) {
     }
   }
   R = (1 - nu) * R + nu * diag(nrow(R))
-  return(R)
+  return(as.matrix(R))
 }
+
+estimateR <- function(X, type, method, tol, ratio){
+  X <- as.matrix(X); p <- ncol(X)
+  if(p == 1) {
+    R = 1
+  } else {
+    zratio = zratio(X = X, type = type)
+    K = Kendall(X = X, type = type)
+    R = fromKtoR(K = K, zratio = zratio, type = type, method = method, tol = tol, ratio = ratio)
+  }
+  return(as.matrix(R))
+}
+
+estimateR_mixed <- function(X1, type1, X2, type2, method, tol, ratio){
+  X1 <- as.matrix(X1); p1 <- ncol(X1)
+  X2 <- as.matrix(X2); p2 <- ncol(X2)
+  zratio1 = zratio(X = X1, type = type1); zratio2 = zratio(X = X2, type = type2)
+  if (p1 == 1 & p2 == 1){
+    k12 = KendallTau(X1, X2)
+    R12 = fromKtoR_mixed(K12 = k12, zratio1 = zratio1, zratio2 = zratio2, type1 = type1, type2 = type2, method = method, tol = tol, ratio = ratio)
+  } else {
+    K12 <- Kendall_matrix(X1, X2)
+    R12 <- fromKtoR_mixed(K12 = K12, zratio1 = zratio1, zratio2 = zratio2, type1 = type1, type2 = type2, method = method, tol = tol, ratio = ratio)
+  }
+  return(as.matrix(R12))
+}
+

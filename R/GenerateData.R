@@ -1,3 +1,4 @@
+
 #' Construct a correlation matrix
 #' Functions to create autocorrelation matrix (p by p) with parameter rho and block correlation matrix (p by p) using group index (of length p) and (possibly) different parameter rho for each group.
 #' @rdname CorrStructure
@@ -80,7 +81,6 @@ blockcor <- function(blockind, rho){
 #'       \item{Sigma: }{true latent correlation matrix of \code{Z1} and \code{Z2} ((p1+p2) by (p1+p2)).}
 #' }
 #' @export
-#'
 #' @importFrom MASS mvrnorm
 #' @example man/examples/GenerateData_ex.R
 #'

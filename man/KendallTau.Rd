@@ -35,7 +35,8 @@ r <- 0.8 # true correlation
 
 ### vector input
 # Data generation (X1: truncated continuous, X2: continuous)
-Z <- mvrnorm(n, mu = c(0, 0), Sigma = matrix(c(1, r, r, 1), nrow = 2))
+library(MASS)
+Z <- MASS::mvrnorm(n, mu = c(0, 0), Sigma = matrix(c(1, r, r, 1), nrow = 2))
 X1 <- Z[,1]
 X1[Z[,1] < 1] <- 0
 X2 <- Z[,2]
