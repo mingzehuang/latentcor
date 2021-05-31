@@ -49,7 +49,11 @@ No package deal with latent correlation across mixed data type.
 |truncated | @yoon2020sparse | @yoon2020sparse | @yoon2020sparse | This paper |
 |ternary | @quan2018rank | @quan2018rank | This paper | @quan2018rank |
  
- Definition for Kendall tau.
+Fan et al. (2017) considered the problem of estimating $\Sigma$ for the latent Gaussian copula model based on Kendall's $\tau$. Given the observed data $(X_{1j}, X_{1k}), ..., (X_{nj}, X_{nk})$ for variables $X_{j}$ and $X_{k}$, Kendall's $\tau$ is defined as
+$$
+\hat{\tau}_{jk}=\frac{2}{n(n-1)}\sum_{1\leq i <i'\leq n} sign(X_{ij}-X_{i'j})sign(X_{ik}-X_{i'k})
+$$
+
  Describe the theorem states expected value of kendall tau = F(r). refer to table for reference of formula.
  A sentence to describe two methods: slow original vs interpolation.
  Table to show memory improvement compare to mixedCCA.
