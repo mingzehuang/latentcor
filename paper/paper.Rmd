@@ -32,25 +32,30 @@ journal: JOSS
 # Summary
 
 The R package *latentcor* provides estimation for latent correlation with mixed data types (continuous, binary, truncated and ternary). Comparing to *MixedCCA*, which estimates latent correlation for canonical correlation analysis, our new package provides a standalone version for latent correlation estimation. Also we add new functionality for latent correlation between ternary/continous, ternary/binary, ternary/truncated and ternary/ternary cases.
+
+
 Compare to MixedCCA, standalone, new functionality, memory footprint.
 
 # Statement of need
+Currently there is no standalone package dealing with latent correlation for mixed data type like we did in *latentcor*. The R package *stats* [@team2013r] have some functionality to calculate different type of correlations (Pearson, Kendall and Spearman). The R package *pcaPP* [@croux2013robust] provides a fast calculation for Kendall's \tau. The R package *MixedCCA* [@yoon2020sparse] have functionality for latent correlation estimation as an intermediate step for canonical correlation analysis on mixed data.
 No package deal with latent correlation across mixed data type.
 
 # Usage
- Create a table
- type of variable (reference to papers)
+ 
+ |Type | continuous | binary | truncated | ternary |
+|-----|----------|
+|continuous | @liu2009nonparanormal | @fan2017high | @yoon2020sparse | @quan2018rank |
+|binary | @fan2017high | @fan2017high | @yoon2020sparse | @quan2018rank |
+|truncated | @yoon2020sparse | @yoon2020sparse | @yoon2020sparse | This paper |
+|ternary | @quan2018rank | @quan2018rank | This paper | @quan2018rank |
+ 
  Definition for Kendall tau.
  Describe the theorem states expected value of kendall tau = F(r). refer to table for reference of formula.
  A sentence to describe two methods: slow original vs interpolation.
  Table to show memory improvement compare to mixedCCA.
  Generate data for pairs.
  One example of original call, one for interpolation call.
-# Citations
-
 
 # Rendered R Figures
-
-# Acknowledgements
 
 # References

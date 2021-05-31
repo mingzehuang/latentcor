@@ -150,6 +150,7 @@ Estimation. \textit{Journal of Open Source Software}, (), . \href{https://doi.or
             pdfborder={0 0 0},
             breaklinks=true}
 \urlstyle{same}  % don't use monospace font for urls
+\usepackage{longtable,booktabs}
 \usepackage{graphicx,grffile}
 \makeatletter
 \def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
@@ -180,6 +181,31 @@ Estimation. \textit{Journal of Open Source Software}, (), . \href{https://doi.or
 \fi
 
 % Pandoc citation processing
+\newlength{\csllabelwidth}
+\setlength{\csllabelwidth}{3em}
+\newlength{\cslhangindent}
+\setlength{\cslhangindent}{1.5em}
+% for Pandoc 2.8 to 2.10.1
+\newenvironment{cslreferences}%
+  {}%
+  {\par}
+% For Pandoc 2.11+
+\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
+ {% don't indent paragraphs
+  \setlength{\parindent}{0pt}
+  % turn on hanging indent if param 1 is 1
+  \ifodd #1 \everypar{\setlength{\hangindent}{\cslhangindent}}\ignorespaces\fi
+  % set entry spacing
+  \ifnum #2 > 0
+  \setlength{\parskip}{#2\baselineskip}
+  \fi
+ }%
+ {}
+\usepackage{calc} % for calculating minipage widths
+\newcommand{\CSLBlock}[1]{#1\hfill\break}
+\newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+\newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
 
 
 \title{Latentcor: An R Package for Latent Correlation Estimation}
@@ -231,31 +257,86 @@ ternary). Comparing to \emph{MixedCCA}, which estimates latent
 correlation for canonical correlation analysis, our new package provides
 a standalone version for latent correlation estimation. Also we add new
 functionality for latent correlation between ternary/continous,
-ternary/binary, ternary/truncated and ternary/ternary cases. Compare to
-MixedCCA, standalone, new functionality, memory footprint.
+ternary/binary, ternary/truncated and ternary/ternary cases.
+
+Compare to MixedCCA, standalone, new functionality, memory footprint.
 
 \hypertarget{statement-of-need}{%
 \section{Statement of need}\label{statement-of-need}}
 
-No package deal with latent correlation across mixed data type.
+Currently there is no standalone package dealing with latent correlation
+for mixed data type like we did in \emph{latentcor}. The R package
+\emph{stats} (Team \& others, 2013) have some functionality to calculate
+different type of correlations (Pearson, Kendall and Spearman). The R
+package \emph{pcaPP} (Croux, Filzmoser, \& Fritz, 2013) provides a fast
+calculation for Kendall's \tau. The R package \emph{MixedCCA} (Yoon,
+Carroll, \& Gaynanova, 2020) have functionality for latent correlation
+estimation as an intermediate step for canonical correlation analysis on
+mixed data. No package deal with latent correlation across mixed data
+type.
 
 \hypertarget{usage}{%
 \section{Usage}\label{usage}}
 
-Create a table type of variable (reference to papers) Definition for
-Kendall tau. Describe the theorem states expected value of kendall tau =
-F(r). refer to table for reference of formula. A sentence to describe
-two methods: slow original vs interpolation. Table to show memory
-improvement compare to mixedCCA. Generate data for pairs. One example of
-original call, one for interpolation call. \# Citations
+Create a table
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule
+Type & continuous \\
+\midrule
+\endhead
+continuous & (\textbf{davis2006reliable?}) \\
+binary & (\textbf{dice1945measures?}) \\
+truncated & (\textbf{dunne2002solutions?}) \\
+ternary & (\textbf{bommert2020adjusted?}) \\
+stabilityIntersectionGreedy & (\textbf{bommert2020adjusted?}) \\
+stabilityIntersectionMBM & (\textbf{bommert2020adjusted?}) \\
+stabilityIntersectionMean & (\textbf{bommert2020adjusted?}) \\
+stabilityJaccard & (\textbf{jaccard1901etude?}) \\
+stabilityKappa & (\textbf{carletta1996assessing?}) \\
+stabilityLustgarten & (\textbf{lustgarten2009measuring?}) \\
+stabilityNogueira & (\textbf{nogueira2018stability?}) \\
+stabilityNovovicova & (\textbf{novovicova2009new?}) \\
+stabilityOchiai & (\textbf{ochiai1957zoogeographic?}) \\
+stabilityPhi & (\textbf{nogueira2016measuring?}) \\
+stabilitySechidis & (\textbf{sechidis2020stability?}) \\
+stabilitySomol & (\textbf{somol2008evaluating?}) \\
+stabilityUnadjusted & (\textbf{bommert2020adjusted?}) \\
+stabilityWald & (\textbf{wald2013stability?}) \\
+stabilityYu & (\textbf{yu2012stable?}) \\
+stabilityZucknick & (\textbf{zucknick2008comparing?}) \\
+\bottomrule
+\end{longtable}
+
+type of variable (reference to papers) Definition for Kendall tau.
+Describe the theorem states expected value of kendall tau = F(r). refer
+to table for reference of formula. A sentence to describe two methods:
+slow original vs interpolation. Table to show memory improvement compare
+to mixedCCA. Generate data for pairs. One example of original call, one
+for interpolation call.
 
 \hypertarget{rendered-r-figures}{%
 \section{Rendered R Figures}\label{rendered-r-figures}}
 
-\hypertarget{acknowledgements}{%
-\section{Acknowledgements}\label{acknowledgements}}
-
 \hypertarget{references}{%
-\section{References}\label{references}}
+\section*{References}\label{references}}
+\addcontentsline{toc}{section}{References}
+
+\hypertarget{refs}{}
+\begin{CSLReferences}{1}{0}
+\leavevmode\hypertarget{ref-croux2013robust}{}%
+Croux, C., Filzmoser, P., \& Fritz, H. (2013). Robust sparse principal
+component analysis. \emph{Technometrics}, \emph{55}(2), 202--214.
+
+\leavevmode\hypertarget{ref-team2013r}{}%
+Team, R. C., \& others. (2013). R: A language and environment for
+statistical computing.
+
+\leavevmode\hypertarget{ref-yoon2020sparse}{}%
+Yoon, G., Carroll, R. J., \& Gaynanova, I. (2020). Sparse semiparametric
+canonical correlation analysis for data of mixed types.
+\emph{Biometrika}, \emph{107}(3), 609--625.
+
+\end{CSLReferences}
 
 \end{document}
