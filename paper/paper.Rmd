@@ -61,8 +61,12 @@ F^{-1}_{BC}(\hat{\tau})\hspace{.2in} F^{-1}_{BB}(\hat{\tau})\hspace{.2in} F^{-1}
 F^{-1}_{TC}(\hat{\tau})\hspace{.2in} F^{-1}_{TB}(\hat{\tau})\hspace{.2in} F^{-1}_{TT}(\hat{\tau})
 \end{array}\right)
 $$
+The original method is taking estimated Kendall's $\hat{\tau}$ and other parameters to calculate latent correlation $\hat{r}$. Whereas the approximated method is using multilinear interpolation to approximate latent correlation $\hat{r}$ via pre-calculated grid values [@yoon2021fast].
+
+
 refer to table for reference of formula.
- A sentence to describe two methods: slow original vs interpolation.
+ 
+ 
  Table to show memory improvement compare to mixedCCA.
  Generate data for pairs.
  One example of original call, one for interpolation call.
