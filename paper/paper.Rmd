@@ -55,13 +55,13 @@ $$
 $$
 *Theorem 1* Let $W_{1}\in\cal{R}^{p_1}$, $W_{2}\in\cal{R}^{p_2}$, $W_{3}\in\cal{R}^{p_3}$ be such that $W=(W_{1}, W_{2}, W_{3})\sim NPN(0,\Sigma,f)$ with $p=p_{1}+p_{2}+p_{3}$. Let $X=(X_{1}, X_{2}, X_{3})\in\cal{R}^{p}$ satisfy $X_{j}=W_{j}$ for $j=1,...,p_{1}$, $X_{j}=I(W_{j}>c_{j})$ for $j=p_{1}+1,...,p_{1}+p_{2}$ and $X_{j}=I(W_{j}>c_{j})W_{j}$ for $j=p_{1}+p_{2}+1,...,p$ with $\Delta_{j}=f(c_{j})$. The rank-based estimator of $\Sigma$ based on the observed $n$ realizations of $X$ is the matrix $\hat{R}$ with $\hat{r}_{jj}=1$, $\hat{r}_{jk}=\hat{r}_{kj}=F^{-1}(\hat{\tau}_{jk})$ with block structure
 $$
-\hat{R}=\left(\begin{array}
+\hat{R}=\left(\begin{array}\\
 F^{-1}_{CC}(\hat{\tau})\hspace{.2in} F^{-1}_{CB}(\hat{\tau})\hspace{.2in} F^{-1}_{CT}(\hat{\tau})\\
 F^{-1}_{BC}(\hat{\tau})\hspace{.2in} F^{-1}_{BB}(\hat{\tau})\hspace{.2in} F^{-1}_{BT}(\hat{\tau})\\
 F^{-1}_{TC}(\hat{\tau})\hspace{.2in} F^{-1}_{TB}(\hat{\tau})\hspace{.2in} F^{-1}_{TT}(\hat{\tau})
 \end{array}\right)
 $$
- Describe the theorem states expected value of kendall tau = F(r). refer to table for reference of formula.
+refer to table for reference of formula.
  A sentence to describe two methods: slow original vs interpolation.
  Table to show memory improvement compare to mixedCCA.
  Generate data for pairs.
