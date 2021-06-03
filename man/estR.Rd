@@ -9,8 +9,6 @@ estR(
   type1,
   X2 = NULL,
   type2 = NULL,
-  Xlist = NULL,
-  types = NULL,
   method = "approx",
   use.nearPD = TRUE,
   nu = 0.01,
@@ -56,7 +54,6 @@ Estimation of latent correlation matrix from observed data of (possibly) mixed t
 }
 \examples{
 
-library(MASS)
 library(ggplot2)
 ### Data setting
 n <- 1000; p1 <- 15; p2 <- 10 # sample size and dimensions for two datasets.
@@ -88,7 +85,7 @@ X1 <- simdata$X1; X2 <- simdata$X2; Sigma12_tt <- simdata$Sigma12
 R1_tt_org <- estR(X1, "binary", method = "original")
 R2_tt_org <- estR(X2, "continuous", method = "original")
 R12_tt_org <- estR(X1, type1 = "binary", X2, type2 = "continuous",
-                              method = "original");
+                              method = "original")$R12
 cp1 <- "exp"; cp2 <- "cube"
 for (tp1 in c("continuous", "binary", "ternary", "trunc")) {
   for (tp2 in c("continuous", "binary", "ternary", "trunc")) {
@@ -117,7 +114,7 @@ for (tp1 in c("continuous", "binary", "ternary", "trunc")) {
       assign(paste("R2", cp1, cp2, tp1, tp2, md, sep = "_"),
              estR(X2, tp2, method = md))
       assign(paste("R12", cp1, cp2, tp1, tp2, md, sep = "_"),
-             estR(X1 = X1, type1 = tp1, X2 = X2, type2 = tp2, method = md))
+             estR(X1 = X1, type1 = tp1, X2 = X2, type2 = tp2, method = md)$R12)
       PlotCompare(list(cbind(c(Sigma1), c(get(paste("R1", cp1, cp2, tp1, tp2, md, sep = "_")))),
                        cbind(c(Sigma2), c(get(paste("R2", cp1, cp2, tp1, tp2, md, sep = "_")))),
                        cbind(c(Sigma12), c(get(paste("R12", cp1, cp2, tp1, tp2, md, sep = "_"))))

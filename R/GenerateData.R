@@ -117,8 +117,8 @@ GenerateData <- function(n, trueidx1, trueidx2, Sigma1, Sigma2, maxcancor,
   }
   dat <- MASS::mvrnorm(n, mu = muZ, Sigma = JSigma) # generate a data matrix of size: n by length(muZ). length(muZ) should match with ncol(JSigma)=nrow(JSigma).
 
-  Z1 <- dat[, 1:p1]
-  Z2 <- dat[, (p1+1):p]
+  Z1 <- as.matrix(dat[, 1:p1])
+  Z2 <- as.matrix(dat[, (p1+1):p])
 
   # Three different types of copula
   if(copula1 != "no"){
@@ -154,9 +154,6 @@ GenerateData <- function(n, trueidx1, trueidx2, Sigma1, Sigma2, maxcancor,
   } else if (type1 == "ternary") {
     X1 <- ifelse(Z1 >= matrix(apply(c1, 2, max), nrow = nrow(Z1), ncol = ncol(Z1), byrow = T), 2, 1)
     X1[Z1 <= matrix(apply(c1, 2, min), nrow = nrow(Z1), ncol = ncol(Z1), byrow = T)] = 0
-  } else if (type1 == "dtrunc") {
-    X1 <- ifelse(Z1 >= matrix(apply(c1, 2, max), nrow = nrow(Z1), ncol = ncol(Z1), byrow = T), 1, Z1)
-    X1[Z1 <= matrix(apply(c1, 2, min), nrow = nrow(Z1), ncol = ncol(Z1), byrow = T)] = 0
   }
 
   if(type2 == "continuous") {
@@ -167,9 +164,6 @@ GenerateData <- function(n, trueidx1, trueidx2, Sigma1, Sigma2, maxcancor,
     X2 <- ifelse(Z2 > matrix(c2, nrow = nrow(Z2), ncol = ncol(Z2), byrow = T), 1, 0)
   } else if (type2 == "ternary") {
     X2 <- ifelse(Z2 >= matrix(apply(c2, 2, max), nrow = nrow(Z2), ncol = ncol(Z2), byrow = T), 2, 1)
-    X2[Z2 <= matrix(apply(c2, 2, min), nrow = nrow(Z2), ncol = ncol(Z2), byrow = T)] = 0
-  } else if (type2 == "dtrunc") {
-    X2 <- ifelse(Z2 >= matrix(apply(c2, 2, max), nrow = nrow(Z2), ncol = ncol(Z2), byrow = T), 1, Z2)
     X2[Z2 <= matrix(apply(c2, 2, min), nrow = nrow(Z2), ncol = ncol(Z2), byrow = T)] = 0
   }
 

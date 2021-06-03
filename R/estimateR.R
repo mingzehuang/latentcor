@@ -36,12 +36,11 @@
 #' @example man/examples/estimateR_ex.R
 #'
 
-estR <- function(X1, type1, X2 = NULL, type2 = NULL, Xlist = NULL, types = NULL, method = "approx", use.nearPD = TRUE, nu = 0.01, tol = 1e-6, verbose = FALSE, ratio = 0.9){
+estR <- function(X1, type1, X2 = NULL, type2 = NULL, method = "approx", use.nearPD = TRUE, nu = 0.01, tol = 1e-6, verbose = FALSE, ratio = 0.9){
   # shrinkage method
   if(nu < 0 | nu > 1){
     stop("nu must be be between 0 and 1.")
   }
-  # if (!(is.null(X1))) {
   X1 <- as.matrix(X1); p1 <- ncol(X1)
   if (length(colnames(X1)) == p1) {
     name1 = colnames(X1)
@@ -73,11 +72,7 @@ estR <- function(X1, type1, X2 = NULL, type2 = NULL, Xlist = NULL, types = NULL,
     R1 <- R.final[1:p1, 1:p1]
     R2 <- R.final[(p1 + 1):(p1 + p2), (p1 + 1):(p1 + p2)]
     R12 <- R.final[1:p1, (p1 + 1):(p1 + p2)]
-    # return(list(type = c(type1, type2), R1 = R1, R2 = R2, R12 = R12, R = R.final))
-    return(R12)
+    return(list(type = c(type1, type2), R1 = R1, R2 = R2, R12 = R12, R = R.final))
   }
-  # } else {
-  #
-  # }
 }
 

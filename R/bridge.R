@@ -30,8 +30,6 @@ zratio = function(X, type) {
     }
   } else if (type == "ternary") {
     zratio <- cbind(colMeans(X == 0), 1 - colMeans(X == 2))
-    # } else if (type == "dtrunc") {
-    #   zratio <- cbind(colMeans(X == 0), 1 - colMeans(X == 1))
   }
   return(zratio)
 }
@@ -81,8 +79,6 @@ bridge <- function(type1, type2, r, zratio1, zratio2) {
     out <- bridgeF_nt(r = r, zratio1 = zratio1, zratio2 = zratio2)
   } else if (type1 == "ternary" & type2 == "ternary") {
     out <- bridgeF_nn(r = r, zratio1 = zratio1, zratio2 = zratio2)
-  } else if (type1 == "dtrunc" & type2 == "continuous") {
-    out <- bridgeF_dc(r = r, zratio1 = zratio1)
   } else {
     stop("Unrecognized type of variables. Should be one of continuous, binary, trunc or ternary.")
   }

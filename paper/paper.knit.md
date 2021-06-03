@@ -69,7 +69,8 @@ refer to table for reference of formula.
  
  
  Table to show memory improvement compare to mixedCCA.
-```{r}
+
+```r
 library(latentcor)
 ### Data setting
 n <- 1000; p1 <- 1; p2 <- 1 # sample size and dimensions for two datasets.
@@ -96,6 +97,14 @@ simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2,
                         type1 = "binary", type2 = "continuous",
                         c1 = rep(1, p1), c2 =  NULL
 )
+```
+
+```
+## Warning in GenerateData(n = n, trueidx1 = trueidx1, trueidx2 = trueidx2, : Same
+## threshold is applied to the all variables in the first set.
+```
+
+```r
 X1 <- simdata$X1; X2 <- simdata$X2; Sigma12_tt <- simdata$Sigma12
 # Estimate latent correlation matrix with original method
 R1_tt_org <- estR(X1, "binary", method = "original")

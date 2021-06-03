@@ -13,7 +13,383 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 ```
+\subsection{Bridge Function}
+\begin{equation}
+   F_{CC}(r)=\frac{2}{\pi}sin^{-1}(r)
+\end{equation}
+\begin{equation}
+   F_{BC}(r;\Delta_{j})=4\Phi_{2}(\Delta_{j},0;\frac{r}{\sqrt{2}})-2\Phi(\Delta_{j})
+\end{equation}
+\begin{equation}
+   F_{BB}(r;\Delta_{j},\Delta_{k})=2\{\Phi_{2}(\Delta_{j},\Delta_{k};r)-\Phi(\Delta_{j})\Phi(\Delta_{k})\}
+\end{equation}
+\begin{equation}
+   F_{TC}(r;\Delta_{j})=-2\Phi_{2}(-\Delta_{j},0;\frac{1}{\sqrt{2}})+4\Phi_{3}(-\Delta_{j},0,0;\Sigma_{3}(r))
+\end{equation}
+\begin{align}
+   F_{TB}(r;\Delta_{j},\Delta_{k})=& 2\{1-\Phi(\Delta_{j})\}\Phi(\Delta_{k})-2\Phi_{3}(-\Delta_{j},\Delta_{k},0;\Sigma_{3a}(r)) \nonumber\\
+   & -2\Phi_{3}(-\Delta_{j},\Delta_{k},0;\Sigma_{3b}(r))
+\end{align}
+\begin{equation}
+    F_{T T}(r;\Delta_{j},\Delta_{k})=-2\Phi_{4}(-\Delta_{j},-\Delta_{k},0,0;\Sigma_{4a}(r))+2\Phi_{4}(-\Delta_{j},-\Delta_{k},0,0;\Sigma_{4b}(r))
+\end{equation}
+\begin{equation}
+    F_{NC}(r;\Delta_{j}^{1},\Delta_{j}^{2})=4\Phi_{2}(\Delta_{j}^{2},0;\frac{r}{\sqrt{2}})-2\Phi(\Delta_{j}^{2})+4\Phi_{3}(\Delta_{j}^{1},\Delta_{j}^{2},0;\Sigma_{3c}(r))-2\Phi(\Delta_{j}^{1})\Phi(\Delta_{j}^{2})
+\end{equation}
+\begin{equation}
+    F_{NB}(r;\Delta_{j}^{1},\Delta_{j}^{2},\Delta_{k})=2\Phi_{2}(\Delta_{j}^{2},\Delta_{k},r)(1-\Phi(\Delta_{j}^{1}))-2\Phi(\Delta_{j}^{2})(\Phi(\Delta_{k})-\Phi_{2}(\Delta_{j}^{1},\Delta_{k},r))
+\end{equation}
+\begin{align}
+    F_{NT}(r;\Delta_{j}^{1},\Delta_{j}^{2},\Delta_{k})= & -2\Phi(-\Delta_{j}^{1})\Phi(\Delta_{j}^{2}) + 2\Phi_{3}(-\Delta_{j}^{1},\Delta_{j}^{2},\Delta_{k};\Sigma_{3e}(r)) \nonumber\\
+    & +2\Phi_{4}(-\Delta_{j}^{1},\Delta_{j}^{2},-\Delta_{k},0;\Sigma_{4c}(r))+2\Phi_{4}(-\Delta_{j}^{1},\Delta_{j}^{2},-\Delta_{k},0;\Sigma_{4d}(r))
+\end{align}
+\begin{align}
+    F_{NN}(r;\Delta_{j}^{1},\Delta_{j}^{2},\Delta_{k}^{1},\Delta_{k}^{2})=&2\Phi_{2}(\Delta_{j}^{2},\Delta_{k}^{2};r)\Phi_{2}(-\Delta_{j}^{1},-\Delta_{k}^{1};r) \nonumber\\
+    & -2[\Phi(\Delta_{j}^{2})-\Phi_{2}(\Delta_{j}^{2},\Delta_{k}^{1};r)][\Phi(\Delta_{k}^{2}-\Phi_{2}(\Delta_{j}^{1},\Delta_{k}^{2};r))]
+\end{align}
+\begin{align}
+    F_{DC}(r; \Delta_{j}^{1},\Delta_{j}^{2})=&2\Phi_{4}\left\{-\Delta_{j}^{1}, \Delta_{j}^{2}, 0, 0; \Sigma_{4e}\right\}-2\Phi_{4}\left\{-\Delta_{j}^{1}, \Delta_{j}^{2}, 0, 0; \Sigma_{4f}\right\}
+\end{align}
+with
+\begin{align*}
+&&& \Sigma_{3}(r)=
+\begin{pmatrix}
+1 & \frac{1}{\sqrt{2}} & \frac{r}{\sqrt{2}}\\
+\frac{1}{\sqrt{2}} & 1 & r \\
+\frac{r}{\sqrt{2}} & 2 & 1
+\end{pmatrix},
+\qquad\qquad\qquad
+&&&& \Sigma_{3a}(r)=
+\begin{pmatrix}
+1 & -r & \frac{1}{\sqrt{2}} \\
+-r & 1 & -\frac{r}{\sqrt{2}} \\
+\frac{1}{\sqrt{2}} & -\frac{r}{\sqrt{2}} & 1
+\end{pmatrix}\\
+&&& \Sigma_{3b}(r)=
+\begin{pmatrix}
+1 & 0 & -\frac{1}{\sqrt{2}} \\
+0 & 1 & -\frac{r}{\sqrt{2}} \\
+-\frac{1}{\sqrt{2}} & -\frac{r}{\sqrt{2}} & 1
+\end{pmatrix},
+&&&& \Sigma_{3c}(r)=
+\begin{pmatrix}
+1 & 0 & \frac{r}{\sqrt{2}} \\
+0 & 1 & -\frac{r}{\sqrt{2}} \\
+\frac{r}{\sqrt{2}} & -\frac{r}{\sqrt{2}} & 1
+\end{pmatrix} \\
+&&& \Sigma_{3d}(r)=
+\begin{pmatrix}
+1 & 0 & -r \\
+0 & 1 & 0 \\
+-r & 0 & 1
+\end{pmatrix},
+&&&& \Sigma_{3e}(r)=
+\begin{pmatrix}
+1 & 0 & 0 \\
+0 & 1 & r \\
+0 & r & 1
+\end{pmatrix} \\
+&&& \Sigma_{4a}(r)=
+\begin{pmatrix}
+1 & 0 & \frac{1}{\sqrt{2}} & -\frac{r}{\sqrt{2}} \\
+0 & 1 & -\frac{r}{\sqrt{2}} & \frac{1}{\sqrt{2}} \\
+\frac{1}{\sqrt{2}} & -\frac{r}{\sqrt{2}} & 1 & -r \\
+-\frac{r}{\sqrt{2}} & \frac{1}{\sqrt{2}} & -r & 1
+\end{pmatrix}, 
+&&&& \Sigma_{4b}(r)=
+\begin{pmatrix}
+1 & r & \frac{1}{\sqrt{2}} & \frac{r}{\sqrt{2}} \\
+r & 1 & \frac{r}{\sqrt{2}} & \frac{1}{\sqrt{2}} \\
+\frac{1}{\sqrt{2}} & \frac{r}{\sqrt{2}} & 1 & r \\
+\frac{r}{\sqrt{2}} & \frac{1}{\sqrt{2}} & r & 1
+\end{pmatrix} \\
+&&& \Sigma_{4c}(r)=
+\begin{pmatrix}
+1 & 0 & 0 & \frac{r}{\sqrt{2}} \\
+0 & 1 & -r & \frac{r}{\sqrt{2}} \\
+0 & -r & 1 & -\frac{1}{\sqrt{2}} \\
+\frac{r}{\sqrt{2}} & \frac{r}{\sqrt{2}} & -\frac{1}{\sqrt{2}} & 1
+\end{pmatrix},
+&&&& \Sigma_{4d}(r)=
+\begin{pmatrix}
+1 & 0 & r & \frac{r}{\sqrt{2}} \\
+0 & 1 & 0 & \frac{r}{\sqrt{2}} \\
+r & 0 & 1 & \frac{1}{\sqrt{2}} \\
+\frac{r}{\sqrt{2}} & \frac{r}{\sqrt{2}} & \frac{1}{\sqrt{2}} & 1
+\end{pmatrix} \\
+&&& \Sigma_{4e}(r)=
+\begin{pmatrix}
+    1 & 0 & -\frac{1}{\sqrt{2}} & -\frac{r}{\sqrt{2}} \\
+    0 & 1 & -\frac{1}{\sqrt{2}} & -\frac{r}{\sqrt{2}} \\
+    -\frac{1}{\sqrt{2}} & -\frac{1}{\sqrt{2}} & 1 & r \\
+    -\frac{r}{\sqrt{2}} & -\frac{r}{\sqrt{2}} & r & 1
+    \end{pmatrix},
+&&&& \Sigma_{4f}(r)=
+\begin{pmatrix}
+    1 & 0 & -\frac{1}{\sqrt{2}} & \frac{r}{\sqrt{2}} \\
+    0 & 1 & -\frac{1}{\sqrt{2}} & \frac{r}{\sqrt{2}} \\
+    -\frac{1}{\sqrt{2}} & -\frac{1}{\sqrt{2}} & 1 & -r \\
+    \frac{r}{\sqrt{2}} & \frac{r}{\sqrt{2}} & -r & 1
+    \end{pmatrix}
+\end{align*}
+\subsection{Inverse Bridge Function}
+\begin{equation}
+  F_{BC}^{-1}(\tau;\Delta_{j})=\argmin_{r}\{F_{BC}(r;\Delta_{j})-\tau\}^{2}
+\end{equation}
+\begin{equation}
+  F_{BB}^{-1}(\tau;\Delta_{j},\Delta_{k})=\argmin_{r}\{F_{BB}(r;\Delta_{j},\Delta_{k})-\tau\}^{2}
+\end{equation}
+\begin{equation}
+  F_{TC}^{-1}(\tau;\Delta_{j})=\argmin_{r}\{F_{TC}(r;\Delta_{j})-\tau\}^{2}
+\end{equation}
+\begin{equation}
+  F_{TB}^{-1}(\tau;\Delta_{j},\Delta_{k})=\argmin_{r}\{F_{TB}(r;\Delta_{j},\Delta_{k})-\tau\}^{2}
+\end{equation}
+\begin{equation}
+  F_{TT}^{-1}(\tau;\Delta_{j},\Delta_{k})=\argmin_{r}\{F_{TT}(r;\Delta_{j},\Delta_{k})-\tau\}^{2}
+\end{equation}
+\begin{equation}
+  F_{NC}^{-1}(\tau;\Delta_{j}^{1},\Delta_{j}^{2})=\argmin_{r}\{F_{NC}(r;\Delta_{j}^{1},\Delta_{j}^{2})-\tau\}^{2}    
+\end{equation}
+\begin{equation}
+  F_{NB}^{-1}(\tau;\Delta_{j}^{1},\Delta_{j}^{2},\Delta_{k})=\argmin_{r}\{F_{NB}(r;\Delta_{j}^{1},\Delta_{j}^{2},\Delta_{k})-\tau\}^{2} 
+\end{equation}
+\begin{equation}
+  F_{NT}^{-1}(\tau;\Delta_{j}^{1},\Delta_{j}^{2},\Delta_{k})=\argmin_{r}\{F_{NT}(r;\Delta_{j}^{1},\Delta_{j}^{2},\Delta_{k})-\tau\}^{2} 
+\end{equation}
+\begin{equation}
+  F_{NN}^{-1}(\tau;\Delta_{j}^{1},\Delta_{j}^{2},\Delta_{k}^{1},\Delta_{k}^{2})=\argmin_{r}\{F_{NN}(r;\Delta_{j}^{1},\Delta_{j}^{2},\Delta_{k}^{1},\Delta_{k}^{2})-\tau\}^{2} 
+\end{equation}
+where
+\begin{align*}
+& \hat{\Delta}_{j}=\Phi^{-1}(\pi_{0j}), \qquad \hat{\Delta}_{k}=\Phi^{-1}(\pi_{0k}), \qquad \hat{\Delta}_{j}^{1}=\Phi^{-1}(\pi_{0j}), \qquad \hat{\Delta}_{j}^{2}=\Phi^{-1}(1-\pi_{2j}) \\
+& \hat{\Delta}_{k}^{1}=\Phi^{-1}(\pi_{0k}) \qquad \hat{\Delta}_{k}^{2}=\Phi^{-1}(1-\pi_{2k})
+\end{align*}
+with
+\begin{align*}
+    \pi_{0j}=\frac{\sum_{i=1}^{n}I(x_{ij}=0)}{n}, \qquad \pi_{0k}=\frac{\sum_{i=1}^{n}I(x_{ik}=0)}{n}, \\
+    \pi_{2j}=1-\frac{\sum_{i=1}^{n}I(x_{ij}=2)}{n}, \qquad
+    \pi_{2k}=1-\frac{\sum_{i=1}^{n}I(x_{ik}=2)}{n}
+\end{align*}
+\subsection{Approximate Bound}
+\begin{align}
+    \overline{\tau}_{BC}(\pi_{0})=2\pi_{0j}(1-\pi_{0j})
+\end{align}
+\begin{align}
+    \overline{\tau}_{BB}(\pi_{0j},\pi_{0k})=2\min(\pi_{0j},\pi_{0k})\{1-\max(\pi_{0j}, \pi_{0k})\}
+\end{align}
+\begin{align}
+    \overline{\tau}_{TC}(\pi_{0j})=1-(\pi_{0j})^{2}
+\end{align}
+\begin{align}
+    \overline{\tau}_{TB}(\pi_{0j},\pi_{0k})=2\max(\pi_{0k},1-\pi_{0k})\{1-\max(\pi_{0k},1-\pi_{0k},\pi_{0j})\}
+\end{align}
+\begin{align}
+    \overline{\tau}_{TT}(\pi_{0j},\pi_{0k})=1-\{\max(\pi_{0j},\pi_{0k})\}^{2}
+\end{align}
+\begin{align}
+    \overline{\tau}_{NC}(\pi_{0j},\pi_{2j})=2\{\pi_{0j}(1-\pi_{0j})+\pi_{2j}(1-\pi_{0j}-\pi_{2j})\}
+\end{align}
+\begin{align}
+    \overline{\tau}_{NB}(\pi_{0j},\pi_{2j},\pi_{0k})=2\min(\pi_{0j}(1-\pi_{0j})+\pi_{2j}(1-\pi_{0j}-\pi_{2j}),\pi_{0k}(1-\pi_{0k}))
+\end{align}
+\begin{align}
+    \overline{\tau}_{NT}(\pi_{0j},\pi_{2j},\pi_{0k})=1-\{\max(\pi_{0j},(1-\pi_{0j}-\pi_{2j}),\pi_{2j},\pi_{0k})\}^{2}
+\end{align}
+\begin{align}
+    \overline{\tau}_{NN}(\pi_{0j},\pi_{2j},\pi_{0k},\pi_{2k})=2\min(\pi_{0j}(1-\pi_{0j})+\pi_{2j}(1-\pi_{0j}-\pi_{2j}),\nonumber\\
+     \pi_{0k}(1-\pi_{0k})+\pi_{2k}(1-\pi_{0k}-\pi_{2k}))
+\end{align}
+\subsection{Multi-linear Interpolation}
+\subsubsection{Original Grid}
+Set $\tau\in[-1, 1]$ by step side $0.1$; $\frac{\pi_{0j}}{1-\pi_{2j}}\in[0.1,0.9]$ by step side $0.1$; $1-\pi_{2j}\in[0.1,0.9]$ by step side $0.1$; $\frac{\pi_{0k}}{1-\pi_{2k}}\in[0.1,0.9]$ by step side $0.1$; $1-\pi_{2k}\in[0.1,0.9]$ by step side $0.1$.
+\subsubsection{Scaling Grid}
+Set $\tau/\overline{\tau}\in[-1, 1]$ by step side $0.1$; $\frac{\pi_{0j}}{1-\pi_{2j}}\in[0.1,0.9]$ by step side $0.1$; $1-\pi_{2j}\in[0.1,0.9]$ by step side $0.1$; $\frac{\pi_{0k}}{1-\pi_{2k}}\in[0.1,0.9]$ by step side $0.1$; $1-\pi_{2k}\in[0.1,0.9]$ by step side $0.1$.
+\section{Illustrations} \label{sec:illustrations}
 
+\section{More technical details} \label{app:technical}
+Derivation for bridge function for ternary/truncated case:
+Without loss of generality, let $j=1$ and $k=2$. By the definition of Kendall's $\tau$,
+\begin{equation}
+    \tau_{12}=E(\hat{\tau}_{12})=E[\frac{2}{n(n-1)}\sum_{1\leq i\leq i' \leq n} sign\{(X_{i1}-X_{i'1})(X_{i2}-X_{i'2})\}]
+\end{equation}
+Since $X_{1}$ is ternary,
+\begin{align}
+    &sign(X_{1}-X_{1}') \nonumber\\ =&[I(U_{1}>C_{11},U_{1}'\leq C{11})+I(U_{1}>C_{12},U_{1}'\leq C_{12})-I(U_{1}>C_{12},U_{1}'\leq C_{11})] \nonumber\\
+    &-[I(U_{1}\leq C_{11}, U_{1}'>C_{11})+I(U_{1}\leq C_{12}, U_{1}'>C_{12})-I(U_{1}\leq C_{11}, U_{1}'>C_{12})] \nonumber\\
+    =&[I(U_{1}>C_{11})-I(U_{1}>C_{11},U_{1}'>C_{11})+I(U_{1}>C_{12})-I(U_{1}>C_{12},U_{1}'>C_{12}) \nonumber\\
+    &-I(U_{1}>C_{12})+I(U_{1}>C_{12},U_{1}'>C_{11})] \nonumber\\
+    &-[I(U_{1}'>C_{11})-I(U_{1}>C_{11},U_{1}'>C_{11})+I(U_{1}'>C_{12})-I(U_{1}>C_{12},U_{1}'>C_{12}) \nonumber\\
+    &-I(U_{1}'>C_{12})+I(U_{1}>C_{11},U_{1}'>C_{12})] \nonumber\\
+    =&I(U_{1}>C_{11})+I(U_{1}>C_{12},U_{1}'>C_{11})-I(U_{1}'>C_{11})-I(U_{1}>C_{11},U_{1}'>C_{12}) \nonumber\\
+    =&I(U_{1}>C_{11},U_{1}'\leq C_{12})-I(U_{1}'>C_{11},U_{1}\leq C_{12})
+\end{align}
+Since $X_{2}$ is truncated, $C_{1}>0$ and
+\begin{align}
+    sign(X_{2}-X_{2}')=&-I(X_{2}=0,X_{2}'>0)+I(X_{2}>0,X_{2}'=0) \nonumber\\
+    &+I(X_{2}>0,X_{2}'>0)sign(X_{2}-X_{2}') \nonumber\\
+    =&-I(X_{2}=0)+I(X_{2}'=0)+I(X_{2}>0,X_{2}'>0)sign(X_{2}-X_{2}')
+\end{align}
+Since $f$ is monotonically increasing, $sign(X_{2}-X_{2}')=sign(Z_{2}-Z_{2}')$,
+\begin{align}
+    \tau_{12}=&E[I(U_{1}>C_{11},U_{1}'\leq C_{12}) sign(X_{2}-X_{2}')] \nonumber\\ &-E[I(U_{1}'>C_{11},U_{1}\leq C_{12}) sign(X_{2}-X_{2}')] \nonumber\\
+    =&-E[I(U_{1}>C_{11},U_{1}'\leq C_{12}) I(X_{2}=0)] \nonumber\\
+    &+E[I(U_{1}>C_{11},U_{1}'\leq C_{12}) I(X_{2}'=0)] \nonumber\\
+    &+E[I(U_{1}>C_{11},U_{1}'\leq C_{12})I(X_{2}>0,X_{2}'>0)sign(Z_{2}-Z_{2}')] \nonumber\\
+    &+E[I(U_{1}'>C_{11},U_{1}\leq C_{12}) I(X_{2}=0)] \nonumber\\
+    &-E[I(U_{1}'>C_{11},U_{1}\leq C_{12}) I(X_{2}'=0)] \nonumber\\
+    &-E[I(U_{1}'>C_{11},U_{1}\leq C_{12})I(X_{2}>0,X_{2}'>0)sign(Z_{2}-Z_{2}')]  \nonumber\\
+    =&-2E[I(U_{1}>C_{11},U_{1}'\leq C_{12}) I(X_{2}=0)] \nonumber\\
+    &+2E[I(U_{1}>C_{11},U_{1}'\leq C_{12}) I(X_{2}'=0)] \nonumber\\
+    &+E[I(U_{1}>C_{11},U_{1}'\leq C_{12})I(X_{2}>0,X_{2}'>0)sign(Z_{2}-Z_{2}')] \nonumber\\
+    &-E[I(U_{1}'>C_{11},U_{1}\leq C_{12})I(X_{2}>0,X_{2}'>0)sign(Z_{2}-Z_{2}')]
+\end{align}
+From the definition of $U$, let $Z_{j}=f_{j}(U_{j})$ and $\Delta_{j}=f_{j}(C_{j})$ for $j=1,2$. Using $sign(x)=2I(x>0)-1$, we obtain
+\begin{align}
+    \tau_{12}=&-2E[I(Z_{1}>\Delta_{11},Z_{1}'\leq \Delta_{12},Z_{2}\leq \Delta_{2})]+2E[I(Z_{1}>\Delta_{11},Z_{1}'\leq \Delta_{12},Z_{2}'\leq \Delta_{2})] \nonumber\\
+    &+2E[I(Z_{1}>\Delta_{11},Z_{1}'\leq \Delta_{12})I(Z_{2}>\Delta_{2},Z_{2}'>\Delta_{2},Z_{2}-Z_{2}'>0)] \nonumber\\
+    &-2E[I(Z_{1}'>\Delta_{11},Z_{1}\leq \Delta_{12})I(Z_{2}>\Delta_{2},Z_{2}'>\Delta_{2},Z_{2}-Z_{2}'>0)] \nonumber\\
+    =&-2E[I(Z_{1}>\Delta_{11},Z_{1}'\leq \Delta_{12}, Z_{2}\leq \Delta_{2})]+2E[I(Z_{1}>\Delta_{11},Z_{1}'\leq \Delta_{12}, Z_{2}'\leq \Delta_{2})] \nonumber\\
+    &+2E[I(Z_{1}>\Delta_{11},Z_{1}'\leq\Delta_{12},Z_{2}'>\Delta_{2},Z_{2}>Z_{2}')] \nonumber\\
+    &-2E[I(Z_{1}'>\Delta_{11},Z_{1}\leq\Delta_{12},Z_{2}'>\Delta_{2},Z_{2}>Z_{2}')]
+\end{align}
+Since $\{\frac{Z_{2}'-Z_{2}}{\sqrt{2}}, -Z{1}\}$, $\{\frac{Z_{2}'-Z_{2}}{\sqrt{2}}, Z{1}'\}$ and $\{\frac{Z_{2}'-Z_{2}}{\sqrt{2}}, -Z{2}'\}$ are standard bivariate normally distributed variables with correlation $-\frac{1}{\sqrt{2}}$, $r/\sqrt{2}$ and $-\frac{r}{\sqrt{2}}$, respectively, by the definition of $\Phi_3(\cdot,\cdot, \cdot;\cdot)$ and $\Phi_4(\cdot,\cdot, \cdot,\cdot;\cdot)$ we have
+\begin{align}
+    F_{NT}(r;\Delta_{j}^{1},\Delta_{j}^{2},\Delta_{k})= & -2\Phi_{3}\left\{-\Delta_{j}^{1},\Delta_{j}^{2},\Delta_{k};\begin{pmatrix}
+1 & 0 & -r \\
+0 & 1 & 0 \\
+-r & 0 & 1
+\end{pmatrix} \right\} \nonumber\\
+    &+2\Phi_{3}\left\{-\Delta_{j}^{1},\Delta_{j}^{2},\Delta_{k};\begin{pmatrix}
+1 & 0 & 0 \\
+0 & 1 & r \\
+0 & r & 1
+\end{pmatrix}\right\}\nonumber \\
+    & +2\Phi_{4}\left\{-\Delta_{j}^{1},\Delta_{j}^{2},-\Delta_{k},0;\begin{pmatrix}
+1 & 0 & 0 & \frac{r}{\sqrt{2}} \\
+0 & 1 & -r & \frac{r}{\sqrt{2}} \\
+0 & -r & 1 & -\frac{1}{\sqrt{2}} \\
+\frac{r}{\sqrt{2}} & \frac{r}{\sqrt{2}} & -\frac{1}{\sqrt{2}} & 1
+\end{pmatrix}\right\} \nonumber\\
+    &-2\Phi_{4}\left\{-\Delta_{j}^{1},\Delta_{j}^{2},-\Delta_{k},0;\begin{pmatrix}
+1 & 0 & r & -\frac{r}{\sqrt{2}} \\
+0 & 1 & 0 & -\frac{r}{\sqrt{2}} \\
+r & 0 & 1 & -\frac{1}{\sqrt{2}} \\
+-\frac{r}{\sqrt{2}} & -\frac{r}{\sqrt{2}} & -\frac{1}{\sqrt{2}} & 1
+\end{pmatrix}\right\}
+\end{align}
+Using the facts that
+\begin{align}
+&\Phi_{4}\left\{-\Delta_{j}^{1},\Delta_{j}^{2},-\Delta_{k},0;\begin{pmatrix}
+1 & 0 & r & -\frac{r}{\sqrt{2}} \\
+0 & 1 & 0 & -\frac{r}{\sqrt{2}} \\
+r & 0 & 1 & -\frac{1}{\sqrt{2}} \\
+-\frac{r}{\sqrt{2}} & -\frac{r}{\sqrt{2}} & -\frac{1}{\sqrt{2}} & 1
+\end{pmatrix}\right\} \nonumber\\ &+\Phi_{4}\left\{-\Delta_{j}^{1},\Delta_{j}^{2},-\Delta_{k},0;\begin{pmatrix}
+1 & 0 & r & \frac{r}{\sqrt{2}} \\
+0 & 1 & 0 & \frac{r}{\sqrt{2}} \\
+r & 0 & 1 & \frac{1}{\sqrt{2}} \\
+\frac{r}{\sqrt{2}} & \frac{r}{\sqrt{2}} & \frac{1}{\sqrt{2}} & 1
+\end{pmatrix}\right\} \nonumber\\
+=&\Phi_{3}\left\{-\Delta_{j}^{1},\Delta_{j}^{2},-\Delta_{k};\begin{pmatrix}
+1 & 0 & 0 \\
+0 & 1 & r \\
+0 & r & 1
+\end{pmatrix}\right\}
+\end{align}
+and
+\begin{align}
+&\Phi_{3}\left\{-\Delta_{j}^{1},\Delta_{j}^{2},-\Delta_{k};\begin{pmatrix}
+1 & 0 & 0 \\
+0 & 1 & r \\
+0 & r & 1
+\end{pmatrix}\right\}+\Phi_{3}\left\{-\Delta_{j}^{1},\Delta_{j}^{2},\Delta_{k};\begin{pmatrix}
+1 & 0 & -r \\
+0 & 1 & 0 \\
+-r & 0 & 1
+\end{pmatrix} \right\} \nonumber\\
+=&\Phi_{2}(-\Delta_{j}^{1},\Delta_{j}^{2};0)
+=\Phi(-\Delta_{j}^{1})\Phi(\Delta_{j}^{2})
+\end{align}
+So that,
+\begin{align}
+    F_{NT}(r;\Delta_{j}^{1},\Delta_{j}^{2},\Delta_{k})= & -2\Phi(-\Delta_{j}^{1})\Phi(\Delta_{j}^{2}) \nonumber\\
+    &+2\Phi_{3}\left\{-\Delta_{j}^{1},\Delta_{j}^{2},\Delta_{k};\begin{pmatrix}
+1 & 0 & 0 \\
+0 & 1 & r \\
+0 & r & 1
+\end{pmatrix}\right\}\nonumber \\
+    & +2\Phi_{4}\left\{-\Delta_{j}^{1},\Delta_{j}^{2},-\Delta_{k},0;\begin{pmatrix}
+1 & 0 & 0 & \frac{r}{\sqrt{2}} \\
+0 & 1 & -r & \frac{r}{\sqrt{2}} \\
+0 & -r & 1 & -\frac{1}{\sqrt{2}} \\
+\frac{r}{\sqrt{2}} & \frac{r}{\sqrt{2}} & -\frac{1}{\sqrt{2}} & 1
+\end{pmatrix}\right\} \nonumber\\
+    &+2\Phi_{4}\left\{-\Delta_{j}^{1},\Delta_{j}^{2},-\Delta_{k},0;\begin{pmatrix}
+1 & 0 & r & \frac{r}{\sqrt{2}} \\
+0 & 1 & 0 & \frac{r}{\sqrt{2}} \\
+r & 0 & 1 & \frac{1}{\sqrt{2}} \\
+\frac{r}{\sqrt{2}} & \frac{r}{\sqrt{2}} & \frac{1}{\sqrt{2}} & 1
+\end{pmatrix}\right\}
+\end{align}
+Derivation for approximate bound for ternary/continuous case: \\
+Let $n_{0x}=\sum_{i=1}^{n_x}I(x_{i}=0)$, $n_{2x}=\sum_{i=1}^{n_x}I(x_{i}=2)$, $\pi_{0x}=\frac{n_{0x}}{n_{x}}$ and $\pi_{2x}=\frac{n_{2x}}{n_{x}}$, then
+\begin{align}
+    |\tau(\mathbf{x})|\leq & \frac{n_{0x}(n-n_{0x})+n_{2x}(n-n_{0x}-n_{2x})}{\begin{pmatrix} n \\ 2 \end{pmatrix}} \nonumber\\
+    = & 2\{\frac{n_{0x}}{n-1}-(\frac{n_{0x}}{n})(\frac{n_{0x}}{n-1})+\frac{n_{2x}}{n-1}-(\frac{n_{2x}}{n})(\frac{n_{0x}}{n-1})-(\frac{n_{2x}}{n})(\frac{n_{2x}}{n-1})\} \nonumber\\
+    \approx & 2\{\frac{n_{0x}}{n}-(\frac{n_{0x}}{n})^2+\frac{n_{2x}}{n}-(\frac{n_{2x}}{n})(\frac{n_{0x}}{n})-(\frac{n_{2x}}{n})^2\} \nonumber\\
+    = & 2\{\pi_{0x}(1-\pi_{0x})+\pi_{2x}(1-\pi_{0x}-\pi_{2x})\}
+\end{align}
+Combine NC and BC case, we get NB case. So does NN case. \\
+Derivation for approximate bound for ternary truncated case: Let $\mathbf{x}\in\mathcal{R}^{n}$ and $\mathbf{y}\in\mathcal{R}^{n}$ be the observed $n$ realizations of ternary and truncated variables, respectively. Let $n_{0x}=\sum_{i=0}^{n}I(x_{i}=0)$, $\pi_{0x}=\frac{n_{0x}}{n}$, $n_{1x}=\sum_{i=0}^{n}I(x_{i}=1)$, $\pi_{1x}=\frac{n_{1x}}{n}$, $n_{2x}=\sum_{i=0}^{n}I(x_{i}=2)$, $\pi_{2x}=\frac{n_{2x}}{n}$,
+$n_{0y}=\sum_{i=0}^{n}I(y_{i}=0)$, $\pi_{0y}=\frac{n_{0y}}{n}$, $n_{0x0y}=\sum_{i=0}^{n}I(x_{i}=0 \;\& \; y_{i}=0)$, $n_{1x0y}=\sum_{i=0}^{n}I(x_{i}=1 \;\& \; y_{i}=0)$ and
+$n_{2x0y}=\sum_{i=0}^{n}I(x_{i}=2 \;\& \; y_{i}=0)$then
+\begin{align}
+    |\tau(\mathbf{x}, \mathbf{y})|\leq &
+    \frac{\begin{pmatrix}n \\ 2\end{pmatrix}-\begin{pmatrix}n_{0x} \\ 2\end{pmatrix}-\begin{pmatrix}n_{1x} \\ 2\end{pmatrix}-\begin{pmatrix} n_{2x} \\ 2 \end{pmatrix}-\begin{pmatrix}n_{0y} \\ 2\end{pmatrix}+\begin{pmatrix}n_{0x0y} \\ 2 \end{pmatrix}+\begin{pmatrix}n_{1x0y} \\ 2\end{pmatrix}+\begin{pmatrix}n_{2x0y} \\ 2\end{pmatrix}}{\begin{pmatrix}n \\ 2\end{pmatrix}} \nonumber
+\end{align}
+Since $n_{0x0y}\leq\min(n_{0x},n_{0y})$, $n_{1x0y}\leq\min(n_{1x},n_{0y})$ and $n_{2x0y}\leq\min(n_{2x},n_{0y})$ we obtain
+\begin{align}
+     |\tau(\mathbf{x}, \mathbf{y})|\leq &
+    \frac{\begin{pmatrix}n \\ 2\end{pmatrix}-\begin{pmatrix}n_{0x} \\ 2\end{pmatrix}-\begin{pmatrix}n_{1x} \\ 2\end{pmatrix}-\begin{pmatrix} n_{2x} \\ 2 \end{pmatrix}-\begin{pmatrix}n_{0y} \\ 2\end{pmatrix}}{\begin{pmatrix}n \\ 2\end{pmatrix}} \nonumber\\
+    & +  \frac{\begin{pmatrix}\min(n_{0x},n_{0y}) \\ 2 \end{pmatrix}+\begin{pmatrix}\min(n_{1x},n_{0y}) \\ 2\end{pmatrix}+\begin{pmatrix}\min(n_{2x},n_{0y}) \\ 2\end{pmatrix}}{\begin{pmatrix}n \\ 2\end{pmatrix}} \nonumber\\
+    \leq & \frac{\begin{pmatrix}n \\ 2\end{pmatrix}-\begin{pmatrix}\max(n_{0x},n_{1x},n_{2x},n_{0y}) \\ 2\end{pmatrix}}{\begin{pmatrix}n \\ 2\end{pmatrix}} \nonumber\\
+    \leq & 1-\frac{\max(n_{0x},n_{1x},n_{2x},n_{0y})(\max(n_{0x},n_{1x},n_{2x},n_{0y})-1)}{n(n-1)} \nonumber\\
+    \approx & 1-(\frac{\max(n_{0x},n_{1x},n_{2x},n_{0y})}{n})^{2} \nonumber\\
+    =& 1-\{\max(\pi_{0x},\pi_{1x},\pi_{2x},\pi_{0y})\}^{2} \nonumber\\
+    =& 1-\{\max(\pi_{0x},(1-\pi_{0x}-\pi_{2x}),\pi_{2x},\pi_{0y})\}^{2}
+\end{align}
+Derivation for bridge function for doubly truncated/continuous case:\\
+Since $X_{1}$ is doubly truncated,
+\begin{align}
+    & sign(X_{1}-X_{1}') \nonumber\\
+   =&-[I(X_{1}=0, X_{1}'>0)+I(X_{1}<1, X_{1}'=1)-I(X_{1}=0, X_{1}'=1)] \nonumber\\
+   &+I(X_{1}>0, X_{1}'=0)+I(X_{1}=1, X_{1}'<1)-I(X_{1}=1, X_{1}'=0) \nonumber\\
+   &+I(0<X_{1}<1, 0<X_{1}'<1)sign(X_{1}-X_{1}') \nonumber\\
+   =&-[I(X_{1}=0, X_{1}'>0)+I(X_{1}<1, X_{1}'=1)-I(X_{1}=0, X_{1}'=1)] \nonumber\\
+   &+I(X_{1}>0, X_{1}'=0)+I(X_{1}=1, X_{1}'<1)-I(X_{1}=1, X_{1}'=0) \nonumber\\
+   &+[I(X_{1}<1, X_{1}'<1)-I(X_{1}\leq 0, X_{1}'<1) \nonumber\\
+   &-I(X_{1}<1, X_{1}'\leq 0)+I(X_{1}\leq 0, X_{1}'\leq 0)]sign(X_{1}-X_{1}')
+\end{align}
+Since $f$ is monotonically increasing, $sign(X_{j}-X_{j}')=sign(Z_{j}-Z_{j}')$ for $j = 1, 2$
+\begin{align}
+    \tau_{12}=&-E[I(U_{1}\leq C_{11}, U_{1}'>C_{11})sign(Z_{2}-Z_{2}')] \nonumber\\
+    &-E[I(U_{1}<C_{12}, U_{1}'\geq C_{12})sign(Z_{2}-Z_{2}')] \nonumber\\
+    &+E[I(U_{1}\leq C_{11}, U_{1}'\geq C_{12})sign(Z_{2}-Z_{2}')] \nonumber\\
+    &+E[I(U_{1}>C_{11}, U_{1}'\leq C_{11})sign(Z_{2}-Z_{2}')] \nonumber\\
+    &+E[I(U_{1}\geq C_{12}, U_{1}'<C_{12})sign(Z_{2}-Z_{2}')] \nonumber\\
+    &-E[I(U_{1}\geq C_{12}, U_{1}'\leq C_{11})sign(Z_{2}-Z_{2}')] \nonumber\\
+    &+E[I(U_{1}<C_{12}, U_{1}'<C_{12})sign(Z_{1}-Z_{1}')sign(Z_{2}-Z_{2}')] \nonumber\\
+    &-E[I(U_{1}\leq C_{11}, U_{1}'<C_{12})sign(Z_{1}-Z_{1}')sign(Z_{2}-Z_{2}')] \nonumber\\
+    &-E[I(U_{1}<C_{12}, U_{1}'\leq C_{11})sign(Z_{1}-Z_{1}')sign(Z_{2}-Z_{2}')] \nonumber\\
+    &+E[I(U_{1}\leq C_{11}, U_{1}'\leq C_{11})sign(Z_{1}-Z_{1}')sign(Z_{2}-Z_{2}')] \nonumber\\
+    =&-2E[I(U_{1}\leq C_{11}, U_{1}'>C_{11})sign(Z_{2}-Z_{2}')] \nonumber\\
+    &-2E[I(U_{1}<C_{12}, U_{1}'\geq C_{12})sign(Z_{2}-Z_{2}')] \nonumber\\
+    &+2E[I(U_{1}\leq C_{11}, U_{1}'\geq C_{12})sign(Z_{2}-Z_{2}')] \nonumber\\
+    &+E[I(U_{1}<C_{12}, U_{1}'<C_{12})sign(Z_{1}-Z_{1}')sign(Z_{2}-Z_{2}')] \nonumber\\
+    &-2E[I(U_{1}\leq C_{11}, U_{1}'<C_{12})sign(Z_{1}-Z_{1}')sign(Z_{2}-Z_{2}')] \nonumber\\
+    &+E[I(U_{1}\leq C_{11}, U_{1}'\leq C_{11})sign(Z_{1}-Z_{1}')sign(Z_{2}-Z_{2}')]
+\end{align}
 ```{r setup}
 library(latentcor)
 ```
