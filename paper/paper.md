@@ -33,7 +33,7 @@ The R package *latentcor* provides estimation for latent correlation with mixed 
 Compare to MixedCCA, memory footprint.
 
 # Statement of need
-Currently there is no standalone package dealing with latent correlation for mixed data type like we did in *latentcor*. The R package *stats* [@team2013r] have some functionality to calculate different type of correlations (Pearson, Kendall and Spearman). The R package *pcaPP* [@croux2013robust] provides a fast calculation for Kendall's \tau. The R package *MixedCCA* [@yoon2020sparse] have functionality for latent correlation estimation as an intermediate step for canonical correlation analysis on mixed data.
+Currently there is no standalone package dealing with latent correlation for mixed data type like we did in *latentcor*. The R package *stats* [@team2013r] have some functionality to calculate different type of correlations (Pearson, Kendall and Spearman). The R package *pcaPP* [@croux2013robust] provides a fast calculation for Kendall's $\tau$. The R package *MixedCCA* [@yoon2020sparse] have functionality for latent correlation estimation as an intermediate step for canonical correlation analysis on mixed data.
 No package deal with latent correlation across mixed data type.
 
 # Usage
