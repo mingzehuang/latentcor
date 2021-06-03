@@ -7,7 +7,6 @@ tags:
 date: "18 May 2021"
 output:
   rticles::joss_article: default
-  rticles::joss_article(): default
 authors:
 - name: Mingze Huang
   orcid: 0000-0003-3919-1564
@@ -34,7 +33,7 @@ journal: JOSS
 The R package *latentcor* provides estimation for latent correlation with mixed data types (continuous, binary, truncated and ternary). Comparing to *MixedCCA*, which estimates latent correlation for canonical correlation analysis, our new package provides a standalone version for latent correlation estimation. Also we add new functionality for latent correlation between ternary/continous, ternary/binary, ternary/truncated and ternary/ternary cases.
 
 
-Compare to MixedCCA, standalone, new functionality, memory footprint.
+Compare to MixedCCA, memory footprint.
 
 # Statement of need
 Currently there is no standalone package dealing with latent correlation for mixed data type like we did in *latentcor*. The R package *stats* [@team2013r] have some functionality to calculate different type of correlations (Pearson, Kendall and Spearman). The R package *pcaPP* [@croux2013robust] provides a fast calculation for Kendall's \tau. The R package *MixedCCA* [@yoon2020sparse] have functionality for latent correlation estimation as an intermediate step for canonical correlation analysis on mixed data.
@@ -107,14 +106,14 @@ simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2,
 ```r
 X1 <- simdata$X1; X2 <- simdata$X2; Sigma12_tt <- simdata$Sigma12
 # Estimate latent correlation matrix with original method
-R1_tt_org <- estR(X1, "binary", method = "original")
-R2_tt_org <- estR(X2, "continuous", method = "original")
-R12_tt_org <- estR(X1, type1 = "binary", X2, type2 = "continuous",
+R1_b_org <- estR(X1, "binary", method = "original")
+R2_c_org <- estR(X2, "continuous", method = "original")
+R12_bc_org <- estR(X1, type1 = "binary", X2, type2 = "continuous",
                               method = "original")$R12
 # Estimate latent correlation matrix with original method
-R1_tt_org <- estR(X1, "binary", method = "approx")
-R2_tt_org <- estR(X2, "continuous", method = "approx")
-R12_tt_org <- estR(X1, type1 = "binary", X2, type2 = "continuous",
+R1_b_approx <- estR(X1, "binary", method = "approx")
+R2_c_approx <- estR(X2, "continuous", method = "approx")
+R12_bc_approx <- estR(X1, type1 = "binary", X2, type2 = "continuous",
                               method = "approx")$R12
 ```
 

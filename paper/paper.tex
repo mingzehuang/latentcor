@@ -299,7 +299,7 @@ a standalone version for latent correlation estimation. Also we add new
 functionality for latent correlation between ternary/continous,
 ternary/binary, ternary/truncated and ternary/ternary cases.
 
-Compare to MixedCCA, standalone, new functionality, memory footprint.
+Compare to MixedCCA, memory footprint.
 
 \hypertarget{statement-of-need}{%
 \section{Statement of need}\label{statement-of-need}}
@@ -408,14 +408,14 @@ Table to show memory improvement compare to mixedCCA.
 \begin{Highlighting}[]
 \NormalTok{X1 }\OtherTok{\textless{}{-}}\NormalTok{ simdata}\SpecialCharTok{$}\NormalTok{X1; X2 }\OtherTok{\textless{}{-}}\NormalTok{ simdata}\SpecialCharTok{$}\NormalTok{X2; Sigma12\_tt }\OtherTok{\textless{}{-}}\NormalTok{ simdata}\SpecialCharTok{$}\NormalTok{Sigma12}
 \CommentTok{\# Estimate latent correlation matrix with original method}
-\NormalTok{R1\_tt\_org }\OtherTok{\textless{}{-}} \FunctionTok{estR}\NormalTok{(X1, }\StringTok{"binary"}\NormalTok{, }\AttributeTok{method =} \StringTok{"original"}\NormalTok{)}
-\NormalTok{R2\_tt\_org }\OtherTok{\textless{}{-}} \FunctionTok{estR}\NormalTok{(X2, }\StringTok{"continuous"}\NormalTok{, }\AttributeTok{method =} \StringTok{"original"}\NormalTok{)}
-\NormalTok{R12\_tt\_org }\OtherTok{\textless{}{-}} \FunctionTok{estR}\NormalTok{(X1, }\AttributeTok{type1 =} \StringTok{"binary"}\NormalTok{, X2, }\AttributeTok{type2 =} \StringTok{"continuous"}\NormalTok{,}
+\NormalTok{R1\_b\_org }\OtherTok{\textless{}{-}} \FunctionTok{estR}\NormalTok{(X1, }\StringTok{"binary"}\NormalTok{, }\AttributeTok{method =} \StringTok{"original"}\NormalTok{)}
+\NormalTok{R2\_c\_org }\OtherTok{\textless{}{-}} \FunctionTok{estR}\NormalTok{(X2, }\StringTok{"continuous"}\NormalTok{, }\AttributeTok{method =} \StringTok{"original"}\NormalTok{)}
+\NormalTok{R12\_bc\_org }\OtherTok{\textless{}{-}} \FunctionTok{estR}\NormalTok{(X1, }\AttributeTok{type1 =} \StringTok{"binary"}\NormalTok{, X2, }\AttributeTok{type2 =} \StringTok{"continuous"}\NormalTok{,}
                               \AttributeTok{method =} \StringTok{"original"}\NormalTok{)}\SpecialCharTok{$}\NormalTok{R12}
 \CommentTok{\# Estimate latent correlation matrix with original method}
-\NormalTok{R1\_tt\_org }\OtherTok{\textless{}{-}} \FunctionTok{estR}\NormalTok{(X1, }\StringTok{"binary"}\NormalTok{, }\AttributeTok{method =} \StringTok{"approx"}\NormalTok{)}
-\NormalTok{R2\_tt\_org }\OtherTok{\textless{}{-}} \FunctionTok{estR}\NormalTok{(X2, }\StringTok{"continuous"}\NormalTok{, }\AttributeTok{method =} \StringTok{"approx"}\NormalTok{)}
-\NormalTok{R12\_tt\_org }\OtherTok{\textless{}{-}} \FunctionTok{estR}\NormalTok{(X1, }\AttributeTok{type1 =} \StringTok{"binary"}\NormalTok{, X2, }\AttributeTok{type2 =} \StringTok{"continuous"}\NormalTok{,}
+\NormalTok{R1\_b\_approx }\OtherTok{\textless{}{-}} \FunctionTok{estR}\NormalTok{(X1, }\StringTok{"binary"}\NormalTok{, }\AttributeTok{method =} \StringTok{"approx"}\NormalTok{)}
+\NormalTok{R2\_c\_approx }\OtherTok{\textless{}{-}} \FunctionTok{estR}\NormalTok{(X2, }\StringTok{"continuous"}\NormalTok{, }\AttributeTok{method =} \StringTok{"approx"}\NormalTok{)}
+\NormalTok{R12\_bc\_approx }\OtherTok{\textless{}{-}} \FunctionTok{estR}\NormalTok{(X1, }\AttributeTok{type1 =} \StringTok{"binary"}\NormalTok{, X2, }\AttributeTok{type2 =} \StringTok{"continuous"}\NormalTok{,}
                               \AttributeTok{method =} \StringTok{"approx"}\NormalTok{)}\SpecialCharTok{$}\NormalTok{R12}
 \end{Highlighting}
 \end{Shaded}

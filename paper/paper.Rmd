@@ -7,7 +7,6 @@ tags:
 date: "18 May 2021"
 output:
   rticles::joss_article: default
-  rticles::joss_article(): default
 authors:
 - name: Mingze Huang
   orcid: 0000-0003-3919-1564
