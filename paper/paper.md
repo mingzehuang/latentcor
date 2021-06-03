@@ -39,7 +39,7 @@ No package deal with latent correlation across mixed data type.
 # Usage
  
  |Type | continuous | binary | truncated | ternary |
-|-----|----------|
+|-----|----------|----------|----------|----------|
 |continuous | @liu2009nonparanormal | @fan2017high | @yoon2020sparse | @quan2018rank |
 |binary | @fan2017high | @fan2017high | @yoon2020sparse | @quan2018rank |
 |truncated | @yoon2020sparse | @yoon2020sparse | @yoon2020sparse | This paper |
