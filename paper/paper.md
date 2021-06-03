@@ -50,6 +50,7 @@ $$
 \hat{\tau}_{jk}=\frac{2}{n(n-1)}\sum_{1\leq i <i'\leq n} sign(X_{ij}-X_{i'j})sign(X_{ik}-X_{i'k})
 $$
 *Theorem 1* Let $W_{1}\in\cal{R}^{p_1}$, $W_{2}\in\cal{R}^{p_2}$, $W_{3}\in\cal{R}^{p_3}$, $W_{4}\in\cal{R}^{p_4}$ be such that $W=(W_{1}, W_{2}, W_{3}, W_{4})\sim NPN(0,\Sigma,f)$ with $p=p_{1}+p_{2}+p_{3}+p_{4}$. Let $X=(X_{1}, X_{2}, X_{3}, X_{4})\in\cal{R}^{p}$ satisfy $X_{j}=W_{j}$ for $j=1,...,p_{1}$, $X_{j}=I(W_{j}>c_{j})$ for $j=p_{1}+1,...,p_{1}+p_{2}$, $X_{j}=I(W_{j}>c_{j})W_{j}$ for $j=p_{1}+p_{2}+1,...,p$ and $X_{j}=I(W_{j}>c_{j}^{1})+I(W_{j}>c_{j}^{2})$ with $\Delta_{j}=f(c_{j})$, $\Delta_{j}^{1}=f(c_{j}^{1})$ and $\Delta_{j}^{2}=f(c_{j}^{2})$. The rank-based estimator of $\Sigma$ based on the observed $n$ realizations of $X$ is the matrix $\hat{R}$ with $\hat{r}_{jj}=1$, $\hat{r}_{jk}=\hat{r}_{kj}=F^{-1}(\hat{\tau}_{jk})$ with block structure
+<!--
 $$
 \hat{R}=\left(\begin{array}\\
 F^{-1}_{CC}(\hat{\tau})\hspace{.2in} F^{-1}_{CB}(\hat{\tau})\hspace{.2in} F^{-1}_{CT}(\hat{\tau})\hspace{.2in} F^{-1}_{CN}(\hat{\tau})\\
@@ -58,6 +59,7 @@ F^{-1}_{TC}(\hat{\tau})\hspace{.2in} F^{-1}_{TB}(\hat{\tau})\hspace{.2in} F^{-1}
 F^{-1}_{NC}(\hat{\tau})\hspace{.2in} F^{-1}_{NB}(\hat{\tau})\hspace{.2in} F^{-1}_{NT}(\hat{\tau})\hspace{.2in} F^{-1}_{NN}(\hat{\tau})
 \end{array}\right)
 $$
+-->
 The original method is taking estimated Kendall's $\hat{\tau}$ and other parameters to calculate latent correlation $\hat{r}$. Whereas the approximated method is using multilinear interpolation to approximate latent correlation $\hat{r}$ via pre-calculated grid values [@yoon2021fast].
 
 
