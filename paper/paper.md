@@ -4,19 +4,16 @@ tags:
 - R
 - Statistics
 - Latent Correlation
-date: "18 May 2021"
-output:
-  rticles::joss_article: default
 authors:
 - name: Mingze Huang
   orcid: 0000-0003-3919-1564
   affiliation: 1, 2
+- name: Christian L. Muller
+  orcid: 0000-0002-3821-7083
+  affiliation: 3
 - name: Irina Gaynanova
   orcid: 0000-0000-0000-0000
   affiliation: 2
-- name: Christian L. Muller
-year: 2021
-bibliography: paper.bib
 affiliations:
 - name: Department of Statistics, Texas A& M University
   index: 1
@@ -24,8 +21,8 @@ affiliations:
   index: 2
 - name: Department of Statistics, University of Munich
   index: 3
-csl: apa.csl
-journal: JOSS
+bibliography: paper.bib
+date: "18 May 2021"
 ---
 
 # Summary
