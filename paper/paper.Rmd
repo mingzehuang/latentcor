@@ -98,14 +98,14 @@ simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2,
 )
 X1 <- simdata$X1; X2 <- simdata$X2; Sigma12_tt <- simdata$Sigma12
 # Estimate latent correlation matrix with original method
-R1_tt_org <- estR(X1, "binary", method = "original")
-R2_tt_org <- estR(X2, "continuous", method = "original")
-R12_tt_org <- estR(X1, type1 = "binary", X2, type2 = "continuous",
+R1_b_org <- estR(X1, "binary", method = "original")
+R2_c_org <- estR(X2, "continuous", method = "original")
+R12_bc_org <- estR(X1, type1 = "binary", X2, type2 = "continuous",
                               method = "original")$R12
 # Estimate latent correlation matrix with original method
-R1_tt_org <- estR(X1, "binary", method = "approx")
-R2_tt_org <- estR(X2, "continuous", method = "approx")
-R12_tt_org <- estR(X1, type1 = "binary", X2, type2 = "continuous",
+R1_b_approx <- estR(X1, "binary", method = "approx")
+R2_c_approx <- estR(X2, "continuous", method = "approx")
+R12_bc_approx <- estR(X1, type1 = "binary", X2, type2 = "continuous",
                               method = "approx")$R12
 ```
 
