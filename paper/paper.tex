@@ -56,7 +56,7 @@
 \fancyhf{}
 %\renewcommand{\headrulewidth}{0.50pt}
 \renewcommand{\headrulewidth}{0pt}
-\fancyhead[L]{\hspace{-0.75cm}\includegraphics[width=5.5cm]{C:/Users/sharkmanhmz/Documents/R/R-4.1.0/library/rticles/rmarkdown/templates/joss/resources/JOSS-logo.png}}
+\fancyhead[L]{\hspace{-0.75cm}\includegraphics[width=5.5cm]{C:/Users/mingz/OneDrive/Documents/R/win-library/4.1/rticles/rmarkdown/templates/joss/resources/JOSS-logo.png}}
 \fancyhead[C]{}
 \fancyhead[R]{}
 \renewcommand{\footrulewidth}{0.25pt}
@@ -230,7 +230,7 @@ Estimation. \textit{Journal of Open Source Software}, (), . \href{https://doi.or
   {}%
   {\par}
 % For Pandoc 2.11+
-\newenvironment{CSLReferences}[2] % #1 hanging-ident, #2 entry spacing
+\newenvironment{CSLReferences}[3] % #1 hanging-ident, #2 entry spacing
  {% don't indent paragraphs
   \setlength{\parindent}{0pt}
   % turn on hanging indent if param 1 is 1
@@ -244,7 +244,7 @@ Estimation. \textit{Journal of Open Source Software}, (), . \href{https://doi.or
 \usepackage{calc} % for calculating minipage widths
 \newcommand{\CSLBlock}[1]{#1\hfill\break}
 \newcommand{\CSLLeftMargin}[1]{\parbox[t]{\csllabelwidth}{#1}}
-\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}\break}
+\newcommand{\CSLRightInline}[1]{\parbox[t]{\linewidth - \csllabelwidth}{#1}}
 \newcommand{\CSLIndent}[1]{\hspace{\cslhangindent}#1}
 
 
@@ -299,7 +299,7 @@ a standalone version for latent correlation estimation. Also we add new
 functionality for latent correlation between ternary/continous,
 ternary/binary, ternary/truncated and ternary/ternary cases.
 
-Compare to MixedCCA, standalone, new functionality, memory footprint.
+Compare to MixedCCA, memory footprint.
 
 \hypertarget{statement-of-need}{%
 \section{Statement of need}\label{statement-of-need}}
@@ -309,7 +309,7 @@ for mixed data type like we did in \emph{latentcor}. The R package
 \emph{stats} (Team \& others, 2013) have some functionality to calculate
 different type of correlations (Pearson, Kendall and Spearman). The R
 package \emph{pcaPP} (Croux, Filzmoser, \& Fritz, 2013) provides a fast
-calculation for Kendall's \tau. The R package \emph{MixedCCA} (Yoon,
+calculation for Kendall's \(\tau\). The R package \emph{MixedCCA} (Yoon,
 Carroll, \& Gaynanova, 2020) have functionality for latent correlation
 estimation as an intermediate step for canonical correlation analysis on
 mixed data. No package deal with latent correlation across mixed data
