@@ -1,9 +1,10 @@
 
 #' Construct a correlation matrix
 #' Functions to create autocorrelation matrix (p by p) with parameter rho and block correlation matrix (p by p) using group index (of length p) and (possibly) different parameter rho for each group.
-#' @rdname CorrStructure
+#' @rdname Sigma
 #' @param p Specified matrix dimension.
 #' @param rho Correlation value(s), must be between -0.99 and 0.99. Should be a scalar for \code{autocor}, and either a scalar or a vector of the same length as the maximal \code{blockind} K for \code{blockcor}.
+#' @return  Correlation matrix \code{Sigma}
 #' @export
 autocor <- function(p, rho){
   if (abs(rho) > 0.99){ stop("correlation rho must be between -0.99 and 0.99.") }
@@ -13,9 +14,10 @@ autocor <- function(p, rho){
 
 
 #' Construct a correlation matrix
-#' @rdname CorrStructure
+#' @rdname Sigma
 #' @param blockind Block index 1,\dots, K for a positive integer K specifying which variable belongs to which block, the matrix dimension is equal to \code{length(blockind)}.
 #' @param rho Correlation value(s), must be between -0.99 and 0.99. Should be a scalar for \code{autocor}, and either a scalar or a vector of the same length as the maximal \code{blockind} K for \code{blockcor}.
+#' @return Correlation matrix \code{Sigma}
 #' @examples
 #' # For p = 8,
 #' # auto correlation matrix
@@ -48,77 +50,65 @@ blockcor <- function(blockind, rho){
   return(Sigma)
 }
 
-#' Mixed type simulation data generator for sparse CCA
-#'
-#' \code{GenerateData} is used to generate two sets of data of mixed types for sparse CCA under the Gaussian copula model.
-#'
+#' Mixed type simulation data generator
+#' \code{GenData} is used to generate two sets of data of mixed types for sparse CCA under the Gaussian copula model.
 #' @param n Sample size
-#' @param trueidx1 True canonical direction of length p1 for \code{X1}. It will be automatically normalized such that \eqn{w_1^T \Sigma_1 w_1 = 1}.
-#' @param trueidx2 True canonical direction of length p2 for \code{X2}. It will be automatically normalized such that \eqn{w_2^T \Sigma_2 w_2 = 1}.
-#' @param Sigma1 True correlation matrix of latent variable \code{Z1} (p1 by p1).
-#' @param Sigma2 True correlation matrix of latent variable \code{Z2} (p2 by p2).
-#' @param maxcancor True canonical correlation between \code{Z1} and \code{Z2}.
+#' @param Sigma True correlation matrix of latent variable \code{Z1} (p1 by p1).
 #' @param copula1 Copula type for the first dataset. U1 = f(Z1), which could be either "exp", "cube".
 #' @param copula2 Copula type for the second dataset. U2 = f(Z2), which could be either "exp", "cube".
-#' @param type1 Type of the first dataset \code{X1}. Could be "continuous", "trunc", "binary", "ternary" or "ordinal".
-#' @param type2 Type of the second dataset \code{X2}. Could be "continuous", "trunc", "binary", "ternary" or "ordinal".
+#' @param type1 Type of the first dataset \code{X1}. Could be "continuous", "trunc", "binary", "ternary".
+#' @param type2 Type of the second dataset \code{X2}. Could be "continuous", "trunc", "binary", "ternary".
 #' @param muZ Mean of latent multivariate normal.
+#' @param p1 Dimension of variables belong to \code{type1}.
+#' @param p2 Dimension of variables belong to \code{type2}.
 #' @param c1 Constant threshold for \code{X1} needed for "trunc", "binary", "ternary" and "ordinal" data type - the default is NULL.
 #' @param c2 Constant threshold for \code{X2} needed for "trunc", "binary", "ternary" and "ordinal" data type - the default is NULL.
-#'
-#' @return \code{GenerateData} returns a list containing
+#' @return \code{GenData} returns a list containing
 #' \itemize{
 #'       \item{Z1: }{latent numeric data matrix (n by p1).}
 #'       \item{Z2: }{latent numeric data matrix (n by p2).}
 #'       \item{X1: }{observed numeric data matrix (n by p1).}
 #'       \item{X2: }{observed numeric data matrix (n by p2).}
-#'       \item{true_w1: }{normalized true canonical direction of length p1 for \code{X1}.}
-#'       \item{true_w2: }{normalized true canonical direction of length p2 for \code{X2}.}
 #'       \item{type: }{a vector containing types of two datasets.}
-#'       \item{maxcancor: }{true canonical correlation between \code{Z1} and \code{Z2}.}
-#'       \item{c1: }{a matrix of thresholds for \code{X1} for "trunc", "binary", "ternary" and "ordinal" data type.}
-#'       \item{c2: }{a matrix of thresholds for \code{X2} for "trunc", "binary", "ternary" and "ordinal" data type.}
+#'       \item{c1: }{a matrix of thresholds for \code{X1} for "trunc", "binary", "ternary" and data type.}
+#'       \item{c2: }{a matrix of thresholds for \code{X2} for "trunc", "binary", "ternary" and data type.}
 #'       \item{Sigma: }{true latent correlation matrix of \code{Z1} and \code{Z2} ((p1+p2) by (p1+p2)).}
 #' }
 #' @export
 #' @importFrom MASS mvrnorm
-#' @example man/examples/GenerateData_ex.R
+#' @examples
+#' # Data setting
+#' n <- 100; p1 <- 15; p2 <- 10 # sample size and dimensions for two datasets.
+#' perm1 <- sample(1:(p1 + p2), size = p1 + p2)
+#' Sigma <- autocor(p1 + p2, 0.7)[perm1, perm1]
+#' mu <- rbinom(p1 + p2, 1, 0.5)
+#' # Data generation
+#' simdata = GenData(n = n, copula1 = "exp", copula2 = "cube", type1 = "ternary", type2 = "trunc",
+#'  muZ = mu, Sigma = Sigma, p1 = p1, p2 = p2,
+#'  c1 = matrix(rep(1:2, p1), nrow = 2, ncol = p1), c2 = rep(0, p2))
 #'
-GenerateData <- function(n, trueidx1, trueidx2, Sigma1, Sigma2, maxcancor,
-                         copula1 = "no", copula2 = "no",
-                         type1 = "continuous", type2 = "continuous", muZ = NULL, c1 = NULL, c2 = NULL
-){
-
+#'
+GenData <- function(n, copula1 = "no", copula2 = "no", type1 = "continuous", type2 = "continuous", muZ = NULL, Sigma, p1, p2, c1 = NULL, c2 = NULL){
   if((type1 != "continuous") & is.null(c1)){
     stop("c1 has to be defined for truncated continuous, binary, ternary or ordinal data type.")
   }
   if((type2 != "continuous") & is.null(c2)){
     stop("c2 has to be defined for truncated continuous, binary, ternary or ordinal data type.")
   }
-
-  p1 <- length(trueidx1)
-  p2 <- length(trueidx2)
-  p <- p1 + p2
   if (is.null(dim(c1)) & !(is.null(c1))) {
     c1 <- matrix(c1, nrow = 1, ncol = length(c1))
   }
   if (is.null(dim(c2)) & !(is.null(c2))) {
     c2 <- matrix(c2, nrow = 1, ncol = length(c2))
   }
-  # normalize to satisfy t(theta1)%*%Sigma1%*%theta1=1
-  th1 <- trueidx1/sqrt(as.numeric(crossprod(trueidx1, Sigma1 %*% trueidx1)))
-  th2 <- trueidx2/sqrt(as.numeric(crossprod(trueidx2, Sigma2 %*% trueidx2)))
-  Sigma12 <- maxcancor*Sigma1%*%th1%*%t(th2)%*%Sigma2
-  JSigma <- rbind(cbind(Sigma1, Sigma12), cbind(t(Sigma12), Sigma2))
-
   # jointly generate X and Y using two canonical pairs
   if (is.null(muZ)) {
-    muZ <- rep(0, p)
+    muZ <- rep(0, p1 + p2)
   }
-  dat <- MASS::mvrnorm(n, mu = muZ, Sigma = JSigma) # generate a data matrix of size: n by length(muZ). length(muZ) should match with ncol(JSigma)=nrow(JSigma).
+  dat <- MASS::mvrnorm(n, mu = muZ, Sigma = Sigma) # generate a data matrix of size: n by length(muZ). length(muZ) should match with ncol(JSigma)=nrow(JSigma).
 
   Z1 <- as.matrix(dat[, 1:p1])
-  Z2 <- as.matrix(dat[, (p1+1):p])
+  Z2 <- as.matrix(dat[, (p1+1):(p1 + p2)])
 
   # Three different types of copula
   if(copula1 != "no"){
@@ -167,7 +157,22 @@ GenerateData <- function(n, trueidx1, trueidx2, Sigma1, Sigma2, maxcancor,
     X2[Z2 <= matrix(apply(c2, 2, min), nrow = nrow(Z2), ncol = ncol(Z2), byrow = T)] = 0
   }
 
-  return(list(Z1 = Z1, Z2 = Z2, X1 = X1, X2 = X2, true_w1 = th1, true_w2 = th2, type = c(type1, type2), maxcancor = maxcancor, c1 = c1, c2 = c2, Sigma = JSigma, Sigma12 = Sigma12))
+  return(list(Z1 = Z1, Z2 = Z2, X1 = X1, X2 = X2, type = c(type1, type2), p1 = p1, p2 = p2, c1 = c1, c2 = c2, Sigma = Sigma))
 }
 
-
+#' Plot true correlation vs estimated correlation
+#' \code{PlotPair} is to check unbiasness of estimation by plotting true correlation from simulation data vs estimated correlation from simulation data.
+#' @param datapair matrix for data pairs.
+#' @param namepair vector for names of data pairs.
+#' @param title title for graphs.
+#' @import ggplot2
+#' @return \code{PlotPair} returns a plot for data1 against data2 and 45 degree benchmark line.
+#' @example man/examples/estimateR_ex.R
+#' @export
+PlotPair <- function(datapair, namepair, title) {
+  df <- data.frame(datapair)
+  colnames(df) = namepair
+  print(ggplot(df, aes(x = datapair[ , 1], y = datapair[ , 2]))
+        + geom_point(color = "blue") + geom_abline(intercept = 0, slope = 1, color = "red")
+        +ggtitle(title) + xlab(namepair[1]) + ylab(namepair[2]))
+}
