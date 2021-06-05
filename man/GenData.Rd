@@ -13,6 +13,8 @@ GenData(
   type2 = "continuous",
   muZ = NULL,
   Sigma,
+  p1,
+  p2,
   c1 = NULL,
   c2 = NULL
 )
@@ -32,6 +34,10 @@ GenData(
 
 \item{Sigma}{True correlation matrix of latent variable \code{Z1} (p1 by p1).}
 
+\item{p1}{Dimension of variables belong to \code{type1}.}
+
+\item{p2}{Dimension of variables belong to \code{type2}.}
+
 \item{c1}{Constant threshold for \code{X1} needed for "trunc", "binary", "ternary" and "ordinal" data type - the default is NULL.}
 
 \item{c2}{Constant threshold for \code{X2} needed for "trunc", "binary", "ternary" and "ordinal" data type - the default is NULL.}
@@ -44,8 +50,8 @@ GenData(
       \item{X1: }{observed numeric data matrix (n by p1).}
       \item{X2: }{observed numeric data matrix (n by p2).}
       \item{type: }{a vector containing types of two datasets.}
-      \item{c1: }{a matrix of thresholds for \code{X1} for "trunc", "binary", "ternary" and "ordinal" data type.}
-      \item{c2: }{a matrix of thresholds for \code{X2} for "trunc", "binary", "ternary" and "ordinal" data type.}
+      \item{c1: }{a matrix of thresholds for \code{X1} for "trunc", "binary", "ternary" and data type.}
+      \item{c2: }{a matrix of thresholds for \code{X2} for "trunc", "binary", "ternary" and data type.}
       \item{Sigma: }{true latent correlation matrix of \code{Z1} and \code{Z2} ((p1+p2) by (p1+p2)).}
 }
 }
@@ -56,22 +62,13 @@ Mixed type simulation data generator
 \examples{
 # Data setting
 n <- 100; p1 <- 15; p2 <- 10 # sample size and dimensions for two datasets.
-# Correlation structure within each data set
-set.seed(0)
-perm1 <- sample(1:p1+p2, size = p1+p2);
-Sigma <- autocor(p1+p2, 0.7)[perm1, perm1]
-# blockind <- sample(1:3, size = p2, replace = TRUE);
-# Sigma2 <- blockcor(blockind, 0.7)
-mu <- rbinom(p1+p2, 1, 0.5)
-
+perm1 <- sample(1:(p1 + p2), size = p1 + p2)
+Sigma <- autocor(p1 + p2, 0.7)[perm1, perm1]
+mu <- rbinom(p1 + p2, 1, 0.5)
 # Data generation
-simdata <- GenData(n=n, copula1 = "exp", copula2 = "cube", type1 = "ternary", type2 = "trunc", muZ = mu, Sigma = Sigma,
-                   c1 = matrix(rep(1:2, p1), nrow = 2, ncol = p1), c2 = rep(0, p2))
-X1 <- simdata$X1
-X2 <- simdata$X2
+simdata = GenData(n = n, copula1 = "exp", copula2 = "cube", type1 = "ternary", type2 = "trunc",
+ muZ = mu, Sigma = Sigma, p1 = p1, p2 = p2,
+ c1 = matrix(rep(1:2, p1), nrow = 2, ncol = p1), c2 = rep(0, p2))
 
-# Check the range of truncation levels of variables
-range(colMeans(X1 == 0))
-range(colMeans(X2 == 0))
 
 }

@@ -75,4 +75,3 @@ estR <- function(X1, type1, X2 = NULL, type2 = NULL, method = "approx", use.near
     return(list(type = c(type1, type2), R1 = R1, R2 = R2, R12 = R12, R = R.final))
   }
 }
-

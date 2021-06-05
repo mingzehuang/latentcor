@@ -1,10 +1,10 @@
 
 #' Construct a correlation matrix
-#' @rdname Sigma
 #' Functions to create autocorrelation matrix (p by p) with parameter rho and block correlation matrix (p by p) using group index (of length p) and (possibly) different parameter rho for each group.
+#' @rdname Sigma
 #' @param p Specified matrix dimension.
 #' @param rho Correlation value(s), must be between -0.99 and 0.99. Should be a scalar for \code{autocor}, and either a scalar or a vector of the same length as the maximal \code{blockind} K for \code{blockcor}.
-#' @return  Correlation matrix
+#' @return  Correlation matrix \code{Sigma}
 #' @export
 autocor <- function(p, rho){
   if (abs(rho) > 0.99){ stop("correlation rho must be between -0.99 and 0.99.") }
@@ -59,6 +59,8 @@ blockcor <- function(blockind, rho){
 #' @param type1 Type of the first dataset \code{X1}. Could be "continuous", "trunc", "binary", "ternary".
 #' @param type2 Type of the second dataset \code{X2}. Could be "continuous", "trunc", "binary", "ternary".
 #' @param muZ Mean of latent multivariate normal.
+#' @param p1 Dimension of variables belong to \code{type1}.
+#' @param p2 Dimension of variables belong to \code{type2}.
 #' @param c1 Constant threshold for \code{X1} needed for "trunc", "binary", "ternary" and "ordinal" data type - the default is NULL.
 #' @param c2 Constant threshold for \code{X2} needed for "trunc", "binary", "ternary" and "ordinal" data type - the default is NULL.
 #' @return \code{GenData} returns a list containing
@@ -68,8 +70,8 @@ blockcor <- function(blockind, rho){
 #'       \item{X1: }{observed numeric data matrix (n by p1).}
 #'       \item{X2: }{observed numeric data matrix (n by p2).}
 #'       \item{type: }{a vector containing types of two datasets.}
-#'       \item{c1: }{a matrix of thresholds for \code{X1} for "trunc", "binary", "ternary" and "ordinal" data type.}
-#'       \item{c2: }{a matrix of thresholds for \code{X2} for "trunc", "binary", "ternary" and "ordinal" data type.}
+#'       \item{c1: }{a matrix of thresholds for \code{X1} for "trunc", "binary", "ternary" and data type.}
+#'       \item{c2: }{a matrix of thresholds for \code{X2} for "trunc", "binary", "ternary" and data type.}
 #'       \item{Sigma: }{true latent correlation matrix of \code{Z1} and \code{Z2} ((p1+p2) by (p1+p2)).}
 #' }
 #' @export
@@ -77,33 +79,22 @@ blockcor <- function(blockind, rho){
 #' @examples
 #' # Data setting
 #' n <- 100; p1 <- 15; p2 <- 10 # sample size and dimensions for two datasets.
-
-#' # Correlation structure within each data set
-#' set.seed(0)
-#' perm1 <- sample(1:p1+p2, size = p1+p2);
-#' Sigma <- autocor(p1+p2, 0.7)[perm1, perm1]
-#' # blockind <- sample(1:3, size = p2, replace = TRUE);
-#' # Sigma2 <- blockcor(blockind, 0.7)
-#' mu <- rbinom(p1+p2, 1, 0.5)
-#'
+#' perm1 <- sample(1:(p1 + p2), size = p1 + p2)
+#' Sigma <- autocor(p1 + p2, 0.7)[perm1, perm1]
+#' mu <- rbinom(p1 + p2, 1, 0.5)
 #' # Data generation
-#' simdata <- GenData(n=n, copula1 = "exp", copula2 = "cube", type1 = "ternary", type2 = "trunc", muZ = mu, Sigma = Sigma,
-#'                    c1 = matrix(rep(1:2, p1), nrow = 2, ncol = p1), c2 = rep(0, p2))
-#' X1 <- simdata$X1
-#' X2 <- simdata$X2
+#' simdata = GenData(n = n, copula1 = "exp", copula2 = "cube", type1 = "ternary", type2 = "trunc",
+#'  muZ = mu, Sigma = Sigma, p1 = p1, p2 = p2,
+#'  c1 = matrix(rep(1:2, p1), nrow = 2, ncol = p1), c2 = rep(0, p2))
 #'
-#' # Check the range of truncation levels of variables
-#' range(colMeans(X1 == 0))
-#' range(colMeans(X2 == 0))
 #'
-GenData <- function(n, copula1 = "no", copula2 = "no", type1 = "continuous", type2 = "continuous", muZ = NULL, Sigma, c1 = NULL, c2 = NULL){
+GenData <- function(n, copula1 = "no", copula2 = "no", type1 = "continuous", type2 = "continuous", muZ = NULL, Sigma, p1, p2, c1 = NULL, c2 = NULL){
   if((type1 != "continuous") & is.null(c1)){
     stop("c1 has to be defined for truncated continuous, binary, ternary or ordinal data type.")
   }
   if((type2 != "continuous") & is.null(c2)){
     stop("c2 has to be defined for truncated continuous, binary, ternary or ordinal data type.")
   }
-  p <- ifelse(is.null(dim(Sigma)), 1, nrow(Sigma))
   if (is.null(dim(c1)) & !(is.null(c1))) {
     c1 <- matrix(c1, nrow = 1, ncol = length(c1))
   }
@@ -112,12 +103,12 @@ GenData <- function(n, copula1 = "no", copula2 = "no", type1 = "continuous", typ
   }
   # jointly generate X and Y using two canonical pairs
   if (is.null(muZ)) {
-    muZ <- rep(0, p)
+    muZ <- rep(0, p1 + p2)
   }
   dat <- MASS::mvrnorm(n, mu = muZ, Sigma = Sigma) # generate a data matrix of size: n by length(muZ). length(muZ) should match with ncol(JSigma)=nrow(JSigma).
 
   Z1 <- as.matrix(dat[, 1:p1])
-  Z2 <- as.matrix(dat[, (p1+1):p])
+  Z2 <- as.matrix(dat[, (p1+1):(p1 + p2)])
 
   # Three different types of copula
   if(copula1 != "no"){
@@ -166,7 +157,22 @@ GenData <- function(n, copula1 = "no", copula2 = "no", type1 = "continuous", typ
     X2[Z2 <= matrix(apply(c2, 2, min), nrow = nrow(Z2), ncol = ncol(Z2), byrow = T)] = 0
   }
 
-  return(list(Z1 = Z1, Z2 = Z2, X1 = X1, X2 = X2, type = c(type1, type2), c1 = c1, c2 = c2, Sigma = Sigma))
+  return(list(Z1 = Z1, Z2 = Z2, X1 = X1, X2 = X2, type = c(type1, type2), p1 = p1, p2 = p2, c1 = c1, c2 = c2, Sigma = Sigma))
 }
 
-
+#' Plot true correlation vs estimated correlation
+#' \code{PlotPair} is to check unbiasness of estimation by plotting true correlation from simulation data vs estimated correlation from simulation data.
+#' @param datapair matrix for data pairs.
+#' @param namepair vector for names of data pairs.
+#' @param title title for graphs.
+#' @import ggplot2
+#' @return \code{PlotPair} returns a plot for data1 against data2 and 45 degree benchmark line.
+#' @example man/examples/estimateR_ex.R
+#' @export
+PlotPair <- function(datapair, namepair, title) {
+  df <- data.frame(datapair)
+  colnames(df) = namepair
+  print(ggplot(df, aes(x = datapair[ , 1], y = datapair[ , 2]))
+        + geom_point(color = "blue") + geom_abline(intercept = 0, slope = 1, color = "red")
+        +ggtitle(title) + xlab(namepair[1]) + ylab(namepair[2]))
+}

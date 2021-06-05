@@ -72,29 +72,18 @@ refer to table for reference of formula.
 library(latentcor)
 ### Data setting
 n <- 1000; p1 <- 1; p2 <- 1 # sample size and dimensions for two datasets.
-maxcancor <- 0.9 # true canonical correlation
 
 ### Correlation structure within each data set
 set.seed(0)
-perm1 <- sample(1:p1, size = p1);
-Sigma1 <- autocor(p1, 0.7)[perm1, perm1]
-blockind <- sample(1:3, size = p2, replace = TRUE);
-Sigma2 <- blockcor(blockind, 0.7)
+perm1 <- sample(1:(p1 + p2), size = p1);
+Sigma <- autocor(p1 + p2, 0.7)[perm1, perm1]
+# blockind <- sample(1:3, size = p2, replace = TRUE);
+# Sigma2 <- blockcor(blockind, 0.7)
 mu <- rbinom(p1+p2, 1, 0.5)
 
-### true variable indices for each dataset
-trueidx1 <- 1
-trueidx2 <- 1
-
 # Data generation
-simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2,
-                        maxcancor = maxcancor,
-                        Sigma1 = Sigma1, Sigma2 = Sigma2,
-                        copula1 = "exp", copula2 = "cube",
-                        muZ = mu,
-                        type1 = "binary", type2 = "continuous",
-                        c1 = rep(1, p1), c2 =  NULL
-)
+simdata <- GenData(n=n, copula1 = "exp", copula2 = "cube", type1 = "binary", type2 = "continuous", muZ = mu,
+                        Sigma = Sigma, c1 = rep(1, p1), c2 =  NULL)
 ```
 
 ```
@@ -103,17 +92,13 @@ simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2,
 ```
 
 ```r
-X1 <- simdata$X1; X2 <- simdata$X2; Sigma12_tt <- simdata$Sigma12
+X1 <- simdata$X1; X2 <- simdata$X2; Sigma_tt <- simdata$Sigma
 # Estimate latent correlation matrix with original method
-R1_b_org <- estR(X1, "binary", method = "original")
-R2_c_org <- estR(X2, "continuous", method = "original")
 R12_bc_org <- estR(X1, type1 = "binary", X2, type2 = "continuous",
-                              method = "original")$R12
+                              method = "original")$R
 # Estimate latent correlation matrix with original method
-R1_b_approx <- estR(X1, "binary", method = "approx")
-R2_c_approx <- estR(X2, "continuous", method = "approx")
 R12_bc_approx <- estR(X1, type1 = "binary", X2, type2 = "continuous",
-                              method = "approx")$R12
+                              method = "approx")$R
 ```
 
 # Rendered R Figures

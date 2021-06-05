@@ -61,31 +61,19 @@ maxcancor <- 0.9 # true canonical correlation
 
 ### Correlation structure within each data set
 set.seed(0)
-perm1 <- sample(1:p1, size = p1);
-Sigma1 <- autocor(p1, 0.7)[perm1, perm1]
-blockind <- sample(1:3, size = p2, replace = TRUE);
-Sigma2 <- blockcor(blockind, 0.7)
-mu <- rbinom(p1+p2, 1, 0.5)
-
-### true variable indices for each dataset
-trueidx1 <- c(rep(1, 3), rep(0, p1-3))
-trueidx2 <- c(rep(1, 2), rep(0, p2-2))
+perm1 <- sample(1:(p1 + p2), size = p1 + p2);
+Sigma <- autocor(p1 + p2, 0.7)[perm1, perm1]
+# blockind <- sample(1:3, size = p2, replace = TRUE);
+# Sigma2 <- blockcor(blockind, 0.7)
+mu <- rbinom(p1 + p2, 1, 0.5)
 
 # Data generation
-simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2,
-                        maxcancor = maxcancor,
-                        Sigma1 = Sigma1, Sigma2 = Sigma2,
-                        copula1 = "exp", copula2 = "cube",
-                        muZ = mu,
-                        type1 = "binary", type2 = "continuous",
-                        c1 = rep(1, p1), c2 =  NULL
-)
-X1 <- simdata$X1; X2 <- simdata$X2; Sigma12_tt <- simdata$Sigma12
+simdata <- GenData(n = n, copula1 = "exp", copula2 = "cube", type1 = "binary", type2 = "continuous",
+                   muZ = mu, Sigma = Sigma, p1 = p1, p2 = p2, c1 = rep(1, p1), c2 =  NULL)
+X1 <- simdata$X1; X2 <- simdata$X2; Sigma_tt <- simdata$Sigma
 # Estimate latent correlation matrix with original method
-R1_tt_org <- estR(X1, "binary", method = "original")
-R2_tt_org <- estR(X2, "continuous", method = "original")
-R12_tt_org <- estR(X1, type1 = "binary", X2, type2 = "continuous",
-                              method = "original")$R12
+R_tt_org <- estR(X1, type1 = "binary", X2, type2 = "continuous",
+                              method = "original")$R
 cp1 <- "exp"; cp2 <- "cube"
 for (tp1 in c("continuous", "binary", "ternary", "trunc")) {
   for (tp2 in c("continuous", "binary", "ternary", "trunc")) {
@@ -101,28 +89,14 @@ for (tp1 in c("continuous", "binary", "ternary", "trunc")) {
       } else if (tp2 == "ternary") {
         c2 <- matrix(rep(0:1, p2), nrow = 2, ncol = p2)
       }
-      simdata <- GenerateData(n=n, trueidx1 = trueidx1, trueidx2 = trueidx2,
-                                    maxcancor = maxcancor,
-                                    Sigma1 = Sigma1, Sigma2 = Sigma2,
-                                    copula1 = cp1, copula2 = cp2,
-                                    muZ = mu,
-                                    type1 = tp1, type2 = tp2,
-                                    c1 = c1, c2 = c2)
-      X1 <- simdata$X1; X2 <- simdata$X2; Sigma12 <- simdata$Sigma12
-      assign(paste("R1", cp1, cp2, tp1, tp2, md, sep = "_"),
-             estR(X1, tp1, method = md))
-      assign(paste("R2", cp1, cp2, tp1, tp2, md, sep = "_"),
-             estR(X2, tp2, method = md))
-      assign(paste("R12", cp1, cp2, tp1, tp2, md, sep = "_"),
-             estR(X1 = X1, type1 = tp1, X2 = X2, type2 = tp2, method = md)$R12)
-      PlotCompare(list(cbind(c(Sigma1), c(get(paste("R1", cp1, cp2, tp1, tp2, md, sep = "_")))),
-                       cbind(c(Sigma2), c(get(paste("R2", cp1, cp2, tp1, tp2, md, sep = "_")))),
-                       cbind(c(Sigma12), c(get(paste("R12", cp1, cp2, tp1, tp2, md, sep = "_"))))
-                        ),
-                  list(c("Sigma1", paste("R1", cp1, cp2, tp1, tp2, md, sep = "_")),
-                       c("Sigma2", paste("R2", cp1, cp2, tp1, tp2, md, sep = "_")),
-                       c("Sigma12", paste("R12", cp1, cp2, tp1, tp2, md, sep = "_"))),
-                  "Latent correlation (True vs. Estimated)")
+      simdata <- GenData(n=n, copula1 = cp1, copula2 = cp2, type1 = tp1, type2 = tp2,
+                         muZ = mu, Sigma = Sigma, p1= p1, p2 = p2, c1 = c1, c2 = c2)
+      X1 <- simdata$X1; X2 <- simdata$X2; Sigma <- simdata$Sigma
+      assign(paste("R", cp1, cp2, tp1, tp2, md, sep = "_"),
+             estR(X1 = X1, type1 = tp1, X2 = X2, type2 = tp2, method = md)$R)
+      PlotPair(datapair = cbind(c(Sigma), c(get(paste("R", cp1, cp2, tp1, tp2, md, sep = "_")))),
+                  namepair = c("Sigma", paste("R", cp1, cp2, tp1, tp2, md, sep = "_")),
+                  title = "Latent correlation (True vs. Estimated)")
     }
   }
 }
