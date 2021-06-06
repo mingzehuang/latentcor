@@ -8,12 +8,12 @@ authors:
 - name: Mingze Huang
   orcid: 0000-0003-3919-1564
   affiliation: 1, 2
-- name: Christian L. Muller
+- name: Christian L. Müller
   orcid: 0000-0002-3821-7083
   affiliation: 3
 - name: Irina Gaynanova
   orcid: 0000-0000-0000-0000
-  affiliation: 2
+  affiliation: 1
 affiliations:
 - name: Department of Statistics, Texas A& M University
   index: 1
