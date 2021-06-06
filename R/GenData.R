@@ -69,10 +69,6 @@ blockcor <- function(blockind, rho){
 #'       \item{Z2: }{latent numeric data matrix (n by p2).}
 #'       \item{X1: }{observed numeric data matrix (n by p1).}
 #'       \item{X2: }{observed numeric data matrix (n by p2).}
-#'       \item{type: }{a vector containing types of two datasets.}
-#'       \item{c1: }{a matrix of thresholds for \code{X1} for "trunc", "binary", "ternary" and data type.}
-#'       \item{c2: }{a matrix of thresholds for \code{X2} for "trunc", "binary", "ternary" and data type.}
-#'       \item{Sigma: }{true latent correlation matrix of \code{Z1} and \code{Z2} ((p1+p2) by (p1+p2)).}
 #' }
 #' @export
 #' @importFrom MASS mvrnorm
@@ -88,7 +84,7 @@ blockcor <- function(blockind, rho){
 #'  c1 = matrix(rep(1:2, p1), nrow = 2, ncol = p1), c2 = rep(0, p2))
 #'
 #'
-GenData <- function(n, copula1 = "no", copula2 = "no", type1 = "continuous", type2 = "continuous", muZ = NULL, Sigma, p1, p2, c1 = NULL, c2 = NULL){
+GenData <- function(n, type1, type2, sigma = NULL, p1 = 1, p2 = 1, copula1 = NULL, copula2 = NULL, muZ = NULL, Sigma = NULL, c1 = NULL, c2 = NULL){
   if((type1 != "continuous") & is.null(c1)){
     stop("c1 has to be defined for truncated continuous, binary, ternary or ordinal data type.")
   }
@@ -111,20 +107,17 @@ GenData <- function(n, copula1 = "no", copula2 = "no", type1 = "continuous", typ
   Z2 <- as.matrix(dat[, (p1+1):(p1 + p2)])
 
   # Three different types of copula
-  if(copula1 != "no"){
     if(copula1 == "exp"){
       Z1 <- exp(Z1)
     }else if(copula1 == "cube"){
       Z1 <- Z1^3
     }
-  }
-  if(copula2 != "no"){
+
     if(copula2 == "exp"){
       Z2 <- exp(Z2)
     }else if(copula2 == "cube"){
       Z2 <- Z2^3
     }
-  }
 
   if(type1 != "continuous"){
     if(ncol(c1) != p1) { stop("The length of threshold vector c1 does not match with the size of the data X1.") }
@@ -157,7 +150,7 @@ GenData <- function(n, copula1 = "no", copula2 = "no", type1 = "continuous", typ
     X2[Z2 <= matrix(apply(c2, 2, min), nrow = nrow(Z2), ncol = ncol(Z2), byrow = T)] = 0
   }
 
-  return(list(Z1 = Z1, Z2 = Z2, X1 = X1, X2 = X2, type = c(type1, type2), p1 = p1, p2 = p2, c1 = c1, c2 = c2, Sigma = Sigma))
+  return(list(Z1 = Z1, Z2 = Z2, X1 = X1, X2 = X2))
 }
 
 #' Plot true correlation vs estimated correlation
@@ -169,7 +162,7 @@ GenData <- function(n, copula1 = "no", copula2 = "no", type1 = "continuous", typ
 #' @return \code{PlotPair} returns a plot for data1 against data2 and 45 degree benchmark line.
 #' @example man/examples/estimateR_ex.R
 #' @export
-PlotPair <- function(datapair, namepair, title) {
+PlotPair <- function(datapair, namepair = c("X", "Y"), title = "Plot X vs Y") {
   df <- data.frame(datapair)
   colnames(df) = namepair
   print(ggplot(df, aes(x = datapair[ , 1], y = datapair[ , 2]))

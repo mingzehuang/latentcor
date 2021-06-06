@@ -19,6 +19,7 @@ X1 <- simdata$X1; X2 <- simdata$X2; Sigma_tt <- simdata$Sigma
 # Estimate latent correlation matrix with original method
 R_tt_org <- estR(X1, type1 = "binary", X2, type2 = "continuous",
                               method = "original")$R
+
 cp1 <- "exp"; cp2 <- "cube"
 for (tp1 in c("continuous", "binary", "ternary", "trunc")) {
   for (tp2 in c("continuous", "binary", "ternary", "trunc")) {
@@ -36,7 +37,7 @@ for (tp1 in c("continuous", "binary", "ternary", "trunc")) {
       }
       simdata <- GenData(n=n, copula1 = cp1, copula2 = cp2, type1 = tp1, type2 = tp2,
                          muZ = mu, Sigma = Sigma, p1= p1, p2 = p2, c1 = c1, c2 = c2)
-      X1 <- simdata$X1; X2 <- simdata$X2; Sigma <- simdata$Sigma
+      X1 <- simdata$X1; X2 <- simdata$X2
       assign(paste("R", cp1, cp2, tp1, tp2, md, sep = "_"),
              estR(X1 = X1, type1 = tp1, X2 = X2, type2 = tp2, method = md)$R)
       PlotPair(datapair = cbind(c(Sigma), c(get(paste("R", cp1, cp2, tp1, tp2, md, sep = "_")))),

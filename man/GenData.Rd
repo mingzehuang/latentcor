@@ -7,10 +7,10 @@
 \usage{
 GenData(
   n,
-  copula1 = "no",
-  copula2 = "no",
-  type1 = "continuous",
-  type2 = "continuous",
+  copula1 = NULL,
+  copula2 = NULL,
+  type1,
+  type2,
   muZ = NULL,
   Sigma,
   p1,
@@ -49,10 +49,6 @@ GenData(
       \item{Z2: }{latent numeric data matrix (n by p2).}
       \item{X1: }{observed numeric data matrix (n by p1).}
       \item{X2: }{observed numeric data matrix (n by p2).}
-      \item{type: }{a vector containing types of two datasets.}
-      \item{c1: }{a matrix of thresholds for \code{X1} for "trunc", "binary", "ternary" and data type.}
-      \item{c2: }{a matrix of thresholds for \code{X2} for "trunc", "binary", "ternary" and data type.}
-      \item{Sigma: }{true latent correlation matrix of \code{Z1} and \code{Z2} ((p1+p2) by (p1+p2)).}
 }
 }
 \description{
