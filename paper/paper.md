@@ -84,7 +84,7 @@ n <- 1000; p1 <- 1; p2 <- 1 # sample size and dimensions for two datasets.
 
 ### Correlation structure within each data set
 set.seed(0)
-perm1 <- sample(1:(p1 + p2), size = p1);
+perm1 <- sample(1:(p1 + p2), size = p1 + p2);
 Sigma <- autocor(p1 + p2, 0.7)[perm1, perm1]
 mu <- rbinom(p1+p2, 1, 0.5)
 
@@ -105,13 +105,7 @@ R_nc_approx <- estR(X1 = X1, type1 = "ternary", X2 = X2, type2 = "continuous",
 
 # Rendered R Figures
 
-```r
-# Plot ternary/continuous case estimation via original method.
-PlotPair(datapair = cbind(c(Sigma), c(R_nc_org)), namepair = c("Sigma", "R_nc_org"),
-                  title = "Latent correlation (True vs. Estimated)")
-# Plot ternary/continuous case estimation via approximation method.
-PlotPair(datapair = cbind(c(Sigma), c(R_nc_approx)), namepair = c("Sigma", "R_nc_approx"),
-                  title = "Latent correlation (True vs. Estimated)")
-```
+![ternary/continuous via original method](R_nc_org.png)
+![ternary/continuous via approximation method](R_nc_approx.png)
 
 # References

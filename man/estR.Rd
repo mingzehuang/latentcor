@@ -54,7 +54,33 @@ Estimation of latent correlation matrix from observed data of (possibly) mixed t
 }
 \examples{
 
-library(ggplot2)
+### Data setting
+n <- 1000; p1 <- 1; p2 <- 1 # sample size and dimensions for two datasets.
+
+### Correlation structure within each data set
+set.seed(0)
+perm1 <- sample(1:(p1 + p2), size = p1 + p2);
+Sigma <- autocor(p1 + p2, 0.7)[perm1, perm1]
+mu <- rbinom(p1+p2, 1, 0.5)
+
+# Data generation
+simdata <- GenData(n=n, type1 = "binary", type2 = "continuous", p1 = p1, p2 = p2, copula1 = "exp",
+                   copula2 = "cube",  muZ = mu, Sigma = Sigma, c1 = rep(1, p1), c2 =  NULL)
+X1 <- simdata$X1; X2 <- simdata$X2
+# Estimate latent correlation matrix with original method
+R_nc_org <- estR(X1 = X1, type1 = "ternary", X2 = X2, type2 = "continuous",
+                 method = "original")$R
+# Estimate latent correlation matrix with aprroximation method
+R_nc_approx <- estR(X1 = X1, type1 = "ternary", X2 = X2, type2 = "continuous",
+                    method = "approx")$R
+
+# Plot ternary/continuous case estimation via original method.
+PlotPair(datapair = cbind(c(Sigma), c(R_nc_org)), namepair = c("Sigma", "R_nc_org"),
+         title = "Latent correlation (True vs. Estimated)")
+# Plot ternary/continuous case estimation via approximation method.
+PlotPair(datapair = cbind(c(Sigma), c(R_nc_approx)), namepair = c("Sigma", "R_nc_approx"),
+         title = "Latent correlation (True vs. Estimated)")
+
 ### Data setting
 n <- 1000; p1 <- 15; p2 <- 10 # sample size and dimensions for two datasets.
 maxcancor <- 0.9 # true canonical correlation
@@ -66,14 +92,6 @@ Sigma <- autocor(p1 + p2, 0.7)[perm1, perm1]
 # blockind <- sample(1:3, size = p2, replace = TRUE);
 # Sigma2 <- blockcor(blockind, 0.7)
 mu <- rbinom(p1 + p2, 1, 0.5)
-
-# Data generation
-simdata <- GenData(n = n, copula1 = "exp", copula2 = "cube", type1 = "binary", type2 = "continuous",
-                   muZ = mu, Sigma = Sigma, p1 = p1, p2 = p2, c1 = rep(1, p1), c2 =  NULL)
-X1 <- simdata$X1; X2 <- simdata$X2; Sigma_tt <- simdata$Sigma
-# Estimate latent correlation matrix with original method
-R_tt_org <- estR(X1, type1 = "binary", X2, type2 = "continuous",
-                              method = "original")$R
 
 cp1 <- "exp"; cp2 <- "cube"
 for (tp1 in c("continuous", "binary", "ternary", "trunc")) {
