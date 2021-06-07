@@ -104,8 +104,9 @@ R_nc_approx <- estR(X1 = X1, type1 = "ternary", X2 = X2, type2 = "continuous",
 ```
 
 # Rendered R Figures
-
-![\label{fig: ternary/continuous via original method}](R_nc_org.png)
-![\label{fig: ternary/continuous via approximation method}](R_nc_approx.png)
+ternary/continuous via original method
+![\label{fig:R_nc_org}](R_nc_org.png)
+ternary/continuous via approximation method
+![\label{fig:R_nc_approx}](R_nc_approx.png)
 
 # References
