@@ -7,14 +7,15 @@
 \usage{
 GenData(
   n,
-  copula1 = NULL,
-  copula2 = NULL,
   type1,
   type2,
+  sigma = NULL,
+  p1 = 1,
+  p2 = 1,
+  copula1 = NULL,
+  copula2 = NULL,
   muZ = NULL,
-  Sigma,
-  p1,
-  p2,
+  Sigma = NULL,
   c1 = NULL,
   c2 = NULL
 )
@@ -22,21 +23,23 @@ GenData(
 \arguments{
 \item{n}{Sample size}
 
-\item{copula1}{Copula type for the first dataset. U1 = f(Z1), which could be either "exp", "cube".}
-
-\item{copula2}{Copula type for the second dataset. U2 = f(Z2), which could be either "exp", "cube".}
-
 \item{type1}{Type of the first dataset \code{X1}. Could be "continuous", "trunc", "binary", "ternary".}
 
 \item{type2}{Type of the second dataset \code{X2}. Could be "continuous", "trunc", "binary", "ternary".}
 
-\item{muZ}{Mean of latent multivariate normal.}
-
-\item{Sigma}{True correlation matrix of latent variable \code{Z1} (p1 by p1).}
+\item{sigma}{True correlation between 2 variables for bi-variable data generation.}
 
 \item{p1}{Dimension of variables belong to \code{type1}.}
 
 \item{p2}{Dimension of variables belong to \code{type2}.}
+
+\item{copula1}{Copula type for the first dataset. U1 = f(Z1), which could be either "exp", "cube".}
+
+\item{copula2}{Copula type for the second dataset. U2 = f(Z2), which could be either "exp", "cube".}
+
+\item{muZ}{Mean of latent multivariate normal.}
+
+\item{Sigma}{True correlation matrix of latent variable \code{Z1} (p1 by p1).}
 
 \item{c1}{Constant threshold for \code{X1} needed for "trunc", "binary", "ternary" and "ordinal" data type - the default is NULL.}
 

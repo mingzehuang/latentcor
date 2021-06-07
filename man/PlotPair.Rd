@@ -5,7 +5,7 @@
 \title{Plot true correlation vs estimated correlation
 \code{PlotPair} is to check unbiasness of estimation by plotting true correlation from simulation data vs estimated correlation from simulation data.}
 \usage{
-PlotPair(datapair, namepair, title)
+PlotPair(datapair, namepair = c("X", "Y"), title = "Plot X vs Y")
 }
 \arguments{
 \item{datapair}{matrix for data pairs.}

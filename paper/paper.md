@@ -63,12 +63,21 @@ $$
 The original method is taking estimated Kendall's $\hat{\tau}$ and other parameters to calculate latent correlation $\hat{r}$. Whereas the approximated method is using multilinear interpolation to approximate latent correlation $\hat{r}$ via pre-calculated grid values [@yoon2021fast].
 
 
-refer to table for reference of formula.
- 
- 
- Table to show memory improvement compare to mixedCCA.
+Memory footprints by Bytes:
 
-```r
+ | case | mixedCCA | latentcor |
+ |-----|----------|----------|
+| binary/continuous | 10232 | 3132 |
+| binary/binary | 303064 | 20484 |
+| truncated/continuous | 21616 | 3156 |
+| truncated/binary | 902316 | 28612 | 
+| truncated/truncated | 689776 | 16152 |
+| ternary/continuous | - | 18520 |
+| ternary/binary | - | 110928 |
+| ternary/truncated | - | 191776 |
+| ternary/ternary | - | 1023128 |
+
+```{r, eval = TRUE}
 library(latentcor)
 ### Data setting
 n <- 1000; p1 <- 1; p2 <- 1 # sample size and dimensions for two datasets.
@@ -84,7 +93,7 @@ simdata <- GenData(n=n, type1 = "binary", type2 = "continuous", p1 = p1, p2 = p2
 copula2 = "cube",  muZ = mu, Sigma = Sigma, c1 = rep(1, p1), c2 =  NULL)
 ```
 
-```r
+```{r, eval = TRUE}
 X1 <- simdata$X1; X2 <- simdata$X2
 # Estimate latent correlation matrix with original method
 R_nc_org <- estR(X1 = X1, type1 = "ternary", X2 = X2, type2 = "continuous",
@@ -96,9 +105,11 @@ R_nc_approx <- estR(X1 = X1, type1 = "ternary", X2 = X2, type2 = "continuous",
 
 # Rendered R Figures
 
-```r
+```{r, eval = TRUE}
+# Plot ternary/continuous case estimation via original method.
 PlotPair(datapair = cbind(c(Sigma), c(R_nc_org)), namepair = c("Sigma", "R_nc_org"),
                   title = "Latent correlation (True vs. Estimated)")
+# Plot ternary/continuous case estimation via approximation method.
 PlotPair(datapair = cbind(c(Sigma), c(R_nc_approx)), namepair = c("Sigma", "R_nc_approx"),
                   title = "Latent correlation (True vs. Estimated)")
 ```

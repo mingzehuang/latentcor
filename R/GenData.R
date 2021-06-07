@@ -53,6 +53,7 @@ blockcor <- function(blockind, rho){
 #' Mixed type simulation data generator
 #' \code{GenData} is used to generate two sets of data of mixed types for sparse CCA under the Gaussian copula model.
 #' @param n Sample size
+#' @param sigma True correlation between 2 variables for bi-variable data generation.
 #' @param Sigma True correlation matrix of latent variable \code{Z1} (p1 by p1).
 #' @param copula1 Copula type for the first dataset. U1 = f(Z1), which could be either "exp", "cube".
 #' @param copula2 Copula type for the second dataset. U2 = f(Z2), which could be either "exp", "cube".
