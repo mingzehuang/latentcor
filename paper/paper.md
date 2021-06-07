@@ -77,7 +77,7 @@ Memory footprints by Bytes:
 | ternary/truncated | - | 191776 |
 | ternary/ternary | - | 1023128 |
 
-```{r, eval = TRUE}
+```r
 library(latentcor)
 ### Data setting
 n <- 1000; p1 <- 1; p2 <- 1 # sample size and dimensions for two datasets.
@@ -93,7 +93,7 @@ simdata <- GenData(n=n, type1 = "binary", type2 = "continuous", p1 = p1, p2 = p2
 copula2 = "cube",  muZ = mu, Sigma = Sigma, c1 = rep(1, p1), c2 =  NULL)
 ```
 
-```{r, eval = TRUE}
+```r
 X1 <- simdata$X1; X2 <- simdata$X2
 # Estimate latent correlation matrix with original method
 R_nc_org <- estR(X1 = X1, type1 = "ternary", X2 = X2, type2 = "continuous",
@@ -105,7 +105,7 @@ R_nc_approx <- estR(X1 = X1, type1 = "ternary", X2 = X2, type2 = "continuous",
 
 # Rendered R Figures
 
-```{r, eval = TRUE}
+```r
 # Plot ternary/continuous case estimation via original method.
 PlotPair(datapair = cbind(c(Sigma), c(R_nc_org)), namepair = c("Sigma", "R_nc_org"),
                   title = "Latent correlation (True vs. Estimated)")
