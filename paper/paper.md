@@ -1,5 +1,5 @@
 ---
-title: 'Latentcor: An R Package for Latent Correlation Estimation'
+title: 'latentcor: An R Package for Latent Correlation Estimation'
 tags:
 - R
 - Statistics
