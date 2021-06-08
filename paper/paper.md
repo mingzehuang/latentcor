@@ -80,17 +80,11 @@ Memory footprints by Bytes:
 ```r
 library(latentcor)
 ### Data setting
-n <- 1000; p1 <- 1; p2 <- 1 # sample size and dimensions for two datasets.
-
-### Correlation structure within each data set
-set.seed(0)
-perm1 <- sample(1:(p1 + p2), size = p1 + p2);
-Sigma <- autocor(p1 + p2, 0.7)[perm1, perm1]
-mu <- rbinom(p1+p2, 1, 0.5)
+n <- 1000 # sample size
 
 # Data generation
-simdata <- GenData(n=n, type1 = "binary", type2 = "continuous", p1 = p1, p2 = p2, copula1 = "exp", 
-copula2 = "cube",  muZ = mu, Sigma = Sigma, c1 = rep(1, p1), c2 =  NULL)
+simdata <- GenData(n=n, type1 = "binary", type2 = "continuous", sigma = 0.7,
+copula1 = "exp", copula2 = "cube",  muZ = mu, c1 = rep(1, p1), c2 =  NULL)
 ```
 
 ```r

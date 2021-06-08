@@ -86,6 +86,9 @@ blockcor <- function(blockind, rho){
 #'
 #'
 GenData <- function(n, type1, type2, sigma = NULL, p1 = 1, p2 = 1, copula1 = NULL, copula2 = NULL, muZ = NULL, Sigma = NULL, c1 = NULL, c2 = NULL){
+  if (p1 == 1 & p2 == 1 & is.null(Sigma)) {
+    Sigma = matrix(c(1, sigma, sigma, 1), 2, 2)
+  }
   if((type1 != "continuous") & is.null(c1)){
     stop("c1 has to be defined for truncated continuous, binary, ternary or ordinal data type.")
   }
