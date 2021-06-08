@@ -10,19 +10,23 @@ authors:
   affiliation: 1, 2
 - name: Christian L. Müller
   orcid: 0000-0002-3821-7083
-  affiliation: 3
+  affiliation: 3, 4, 5
 - name: Irina Gaynanova
   orcid: 0000-0000-0000-0000
   affiliation: 1
 affiliations:
-- name: Department of Statistics, Texas A& M University
+- name: Department of Statistics, Texas A& M University, College Station, TX
   index: 1
-- name: Department of Economics, Texas A& M University
+- name: Department of Economics, Texas A& M University, College Station, TX
   index: 2
-- name: Department of Statistics, University of Munich
+- name: Ludwig-Maximilians-Universität München, Germany
   index: 3
+- name: Helmholtz Zentrum München, Germany
+  index: 4
+- name: Flatiron Institute, New York
+- index: 5
 bibliography: paper.bib
-date: "18 May 2021"
+date: "8 June 2021"
 ---
 
 # Summary
