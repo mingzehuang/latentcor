@@ -56,8 +56,9 @@ r_sol = function(type1, type2, tau, zratio1, zratio2, tol) {
     warning("Optimize returned error one of the pairwise correlations, returning NA")
     out = NA
   } else {
-    out = unlist(op)
+    out = as.numeric(op)
   }
+  return(out)
 }
 
 bridge = function(type1, type2, r, zratio1, zratio2) {
@@ -280,25 +281,25 @@ cutoff = function(type1, type2, tau, zratio1, zratio2, method, ratio){
 # Select which bridge inverse function based on the combination of variable types
 ############################################################################################
 
-r_ml <- function(type1, type2, tau, zratio1, zratio2) {
+r_ml = function(type1, type2, tau, zratio1, zratio2) {
   if (type1 == "binary" & type2 == "continuous") {
-    out <- BCipol(t(cbind(tau / bound_bc(zratio1 = zratio1), zratio1))) / 10^7
+    out = BCipol(t(cbind(tau / bound_bc(zratio1 = zratio1), zratio1))) / 10^7
   } else if (type1 == "binary" & type2 == "binary") {
-    out <- BBipol(t(cbind(tau / bound_bb(zratio1 = zratio1, zratio2 = zratio2), zratio1, zratio2))) / 10^7
+    out = BBipol(t(cbind(tau / bound_bb(zratio1 = zratio1, zratio2 = zratio2), zratio1, zratio2))) / 10^7
   } else if (type1 == "trunc" & type2 == "continuous") {
-    out <- TCipol(t(cbind(tau / bound_tc(zratio1 = zratio1), zratio1))) / 10^7
+    out = TCipol(t(cbind(tau / bound_tc(zratio1 = zratio1), zratio1))) / 10^7
   } else if (type1 == "trunc" & type2 == "binary") {
-    out <- TBipol(t(cbind(tau / bound_tb(zratio1 = zratio1, zratio2 = zratio2), zratio1, zratio2))) / 10^7
+    out = TBipol(t(cbind(tau / bound_tb(zratio1 = zratio1, zratio2 = zratio2), zratio1, zratio2))) / 10^7
   } else if (type1 == "trunc" & type2 == "trunc") {
-    out <- TTipol(t(cbind(tau / bound_tt(zratio1 = zratio1, zratio2 = zratio2), zratio1, zratio2))) / 10^7
+    out = TTipol(t(cbind(tau / bound_tt(zratio1 = zratio1, zratio2 = zratio2), zratio1, zratio2))) / 10^7
   } else if (type1 == "ternary" & type2 == "continuous") {
-    out <- NCipol(t(cbind(tau / bound_nc(zratio1 = zratio1), zratio1[ , 1] / zratio1[ , 2], zratio1[ , 2]))) / 10^7
+    out = NCipol(t(cbind(tau / bound_nc(zratio1 = zratio1), zratio1[ , 1] / zratio1[ , 2], zratio1[ , 2]))) / 10^7
   } else if (type1 == "ternary" & type2 == "binary") {
-    out <- NBipol(t(cbind(tau / bound_nb(zratio1 = zratio1, zratio2 = zratio2), zratio1[ , 1] / zratio1[ , 2], zratio1[ , 2], zratio2))) / 10^7
+    out = NBipol(t(cbind(tau / bound_nb(zratio1 = zratio1, zratio2 = zratio2), zratio1[ , 1] / zratio1[ , 2], zratio1[ , 2], zratio2))) / 10^7
   } else if (type1 == "ternary" & type2 == "trunc") {
-    out <- NTipol(t(cbind(tau / bound_nt(zratio1 = zratio1, zratio2 = zratio2), zratio1[ , 1] / zratio1[ , 2], zratio1[ , 2], zratio2))) / 10^7
+    out = NTipol(t(cbind(tau / bound_nt(zratio1 = zratio1, zratio2 = zratio2), zratio1[ , 1] / zratio1[ , 2], zratio1[ , 2], zratio2))) / 10^7
   } else if (type1 == "ternary" & type2 == "ternary") {
-    out <- NNipol(t(cbind(tau / bound_nn(zratio1 = zratio1, zratio2 = zratio2), zratio1[ , 1] / zratio1[ , 2], zratio1[ , 2], zratio2[ , 1] / zratio2[ , 2], zratio2[ , 2]))) / 10^7
+    out = NNipol(t(cbind(tau / bound_nn(zratio1 = zratio1, zratio2 = zratio2), zratio1[ , 1] / zratio1[ , 2], zratio1[ , 2], zratio2[ , 1] / zratio2[ , 2], zratio2[ , 2]))) / 10^7
   } else {
     stop("Unrecognized type of variables. Should be one of continuous, binary or trunc.")
   }
