@@ -1,25 +1,40 @@
 #'
 #' @import stats
 #' @importFrom Matrix nearPD
+#' @importFrom pcaPP cor.fk
 #'
 NULL
 
 ##### This is going to be approximate version of fromKtoR which is much faster using multilinear interpolation. (07-23-2020)
 ##### multilinear interpolation method is from ipol in chebpol package.
 
-
-Kendall = function(X, type){
-  if (type == "continuous"){
-    if (any(is.na(X))){
-      # If there are any missing measurements, use slower function
-      K <- cor(X, method = "kendall", use = "pairwise.complete.obs")
-    }else{
-      K <- pcaPP::cor.fk(X)
-    }
-  } else {
-    K <- Kendall_matrix(X)
+KendallTau <- function(x, y){ # both x and y are vectors, not matrix.
+  # Based on cor.fk function from pcaPP package to make the computation faster.
+  # It can handle ties.
+  if (sum(is.na(x)) + sum(is.na(y)) > 0){
+    index_new = which(!is.na(x) & !is.na(y))
+      x <- x[index_new]; y <- y[index_new]
   }
-  return(K)
+  n <- length(x)
+  n0 <- n * (n - 1) / 2
+  if (length(unique(x)) != n) {
+    x <- as.vector(x) # sometimes input x is a matrix n by 1, which gives errors for rle function below.
+    x.info <- rle(sort(x))
+    t1 <- x.info$lengths[x.info$lengths > 1]
+    n1 <- sum(t1 * (t1 - 1) / 2)
+  } else {
+    n1 <- 0
+  }
+  if (length(unique(y)) != n) {
+    y <- as.vector(y) # sometimes input y is a matrix n by 1, which gives errors for rle function below.
+    y.info <- rle(sort(y))
+    u1 <- y.info$lengths[y.info$lengths > 1]
+    n2 <- sum(u1 * (u1 - 1) / 2)
+  } else {
+    n2 <- 0
+  }
+  tau <- pcaPP::cor.fk(x, y) * sqrt(n0 - n1) * sqrt(n0 - n2) / n0
+  return(tau)
 }
 
 # K: Kendall's tau matrix.
@@ -89,7 +104,7 @@ estimateR <- function(X, type, method, tol, ratio){
     R = 1
   } else {
     zratio = zratio(X = X, type = type)
-    K = Kendall(X = X, type = type)
+    K = Kendall_matrix(X = X)
     R = fromKtoR(K = K, zratio = zratio, type = type, method = method, tol = tol, ratio = ratio)
   }
   return(as.matrix(R))
@@ -99,13 +114,8 @@ estimateR_mixed <- function(X1, type1, X2, type2, method, tol, ratio){
   X1 <- as.matrix(X1); p1 <- ncol(X1)
   X2 <- as.matrix(X2); p2 <- ncol(X2)
   zratio1 = zratio(X = X1, type = type1); zratio2 = zratio(X = X2, type = type2)
-  if (p1 == 1 & p2 == 1){
-    k12 = KendallTau(X1, X2)
-    R12 = fromKtoR_mixed(K12 = k12, zratio1 = zratio1, zratio2 = zratio2, type1 = type1, type2 = type2, method = method, tol = tol, ratio = ratio)
-  } else {
-    K12 <- Kendall_matrix(X1, X2)
-    R12 <- fromKtoR_mixed(K12 = K12, zratio1 = zratio1, zratio2 = zratio2, type1 = type1, type2 = type2, method = method, tol = tol, ratio = ratio)
-  }
+  K12 <- Kendall_matrix(X1, X2)
+  R12 <- fromKtoR_mixed(K12 = K12, zratio1 = zratio1, zratio2 = zratio2, type1 = type1, type2 = type2, method = method, tol = tol, ratio = ratio)
   return(as.matrix(R12))
 }
 
