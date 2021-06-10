@@ -48,7 +48,11 @@ estR <- function(X1, type1, X2 = NULL, type2 = NULL, method = "approx", use.near
     name1 = paste("X1", 1:p1, sep = "")
   }
   if (is.null(X2)) {
-    out = estimateR(X = X1, type = type1, method = method, tol = tol, ratio = ratio)
+    if (p1 == 1) {
+      out = as.matrix(1)
+    } else {
+      out = estimateR(X1 = X1, type1 = type1, method = method, tol = tol, ratio = ratio)
+    }
     return(out)
   } else {
     X2 <- as.matrix(X2); p2 <- ncol(X2)
@@ -60,9 +64,9 @@ estR <- function(X1, type1, X2 = NULL, type2 = NULL, method = "approx", use.near
     if (nrow(X1) != nrow(X2)){ # Check of they have the same sample size.
     stop ("X1 and X2 must have the same sample size.")
     } else {
-      R1 = estimateR(X = X1, type = type1, method = method, tol = tol, ratio = ratio)
-      R2 = estimateR(X = X2, type = type2, method = method, tol = tol, ratio = ratio)
-      R12 = estimateR_mixed(X1 = X1, type1 = type1, X2 = X2, type2 = type2, method = method, tol = tol, ratio = ratio)
+      R1 = estimateR(X1 = X1, type1 = type1, method = method, tol = tol, ratio = ratio)
+      R2 = estimateR(X1 = X2, type1 = type2, method = method, tol = tol, ratio = ratio)
+      R12 = estimateR(X1 = X1, type1 = type1, X2 = X2, type2 = type2, method = method, tol = tol, ratio = ratio)
       Rall <- rbind(cbind(R1, R12), cbind(t(R12), R2))
       R.final = R_adj(R = Rall, use.nearPD = use.nearPD, verbose = verbose, nu = nu)
     }

@@ -14,14 +14,14 @@ XY = mvrnorm(n, mu = mu, Sigma = Sigma)
 X = XY[ , 1:p1]; Y = XY[ , (p1 + 1):(p1 + p2)]
 
 test_that("Kendall's matrix is symmetric matrix", {
-  expect_equal(Kendall_matrix(X), t(Kendall_matrix(X)))
-  expect_equal(Kendall_matrix(X, Y), t(Kendall_matrix(Y, X)))
+  expect_equal(Kendall(X), t(Kendall(X)))
+  expect_equal(Kendall(X, Y), t(Kendall(Y, X)))
 })
 
 test_that("Kendall's tau is between -1 and 1", {
-  expect_true(all(Kendall_matrix(X) <= matrix(1, p1, p1)))
-  expect_true(all(Kendall_matrix(X) >= matrix(-1, p1, p1)))
-  expect_true(all(c(Kendall_matrix(X, Y)) <= rep(1, p1 * p2)))
-  expect_true(all(c(Kendall_matrix(X, Y)) >= rep(-1, p1 * p2)))
+  expect_true(all(Kendall(X) <= matrix(1, p1, p1)))
+  expect_true(all(Kendall(X) >= matrix(-1, p1, p1)))
+  expect_true(all(c(Kendall(X, Y)) <= rep(1, p1 * p2)))
+  expect_true(all(c(Kendall(X, Y)) >= rep(-1, p1 * p2)))
 })
 

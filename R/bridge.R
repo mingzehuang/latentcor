@@ -7,7 +7,7 @@ zratio = function(X, type) {
   if (type == "continuous") {
     zratio = NULL
   } else if (type == "trunc"){
-    zratio <- as.matrix(colMeans(X == 0))
+    zratio = as.matrix(colMeans(X == 0))
     # checking data type
     if(sum(X < 0) > 0) {
       stop("The data of truncated type contains negative values.")
@@ -20,7 +20,7 @@ zratio = function(X, type) {
       stop("There are variables in the data that have only zeros. Filter those     variables before continuing. \n")
     }
   } else if (type == "binary") {
-    zratio <- as.matrix(colMeans(X == 0))
+    zratio = as.matrix(colMeans(X == 0))
     # checking data type
     if(sum(!(X %in% c(0, 1))) > 0) {
       stop("The data is not \"binary\".")
@@ -29,7 +29,7 @@ zratio = function(X, type) {
       stop("There are binary variables in the data that have only zeros or only ones. Filter those variables before continuing. \n")
     }
   } else if (type == "ternary") {
-    zratio <- cbind(colMeans(X == 0), 1 - colMeans(X == 2))
+    zratio = cbind(colMeans(X == 0), 1 - colMeans(X == 2))
   }
   return(zratio)
 }

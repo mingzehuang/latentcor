@@ -6,7 +6,6 @@ n <- 1000; p1 <- 15; p2 <- 10 # sample size and dimensions for two datasets.
 maxcancor <- 0.9 # true canonical correlation
 
 ### Correlation structure within each data set
-set.seed(0)
 perm1 <- sample(1:(p1 + p2), size = p1 + p2);
 Sigma <- autocor(p1 + p2, 0.7)[perm1, perm1]
 mu <- rbinom(p1 + p2, 1, 0.5)
