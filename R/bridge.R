@@ -34,17 +34,17 @@ zratio = function(X, type) {
   return(zratio)
 }
 
-
-R_sol <- function(type1, type2, tau, zratio1, zratio2, method, tol, ratio) {
-  out <- rep(NA, length(tau))
-  cutoff <- cutoff(type1 = type1, type2 = type2, tau = abs(tau), zratio1 = zratio1, zratio2 = zratio2, method = method, ratio = ratio)
-  outside <- which(cutoff)
-  inside <- which(!(cutoff))
+R_sol = function(type1, type2, tau, zratio1, zratio2, method, tol, ratio) {
+  out = rep(NA, length(tau))
+  cutoff = cutoff(type1 = type1, type2 = type2, tau = tau, zratio1 = zratio1, zratio2 = zratio2, method = method, ratio = ratio)
+  outside = which(cutoff)
+  inside = which(!(cutoff))
   if (length(inside) > 0) {
-    out[inside] <- r_ml(type1 = type1, type2 = type2, tau = tau[inside], zratio1 = matrix(zratio1[inside, ], nrow=length(inside)), zratio2 = matrix(zratio2[inside, ], nrow = length(inside)))
+    out[inside] = r_ml(type1 = type1, type2 = type2, tau = tau[inside], zratio1 = matrix(zratio1[inside, ], nrow=length(inside)), zratio2 = matrix(zratio2[inside, ], nrow = length(inside)))
   }
   if (length(outside) > 0) {
-    out[outside] = sapply(outside, function(x){r_sol(type1 = type1, type2 = type2, tau = tau[x], zratio1 = zratio1[x, ], zratio2 = zratio2[x, ], tol = tol)})
+    f = function(x){r_sol(type1 = type1, type2 = type2, tau = tau[x], zratio1 = zratio1[x, ], zratio2 = zratio2[x, ], tol = tol)}
+    out[outside] = sapply(outside, f)
   }
   return(out)
 }
@@ -85,6 +85,7 @@ bridge = function(type1, type2, r, zratio1, zratio2) {
   }
   return(out)
 }
+
 bridgeF_bc = function(r, zratio1){
   # binary and continuous
   de1 = stats::qnorm(zratio1)
@@ -250,23 +251,23 @@ cutoff = function(type1, type2, tau, zratio1, zratio2, method, ratio){
   } else if (method == "ml") {
     out = rep(FALSE, length(tau))
   } else if (type1 == "binary" & type2 == "continuous") {
-    out = tau > ratio * bound_bc(zratio1 = zratio1)
+    out = abs(tau) > ratio * bound_bc(zratio1 = zratio1)
   } else if (type1 == "binary" & type2 == "binary") {
-    out = tau > ratio * bound_bb(zratio1 = zratio1, zratio2 = zratio2)
+    out = abs(tau) > ratio * bound_bb(zratio1 = zratio1, zratio2 = zratio2)
   } else if (type1 == "trunc" & type2 == "continuous") {
-    out = tau > ratio * bound_tc(zratio1 = zratio1)
+    out = abs(tau) > ratio * bound_tc(zratio1 = zratio1)
   } else if (type1 == "trunc" & type2 == "binary") {
-    out = tau > ratio * bound_tb(zratio1 = zratio1, zratio2 = zratio2)
+    out = abs(tau) > ratio * bound_tb(zratio1 = zratio1, zratio2 = zratio2)
   } else if (type1 == "trunc" & type2 == "trunc") {
-    out = tau > ratio * bound_tt(zratio1 = zratio1, zratio2 = zratio2)
+    out = abs(tau) > ratio * bound_tt(zratio1 = zratio1, zratio2 = zratio2)
   } else if (type1 == "ternary" & type2 == "continuous") {
-    out = tau > ratio * bound_nc(zratio1 = zratio1)
+    out = abs(tau) > ratio * bound_nc(zratio1 = zratio1)
   } else if (type1 == "ternary" & type2 == "binary") {
-    out = tau > ratio * bound_nb(zratio1 = zratio1, zratio2 = zratio2)
+    out = abs(tau) > ratio * bound_nb(zratio1 = zratio1, zratio2 = zratio2)
   } else if (type1 == "ternary" & type2 == "trunc") {
-    out = tau > ratio * bound_nt(zratio1 = zratio1, zratio2 = zratio2)
+    out = abs(tau) > ratio * bound_nt(zratio1 = zratio1, zratio2 = zratio2)
   } else if (type1 == "ternary" & type2 == "ternary") {
-    out = tau > ratio * bound_nn(zratio1 = zratio1, zratio2 = zratio2)
+    out = abs(tau) > ratio * bound_nn(zratio1 = zratio1, zratio2 = zratio2)
   # } else if (type1 == "dtrunc" & type2 == "continuous") {
   #   out <- rep(TRUE, length(tau))
   } else {
