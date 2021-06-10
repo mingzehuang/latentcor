@@ -125,11 +125,9 @@ GenData <- function(n, type1, type2, sigma = NULL, p1 = 1, p2 = 1, copula1 = NUL
 
   if(type1 != "continuous"){
     if(ncol(c1) != p1) { stop("The length of threshold vector c1 does not match with the size of the data X1.") }
-    if(ncol(c1) == 1) { warning("Same threshold is applied to the all variables in the first set.") }
   }
   if(type2 != "continuous"){
     if(ncol(c2) != p2) { stop("The length of threshold vector c2 does not match with the size of the data X2.") }
-    if(ncol(c2) == 1) { warning("Same threshold is applied to the all variables in the second set.") }
   }
 
   if(type1 == "continuous") {
