@@ -47,11 +47,11 @@ fromKtoR = function(K, zratio1, zratio2 = NULL, type1, type2 = NULL, method, tol
     hatR = sin(pi / 2 * K)
     out = as.matrix(hatR)
   } else if (is.null(type2)) {
-    zratio1 = apply(zratio1, 2, function(x){rep(x, d2)})
-    zratio2 = apply(zratio1, 2, function(x){rep(x, each = d1)})
+    zratio1_rep = apply(zratio1, 2, function(x){rep(x, d2)})
+    zratio2_rep = apply(zratio1, 2, function(x){rep(x, each = d1)})
     upperR = c(upper.tri(K)) # length p^2 of true/false with true corresponding to upper.tri
     hatR = matrix(0, d1, d1)
-    hatR[upperR] = R_sol(type1 = type1, type2 = type1, tau = c(K[upperR]), zratio1 = matrix(zratio1[upperR, ], nrow = sum(upperR)), zratio2 = matrix(zratio2[upperR, ], nrow = sum(upperR)), method = method, tol = tol, ratio = ratio)
+    hatR[upperR] = R_sol(type1 = type1, type2 = type1, tau = c(K[upperR]), zratio1 = matrix(zratio1_rep[upperR, ], nrow = sum(upperR)), zratio2 = matrix(zratio2_rep[upperR, ], nrow = sum(upperR)), method = method, tol = tol, ratio = ratio)
     hatR = hatR + t(hatR)
     diag(hatR) = 1
     out = hatR
@@ -59,14 +59,22 @@ fromKtoR = function(K, zratio1, zratio2 = NULL, type1, type2 = NULL, method, tol
     if ((type1 == "continuous" & type2 == "binary") | (type1 == "continuous" & type2 == "trunc") |
         (type1 == "binary" & type2 == "trunc") | (type1 == "continuous" & type2 == "ternary") |
         (type1 == "binary" & type2 == "ternary") | (type1 == "trunc" & type2 == "ternary")) {
-      zratio1 = apply(zratio2, 2, function(x){rep(x, d1)})
-      if (!(is.null(zratio1))) {zratio2 = apply(zratio1, 2, function(x){rep(x, each = d2)})}
-      hatR = R_sol(type1 = type2, type2 = type1, tau = c(t(K)), zratio1 = matrix(zratio1, nrow = length(K)), zratio2 = matrix(zratio2, nrow = length(K)), method = method, tol = tol, ratio = ratio)
+      zratio1_rep = apply(zratio2, 2, function(x){rep(x, d1)})
+      if(is.null(zratio1)) {
+        zratio2_rep = NULL
+      } else{
+        zratio2_rep = apply(zratio1, 2, function(x){rep(x, each = d2)})
+      }
+      hatR = R_sol(type1 = type2, type2 = type1, tau = c(t(K)), zratio1 = zratio1_rep, zratio2 = zratio2_rep, method = method, tol = tol, ratio = ratio)
       out = matrix(hatR, d1, d2, byrow = TRUE)
     } else {
-      zratio1 = apply(zratio1, 2, function(x){rep(x, d2)})
-      if (!(is.null(zratio2))) {zratio2 = apply(zratio2, 2, function(x){rep(x, each = d1)})}
-      hatR = R_sol(type1 = type1, type2 = type2, tau = c(K), zratio1 = matrix(zratio1, nrow = length(K)), zratio2 = matrix(zratio2, nrow = length(K)), method = method, tol = tol, ratio = ratio)
+      zratio1_rep = apply(zratio1, 2, function(x){rep(x, d2)})
+      if(is.null(zratio2)) {
+        zratio2_rep = NULL
+      } else {
+        zratio2_rep = apply(zratio2, 2, function(x){rep(x, each = d1)})
+      }
+      hatR = R_sol(type1 = type1, type2 = type2, tau = c(K), zratio1 = zratio1_rep, zratio2 = zratio2_rep, method = method, tol = tol, ratio = ratio)
       out = matrix(hatR, d1, d2)
     }
   }
