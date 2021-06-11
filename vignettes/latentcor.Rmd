@@ -1,10 +1,16 @@
 ---
 title: "latentcor"
+author: "Mingze Huang, Irina Gaynanova, Christian L. Müller"
+date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
+bibliography: latentcor.bib
+csl: apa.csl
 vignette: >
   %\VignetteIndexEntry{latentcor}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+
+
 ---
 
 ```{r, include = FALSE}
@@ -390,6 +396,7 @@ Since $f$ is monotonically increasing, $sign(X_{j}-X_{j}')=sign(Z_{j}-Z_{j}')$ f
     &-2E[I(U_{1}\leq C_{11}, U_{1}'<C_{12})sign(Z_{1}-Z_{1}')sign(Z_{2}-Z_{2}')] \nonumber\\
     &+E[I(U_{1}\leq C_{11}, U_{1}'\leq C_{11})sign(Z_{1}-Z_{1}')sign(Z_{2}-Z_{2}')]
 \end{align}
-```{r setup}
-library(latentcor)
-```
+
+bla
+
+# References
