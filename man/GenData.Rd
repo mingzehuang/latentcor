@@ -9,7 +9,6 @@ GenData(
   n,
   type1,
   type2,
-  sigma = NULL,
   p1 = 1,
   p2 = 1,
   copula1 = NULL,
@@ -26,8 +25,6 @@ GenData(
 \item{type1}{Type of the first dataset \code{X1}. Could be "continuous", "trunc", "binary", "ternary".}
 
 \item{type2}{Type of the second dataset \code{X2}. Could be "continuous", "trunc", "binary", "ternary".}
-
-\item{sigma}{True correlation between 2 variables for bi-variable data generation.}
 
 \item{p1}{Dimension of variables belong to \code{type1}.}
 

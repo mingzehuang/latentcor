@@ -36,12 +36,12 @@
 #' @example man/examples/estimateR_ex.R
 #'
 
-estR <- function(X1, type1, X2 = NULL, type2 = NULL, method = "approx", use.nearPD = TRUE, nu = 0.01, tol = 1e-6, verbose = FALSE, ratio = 0.9){
+estR = function(X1, type1, X2 = NULL, type2 = NULL, method = "approx", use.nearPD = TRUE, nu = 0.01, tol = 1e-6, verbose = FALSE, ratio = 0.9){
   # shrinkage method
   if(nu < 0 | nu > 1){
     stop("nu must be be between 0 and 1.")
   }
-  X1 <- as.matrix(X1); p1 <- ncol(X1)
+  X1 = as.matrix(X1); p1 = ncol(X1)
   if (length(colnames(X1)) == p1) {
     name1 = colnames(X1)
   } else {
@@ -49,13 +49,14 @@ estR <- function(X1, type1, X2 = NULL, type2 = NULL, method = "approx", use.near
   }
   if (is.null(X2)) {
     if (p1 == 1) {
-      out = as.matrix(1)
+      R = as.matrix(1)
     } else {
-      out = estimateR(X1 = X1, type1 = type1, method = method, tol = tol, ratio = ratio)
+      R = estimateR(X1 = X1, type1 = type1, method = method, tol = tol, ratio = ratio)
     }
-    return(out)
+    colnames(R) = rownames(R) = make.names(c(name1))
+    return(R)
   } else {
-    X2 <- as.matrix(X2); p2 <- ncol(X2)
+    X2 = as.matrix(X2); p2 = ncol(X2)
     if (length(colnames(X2)) == p2) {
       name2 = colnames(X2)
     } else {
@@ -67,15 +68,15 @@ estR <- function(X1, type1, X2 = NULL, type2 = NULL, method = "approx", use.near
       R1 = estimateR(X1 = X1, type1 = type1, method = method, tol = tol, ratio = ratio)
       R2 = estimateR(X1 = X2, type1 = type2, method = method, tol = tol, ratio = ratio)
       R12 = estimateR(X1 = X1, type1 = type1, X2 = X2, type2 = type2, method = method, tol = tol, ratio = ratio)
-      Rall <- rbind(cbind(R1, R12), cbind(t(R12), R2))
+      Rall = rbind(cbind(R1, R12), cbind(t(R12), R2))
       R.final = R_adj(R = Rall, use.nearPD = use.nearPD, verbose = verbose, nu = nu)
     }
     ### To keep the column names in R according to column names that are originally supplied in each matrix
     colnames(R.final) = rownames(R.final) = make.names(c(name1, name2))
     # For convenience, split the R matrices
-    R1 <- R.final[1:p1, 1:p1]
-    R2 <- R.final[(p1 + 1):(p1 + p2), (p1 + 1):(p1 + p2)]
-    R12 <- R.final[1:p1, (p1 + 1):(p1 + p2)]
+    R1 = R.final[1:p1, 1:p1]
+    R2 = R.final[(p1 + 1):(p1 + p2), (p1 + 1):(p1 + p2)]
+    R12 = R.final[1:p1, (p1 + 1):(p1 + p2)]
     return(list(type = c(type1, type2), R1 = R1, R2 = R2, R12 = R12, R = R.final))
   }
 }

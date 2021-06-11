@@ -84,20 +84,22 @@ Memory footprints by Bytes:
 ```r
 library(latentcor)
 ### Data setting
-n <- 1000 # sample size
+n = 1000 # sample size
+Sigma = autocor(p1 + p2, 0.7)
 
 # Data generation
-simdata <- GenData(n=n, type1 = "binary", type2 = "continuous", sigma = 0.7,
-copula1 = "exp", copula2 = "cube",  muZ = mu, c1 = rep(1, p1), c2 =  NULL)
+simdata = GenData(n=n, type1 = "binary", type2 = "continuous",
+copula1 = "exp", copula2 = "cube",  muZ = mu, Sigma = Sigma,
+c1 = matrix(rep(1, p1), ncol = p1), c2 =  NULL)
 ```
 
 ```r
-X1 <- simdata$X1; X2 <- simdata$X2
+X1 = simdata$X1; X2 = simdata$X2
 # Estimate latent correlation matrix with original method
-R_nc_org <- estR(X1 = X1, type1 = "ternary", X2 = X2, type2 = "continuous",
+R_nc_org = estR(X1 = X1, type1 = "ternary", X2 = X2, type2 = "continuous",
                               method = "original")$R
 # Estimate latent correlation matrix with aprroximation method
-R_nc_approx <- estR(X1 = X1, type1 = "ternary", X2 = X2, type2 = "continuous",
+R_nc_approx = estR(X1 = X1, type1 = "ternary", X2 = X2, type2 = "continuous",
                               method = "approx")$R
 ```
 

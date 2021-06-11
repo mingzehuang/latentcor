@@ -55,7 +55,6 @@ Estimation of latent correlation matrix from observed data of (possibly) mixed t
 \examples{
 ### Data setting
 n <- 1000; p1 <- 15; p2 <- 10 # sample size and dimensions for two datasets.
-maxcancor <- 0.9 # true canonical correlation
 
 ### Correlation structure within each data set
 set.seed(0)
