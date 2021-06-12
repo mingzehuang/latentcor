@@ -19,12 +19,6 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r, include = FALSE}
-library(knitcitations)
-bibliography()
-write.bibtex(citation("pcaPP"), file = "latentcor.bib")
-```
-Vignettes are long form documentation commonly included in packages. Because they are part of the distribution of the package, they need to be as compact 
 
 ## Vignette Info
 
