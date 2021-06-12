@@ -28,6 +28,9 @@ affiliations:
 bibliography: paper.bib
 date: "11 June 2021"
 ---
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/mingzehuang/latentcor/workflows/R-CMD-check/badge.svg)](https://github.com/mingzehuang/latentcor/actions)
+<!-- badges: end -->
 
 # Summary
 
