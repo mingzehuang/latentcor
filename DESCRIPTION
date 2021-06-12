@@ -13,7 +13,7 @@ Author: c(
            email = "irinag@stat.tamu.edu"))
 Maintainer: Mingze Huang <mingzehuang@gmail.com>
 Description: Fast computation of latent correlations for mixed data.
-Depends: R (>= 3.6.0), stats, ggplot2, MASS
+Depends: R (>= 4.0.0), stats, ggplot2, MASS
 Imports: Matrix, pcaPP, fMultivar, mnormt, irlba, chebpol
 License: GPL-3
 Encoding: UTF-8
