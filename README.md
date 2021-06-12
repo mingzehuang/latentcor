@@ -20,7 +20,8 @@ devtools::install_github("https://github.com/mingzehuang/latentcor", build_vigne
 library(latentcor)
 ### Data setting
 n = 1000 # sample size
-Sigma = autocor(p1 + p2, 0.7)
+p1 = 1; p2 = 1 # Number of variables for data type1 and type2
+Sigma = autocor(p1 + p2, 0.4)
 
 # Data generation
 simdata = GenData(n=n, type1 = "binary", type2 = "continuous",
