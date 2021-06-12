@@ -1,3 +1,6 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^paper$
+^appveyor\.yml$
+^\.github$
+^\.travis\.yml$
