@@ -11,12 +11,15 @@ GenData(
   type2,
   p1 = 1,
   p2 = 1,
+  rho = NULL,
   copula1 = NULL,
   copula2 = NULL,
   muZ = NULL,
   Sigma = NULL,
   c1 = NULL,
-  c2 = NULL
+  c2 = NULL,
+  q1 = NULL,
+  q2 = NULL
 )
 }
 \arguments{
@@ -30,6 +33,8 @@ GenData(
 
 \item{p2}{Dimension of variables belong to \code{type2}.}
 
+\item{rho}{True correlation for auto correlated data.}
+
 \item{copula1}{Copula type for the first dataset. U1 = f(Z1), which could be either "exp", "cube".}
 
 \item{copula2}{Copula type for the second dataset. U2 = f(Z2), which could be either "exp", "cube".}
@@ -41,6 +46,10 @@ GenData(
 \item{c1}{Constant threshold for \code{X1} needed for "trunc", "binary", "ternary" and "ordinal" data type - the default is NULL.}
 
 \item{c2}{Constant threshold for \code{X2} needed for "trunc", "binary", "ternary" and "ordinal" data type - the default is NULL.}
+
+\item{q1}{quantile threshold for \code{X1} needed for "trunc", "binary", "ternary" and "ordinal" data type - the default is NULL.}
+
+\item{q2}{quantile threshold for \code{X2} needed for "trunc", "binary", "ternary" and "ordinal" data type - the default is NULL.}
 }
 \value{
 \code{GenData} returns a list containing
@@ -57,14 +66,10 @@ Mixed type simulation data generator
 }
 \examples{
 # Data setting
-n <- 100; p1 <- 15; p2 <- 10 # sample size and dimensions for two datasets.
-perm1 <- sample(1:(p1 + p2), size = p1 + p2)
-Sigma <- autocor(p1 + p2, 0.7)[perm1, perm1]
-mu <- rbinom(p1 + p2, 1, 0.5)
+n = 100; p1 = 15; p2 = 10 # sample size and dimensions for two datasets.
 # Data generation
-simdata = GenData(n = n, copula1 = "exp", copula2 = "cube", type1 = "ternary", type2 = "trunc",
- muZ = mu, Sigma = Sigma, p1 = p1, p2 = p2,
- c1 = matrix(rep(1:2, p1), nrow = 2, ncol = p1), c2 = rep(0, p2))
+GenData(n = n, type1 = "ternary", type2 = "trunc", p1 = p1, p2 = p2, rho = .9,
+        copula1 = "cube", copula2 = "cube", c1 = c(0, 1), c2 = 0)
 
 
 }

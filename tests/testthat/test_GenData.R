@@ -13,15 +13,15 @@ mu = rbinom(p, 1, 0.5)
 dat = MASS::mvrnorm(n, mu = mu, Sigma = Sigma) # generate a data matrix of size.
 
 test_that("truncated data have lower bound zero.", {
-  expect_equal(apply(fromZtoX(Z = dat, copula = "cube", type = "trunc", c = matrix(rep(0, p), ncol = p)), 2, min), rep(0, p))
+  expect_equal(apply(fromZtoX(Z = dat, copula = "cube", type = "trunc", c = matrix(rep(0, p), ncol = p), q = NULL), 2, min), rep(0, p))
 })
 
 test_that("binary data either zero or one.", {
-  expect_equal(sort(unique(c(fromZtoX(Z = dat, copula = "cube", type = "binary", c = matrix(rep(0, p), ncol = p))))), c(0, 1))
+  expect_equal(sort(unique(c(fromZtoX(Z = dat, copula = "cube", type = "binary", c = matrix(rep(0, p), ncol = p), q = NULL)))), c(0, 1))
 })
 
 test_that("ternary data should be zero, one or two.", {
-  expect_equal(sort(unique(c(fromZtoX(Z = dat, copula = "cube", type = "ternary", c = matrix(rep(0:1, p), ncol = p))))), c(0, 1, 2))
+  expect_equal(sort(unique(c(fromZtoX(Z = dat, copula = "cube", type = "ternary", c = matrix(rep(0:1, p), ncol = p), q = NULL)))), c(0, 1, 2))
 })
 
 p1 = 1; p2 = 2

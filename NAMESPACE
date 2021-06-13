@@ -3,7 +3,6 @@
 export(GenData)
 export(Kendall)
 export(PlotPair)
-export(autocor)
 export(estR)
 import(ggplot2)
 import(stats)
