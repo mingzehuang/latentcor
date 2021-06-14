@@ -39,6 +39,8 @@ PlotPair(datapair = cbind(c(Sigma), c(R_nc_org)), namepair = c("Sigma", "R_nc_or
 # Plot ternary/continuous case estimation via approximation method.
 PlotPair(datapair = cbind(c(Sigma), c(R_nc_approx)), namepair = c("Sigma", "R_nc_approx"),
          title = "Latent correlation (True vs. Estimated)")
+PlotPair(datapair = cbind(c(Sigma), c(cor(cbind(X1, X2)))), namepair = c("Sigma", "R_nc_pearson"),
+title = "Latent correlation (True) vs. Pearson correlation (Estimated)")
 
 cp1 = "exp"; cp2 = "cube"
 for (tp1 in c("continuous", "binary", "ternary", "trunc")) {

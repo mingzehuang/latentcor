@@ -14,7 +14,7 @@ Author: c(
 Maintainer: Mingze Huang <mingzehuang@gmail.com>
 Description: Fast computation of latent correlations for mixed data.
 Depends: R (>= 2.10.0), stats
-Imports: Matrix, pcaPP, fMultivar, mnormt, irlba, chebpol, ggplot2, MASS
+Imports: Matrix, pcaPP, fMultivar, mnormt, chebpol, ggplot2, MASS
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
