@@ -4,6 +4,11 @@ tags:
 - R
 - Statistics
 - Latent Correlation
+date: "11 June 2021"
+output:
+  html_document:
+    df_print: paged
+bibliography: paper.bib
 authors:
 - name: Mingze Huang
   orcid: 0000-0003-3919-1564
@@ -25,8 +30,6 @@ affiliations:
   index: 4
 - name: Flatiron Institute, New York
 - index: 5
-bibliography: paper.bib
-date: "11 June 2021"
 ---
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/mingzehuang/latentcor/workflows/R-CMD-check/badge.svg)](https://github.com/mingzehuang/latentcor/actions)
@@ -109,12 +112,12 @@ R_nc_approx = estR(X1 = X1, type1 = "ternary", X2 = X2, type2 = "continuous",
 
 # Rendered R Figures
 
-<!--
+
 ![\label{fig:R_nc_org}](R_nc_org.png)
 
 ![\label{fig:R_nc_approx}](R_nc_approx.png)
 
 ![\label{fig:R_nc_pearson}](R_nc_pearson.png)
--->
+
 
 # References
