@@ -45,19 +45,3 @@ GenData = function(n, type1, type2, p1 = 1, p2 = 1, rho = NULL, copula1 = NULL, 
   return(list(muZ = muZ, Sigma = Sigma, Z1 = Z1, Z2 = Z2, X1 = X1, X2 = X2))
 }
 
-#' Plot true correlation vs estimated correlation
-#' \code{PlotPair} is to check unbiasness of estimation by plotting true correlation from simulation data vs estimated correlation from simulation data.
-#' @param datapair matrix for data pairs.
-#' @param namepair vector for names of data pairs.
-#' @param title title for graphs.
-#' @import ggplot2
-#' @return \code{PlotPair} returns a plot for data1 against data2 and 45 degree benchmark line.
-#' @example man/examples/estimateR_ex.R
-#' @export
-PlotPair = function(datapair, namepair = c("X", "Y"), title = "Plot X vs Y") {
-  df = data.frame(datapair)
-  colnames(df) = namepair
-  print(ggplot(df, aes(x = datapair[ , 1], y = datapair[ , 2]))
-        + geom_point(color = "blue") + geom_abline(intercept = 0, slope = 1, color = "red")
-        +ggtitle(title) + xlab(namepair[1]) + ylab(namepair[2]))
-}

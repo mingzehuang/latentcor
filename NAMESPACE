@@ -2,9 +2,7 @@
 
 export(GenData)
 export(Kendall)
-export(PlotPair)
 export(estR)
-import(ggplot2)
 import(stats)
 importFrom(MASS,mvrnorm)
 importFrom(Matrix,nearPD)
