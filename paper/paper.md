@@ -109,6 +109,7 @@ R_nc_approx = estR(X1 = X1, type1 = "ternary", X2 = X2, type2 = "continuous",
 
 # Rendered R Figures
 
+
 ![\label{fig:R_nc_org}](R_nc_org.png)
 
 ![\label{fig:R_nc_approx}](R_nc_approx.png)
