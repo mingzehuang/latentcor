@@ -87,24 +87,40 @@ Memory footprints by Bytes:
 
 ```r
 library(latentcor)
-### Data setting
+## Bivariate case
+# Data setting
 n = 1000 # sample size
-p1 = 1; p2 = 1 # Number of variables for data type1 and type2
-
+rho = .4 # Autocorrelated coefficient.
 # Data generation
-simdata = GenData(n=n, type1 = "binary", type2 = "continuous",
-copula1 = "cube", copula2 = "cube",  muZ = mu, Sigma = Sigma,
-c1 = 0, c2 =  NULL)
+simdata = GenData(n = n, type1 = "ternary", type2 = "continuous", rho = rho,
+copula1 = "cube", copula2 = "cube", c1 = c(0, 1), c2 =  NULL)
 ```
 
 ```r
 X1 = simdata$X1; X2 = simdata$X2
 # Estimate latent correlation matrix with original method
-R_nc_org = estR(X1 = X1, type1 = "ternary", X2 = X2, type2 = "continuous", rho = 0.4,
+R_nc_org = estR(X1 = X1, type1 = "ternary", X2 = X2, type2 = "continuous", 
                               method = "original")$R
 # Estimate latent correlation matrix with aprroximation method
-R_nc_approx = estR(X1 = X1, type1 = "ternary", X2 = X2, type2 = "continuous", rho = 0.4,
+R_nc_approx = estR(X1 = X1, type1 = "ternary", X2 = X2, type2 = "continuous",
                               method = "approx")$R
+```
+
+```r
+## Multivariate case
+n = 1000; p1 = 8; p2 = 5 # sample size and dimensions for two datasets.
+rho = .9 # Autocorrelated coefficient.
+# Data generation
+simdata = GenData(n=n, type1 = "ternary", type2 = "continuous", p1 = p1, p2 = p2, 
+                  rho = rho, copula1 = "cube", copula2 = "cube", c1 = c(0, 1), c2 =  NULL)
+X1 = simdata$X1; X2 = simdata$X2
+# Estimate latent correlation matrix with original method
+R_nc_org = estR(X1 = X1, type1 = "ternary", X2 = X2, type2 = "continuous", method = "original")$R
+# Estimate latent correlation matrix with aprroximation method
+R_nc_approx = estR(X1 = X1, type1 = "ternary", X2 = X2, type2 = "continuous", method = "approx")$R
+
+# Heatmap for two latent correlation matrix for two groups of variables.
+LatentPlot(R_nc_approx)
 ```
 
 # Rendered R Figures
