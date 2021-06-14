@@ -1,5 +1,10 @@
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/mingzehuang/latentcor/workflows/R-CMD-check/badge.svg)](https://github.com/mingzehuang/latentcor/actions)
+<!-- badges: end -->
+
 
 # latentcor: Latent Correlation for Mixed Types of Data
+
 
 *latentcor* is an *R* package provides estimation for latent correlation with mixed data types (continuous, binary, truncated and ternary).
 
