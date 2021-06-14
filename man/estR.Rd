@@ -12,7 +12,7 @@ estR(
   method = "approx",
   use.nearPD = TRUE,
   nu = 0.01,
-  tol = 1e-06,
+  tol = 1e-08,
   verbose = FALSE,
   ratio = 0.9
 )

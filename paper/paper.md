@@ -113,4 +113,7 @@ R_nc_approx = estR(X1 = X1, type1 = "ternary", X2 = X2, type2 = "continuous",
 
 ![\label{fig:R_nc_approx}](R_nc_approx.png)
 
+![\label{fig:R_nc_pearson}](R_nc_pearson.png)
+
+
 # References

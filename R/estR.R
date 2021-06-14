@@ -36,7 +36,7 @@
 #' @example man/examples/estimateR_ex.R
 #'
 
-estR = function(X1, type1, X2 = NULL, type2 = NULL, method = "approx", use.nearPD = TRUE, nu = 0.01, tol = 1e-6, verbose = FALSE, ratio = 0.9){
+estR = function(X1, type1, X2 = NULL, type2 = NULL, method = "approx", use.nearPD = TRUE, nu = 0.01, tol = 1e-8, verbose = FALSE, ratio = 0.9){
   # shrinkage method
   if(nu < 0 | nu > 1){
     stop("nu must be be between 0 and 1.")
