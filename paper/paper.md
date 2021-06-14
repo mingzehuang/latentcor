@@ -31,9 +31,7 @@ affiliations:
 - name: Flatiron Institute, New York
 - index: 5
 ---
-<!-- badges: start -->
-[![R-CMD-check](https://github.com/mingzehuang/latentcor/workflows/R-CMD-check/badge.svg)](https://github.com/mingzehuang/latentcor/actions)
-<!-- badges: end -->
+
 
 # Summary
 
