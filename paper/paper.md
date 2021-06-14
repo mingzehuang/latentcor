@@ -122,6 +122,8 @@ R_nc_approx = estR(X1 = X1, type1 = "ternary", X2 = X2, type2 = "continuous", me
 # Heatmap for two latent correlation matrix for two groups of variables.
 LatentPlot(R_nc_approx)
 ```
+[*See Sample Plot*](https://rpubs.com/mingzehuang/781462)
+
 
 # Rendered R Figures
 
