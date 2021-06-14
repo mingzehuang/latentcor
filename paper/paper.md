@@ -90,21 +90,20 @@ library(latentcor)
 ### Data setting
 n = 1000 # sample size
 p1 = 1; p2 = 1 # Number of variables for data type1 and type2
-Sigma = autocor(p1 + p2, 0.4)
 
 # Data generation
 simdata = GenData(n=n, type1 = "binary", type2 = "continuous",
-copula1 = "exp", copula2 = "cube",  muZ = mu, Sigma = Sigma,
-c1 = matrix(rep(1, p1), ncol = p1), c2 =  NULL)
+copula1 = "cube", copula2 = "cube",  muZ = mu, Sigma = Sigma,
+c1 = 0, c2 =  NULL)
 ```
 
 ```r
 X1 = simdata$X1; X2 = simdata$X2
 # Estimate latent correlation matrix with original method
-R_nc_org = estR(X1 = X1, type1 = "ternary", X2 = X2, type2 = "continuous",
+R_nc_org = estR(X1 = X1, type1 = "ternary", X2 = X2, type2 = "continuous", rho = 0.4,
                               method = "original")$R
 # Estimate latent correlation matrix with aprroximation method
-R_nc_approx = estR(X1 = X1, type1 = "ternary", X2 = X2, type2 = "continuous",
+R_nc_approx = estR(X1 = X1, type1 = "ternary", X2 = X2, type2 = "continuous", rho = 0.4,
                               method = "approx")$R
 ```
 
