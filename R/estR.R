@@ -31,7 +31,8 @@
 #' Yoon G., Carroll R.J. and Gaynanova I. (2020) "Sparse semiparametric canonical correlation analysis for data of mixed types" <doi:10.1093/biomet/asaa007>.
 #'
 #' Yoon G., Müller C.L., Gaynanova I. (2020) "Fast computation of latent correlations" <arXiv:2006.13875>.
-#'
+#' @import ggplot2
+#' @importFrom heatmaply heatmaply
 #' @export
 #' @example man/examples/estimateR_ex.R
 #'
@@ -54,7 +55,9 @@ estR = function(X1, type1, X2 = NULL, type2 = NULL, method = "approx", use.nearP
       R = estimateR(X1 = X1, type1 = type1, method = method, tol = tol, ratio = ratio)
     }
     colnames(R) = rownames(R) = make.names(c(name1))
-    return(R)
+    plotR = heatmaply(R, dendrogram = "none", main = "Latent Correlation", margins = c(80,80,80,80),
+                      grid_color = "white", grid_width = 0.00001, label_names = c("Horizontal axis:", "Vertical axis:", "Latent correlation:"))
+    return(list(type = type1, R = R, plotR = plotR))
   } else {
     X2 = as.matrix(X2); p2 = ncol(X2)
     if (length(colnames(X2)) == p2) {
@@ -77,6 +80,14 @@ estR = function(X1, type1, X2 = NULL, type2 = NULL, method = "approx", use.nearP
     R1 = R.final[1:p1, 1:p1]
     R2 = R.final[(p1 + 1):(p1 + p2), (p1 + 1):(p1 + p2)]
     R12 = R.final[1:p1, (p1 + 1):(p1 + p2)]
-    return(list(type = c(type1, type2), R1 = R1, R2 = R2, R12 = R12, R = R.final))
+    plotR1 = heatmaply(R1, dendrogram = "none", main = "Latent Correlation", margins = c(80,80,80,80),
+                       grid_color = "white", grid_width = 0.00001, label_names = c("Horizontal axis:", "Vertical axis:", "Latent correlation:"))
+    plotR2 = heatmaply(R2, dendrogram = "none", main = "Latent Correlation", margins = c(80,80,80,80),
+                       grid_color = "white", grid_width = 0.00001, label_names = c("Horizontal axis:", "Vertical axis:", "Latent correlation:"))
+    plotR12 = heatmaply(R12, dendrogram = "none", xlab = xlab, ylab = xlab, main = "Latent Correlation", margins = c(80,80,80,80),
+                       grid_color = "white", grid_width = 0.00001, label_names = c("Horizontal axis:", "Vertical axis:", "Latent correlation:"))
+    plotR = heatmaply(R.final, dendrogram = "none", main = "Latent Correlation", margins = c(80,80,80,80),
+                      grid_color = "white", grid_width = 0.00001, label_names = c("Horizontal axis:", "Vertical axis:", "Latent correlation:"))
+    return(list(type = c(type1, type2), R1 = R1, R2 = R2, R12 = R12, R = R.final, plotR1 = plotR1, plotR2 = plotR2, plotR12 = plotR12, plotR = plotR))
   }
 }

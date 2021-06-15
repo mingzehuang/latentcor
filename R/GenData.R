@@ -45,32 +45,3 @@ GenData = function(n, type1, type2, p1 = 1, p2 = 1, rho = NULL, copula1 = NULL, 
   return(list(muZ = muZ, Sigma = Sigma, Z1 = Z1, Z2 = Z2, X1 = X1, X2 = X2))
 }
 
-
-#' Plot latent correlation
-#' \code{LatentPlot} is to plot heatmap for latent correlation matrix.
-#' @param latentcor latent correlation matrix.
-#' @param xlab label for horizontal axis.
-#' @param ylab label for vertical axis.
-#' @param main main title for graphs.
-#' @import heatmaply hrbrthemes ggplot2
-#' @importFrom utils data
-#' @return \code{LatentPlot} returns a heatmap plot for latent correlation matrix.
-#' @example man/examples/estimateR_ex.R
-#' @export
-LatentPlot = function(latentcor, xlab = "Variable 1", ylab = "Variable 2", main = "Latent Correlation for Variable 1 vs. Variable 2") {
-  out = heatmaply(latentcor, dendrogram = "none",
-                       xlab = xlab, ylab = ylab,
-                       main = main,
-                       margins = c(60,100,40,20),
-                       grid_color = "white",
-                       grid_width = 0.00001,
-                       titleX = TRUE,
-                       hide_colorbar = FALSE,
-                       branches_lwd = 0.1,
-                       label_names = c(paste0(ylab, ":"), paste0(xlab, ":"), "Latent Correlation:"),
-                       fontsize_row = 10, fontsize_col = 10,
-                       labCol = colnames(data),
-                       labRow = rownames(data),
-                       heatmap_layers = theme(axis.line=element_blank()))
-  return(out)
-}

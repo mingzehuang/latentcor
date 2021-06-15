@@ -10,5 +10,6 @@ R_nc_org = estR(X1 = X1, type1 = "ternary", X2 = X2, type2 = "continuous", metho
 # Estimate latent correlation matrix with aprroximation method
 R_nc_approx = estR(X1 = X1, type1 = "ternary", X2 = X2, type2 = "continuous", method = "approx")$R
 
-
-LatentPlot(R_nc_approx)
+# Heatmap for latent correlation matrix.
+Heatmap_R_nc_approx = estR(X1 = X1, type1 = "ternary", X2 = X2, type2 = "continuous",
+                           method = "approx")$plotR
