@@ -47,6 +47,7 @@ GenData = function(n, type1 = "continuous", type2 = NULL, p1 = 1, p2 = NULL, rho
   } else if (is.null(type2)) {
     if (is.null(mu)) {mu = rep(0, p1)}
     if (p1 == 1) {
+      Sigma = ifelse(is.null(Sigma), 1, Sigma)
       Z1 = rnorm(n = n, mean = mu, sd = sqrt(Sigma))
     } else {
       if (is.null(Sigma) & is.null(rho)) {
@@ -57,8 +58,8 @@ GenData = function(n, type1 = "continuous", type2 = NULL, p1 = 1, p2 = NULL, rho
         Sigma = as.matrix(.bdiag(mapply(function(x, y){autocor(x, y)}, bdim, rho)))
       }
       Z1 = MASS::mvrnorm(n = n, mu = mu, Sigma = Sigma)
-      X1 = fromZtoX(Z = Z1, copula = copula1, type = type1, q = q1, c = c1)
     }
+    X1 = fromZtoX(Z = Z1, copula = copula1, type = type1, q = q1, c = c1)
     return(list(mu = mu, Sigma = Sigma, Z1 = Z1, X1 = X1))
   } else {
     if (is.null(mu)) {mu = rep(0, p1 + p2)}
