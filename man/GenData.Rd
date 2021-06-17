@@ -2,20 +2,22 @@
 % Please edit documentation in R/GenData.R
 \name{GenData}
 \alias{GenData}
-\title{Mixed type simulation data generator
-\code{GenData} is used to generate two sets of data of mixed types for sparse CCA under the Gaussian copula model.}
+\title{Mixed type simulation data generator}
 \usage{
 GenData(
   n,
-  type1,
-  type2,
+  type1 = "continuous",
+  type2 = NULL,
   p1 = 1,
-  p2 = 1,
+  p2 = NULL,
   rho = NULL,
+  bdim = NULL,
   copula1 = NULL,
   copula2 = NULL,
-  muZ = NULL,
+  mu = NULL,
   Sigma = NULL,
+  Z1 = NULL,
+  Z2 = NULL,
   c1 = NULL,
   c2 = NULL,
   q1 = NULL,
@@ -35,13 +37,19 @@ GenData(
 
 \item{rho}{True correlation for auto correlated data.}
 
+\item{bdim}{Dimensions for subdiagonal matrices.}
+
 \item{copula1}{Copula type for the first dataset. U1 = f(Z1), which could be either "exp", "cube".}
 
 \item{copula2}{Copula type for the second dataset. U2 = f(Z2), which could be either "exp", "cube".}
 
-\item{muZ}{Mean of latent multivariate normal.}
+\item{mu}{Mean of latent multivariate normal.}
 
 \item{Sigma}{True correlation matrix of latent variable \code{Z1} (p1 by p1).}
+
+\item{Z1}{continuous pre-generated data matrix to be converted into other data type.}
+
+\item{Z2}{continuous pre-generated data matrix to be converted into other data type.}
 
 \item{c1}{Constant threshold for \code{X1} needed for "trunc", "binary", "ternary" and "ordinal" data type - the default is NULL.}
 
@@ -61,7 +69,6 @@ GenData(
 }
 }
 \description{
-Mixed type simulation data generator
 \code{GenData} is used to generate two sets of data of mixed types for sparse CCA under the Gaussian copula model.
 }
 \examples{

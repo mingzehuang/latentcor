@@ -13,10 +13,10 @@ zratio = function(X, type) {
       stop("The data of truncated type contains negative values.")
     }
     # checking proportion of zero values
-    if(sum(zratio) == 0){
+    if(sum(zratio) == 0) {
       message("The data does not contain zeros. Consider changing the type to \"continuous\".")
     }
-    if (sum(zratio == 1) > 0){
+    if (sum(zratio == 1) > 0) {
       stop("There are variables in the data that have only zeros. Filter those     variables before continuing. \n")
     }
   } else if (type == "binary") {
@@ -25,7 +25,7 @@ zratio = function(X, type) {
     if(sum(!(X %in% c(0, 1))) > 0) {
       stop("The data is not \"binary\".")
     }
-    if (sum(zratio == 1) > 0 | sum(zratio == 0) > 0){
+    if (sum(zratio == 1) > 0 | sum(zratio == 0) > 0) {
       stop("There are binary variables in the data that have only zeros or only ones. Filter those variables before continuing. \n")
     }
   } else if (type == "ternary") {

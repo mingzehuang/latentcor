@@ -5,7 +5,9 @@ autocor = function(p, rho){
 
 fromZtoX = function(Z, copula, type, c, q) {
   p = ncol(Z)
-  if(copula == "exp"){
+  if (is.null(copula)) {
+    Z = Z
+  } else if(copula == "exp"){
     Z = exp(Z)
   }else if(copula == "cube"){
     Z = Z^3

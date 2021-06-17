@@ -29,15 +29,15 @@ Sigma = autocor(p1 + p2, 0.7)
 mu = rbinom(p1 + p2, 1, 0.5)
 
 test_that("truncated data have lower bound zero.", {
-  expect_equal(apply(GenData(n = n, copula1 = "cube", copula2 = "cube", type1 = "ternary", type2 = "trunc",muZ = mu, Sigma = Sigma, p1 = p1, p2 = p2,c1 = matrix(rep(0:1, p1), nrow = 2, ncol = p1), c2 = matrix(rep(0, p2), ncol = p2))$X2, 2, min), rep(0, p2))
+  expect_equal(apply(GenData(n = n, copula1 = "cube", copula2 = "cube", type1 = "ternary", type2 = "trunc", mu = mu, Sigma = Sigma, p1 = p1, p2 = p2,c1 = matrix(rep(0:1, p1), nrow = 2, ncol = p1), c2 = matrix(rep(0, p2), ncol = p2))$X2, 2, min), rep(0, p2))
 })
 
 test_that("truncated data have lower bound zero.", {
-  expect_equal(sort(unique(c(GenData(n = n, copula1 = "cube", copula2 = "cube", type1 = "ternary", type2 = "binary",muZ = mu, Sigma = Sigma, p1 = p1, p2 = p2,c1 = matrix(rep(0:1, p1), nrow = 2, ncol = p1), c2 = matrix(rep(0, p2), ncol = p2))$X2))), c(0, 1))
+  expect_equal(sort(unique(c(GenData(n = n, copula1 = "cube", copula2 = "cube", type1 = "ternary", type2 = "binary", mu = mu, Sigma = Sigma, p1 = p1, p2 = p2,c1 = matrix(rep(0:1, p1), nrow = 2, ncol = p1), c2 = matrix(rep(0, p2), ncol = p2))$X2))), c(0, 1))
 })
 
 test_that("ternary data should be zero, one or two.", {
-  expect_equal(sort(unique(c(GenData(n = n, copula1 = "cube", copula2 = "cube", type1 = "ternary", type2 = "trunc",muZ = mu, Sigma = Sigma, p1 = p1, p2 = p2,c1 = matrix(rep(0:1, p1), nrow = 2, ncol = p1), c2 = matrix(rep(0, p2), ncol = p2))$X1))), c(0, 1, 2))
+  expect_equal(sort(unique(c(GenData(n = n, copula1 = "cube", copula2 = "cube", type1 = "ternary", type2 = "trunc", mu = mu, Sigma = Sigma, p1 = p1, p2 = p2,c1 = matrix(rep(0:1, p1), nrow = 2, ncol = p1), c2 = matrix(rep(0, p2), ncol = p2))$X1))), c(0, 1, 2))
 })
 
 
