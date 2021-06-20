@@ -71,7 +71,7 @@ $$
 The original method is taking estimated Kendall's $\hat{\tau}$ and other parameters to calculate latent correlation $\hat{r}$. Whereas the approximated method is using multilinear interpolation to approximate latent correlation $\hat{r}$ via pre-calculated grid values [@yoon2021fast].
 
 
-Memory footprints by Bytes:
+Memory footprints by KB:
 
  | case | mixedCCA | latentcor |
  |-----|----------|----------|
@@ -129,11 +129,26 @@ Heatmap_R_nc_approx = estR(X1 = X1, type1 = "ternary", X2 = X2, type2 = "continu
 # Rendered R Figures
 
 
-![\label{fig:R_nc_org}](R_nc_org.png)
+![\label{fig:R_nc_org}](R_nc_org.png) pdf
 
-![\label{fig:R_nc_approx}](R_nc_approx.png)
+main: Ternary vs. continuous
+X-lab: True latent correlation
+Y-lab: Estimated latent correlation
+
+![\label{fig:R_nc_approx}](R_nc_approx.png) pdf
+
+main: Ternary vs. continuous
+X-lab: True latent correlation
+Y-lab: Estimated latent correlation (latentcor)
+
+comment on where is the script for plots.
+
 
 ![\label{fig:R_nc_pearson}](R_nc_pearson.png)
+
+main: Ternary vs. continuous
+X-lab: True latent correlation
+Y-lab: Pearson correlation
 
 
 # References
