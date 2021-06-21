@@ -21,7 +21,7 @@
 #'         copula1 = "cube", copula2 = "cube", c1 = c(0, 1), c2 = 0)
 #'
 
-GenData = function(n = 100, types = c("trunc", "ternary"), rhos = .5, copulas = NULL, pi1 = .5, pi2 = c(.3, .5), ...) {
+GenData = function(n = 100, types = c("tru", "ter"), rhos = .5, copulas = NULL, pi1 = .5, pi2 = c(.3, .5), ...) {
   p = length(types); Sigma.lower = diag(0, p); Sigma.lower[lower.tri(Sigma.lower)] = rhos
   Z = MASS::mvrnorm(n = n, mu = rep(0, p), Sigma = Sigma.lower + t(Sigma.lower) + diag(1, p))
   X = sapply(seq(p), function(i) {fromZtoX(z = Z[ , i], type = types[i], copula = copulas[i], get(paste0("pi", i)))})
