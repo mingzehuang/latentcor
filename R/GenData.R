@@ -2,11 +2,9 @@
 #' @title Mixed type simulation data generator
 #' @description \code{GenData} is used to generate two sets of data of mixed types for sparse CCA under the Gaussian copula model.
 #' @param n Sample size
-#' @param types Types of the  dataset \code{X}. Could be "con", "tru", "bin", "ter".
+#' @param types Types of the  dataset \code{X}. Could be "con", "tru", "bin" or "ter".
 #' @param rhos True correlation for auto correlated data.
-#' @param copulas Copula types for the first dataset. U1 = f(Z1), which could be either "exp", "cube".
-#' @param pi1 Proportions for \code{X[ , 1]} needed for "tru", "bin", "ter" data type.
-#' @param pi2 Proportions for \code{X[ , 2]} needed for "tru", "bin", "ter" data type.
+#' @param copulas Copula types for the first dataset. U = f(Z), which could be "NA", "exp" or "cube".
 #' @return \code{GenData} returns a list containing
 #' \itemize{
 #'       \item{X: }{observed numeric data matrix (n by p).}
@@ -21,15 +19,21 @@
 #'         copula1 = "cube", copula2 = "cube", c1 = c(0, 1), c2 = 0)
 #'
 
-GenData = function(n = 100, types = c("tru", "ter"), rhos = .5, copulas = NULL, pi1 = .5, pi2 = c(.3, .5), ...) {
+GenData = function(n = 100, types = c("tru", "ter"), rhos = .5, copulas = c(NA, NA), ...) {
   p = length(types); Sigma.lower = diag(0, p); Sigma.lower[lower.tri(Sigma.lower)] = rhos
-  Z = MASS::mvrnorm(n = n, mu = rep(0, p), Sigma = Sigma.lower + t(Sigma.lower) + diag(1, p))
-  X = sapply(seq(p), function(i) {fromZtoX(z = Z[ , i], type = types[i], copula = copulas[i], get(paste0("pi", i)))})
+  Sigma = Sigma.lower + t(Sigma.lower) + diag(1, p)
+  if (...length() == 0) {
+    pis = list(.5, c(.3, .5))
+  } else {
+    pis = list(...)
+  }
+  Z = MASS::mvrnorm(n = n, mu = rep(0, p), Sigma = Sigma)
+  X = sapply(seq(p), function(i) {fromZtoX(z = Z[ , i], type = types[i], copula = copulas[i], pi = pis[[i]])})
   return(X = X)
 }
 
 fromZtoX = function(z, type, copula, pi) {
-  if (is.null(copula)) {
+  if (is.na(copula)) {
     u = z
   } else if(copula == "exp"){
     u = exp(z)
@@ -39,7 +43,7 @@ fromZtoX = function(z, type, copula, pi) {
   if(type == "con") {
     x = u
   } else {
-    if (is.null(pi)) {
+    if (is.na(pi)) {
       stop("Proportions need to be set for binary, truncated and ternary cases.")
     } else {
       q = quantile(u, cumsum(pi))

@@ -37,8 +37,8 @@ estR = function(X, types, method = "approx", nu = 0.01, tol = 1e-8, ratio = 0.9,
   } else {
     name = paste("X", 1:p, sep = "")
   }
-  types_code = rep(NA, p); types_code[types == "con"] = 0; types_code[types == "bin"] = 1
-  types_code[types == "tru"] = 2; types_code[types == "ter"] = 3
+  types_code = rep(NA, p)
+  types_code = as.numeric(type_list[types])
   cp = combn(p, 2); cp.col = ncol(cp); n0 = n * (n - 1) / 2
   n_X = apply(X, 2, function(x) {n_x(x = x, n)})
   n_X_sqd = sqrt(n0 - n_X)
@@ -47,10 +47,8 @@ estR = function(X, types, method = "approx", nu = 0.01, tol = 1e-8, ratio = 0.9,
   K_b = pcaPP::cor.fk(X)
   K_b.lower = K_b[lower.tri(K_b)]
   K_a.lower = K_b.lower * btoa2
-  zratios = vector(mode = "list", length = p)
   types_cp = matrix(types_code[cp], nrow = 2)
-  X_12 = as.matrix(X[ , types_code == 1 | types_code == 2]); zratios[types_code == 1 | types_code == 2] = colMeans(X_12 == 0)
-  X_3 = as.matrix(X[ , types_code == 3]); zratios[types_code == 3] = mattolist(rbind(colMeans(X_3 == 0), 1 - colMeans(X_3 == 2)))
+  zratios = zratios(X = X, types_code = types_code)
   zratios_cp = matrix(zratios[cp], nrow = 2)
   types_mirror = types_cp[1, ] < types_cp[2, ]
   types_cp[ , types_mirror] = rbind(types_cp[2, types_mirror], types_cp[1, types_mirror])
@@ -58,14 +56,12 @@ estR = function(X, types, method = "approx", nu = 0.01, tol = 1e-8, ratio = 0.9,
   combs_cp = paste0(types_cp[1, ], types_cp[2, ]); combs = unique(combs_cp); R.lower = rep(NA, cp.col)
   for (comb in combs) {
     comb_select = combs_cp == comb; comb_select.len = sum(comb_select)
-    bound_comb = get(paste("bound", comb, sep = "_"))
+    bound_comb = bound_list[[comb]]
     cutoff = rep(NA, comb_select.len); K = K_a.lower[comb_select]
     zratio1 = matrix(unlist(zratios_cp[1, comb_select]), ncol = comb_select.len)
     zratio2 = matrix(unlist(zratios_cp[2, comb_select]), ncol = comb_select.len)
     if (method == "original") {
       R.lower[comb_select] = r_sol(K = K, zratio1 = zratio1, zratio2 = zratio2, comb = comb, tol = tol)
-    } else if (method == "ml") {
-      R.lower[comb_select] = r_ml(K = K, zratio1 = zratio1, zratio2 = zratio2, bound_comb = bound_comb, comb = comb)
     } else {
       cutoff = abs(K) > ratio * bound_comb(zratio1 = zratio1, zratio2 = zratio2)
       R.lower[comb_select][cutoff] = r_sol(K = K[cutoff], zratio1 = zratio1[ , cutoff], zratio2 = zratio2[ , cutoff], comb = comb, tol = tol)
@@ -103,7 +99,8 @@ n_x = function(x, n) {
 mattolist = function(X) {lapply(seq(ncol(X)), function(i) X[,i])}
 
 r_sol = function(K, zratio1, zratio2, comb, tol) {
-  bridge_comb = get(paste("bridge", comb, sep = "_")); K.len = length(K); out = rep(NA, K.len)
+  bridge_comb = bridge_list[[comb]]
+  K.len = length(K); out = rep(NA, K.len)
   zratio1 = as.matrix(zratio1); zratio2 = as.matrix(zratio2)
   for (i in K.len) {
     f = function(r)(bridge_comb(r = r, zratio1 = zratio1[ , i], zratio2 = zratio2[ , i]) - K[i])^2
@@ -119,7 +116,7 @@ r_sol = function(K, zratio1, zratio2, comb, tol) {
 }
 
 r_ml = function(K, zratio1, zratio2, bound_comb, comb) {
-  ipol_comb = get(paste("ipol", comb, sep = "_"))
+  ipol_comb = ipol_list[[comb]]
   K.len = length(K); out = rep(NA, K.len)
   K = K / bound_comb(zratio1 = zratios[1, type_comb], zratio2 = zratios[2, type_comb])
   if (ncol(zratio1) == 2) {zratio1[1, ] = zratio1[1, ] / zratio1[2, ]}
