@@ -9,7 +9,6 @@
 #' @param pi2 Proportions for \code{X[ , 2]} needed for "trunc", "binary", "ternary" and "ordinal" data type.
 #' @return \code{GenData} returns a list containing
 #' \itemize{
-#'       \item{Z: }{latent numeric data matrix (n by p).}
 #'       \item{X: }{observed numeric data matrix (n by p).}
 #' }
 #' @export
@@ -26,7 +25,7 @@ GenData = function(n = 100, types = c("trunc", "ternary"), rhos = .5, copulas = 
   p = length(types); Sigma.lower = diag(0, p); Sigma.lower[lower.tri(Sigma.lower)] = rhos
   Z = MASS::mvrnorm(n = n, mu = rep(0, p), Sigma = Sigma.lower + t(Sigma.lower) + diag(1, p))
   X = sapply(seq(p), function(i) {fromZtoX(z = Z[ , i], type = types[i], copula = copulas[i], get(paste0("pi", i)))})
-  return(list(Z = Z, X = X))
+  return(X = X)
 }
 
 fromZtoX = function(z, type, copula, pi) {
