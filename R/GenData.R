@@ -2,11 +2,11 @@
 #' @title Mixed type simulation data generator
 #' @description \code{GenData} is used to generate two sets of data of mixed types for sparse CCA under the Gaussian copula model.
 #' @param n Sample size
-#' @param types Types of the  dataset \code{X}. Could be "continuous", "trunc", "binary", "ternary".
+#' @param types Types of the  dataset \code{X}. Could be "con", "tru", "bin", "ter".
 #' @param rhos True correlation for auto correlated data.
 #' @param copulas Copula types for the first dataset. U1 = f(Z1), which could be either "exp", "cube".
-#' @param pi1 Proportions for \code{X[ , 1]} needed for "trunc", "binary", "ternary" and "ordinal" data type.
-#' @param pi2 Proportions for \code{X[ , 2]} needed for "trunc", "binary", "ternary" and "ordinal" data type.
+#' @param pi1 Proportions for \code{X[ , 1]} needed for "tru", "bin", "ter" data type.
+#' @param pi2 Proportions for \code{X[ , 2]} needed for "tru", "bin", "ter" data type.
 #' @return \code{GenData} returns a list containing
 #' \itemize{
 #'       \item{X: }{observed numeric data matrix (n by p).}
@@ -36,18 +36,18 @@ fromZtoX = function(z, type, copula, pi) {
   }else if(copula == "cube"){
     u = z^3
   }
-  if(type == "continuous") {
+  if(type == "con") {
     x = u
   } else {
     if (is.null(pi)) {
       stop("Proportions need to be set for binary, truncated and ternary cases.")
     } else {
       q = quantile(u, cumsum(pi))
-      if (type == "binary") {
+      if (type == "bin") {
         x = ifelse(u > q, 1, 0)
-      } else if(type == "trunc") {
+      } else if(type == "tru") {
         x = ifelse(u > q, u, q) - q
-      } else if (type == "ternary") {
+      } else if (type == "ter") {
         x = rep(1, length(u))
         x[u > q[2]] = 2; x[u <= q[1]] = 0
       }

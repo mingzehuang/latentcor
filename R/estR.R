@@ -49,40 +49,34 @@ estR = function(X, types, method = "approx", nu = 0.01, tol = 1e-8, ratio = 0.9,
   K_a.lower = K_b.lower * btoa2
   zratios = vector(mode = "list", length = p)
   types_cp = matrix(types_code[cp], nrow = 2)
-  X_bintru = X[ , types_code == 1 | types_code == 2]; zratios[types_code == 1 | types_code == 2] = colMeans(X_bintru == 0)
-  X_ter = X[ , types_code == 3]; zratios[types_code == 3] = mattolist(rbind(colMeans(X_ter == 0), 1 - colMeans(X_ter == 2)))
+  X_12 = as.matrix(X[ , types_code == 1 | types_code == 2]); zratios[types_code == 1 | types_code == 2] = colMeans(X_12 == 0)
+  X_3 = as.matrix(X[ , types_code == 3]); zratios[types_code == 3] = mattolist(rbind(colMeans(X_3 == 0), 1 - colMeans(X_3 == 2)))
   zratios_cp = matrix(zratios[cp], nrow = 2)
-  types_mirror = types_cp[1, ] > types_cp[2, ]
+  types_mirror = types_cp[1, ] < types_cp[2, ]
   types_cp[ , types_mirror] = rbind(types_cp[2, types_mirror], types_cp[1, types_mirror])
   zratios_cp[ , types_mirror] = rbind(zratios_cp[2, types_mirror], zratios_cp[1, types_mirror])
-  type_00 = types_cp[1, ] == 0 & types_cp[2, ] == 0; type_10 = types_cp[1, ] == 1 & types_cp[2, ] == 0
-  type_11 = types_cp[1, ] == 1 & types_cp[2, ] == 1; type_20 = types_cp[1, ] == 2 & types_cp[2, ] == 0
-  type_21 = types_cp[1, ] == 2 & types_cp[2, ] == 1; type_22 = types_cp[1, ] == 2 & types_cp[2, ] == 2
-  type_30 = types_cp[1, ] == 3 & types_cp[2, ] == 0; type_31 = types_cp[1, ] == 3 & types_cp[2, ] == 1
-  type_32 = types_cp[1, ] == 3 & types_cp[2, ] == 2; type_33 = types_cp[1, ] == 3 & types_cp[2, ] == 3
-  combs_ind = c("10", "11", "20", "21", "22", "30", "31", "32", "33")
-  R.lower = rep(NA, cp.col)
-  for (comb in combs_ind) {
-    type_comb = get(paste("type", comb, sep = "_")); type_comb.len = length(type_comb)
+  combs_cp = paste0(types_cp[1, ], types_cp[2, ]); combs = unique(combs_cp); R.lower = rep(NA, cp.col)
+  for (comb in combs) {
+    comb_select = combs_cp == comb; comb_select.len = sum(comb_select)
     bound_comb = get(paste("bound", comb, sep = "_"))
-    cutoff = rep(NA, type_comb.len); K = K_a.lower[type_comb]
-    zratio1 = matrix(unlist(zratios_cp[1, type_comb]), ncol = type_comb.len)
-    zratio2 = matrix(unlist(zratios_cp[2, type_comb]), ncol = type_comb.len)
+    cutoff = rep(NA, comb_select.len); K = K_a.lower[comb_select]
+    zratio1 = matrix(unlist(zratios_cp[1, comb_select]), ncol = comb_select.len)
+    zratio2 = matrix(unlist(zratios_cp[2, comb_select]), ncol = comb_select.len)
     if (method == "original") {
-      cutoff[] = TRUE
+      R.lower[comb_select] = r_sol(K = K, zratio1 = zratio1, zratio2 = zratio2, comb = comb, tol = tol)
     } else if (method == "ml") {
-      cutoff[] = FALSE
+      R.lower[comb_select] = r_ml(K = K, zratio1 = zratio1, zratio2 = zratio2, bound_comb = bound_comb, comb = comb)
     } else {
       cutoff = abs(K) > ratio * bound_comb(zratio1 = zratio1, zratio2 = zratio2)
+      R.lower[comb_select][cutoff] = r_sol(K = K[cutoff], zratio1 = zratio1[ , cutoff], zratio2 = zratio2[ , cutoff], comb = comb, tol = tol)
+      R.lower[comb_select][!(cutoff)] = r_ml(K = K[!(cutoff)], zratio1 = zratio1[ , !(cutoff)], zratio2 = zratio2[ , !(cutoff)], bound_comb = bound_comb, comb = comb)
     }
-    R.lower[type_comb][cutoff] = r_sol(K = K[cutoff], zratio1 = zratio1[ , cutoff], zratio2 = zratio2[ , cutoff], comb = comb, tol = tol)
-    R.lower[type_comb][!(cutoff)] = r_ml(K = K[!(cutoff)], zratio1 = zratio1[ , !(cutoff)], zratio2 = zratio2[ , !(cutoff)], bound_comb = bound_comb, comb = comb)
   }
   K = R = matrix(0, p, p)
   K[lower.tri(K)] = K_a.lower; K = K + t(K) + diag(p); R[lower.tri(R)] = R.lower; R = R + t(R) + diag(p)
   R_min_eig = min(eigen(R)$values)
   if (R_min_eig < 0) {
-    message("Use \{Matrix::nearPD} since Minimum eigenvalue of latent correlation matrix is ", R_min_eig, "smaller than 0.")
+    message("Use Matrix::nearPD since Minimum eigenvalue of latent correlation matrix is ", R_min_eig, "smaller than 0.")
     R = as.matrix(Matrix::nearPD(R, corr = TRUE, maxit = 1000)$mat)
   }
   R = (1 - nu) * R + nu * diag(nrow(R))
@@ -110,6 +104,7 @@ mattolist = function(X) {lapply(seq(ncol(X)), function(i) X[,i])}
 
 r_sol = function(K, zratio1, zratio2, comb, tol) {
   bridge_comb = get(paste("bridge", comb, sep = "_")); K.len = length(K); out = rep(NA, K.len)
+  zratio1 = as.matrix(zratio1); zratio2 = as.matrix(zratio2)
   for (i in K.len) {
     f = function(r)(bridge_comb(r = r, zratio1 = zratio1[ , i], zratio2 = zratio2[ , i]) - K[i])^2
     op = tryCatch(optimize(f, lower = -0.999, upper = 0.999, tol = tol)[1], error = function(e) 100)
