@@ -5,10 +5,8 @@
 #' @param X A numeric data matrix (n by p).
 #' @param type A type of variables in \code{X}, must be one of "continuous", "binary", "trunc" or "ternary".
 #' @param method The calculation method of latent correlation. Either "original" method or "approx". If \code{method = "approx"}, multilinear approximation method is used, which is much faster than the original method. If \code{method = "original"}, optimization of the bridge inverse function is used. The default is "approx".
-#' @param use.nearPD A logical value indicating whether to use \link[Matrix]{nearPD} or not when the resulting correlation estimator is not positive definite (have at least one negative eigenvalue).
 #' @param nu Shrinkage parameter for correlation matrix, must be between 0 and 1, the default value is 0.01.
 #' @param tol Desired accuracy when calculating the solution of bridge function.
-#' @param verbose If \code{verbose = FALSE}, printing information whether nearPD is used or not is disabled. The default value is FALSE.
 #' @param ratio The maximum ratio of Kendall's tau and boundary to implement multilinear interpolation.
 #' @param plotR Plot latent correlation matrix \code{R} as a heatmap.
 #' @return \code{estR} returns
@@ -35,9 +33,8 @@ estR = function(X, types, method = "approx", nu = 0.01, tol = 1e-8, ratio = 0.9,
   if (length(colnames(X)) == p) {
     name = colnames(X)
   } else {
-    name = paste("X", 1:p, sep = "")
+    name = paste0("X", 1:p)
   }
-  types_code = rep(NA, p)
   types_code = as.numeric(type_list[types])
   cp = combn(p, 2); cp.col = ncol(cp); n0 = n * (n - 1) / 2
   n_X = apply(X, 2, function(x) {n_x(x = x, n)})
@@ -56,8 +53,7 @@ estR = function(X, types, method = "approx", nu = 0.01, tol = 1e-8, ratio = 0.9,
   combs_cp = paste0(types_cp[1, ], types_cp[2, ]); combs = unique(combs_cp); R.lower = rep(NA, cp.col)
   for (comb in combs) {
     comb_select = combs_cp == comb; comb_select.len = sum(comb_select)
-    bound_comb = bound_list[[comb]]
-    cutoff = rep(NA, comb_select.len); K = K_a.lower[comb_select]
+    bound_comb = bound_list[[comb]]; K = K_a.lower[comb_select]
     zratio1 = matrix(unlist(zratios_cp[1, comb_select]), ncol = comb_select.len)
     zratio2 = matrix(unlist(zratios_cp[2, comb_select]), ncol = comb_select.len)
     if (method == "original") {
@@ -96,7 +92,16 @@ n_x = function(x, n) {
   return(n_x)
 }
 
-mattolist = function(X) {lapply(seq(ncol(X)), function(i) X[,i])}
+mattolist = function(X) {lapply(seq(ncol(X)), function(i) X[ , i])}
+
+zratios = function(X, types_code) {
+  X = as.matrix(X)
+  out = vector(mode = "list", length = ncol(X))
+  for (i in unique(types_code[types_code != 0])) {
+    out[types_code == i] = zratio_list[[i]](X[ , types_code == i])
+  }
+  return(out)
+}
 
 r_sol = function(K, zratio1, zratio2, comb, tol) {
   bridge_comb = bridge_list[[comb]]
@@ -116,11 +121,11 @@ r_sol = function(K, zratio1, zratio2, comb, tol) {
 }
 
 r_ml = function(K, zratio1, zratio2, bound_comb, comb) {
-  ipol_comb = ipol_list[[comb]]
-  K.len = length(K); out = rep(NA, K.len)
-  K = K / bound_comb(zratio1 = zratios[1, type_comb], zratio2 = zratios[2, type_comb])
-  if (ncol(zratio1) == 2) {zratio1[1, ] = zratio1[1, ] / zratio1[2, ]}
-  if (ncol(zratio2) == 2) {zratio2[1, ] = zratio2[1, ] / zratio2[2, ]}
-  out = ipol_comb(c(k, zratio1, zratio2)) / 10^7
+  ipol_comb = ipol_list[[comb]]; zratio1 = as.matrix(zratio1); zratio2 = as.matrix(zratio2)
+  K = K / bound_comb(zratio1 = zratio1, zratio2 = zratio2)
+  zratio1.row = nrow(zratio1); zratio2.row = nrow(zratio2)
+  if (zratio1.row > 1) {zratio1[1:(zratio1.row - 1), ] = zratio1[1:(zratio1.row - 1), ] / zratio1[2:zratio1.row, ]}
+  if (zratio2.row > 1) {zratio2[1:(zratio2.row - 1), ] = zratio2[1:(zratio2.row - 1), ] / zratio2[2:zratio2.row, ]}
+  out = ipol_comb(c(K, zratio1, zratio2)) / 10^7
   return(out)
 }

@@ -20,7 +20,8 @@
 #'
 
 GenData = function(n = 100, types = c("tru", "ter"), rhos = .5, copulas = c(NA, NA), ...) {
-  p = length(types); Sigma.lower = diag(0, p); Sigma.lower[lower.tri(Sigma.lower)] = rhos
+  p = length(types); types_code = rep(NA, p); types_code = as.numeric(type_list[types])
+  Sigma.lower = diag(0, p); Sigma.lower[lower.tri(Sigma.lower)] = rhos
   Sigma = Sigma.lower + t(Sigma.lower) + diag(1, p)
   if (...length() == 0) {
     pis = list(.5, c(.3, .5))
@@ -28,34 +29,13 @@ GenData = function(n = 100, types = c("tru", "ter"), rhos = .5, copulas = c(NA, 
     pis = list(...)
   }
   Z = MASS::mvrnorm(n = n, mu = rep(0, p), Sigma = Sigma)
-  X = sapply(seq(p), function(i) {fromZtoX(z = Z[ , i], type = types[i], copula = copulas[i], pi = pis[[i]])})
+  X = sapply(seq(p), function(i) {fromZtoX(z = Z[ , i], type_code = types_code[i], copula = copulas[i], pi = pis[[i]])})
   return(X = X)
 }
 
-fromZtoX = function(z, type, copula, pi) {
-  if (is.na(copula)) {
-    u = z
-  } else if(copula == "exp"){
-    u = exp(z)
-  }else if(copula == "cube"){
-    u = z^3
-  }
-  if(type == "con") {
-    x = u
-  } else {
-    if (is.na(pi)) {
-      stop("Proportions need to be set for binary, truncated and ternary cases.")
-    } else {
-      q = quantile(u, cumsum(pi))
-      if (type == "bin") {
-        x = ifelse(u > q, 1, 0)
-      } else if(type == "tru") {
-        x = ifelse(u > q, u, q) - q
-      } else if (type == "ter") {
-        x = rep(1, length(u))
-        x[u > q[2]] = 2; x[u <= q[1]] = 0
-      }
-    }
-  }
+fromZtoX = function(z, type_code, copula, pi) {
+  x = z
+  if (!(is.na(copula))) {x = copula_list[[copula]](z)}
+  if(type_code != 0) {x = transform_list[[type_code]](u = x, pi = pi)}
   return(x)
 }

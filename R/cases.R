@@ -4,17 +4,47 @@
 #'
 NULL
 
+copula_list = vector(mode = "list", length = 2)
+names(copula_list) = c("exp", "cube")
+copula_list[[1]] = function(z) {exp(z)}
+copula_list[[2]] = function(z) {z^3}
+
 type_list = vector(mode = "list", length = 4)
 names(type_list) = c("con", "bin", "tru", "ter")
 for (i in seq(length(type_list))) {type_list[[i]] = i - 1}
 
-zratios = function(X, types_code) {
-  X = as.matrix(X)
-  out = vector(mode = "list", length = ncol(X))
-  out[types_code == 1 | types_code == 2] = colMeans(as.matrix(X[ , types_code == 1 | types_code == 2]) == 0)
-  out[types_code == 3] = mattolist(rbind(colMeans(as.matrix(X[ , types_code == 3]) == 0), 1 - colMeans(as.matrix(X[ , types_code == 3]) == 2)))
-  return(out)
+transform_list = zratio_list = vector(mode = "list", length = 3)
+
+transform_list[[1]] = function(u, pi) {
+  if(length(pi) != 1) {
+    stop("Proportion of zeros should be specified by a scalar pi for binary data.")
+  } else {
+    q = quantile(u, pi); x = ifelse(u > q, 1, 0)
+  }
+  return(x)
 }
+
+transform_list[[2]] = function(u, pi) {
+  if(length(pi) != 1) {
+    stop("Proportion of zeros should be specified by a scalar pi for truncated data.")
+  } else {
+    q = quantile(u, pi); x = ifelse(u > q, u, q) - q
+  }
+  return(x)
+}
+
+transform_list[[3]] = function(u, pi) {
+  if(length(pi) != 2) {
+    stop("Proportion of zeros and ones should be specified by a vector pi for ternary data.")
+  } else {
+  q = quantile(u, pi); x = rep(1, length(u)); x[u > q[2]] = 2; x[u <= q[1]] = 0
+  }
+  return(x)
+}
+
+zratio_list[[1]] = function(X) {colMeans(as.matrix(X) == 0)}
+zratio_list[[2]] = function(X) {colMeans(as.matrix(X) == 0)}
+zratio_list[[3]] = function(X) {mattolist(rbind(colMeans(as.matrix(X) == 0), 1 - colMeans(as.matrix(X) == 2)))}
 
 bridge_list = bound_list = vector(mode = "list", length = 9)
 names(bridge_list) = names(bound_list) = c("10", "11", "20", "21", "22", "30", "31", "32", "33")
