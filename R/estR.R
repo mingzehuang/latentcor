@@ -34,7 +34,7 @@ estR = function(X, types, method = "approx", nu = 0.01, tol = 1e-8, corplot = FA
   return(out)
 }
 
-.estR = function(X, types, method, nu, tol, ratio, corplot){
+.estR = function(X, types, method, nu, tol, corplot, ratio = .9){
   # shrinkage method
   if(nu < 0 | nu > 1){
     stop("nu must be be between 0 and 1.")
