@@ -17,14 +17,22 @@
 #' Fan J., Liu H., Ning Y. and Zou H. (2017) "High dimensional semiparametric latent graphicalmodel for mixed data" <doi:10.1111/rssb.12168>.
 #' Yoon G., Carroll R.J. and Gaynanova I. (2020) "Sparse semiparametric canonical correlation analysis for data of mixed types" <doi:10.1093/biomet/asaa007>.
 #' Yoon G., Müller C.L., Gaynanova I. (2020) "Fast computation of latent correlations" <arXiv:2006.13875>.
-#' @import stats ggplot2
+#' @import ggplot2
+#' @importFrom stats qnorm
+#' @importFrom mnormt pmnorm
+#' @importFrom fMultivar pnorm2d
 #' @importFrom heatmaply heatmaply
 #' @importFrom Matrix nearPD
 #' @importFrom pcaPP cor.fk
 #' @importFrom chebpol ipol
 #' @export
 #' @example man/examples/estR_ex.R
-estR = function(X, types, method = "approx", nu = 0.01, tol = 1e-8, ratio = 0.9, plotR = FALSE){
+
+estR = function(X, types, method = "approx", nu = 0.01, tol = 1e-8, corplot = FALSE){
+  out = .estR(X = X, types = types, method = method, nu = nu, tol = tol, corplot = corplot)
+}
+
+.estR = function(X, types, method, nu, tol, ratio, corplot){
   # shrinkage method
   if(nu < 0 | nu > 1){
     stop("nu must be be between 0 and 1.")
@@ -60,8 +68,14 @@ estR = function(X, types, method = "approx", nu = 0.01, tol = 1e-8, ratio = 0.9,
       R.lower[comb_select] = r_sol(K = K, zratio1 = zratio1, zratio2 = zratio2, comb = comb, tol = tol)
     } else {
       cutoff = abs(K) > ratio * bound_comb(zratio1 = zratio1, zratio2 = zratio2)
-      R.lower[comb_select][cutoff] = r_sol(K = K[cutoff], zratio1 = zratio1[ , cutoff], zratio2 = zratio2[ , cutoff], comb = comb, tol = tol)
-      R.lower[comb_select][!(cutoff)] = r_ml(K = K[!(cutoff)], zratio1 = zratio1[ , !(cutoff)], zratio2 = zratio2[ , !(cutoff)], bound_comb = bound_comb, comb = comb)
+      if (sum(cutoff) == 0) {
+        R.lower[comb_select] = r_ml(K = K, zratio1 = zratio1, zratio2 = zratio2, bound_comb = bound_comb, comb = comb)
+      } else if (sum(!(cutoff)) == 0) {
+        R.lower[comb_select] = r_sol(K = K, zratio1 = zratio1, zratio2 = zratio2, comb = comb, tol = tol)
+      } else {
+        R.lower[comb_select][cutoff] = r_sol(K = K[cutoff], zratio1 = zratio1[ , cutoff], zratio2 = zratio2[ , cutoff], comb = comb, tol = tol)
+        R.lower[comb_select][!(cutoff)] = r_ml(K = K[!(cutoff)], zratio1 = zratio1[ , !(cutoff)], zratio2 = zratio2[ , !(cutoff)], bound_comb = bound_comb, comb = comb)
+      }
     }
   }
   K = R = matrix(0, p, p)
@@ -74,7 +88,7 @@ estR = function(X, types, method = "approx", nu = 0.01, tol = 1e-8, ratio = 0.9,
   R = (1 - nu) * R + nu * diag(nrow(R))
   colnames(K) = rownames(K) = colnames(R) = rownames(R) = make.names(c(name))
   plotR = NULL
-  if (plotR) {
+  if (corplot) {
     plotR = heatmaply(R, dendrogram = "none", main = "Latent Correlation", margins = c(80,80,80,80),
                       grid_color = "white", grid_width = 0.00001, label_names = c("Horizontal axis:", "Vertical axis:", "Latent correlation:"))
   }
