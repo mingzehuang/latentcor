@@ -21,6 +21,10 @@
 
 GenData = function(n = 100, types = c("tru", "ter"), rhos = .5, copulas = c(NA, NA), ...) {
   p = length(types); types_code = rep(NA, p); types_code = as.numeric(type_list[types])
+  if (p == 1) {
+    Z = rnorm(n = n)
+    X = fromZtoX(z = Z, type_code = types_code, copula = copulas, xp = list(...))
+  }
   Sigma.lower = diag(0, p); Sigma.lower[lower.tri(Sigma.lower)] = rhos
   Sigma = Sigma.lower + t(Sigma.lower) + diag(1, p)
   if (...length() == 0) {

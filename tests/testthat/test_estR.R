@@ -1,14 +1,17 @@
 
 library(latentcor)
 
-### Data setting
-n = 1000; p1 = 3; p2 = 2 # sample size and dimensions for two datasets.
-rho = .9
+test_that("n_x is 0 if no tie", {
+  expect_equal(n_x(rnorm(10), 0))
+})
+
+test_that("mattolist convert matrix to list column by column", {
+  expect_equal(typeof(mattolist(matrix(rnorm(9), 3, 3))), "list")
+})
+
 # Data generation
-simdata = GenData(n = n, type1 = "continuous", type2 = "binary", p1 = p1, p2 = p2, rho = rho,
-                  copula1 = "cube", copula2 = "cube", c1 = NULL, c2 = 0)
-X1 = simdata$X1; X2 = simdata$X2
-colnames(X1) = c("X11", "X12", "X13"); colnames(X2) = c("X21", "X22")
+X = GenData()
+colnames(X) = c("X1", "X2")
 
 test_that("estR is symmetric.", {
   expect_equal(estR(X1 = X1, type1 = "continuous", method = "original", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R,
