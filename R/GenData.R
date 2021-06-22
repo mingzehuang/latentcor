@@ -24,18 +24,18 @@ GenData = function(n = 100, types = c("tru", "ter"), rhos = .5, copulas = c(NA, 
   Sigma.lower = diag(0, p); Sigma.lower[lower.tri(Sigma.lower)] = rhos
   Sigma = Sigma.lower + t(Sigma.lower) + diag(1, p)
   if (...length() == 0) {
-    pis = list(.5, c(.3, .5))
+    XP = list(.5, c(.3, .5))
   } else {
-    pis = list(...)
+    XP = list(...)
   }
   Z = MASS::mvrnorm(n = n, mu = rep(0, p), Sigma = Sigma)
-  X = sapply(seq(p), function(i) {fromZtoX(z = Z[ , i], type_code = types_code[i], copula = copulas[i], pi = pis[[i]])})
+  X = sapply(seq(p), function(i) {fromZtoX(z = Z[ , i], type_code = types_code[i], copula = copulas[i], xp = XP[[i]])})
   return(X = X)
 }
 
-fromZtoX = function(z, type_code, copula, pi) {
+fromZtoX = function(z, type_code, copula, xp) {
   x = z
   if (!(is.na(copula))) {x = copula_list[[copula]](z)}
-  if(type_code != 0) {x = transform_list[[type_code]](u = x, pi = pi)}
+  if(type_code != 0) {x = transform_list[[type_code]](u = x, xp = xp)}
   return(x)
 }

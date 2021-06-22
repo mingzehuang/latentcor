@@ -4,49 +4,28 @@
 \alias{estR}
 \title{Estimate latent correlation matrix}
 \usage{
-estR(
-  X1,
-  type1,
-  X2 = NULL,
-  type2 = NULL,
-  method = "approx",
-  use.nearPD = TRUE,
-  nu = 0.01,
-  tol = 1e-08,
-  verbose = FALSE,
-  ratio = 0.9
-)
+estR(X, types, method = "approx", nu = 0.01, tol = 1e-08, corplot = FALSE)
 }
 \arguments{
-\item{X1}{A numeric data matrix (n by p1).}
+\item{X}{A numeric data matrix (n by p).}
 
-\item{type1}{A type of variables in \code{X1}, must be one of "continuous", "binary" or "trunc".}
-
-\item{X2}{A numeric data matrix (n by p2).}
-
-\item{type2}{A type of variables in \code{X2}, must be one of "continuous", "binary" or "trunc".}
+\item{types}{A type of variables in \code{X}, must be one of "continuous", "binary", "trunc" or "ternary".}
 
 \item{method}{The calculation method of latent correlation. Either "original" method or "approx". If \code{method = "approx"}, multilinear approximation method is used, which is much faster than the original method. If \code{method = "original"}, optimization of the bridge inverse function is used. The default is "approx".}
-
-\item{use.nearPD}{A logical value indicating whether to use \link[Matrix]{nearPD} or not when the resulting correlation estimator is not positive definite (have at least one negative eigenvalue).}
 
 \item{nu}{Shrinkage parameter for correlation matrix, must be between 0 and 1, the default value is 0.01.}
 
 \item{tol}{Desired accuracy when calculating the solution of bridge function.}
 
-\item{verbose}{If \code{verbose = FALSE}, printing information whether nearPD is used or not is disabled. The default value is FALSE.}
+\item{corplot}{Plot latent correlation matrix \code{R} as a heatmap.}
 
 \item{ratio}{The maximum ratio of Kendall's tau and boundary to implement multilinear interpolation.}
 }
 \value{
 \code{estR} returns
 \itemize{
-      \item{type1: }{Type of the data matrix \code{X1}}
-      \item{type2: }{Type of the data matrix \code{X2}}
-      \item{R: }{Estimated latent correlation matrix of whole \code{X} = (\code{X1}, \code{X2}) (p1+p2 by p1+p2)}
-      \item{R1: }{Estimated latent correlation matrix of \code{X1} (p1 by p1)}
-      \item{R2: }{Estimated latent correlation matrix of \code{X2} (p2 by p2)}
-      \item{R12: }{Estimated latent correlation matrix between \code{X1} and \code{X2} (p1 by p2)}
+      \item{K: }{Kendall Tau Matrix of \code{X} (p x p)}
+      \item{R: }{Estimated latent correlation matrix of whole \code{X} (p x p)}
 }
 }
 \description{
@@ -71,8 +50,6 @@ Heatmap_R_nc_approx = estR(X1 = X1, type1 = "ternary", X2 = X2, type2 = "continu
 }
 \references{
 Fan J., Liu H., Ning Y. and Zou H. (2017) "High dimensional semiparametric latent graphicalmodel for mixed data" <doi:10.1111/rssb.12168>.
-
 Yoon G., Carroll R.J. and Gaynanova I. (2020) "Sparse semiparametric canonical correlation analysis for data of mixed types" <doi:10.1093/biomet/asaa007>.
-
 Yoon G., Müller C.L., Gaynanova I. (2020) "Fast computation of latent correlations" <arXiv:2006.13875>.
 }

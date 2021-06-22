@@ -3,15 +3,16 @@
 #' @rdname estR
 #' @aliases estR
 #' @param X A numeric data matrix (n by p).
-#' @param type A type of variables in \code{X}, must be one of "continuous", "binary", "trunc" or "ternary".
+#' @param types A type of variables in \code{X}, must be one of "continuous", "binary", "trunc" or "ternary".
 #' @param method The calculation method of latent correlation. Either "original" method or "approx". If \code{method = "approx"}, multilinear approximation method is used, which is much faster than the original method. If \code{method = "original"}, optimization of the bridge inverse function is used. The default is "approx".
 #' @param nu Shrinkage parameter for correlation matrix, must be between 0 and 1, the default value is 0.01.
 #' @param tol Desired accuracy when calculating the solution of bridge function.
 #' @param ratio The maximum ratio of Kendall's tau and boundary to implement multilinear interpolation.
-#' @param plotR Plot latent correlation matrix \code{R} as a heatmap.
+#' @param corplot Plot latent correlation matrix \code{R} as a heatmap.
 #' @return \code{estR} returns
 #' \itemize{
-#'       \item{R: }{Estimated latent correlation matrix of whole \code{X} (p by p)}
+#'       \item{K: }{Kendall Tau Matrix of \code{X} (p x p)}
+#'       \item{R: }{Estimated latent correlation matrix of whole \code{X} (p x p)}
 #' }
 #' @references
 #' Fan J., Liu H., Ning Y. and Zou H. (2017) "High dimensional semiparametric latent graphicalmodel for mixed data" <doi:10.1111/rssb.12168>.
@@ -30,6 +31,7 @@
 
 estR = function(X, types, method = "approx", nu = 0.01, tol = 1e-8, corplot = FALSE){
   out = .estR(X = X, types = types, method = method, nu = nu, tol = tol, corplot = corplot)
+  return(out)
 }
 
 .estR = function(X, types, method, nu, tol, ratio, corplot){
@@ -60,21 +62,25 @@ estR = function(X, types, method = "approx", nu = 0.01, tol = 1e-8, corplot = FA
   zratios_cp[ , types_mirror] = rbind(zratios_cp[2, types_mirror], zratios_cp[1, types_mirror])
   combs_cp = paste0(types_cp[1, ], types_cp[2, ]); combs = unique(combs_cp); R.lower = rep(NA, cp.col)
   for (comb in combs) {
-    comb_select = combs_cp == comb; comb_select.len = sum(comb_select)
-    bound_comb = bound_list[[comb]]; K = K_a.lower[comb_select]
-    zratio1 = matrix(unlist(zratios_cp[1, comb_select]), ncol = comb_select.len)
-    zratio2 = matrix(unlist(zratios_cp[2, comb_select]), ncol = comb_select.len)
-    if (method == "original") {
-      R.lower[comb_select] = r_sol(K = K, zratio1 = zratio1, zratio2 = zratio2, comb = comb, tol = tol)
+    comb_select = combs_cp == comb
+    if (comb == "00") {
+      R.lower[comb_select] = sin((pi / 2) * K_a.lower[comb_select])
     } else {
-      cutoff = abs(K) > ratio * bound_comb(zratio1 = zratio1, zratio2 = zratio2)
-      if (sum(cutoff) == 0) {
-        R.lower[comb_select] = r_ml(K = K, zratio1 = zratio1, zratio2 = zratio2, bound_comb = bound_comb, comb = comb)
-      } else if (sum(!(cutoff)) == 0) {
+      comb_select.len = sum(comb_select); bound_comb = bound_list[[comb]]; K = K_a.lower[comb_select]
+      zratio1 = matrix(unlist(zratios_cp[1, comb_select]), ncol = comb_select.len)
+      zratio2 = matrix(unlist(zratios_cp[2, comb_select]), ncol = comb_select.len)
+      if (method == "original") {
         R.lower[comb_select] = r_sol(K = K, zratio1 = zratio1, zratio2 = zratio2, comb = comb, tol = tol)
       } else {
-        R.lower[comb_select][cutoff] = r_sol(K = K[cutoff], zratio1 = zratio1[ , cutoff], zratio2 = zratio2[ , cutoff], comb = comb, tol = tol)
-        R.lower[comb_select][!(cutoff)] = r_ml(K = K[!(cutoff)], zratio1 = zratio1[ , !(cutoff)], zratio2 = zratio2[ , !(cutoff)], bound_comb = bound_comb, comb = comb)
+        cutoff = abs(K) > ratio * bound_comb(zratio1 = zratio1, zratio2 = zratio2)
+        if (sum(cutoff) == 0) {
+          R.lower[comb_select] = r_ml(K = K, zratio1 = zratio1, zratio2 = zratio2, bound_comb = bound_comb, comb = comb)
+        } else if (sum(!(cutoff)) == 0) {
+          R.lower[comb_select] = r_sol(K = K, zratio1 = zratio1, zratio2 = zratio2, comb = comb, tol = tol)
+        } else {
+          R.lower[comb_select][cutoff] = r_sol(K = K[cutoff], zratio1 = zratio1[ , cutoff], zratio2 = zratio2[ , cutoff], comb = comb, tol = tol)
+          R.lower[comb_select][!(cutoff)] = r_ml(K = K[!(cutoff)], zratio1 = zratio1[ , !(cutoff)], zratio2 = zratio2[ , !(cutoff)], bound_comb = bound_comb, comb = comb)
+        }
       }
     }
   }

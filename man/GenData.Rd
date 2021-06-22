@@ -4,68 +4,21 @@
 \alias{GenData}
 \title{Mixed type simulation data generator}
 \usage{
-GenData(
-  n,
-  type1 = "continuous",
-  type2 = NULL,
-  p1 = 1,
-  p2 = NULL,
-  rho = NULL,
-  bdim = NULL,
-  copula1 = NULL,
-  copula2 = NULL,
-  mu = NULL,
-  Sigma = NULL,
-  Z1 = NULL,
-  Z2 = NULL,
-  c1 = NULL,
-  c2 = NULL,
-  q1 = NULL,
-  q2 = NULL
-)
+GenData(n = 100, types = c("tru", "ter"), rhos = 0.5, copulas = c(NA, NA), ...)
 }
 \arguments{
 \item{n}{Sample size}
 
-\item{type1}{Type of the first dataset \code{X1}. Could be "continuous", "trunc", "binary", "ternary".}
+\item{types}{Types of the  dataset \code{X}. Could be "con", "tru", "bin" or "ter".}
 
-\item{type2}{Type of the second dataset \code{X2}. Could be "continuous", "trunc", "binary", "ternary".}
+\item{rhos}{True correlation for auto correlated data.}
 
-\item{p1}{Dimension of variables belong to \code{type1}.}
-
-\item{p2}{Dimension of variables belong to \code{type2}.}
-
-\item{rho}{True correlation for auto correlated data.}
-
-\item{bdim}{Dimensions for subdiagonal matrices.}
-
-\item{copula1}{Copula type for the first dataset. U1 = f(Z1), which could be either "exp", "cube".}
-
-\item{copula2}{Copula type for the second dataset. U2 = f(Z2), which could be either "exp", "cube".}
-
-\item{mu}{Mean of latent multivariate normal.}
-
-\item{Sigma}{True correlation matrix of latent variable \code{Z1} (p1 by p1).}
-
-\item{Z1}{continuous pre-generated data matrix to be converted into other data type.}
-
-\item{Z2}{continuous pre-generated data matrix to be converted into other data type.}
-
-\item{c1}{Constant threshold for \code{X1} needed for "trunc", "binary", "ternary" and "ordinal" data type - the default is NULL.}
-
-\item{c2}{Constant threshold for \code{X2} needed for "trunc", "binary", "ternary" and "ordinal" data type - the default is NULL.}
-
-\item{q1}{quantile threshold for \code{X1} needed for "trunc", "binary", "ternary" and "ordinal" data type - the default is NULL.}
-
-\item{q2}{quantile threshold for \code{X2} needed for "trunc", "binary", "ternary" and "ordinal" data type - the default is NULL.}
+\item{copulas}{Copula types for the first dataset. U = f(Z), which could be "NA", "exp" or "cube".}
 }
 \value{
 \code{GenData} returns a list containing
 \itemize{
-      \item{Z1: }{latent numeric data matrix (n by p1).}
-      \item{Z2: }{latent numeric data matrix (n by p2).}
-      \item{X1: }{observed numeric data matrix (n by p1).}
-      \item{X2: }{observed numeric data matrix (n by p2).}
+      \item{X: }{observed numeric data matrix (n by p).}
 }
 }
 \description{
@@ -77,6 +30,5 @@ n = 100; p1 = 15; p2 = 10 # sample size and dimensions for two datasets.
 # Data generation
 GenData(n = n, type1 = "ternary", type2 = "trunc", p1 = p1, p2 = p2, rho = .9,
         copula1 = "cube", copula2 = "cube", c1 = c(0, 1), c2 = 0)
-
 
 }
