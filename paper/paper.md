@@ -75,15 +75,15 @@ Memory footprints by KB:
 
  | case | mixedCCA | latentcor |
  |-----|----------|----------|
-| binary/continuous | 10232 | 3132 |
-| binary/binary | 303064 | 20484 |
-| truncated/continuous | 21616 | 3156 |
-| truncated/binary | 902316 | 28612 | 
-| truncated/truncated | 689776 | 16152 |
-| ternary/continuous | - | 18520 |
-| ternary/binary | - | 110928 |
-| ternary/truncated | - | 191776 |
-| ternary/ternary | - | 1023128 |
+| binary/continuous | 10.23 | 3.13 |
+| binary/binary | 303.06 | 20.48 |
+| truncated/continuous | 21.62 | 3.16 |
+| truncated/binary | 902.32 | 28.61 | 
+| truncated/truncated | 689.78 | 16.16 |
+| ternary/continuous | - | 18.52 |
+| ternary/binary | - | 110.93 |
+| ternary/truncated | - | 191.78 |
+| ternary/ternary | - | 1023.13 |
 
 
 ```r
@@ -101,28 +101,16 @@ Heatmap_R_nc_approx = estR(X = X, types = c("ter", "con"), method = "approx", co
 
 
 # Rendered R Figures
+Script see: [latentcor_evaluation](https://github.com/mingzehuang/latentcor_evaluation/blob/master/unbias_check.R)
+
+![\label{fig:R_nc_org}](R_nc_org.pdf)
 
 
-![\label{fig:R_nc_org}](R_nc_org.png) pdf
-
-main: Ternary vs. continuous
-X-lab: True latent correlation
-Y-lab: Estimated latent correlation
-
-![\label{fig:R_nc_approx}](R_nc_approx.png) pdf
-
-main: Ternary vs. continuous
-X-lab: True latent correlation
-Y-lab: Estimated latent correlation (latentcor)
-
-comment on where is the script for plots.
+![\label{fig:R_nc_approx}](R_nc_approx.pdf)
 
 
-![\label{fig:R_nc_pearson}](R_nc_pearson.png)
+![\label{fig:R_nc_pearson}](R_nc_pearson.pdf)
 
-main: Ternary vs. continuous
-X-lab: True latent correlation
-Y-lab: Pearson correlation
 
 
 # References
