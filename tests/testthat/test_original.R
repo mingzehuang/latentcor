@@ -26,7 +26,7 @@ test_that("r should not exceed one.", {
   expect_lte(r_sol(K = K, zratio1 = zratio1, zratio2 = zratio2, comb = "33", tol = 1e-8), 1)
 })
 
-K = sort(runif(2, -1, 1))
+K = sort(c(runif(1, -1, 0), runif(1, 0, 1)))
 zratio1 = .5; zratio2 = .5
 
 test_that("r is increasing in tau.", {

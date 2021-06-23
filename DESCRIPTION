@@ -1,6 +1,6 @@
 Package: latentcor
 Type: Package
-Title: Fast computation of latent correlations for mixed data
+Title: Fast Computation of Latent Correlations for Mixed Data
 Version: 1.0.0
 Author: c(
     person(given = "Mingze",
