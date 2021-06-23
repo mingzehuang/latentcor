@@ -136,7 +136,7 @@ r_sol = function(K, zratio1, zratio2, comb, tol) {
   return(out)
 }
 
-r_ml = function(K, zratio1, zratio2, bound_comb, comb) {
+r_ml = function(K, zratio1, zratio2, comb) {
   ipol_comb = ipol_list[[comb]]
   zratio1 = as.matrix(zratio1); zratio1.row = nrow(zratio1)
   if (!(is.null(zratio2))) {
