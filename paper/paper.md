@@ -88,25 +88,15 @@ Memory footprints by KB:
 
 ```r
 library(latentcor)
-X1 = simdata$X1; X2 = simdata$X2
-# Estimate latent correlation matrix with original method
-R_nc_org = estR(X1 = X1, type1 = "ternary", X2 = X2, type2 = "continuous", 
-                              method = "original")$R
-# Estimate latent correlation matrix with aprroximation method
-R_nc_approx = estR(X1 = X1, type1 = "ternary", X2 = X2, type2 = "continuous",
-                              method = "approx")$R
-```
-
-```r
 # Data generation
-X = GenData(types = c("ternary", "continuous"), XP = list(c(0.3, .5), NA))
+X = GenData(types = c("ter", "con"), XP = list(c(0.3, .5), NA))
 # Estimate latent correlation matrix with original method
 R_nc_org = estR(X = X, types = c("ter", "con"), method = "original")$R
 # Estimate latent correlation matrix with aprroximation method
 R_nc_org = estR(X = X, types = c("ter", "con"), method = "approx")$R
 
 # Heatmap for latent correlation matrix.
-Heatmap_R_nc_approx = estR(X = X, types = c("ter", "con"), method = "approx")$plotR
+Heatmap_R_nc_approx = estR(X = X, types = c("ter", "con"), method = "approx", corplot = TRUE)$plotR
 ```
 
 
