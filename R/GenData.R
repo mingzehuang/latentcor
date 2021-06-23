@@ -2,7 +2,7 @@
 #' @title Mixed type simulation data generator
 #' @description \code{GenData} is used to generate two sets of data of mixed types for sparse CCA under the Gaussian copula model.
 #' @param n Sample size
-#' @param types Types of the  dataset \code{X}. Could be "con", "tru", "bin" or "ter".
+#' @param types Types of the  dataset \code{X}. Could be "con" (continuous), "bin" (binary), "tru" (truncated) or "ter" (ternary).
 #' @param rhos True correlation for auto correlated data.
 #' @param copulas Copula types for the first dataset. U = f(Z), which could be "NA", "exp" or "cube".
 #' @param XP list of proportions corresponding to each data series.
