@@ -4,7 +4,13 @@
 \alias{GenData}
 \title{Mixed type simulation data generator}
 \usage{
-GenData(n = 100, types = c("tru", "ter"), rhos = 0.5, copulas = c(NA, NA), ...)
+GenData(
+  n = 100,
+  types = c("tru", "ter"),
+  rhos = 0.5,
+  copulas = c(NA, NA),
+  XP = list(0.5, c(0.3, 0.5))
+)
 }
 \arguments{
 \item{n}{Sample size}
@@ -14,6 +20,8 @@ GenData(n = 100, types = c("tru", "ter"), rhos = 0.5, copulas = c(NA, NA), ...)
 \item{rhos}{True correlation for auto correlated data.}
 
 \item{copulas}{Copula types for the first dataset. U = f(Z), which could be "NA", "exp" or "cube".}
+
+\item{XP}{list of proportions corresponding to each data series.}
 }
 \value{
 \code{GenData} returns a list containing
@@ -25,10 +33,5 @@ GenData(n = 100, types = c("tru", "ter"), rhos = 0.5, copulas = c(NA, NA), ...)
 \code{GenData} is used to generate two sets of data of mixed types for sparse CCA under the Gaussian copula model.
 }
 \examples{
-# Data setting
-n = 100; p1 = 15; p2 = 10 # sample size and dimensions for two datasets.
-# Data generation
-GenData(n = n, type1 = "ternary", type2 = "trunc", p1 = p1, p2 = p2, rho = .9,
-        copula1 = "cube", copula2 = "cube", c1 = c(0, 1), c2 = 0)
-
+GenData()
 }

@@ -2,208 +2,140 @@
 library(latentcor)
 
 test_that("n_x is 0 if no tie", {
-  expect_equal(n_x(rnorm(10), 0))
-})
-
-test_that("mattolist convert matrix to list column by column", {
-  expect_equal(typeof(mattolist(matrix(rnorm(9), 3, 3))), "list")
+  x = unique(rnorm(10))
+  expect_equal(n_x(x = x, length(x)), 0)
 })
 
 # Data generation
-X = GenData()
-colnames(X) = c("X1", "X2")
-
 test_that("estR is symmetric.", {
-  expect_equal(estR(X1 = X1, type1 = "continuous", method = "original", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R,
-               t(estR(X1 = X1, type1 = "continuous", method = "original", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R))
+  X = GenData(types = c("con", "con"))
+  expect_equal(estR(X = X, types = c("con", "con"), method = "original", nu = 0.5, tol = 1e-8, ratio = .9, corplot = FALSE)$R,
+               t(estR(X = X, types = c("con", "con"), method = "original", nu = 0.5, tol = 1e-8, ratio = .9, corplot = FALSE)$R))
 })
 
 test_that("estR is symmetric.", {
-  expect_equal(estR(X1 = X1, type1 = "continuous", method = "ml", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R,
-               t(estR(X1 = X1, type1 = "continuous", method = "ml", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R))
+  X = GenData(types = c("con", "con"))
+  expect_equal(estR(X = X, types = c("con", "con"), method = "approx", nu = 0.5, tol = 1e-8, ratio = .9, corplot = FALSE)$R,
+               t(estR(X = X, types = c("con", "con"), method = "approx", nu = 0.5, tol = 1e-8, ratio = .9, corplot = FALSE)$R))
 })
 
 test_that("estR is symmetric.", {
-  expect_equal(estR(X1 = X2, type1 = "binary", method = "original", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R,
-               t(estR(X1 = X2, type1 = "binary", method = "original", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R))
+  X = GenData(types = c("bin", "bin"), XP = list(.5, .5))
+  expect_equal(estR(X = X, types = c("bin", "bin"), method = "original", nu = 0.5, tol = 1e-8, ratio = .9, corplot = FALSE)$R,
+               t(estR(X = X, types = c("bin", "bin"), method = "original", nu = 0.5, tol = 1e-8, ratio = .9, corplot = FALSE)$R))
 })
 
 test_that("estR is symmetric.", {
-  expect_equal(estR(X1 = X2, type1 = "binary", method = "ml", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R,
-               t(estR(X1 = X2, type1 = "binary", method = "ml", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R))
-})
-
-simdata = GenData(n = n, type1 = "trunc", type2 = "ternary", p1 = p1, p2 = p2, rho = rho,
-                  copula1 = "cube", copula2 = "cube", c1 = 0, c2 = c(0, 1))
-X1 = simdata$X1; X2 = simdata$X2
-colnames(X1) = c("X11", "X12", "X13"); colnames(X2) = c("X21", "X22")
-
-test_that("estR is symmetric.", {
-  expect_equal(estR(X1 = X1, type1 = "trunc", method = "original", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R,
-               t(estR(X1 = X1, type1 = "trunc", method = "original", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R))
+  X = GenData(types = c("bin", "bin"), XP = list(.5, .5))
+  expect_equal(estR(X = X, types = c("bin", "bin"), method = "approx", nu = 0.5, tol = 1e-8, ratio = .9, corplot = FALSE)$R,
+               t(estR(X = X, types = c("bin", "bin"), method = "approx", nu = 0.5, tol = 1e-8, ratio = .9, corplot = FALSE)$R))
 })
 
 test_that("estR is symmetric.", {
-  expect_equal(estR(X1 = X1, type1 = "trunc", method = "ml", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R,
-               t(estR(X1 = X1, type1 = "trunc", method = "ml", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R))
+  X = GenData(types = c("tru", "tru"), XP = list(.5, .5))
+  expect_equal(estR(X = X, types = c("tru", "tru"), method = "original", nu = 0.5, tol = 1e-8, ratio = .9, corplot = FALSE)$R,
+               t(estR(X = X, types = c("tru", "tru"), method = "original", nu = 0.5, tol = 1e-8, ratio = .9, corplot = FALSE)$R))
 })
 
 test_that("estR is symmetric.", {
-  expect_equal(estR(X1 = X2, type1 = "ternary", method = "original", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R,
-               t(estR(X1 = X2, type1 = "ternary", method = "original", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R))
+  X = GenData(types = c("tru", "tru"), XP = list(.5, .5))
+  expect_equal(estR(X = X, types = c("tru", "tru"), method = "approx", nu = 0.5, tol = 1e-8, ratio = .9, corplot = FALSE)$R,
+               t(estR(X = X, types = c("tru", "tru"), method = "approx", nu = 0.5, tol = 1e-8, ratio = .9, corplot = FALSE)$R))
 })
 
 test_that("estR is symmetric.", {
-  expect_equal(estR(X1 = X2, type1 = "ternary", method = "ml", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R,
-               t(estR(X1 = X2, type1 = "ternary", method = "ml", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R))
-})
-
-simdata = GenData(n=n, type1 = "continuous", type2 = "binary", p1 = p1, p2 = p2, rho = rho,
-                  copula1 = "cube", copula2 = "cube", c1 = NULL, c2 = 0)
-X1 = simdata$X1; X2 = simdata$X2
-colnames(X1) = c("X11", "X12", "X13"); colnames(X2) = c("X21", "X22")
-
-test_that("estR is symmetric.", {
-  expect_equal(estR(X1 = X1, type1 = "continuous", X2 = X2, type2 = "binary", method = "original", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R12,
-               t(estR(X1 = X2, type1 = "binary", X2 = X1, type2 = "continuous", method = "original", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R12))
+  X = GenData(types = c("ter", "ter"), XP = list(c(.3, .5), c(.2, .6)))
+  expect_equal(estR(X = X, types = c("ter", "ter"), method = "original", nu = 0.5, tol = 1e-8, ratio = .9, corplot = FALSE)$R,
+               t(estR(X = X, types = c("ter", "ter"), method = "original", nu = 0.5, tol = 1e-8, ratio = .9, corplot = FALSE)$R))
 })
 
 test_that("estR is symmetric.", {
-  expect_equal(estR(X1 = X1, type1 = "continuous", X2 = X2, type2 = "binary", method = "ml", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R12,
-               t(estR(X1 = X2, type1 = "binary", X2 = X1, type2 = "continuous", method = "ml", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R12))
-})
-
-simdata = GenData(n = n, type1 = "trunc", type2 = "binary", p1 = p1, p2 = p2, rho = rho,
-                  copula1 = "cube", copula2 = "cube", c1 = 0, c2 = 0)
-X1 = simdata$X1; X2 = simdata$X2
-colnames(X1) = c("X11", "X12", "X13"); colnames(X2) = c("X21", "X22")
-
-test_that("estR is symmetric.", {
-  expect_equal(estR(X1 = X1, type1 = "trunc", X2 = X2, type2 = "binary", method = "original", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R12,
-               t(estR(X1 = X2, type1 = "binary", X2 = X1, type2 = "trunc", method = "original", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R12))
+  X = GenData(types = c("ter", "ter"), XP = list(c(.3, .5), c(.2, .6)))
+  expect_equal(estR(X = X, types = c("ter", "ter"), method = "approx", nu = 0.5, tol = 1e-8, ratio = .9, corplot = FALSE)$R,
+               t(estR(X = X, types = c("ter", "ter"), method = "approx", nu = 0.5, tol = 1e-8, ratio = .9, corplot = FALSE)$R))
 })
 
 test_that("estR is symmetric.", {
-  expect_equal(estR(X1 = X1, type1 = "trunc", X2 = X2, type2 = "binary", method = "ml", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R12,
-               t(estR(X1 = X2, type1 = "binary", X2 = X1, type2 = "trunc", method = "ml", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R12))
-})
-
-simdata = GenData(n = n, type1 = "trunc", type2 = "continuous", p1 = p1, p2 = p2, rho = rho,
-                  copula1 = "cube", copula2 = "cube", c1 = 0, c2 = NULL)
-X1 = simdata$X1; X2 = simdata$X2
-colnames(X1) = c("X11", "X12", "X13"); colnames(X2) = c("X21", "X22")
-
-test_that("estR is symmetric.", {
-  expect_equal(estR(X1 = X1, type1 = "trunc", X2 = X2, type2 = "continuous", method = "original", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R12,
-               t(estR(X1 = X2, type1 = "continuous", X2 = X1, type2 = "trunc", method = "original", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R12))
+  X = GenData(types = c("con", "bin"), XP = list(NA, .5))
+  expect_equal(estR(X = X, types = c("con", "bin"), method = "original", nu = 0.5, tol = 1e-8, ratio = .9, corplot = FALSE)$R,
+               t(estR(X = X, types = c("con", "bin"), method = "original", nu = 0.5, tol = 1e-8, ratio = .9, corplot = FALSE)$R))
 })
 
 test_that("estR is symmetric.", {
-  expect_equal(estR(X1 = X1, type1 = "trunc", X2 = X2, type2 = "continuous", method = "ml", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R12,
-               t(estR(X1 = X2, type1 = "continuous", X2 = X1, type2 = "trunc", method = "ml", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R12))
-})
-
-simdata = GenData(n = n, type1 = "ternary", type2 = "continuous", p1 = p1, p2 = p2, rho = rho,
-                  copula1 = "cube", copula2 = "cube", c1 = c(0, 1), c2 = NULL)
-X1 = simdata$X1; X2 = simdata$X2
-colnames(X1) = c("X11", "X12", "X13"); colnames(X2) = c("X21", "X22")
-
-test_that("estR is symmetric.", {
-  expect_equal(estR(X1 = X1, type1 = "ternary", X2 = X2, type2 = "continuous", method = "original", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R12,
-               t(estR(X1 = X2, type1 = "continuous", X2 = X1, type2 = "ternary", method = "original", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R12))
+  X = GenData(types = c("con", "bin"), XP = list(NA, .5))
+  expect_equal(estR(X = X, types = c("con", "bin"), method = "approx", nu = 0.5, tol = 1e-8, ratio = .9, corplot = FALSE)$R,
+               t(estR(X = X, types = c("con", "bin"), method = "approx", nu = 0.5, tol = 1e-8, ratio = .9, corplot = FALSE)$R))
 })
 
 test_that("estR is symmetric.", {
-  expect_equal(estR(X1 = X1, type1 = "ternary", X2 = X2, type2 = "continuous", method = "ml", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R12,
-               t(estR(X1 = X2, type1 = "continuous", X2 = X1, type2 = "ternary", method = "ml", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R12))
-})
-
-simdata = GenData(n = n, type1 = "ternary", type2 = "binary", p1 = p1, p2 = p2, rho = rho,
-                  copula1 = "cube", copula2 = "cube", c1 = c(0, 1), c2 = 0)
-X1 = simdata$X1; X2 = simdata$X2
-colnames(X1) = c("X11", "X12", "X13"); colnames(X2) = c("X21", "X22")
-
-test_that("estR is symmetric.", {
-  expect_equal(estR(X1 = X1, type1 = "ternary", X2 = X2, type2 = "binary", method = "original", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R12,
-               t(estR(X1 = X2, type1 = "binary", X2 = X1, type2 = "ternary", method = "original", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R12))
+  X = GenData(types = c("tru", "bin"), XP = list(.5, .5))
+  expect_equal(estR(X = X, types = c("tru", "bin"), method = "original", nu = 0.5, tol = 1e-8, ratio = .9, corplot = FALSE)$R,
+               t(estR(X = X, types = c("tru", "bin"), method = "original", nu = 0.5, tol = 1e-8, ratio = .9, corplot = FALSE)$R))
 })
 
 test_that("estR is symmetric.", {
-  expect_equal(estR(X1 = X1, type1 = "ternary", X2 = X2, type2 = "binary", method = "ml", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R12,
-               t(estR(X1 = X2, type1 = "binary", X2 = X1, type2 = "ternary", method = "ml", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R12))
+  X = GenData(types = c("tru", "bin"), XP = list(.5, .5))
+  expect_equal(estR(X = X, types = c("tru", "bin"), method = "approx", nu = 0.5, tol = 1e-8, ratio = .9, corplot = FALSE)$R,
+               t(estR(X = X, types = c("tru", "bin"), method = "approx", nu = 0.5, tol = 1e-8, ratio = .9, corplot = FALSE)$R))
 })
 
-simdata = GenData(n = n, type1 = "ternary", type2 = "trunc", p1 = p1, p2 = p2, rho = rho,
-                  copula1 = "cube", copula2 = "cube", c1 = c(0, 1), c2 = 0)
-X1 = simdata$X1; X2 = simdata$X2
-colnames(X1) = c("X11", "X12", "X13"); colnames(X2) = c("X21", "X22")
 
 test_that("estR is symmetric.", {
-  expect_equal(estR(X1 = X1, type1 = "ternary", X2 = X2, type2 = "trunc", method = "original", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R12,
-               t(estR(X1 = X2, type1 = "trunc", X2 = X1, type2 = "ternary", method = "original", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R12))
-})
-
-test_that("estR is symmetric.", {
-  expect_equal(estR(X1 = X1, type1 = "ternary", X2 = X2, type2 = "trunc", method = "ml", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R12,
-               t(estR(X1 = X2, type1 = "trunc", X2 = X1, type2 = "ternary", method = "ml", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R12))
-})
-
-simdata = GenData(n = n, type1 = "ternary", type2 = "ternary", p1 = p1, p2 = p2, rho = rho,
-                  copula1 = "cube", copula2 = "cube", c1 = c(0, 1), c2 = c(0, 1))
-X1 = simdata$X1; X2 = simdata$X2
-colnames(X1) = c("X11", "X12", "X13"); colnames(X2) = c("X21", "X22")
-
-test_that("estR is symmetric.", {
-  expect_equal(estR(X1 = X1, type1 = "ternary", X2 = X2, type2 = "ternary", method = "original", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R12,
-               t(estR(X1 = X2, type1 = "ternary", X2 = X1, type2 = "ternary", method = "original", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R12))
+  X = GenData(types = c("tru", "con"), XP = list(.5, NA))
+  expect_equal(estR(X = X, types = c("tru", "bin"), method = "original", nu = 0.5, tol = 1e-8, ratio = .9, corplot = FALSE)$R,
+               t(estR(X = X, types = c("tru", "bin"), method = "original", nu = 0.5, tol = 1e-8, ratio = .9, corplot = FALSE)$R))
 })
 
 test_that("estR is symmetric.", {
-  expect_equal(estR(X1 = X1, type1 = "ternary", X2 = X2, type2 = "ternary", method = "ml", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R12,
-               t(estR(X1 = X2, type1 = "ternary", X2 = X1, type2 = "ternary", method = "ml", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R12))
-})
-
-simdata = GenData(n = n, type1 = "continuous", type2 = "continuous", p1 = p1, p2 = p2, rho = rho,
-                  copula1 = "cube", copula2 = "cube", c1 = NULL, c2 = NULL)
-X1 = simdata$X1; X2 = simdata$X2
-colnames(X1) = c("X11", "X12", "X13"); colnames(X2) = c("X21", "X22")
-
-test_that("estR is symmetric.", {
-  expect_equal(estR(X1 = X1, type1 = "continuous", X2 = X2, type2 = "continuous", method = "original", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R12,
-               t(estR(X1 = X2, type1 = "continuous", X2 = X1, type2 = "continuous", method = "original", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R12))
+  X = GenData(types = c("tru", "con"), XP = list(.5, NA))
+  expect_equal(estR(X = X, types = c("tru", "bin"), method = "approx", nu = 0.5, tol = 1e-8, ratio = .9, corplot = FALSE)$R,
+               t(estR(X = X, types = c("tru", "bin"), method = "approx", nu = 0.5, tol = 1e-8, ratio = .9, corplot = FALSE)$R))
 })
 
 test_that("estR is symmetric.", {
-  expect_equal(estR(X1 = X1, type1 = "continuous", X2 = X2, type2 = "continuous", method = "ml", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R12,
-               t(estR(X1 = X2, type1 = "continuous", X2 = X1, type2 = "continuous", method = "ml", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R12))
-})
-
-simdata = GenData(n = n, type1 = "binary", type2 = "binary", p1 = p1, p2 = p2, rho = rho,
-                  copula1 = "cube", copula2 = "cube", c1 = 0, c2 = 0)
-X1 = simdata$X1; X2 = simdata$X2
-colnames(X1) = c("X11", "X12", "X13"); colnames(X2) = c("X21", "X22")
-
-test_that("estR is symmetric.", {
-  expect_equal(estR(X1 = X1, type1 = "binary", X2 = X2, type2 = "binary", method = "original", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R12,
-               t(estR(X1 = X2, type1 = "binary", X2 = X1, type2 = "binary", method = "original", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R12))
+  X = GenData(types = c("ter", "con"), XP = list(c(.3, .6), NA))
+  expect_equal(estR(X = X, types = c("ter", "con"), method = "original", nu = 0.5, tol = 1e-8, ratio = .9, corplot = FALSE)$R,
+               t(estR(X = X, types = c("ter", "con"), method = "original", nu = 0.5, tol = 1e-8, ratio = .9, corplot = FALSE)$R))
 })
 
 test_that("estR is symmetric.", {
-  expect_equal(estR(X1 = X1, type1 = "binary", X2 = X2, type2 = "binary", method = "ml", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R12,
-               t(estR(X1 = X2, type1 = "binary", X2 = X1, type2 = "binary", method = "ml", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R12))
-})
-
-simdata = GenData(n = n, type1 = "trunc", type2 = "trunc", p1 = p1, p2 = p2, rho = rho,
-                  copula1 = "cube", copula2 = "cube", c1 = 0, c2 = 0)
-X1 = simdata$X1; X2 = simdata$X2
-colnames(X1) = c("X11", "X12", "X13"); colnames(X2) = c("X21", "X22")
-
-test_that("estR is symmetric.", {
-  expect_equal(round(estR(X1 = X1, type1 = "trunc", X2 = X2, type2 = "trunc", method = "original", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R12, 4),
-               t(round(estR(X1 = X2, type1 = "trunc", X2 = X1, type2 = "trunc", method = "original", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R12, 4)))
+  X = GenData(types = c("ter", "con"), XP = list(c(.3, .6), NA))
+  expect_equal(estR(X = X, types = c("ter", "con"), method = "approx", nu = 0.5, tol = 1e-8, ratio = .9, corplot = FALSE)$R,
+               t(estR(X = X, types = c("ter", "con"), method = "approx", nu = 0.5, tol = 1e-8, ratio = .9, corplot = FALSE)$R))
 })
 
 test_that("estR is symmetric.", {
-  expect_equal(round(estR(X1 = X1, type1 = "trunc", X2 = X2, type2 = "trunc", method = "ml", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R12, 4),
-               t(round(estR(X1 = X2, type1 = "trunc", X2 = X1, type2 = "trunc", method = "ml", use.nearPD = TRUE, nu = 0.5, tol = 1e-8, ratio = .9)$R12, 4)))
+  X = GenData(types = c("ter", "bin"), XP = list(c(.3, .6), .5))
+  expect_equal(estR(X = X, types = c("ter", "bin"), method = "original", nu = 0.5, tol = 1e-8, ratio = .9, corplot = FALSE)$R,
+               t(estR(X = X, types = c("ter", "bin"), method = "original", nu = 0.5, tol = 1e-8, ratio = .9, corplot = FALSE)$R))
+})
+
+test_that("estR is symmetric.", {
+  X = GenData(types = c("ter", "bin"), XP = list(c(.3, .6), .5))
+  expect_equal(estR(X = X, types = c("ter", "bin"), method = "approx", nu = 0.5, tol = 1e-8, ratio = .9, corplot = FALSE)$R,
+               t(estR(X = X, types = c("ter", "bin"), method = "approx", nu = 0.5, tol = 1e-8, ratio = .9, corplot = FALSE)$R))
+})
+
+test_that("estR is symmetric.", {
+  X = GenData(types = c("ter", "tru"), XP = list(c(.3, .6), .5))
+  expect_equal(estR(X = X, types = c("ter", "tru"), method = "original", nu = 0.5, tol = 1e-8, ratio = .9, corplot = FALSE)$R,
+               t(estR(X = X, types = c("ter", "tru"), method = "original", nu = 0.5, tol = 1e-8, ratio = .9, corplot = FALSE)$R))
+})
+
+test_that("estR is symmetric.", {
+  X = GenData(types = c("ter", "tru"), XP = list(c(.3, .6), .5))
+  expect_equal(estR(X = X, types = c("ter", "tru"), method = "approx", nu = 0.5, tol = 1e-8, ratio = .9, corplot = FALSE)$R,
+               t(estR(X = X, types = c("ter", "tru"), method = "approx", nu = 0.5, tol = 1e-8, ratio = .9, corplot = FALSE)$R))
+})
+
+test_that("estR is symmetric.", {
+  X = GenData(types = c("ter", "ter"), XP = list(c(.3, .6), c(.2, .5)))
+  expect_equal(estR(X = X, types = c("ter", "ter"), method = "original", nu = 0.5, tol = 1e-8, ratio = .9, corplot = FALSE)$R,
+               t(estR(X = X, types = c("ter", "ter"), method = "original", nu = 0.5, tol = 1e-8, ratio = .9, corplot = FALSE)$R))
+})
+
+test_that("estR is symmetric.", {
+  X = GenData(types = c("ter", "ter"), XP = list(c(.3, .6), c(.2, .5)))
+  expect_equal(estR(X = X, types = c("ter", "ter"), method = "approx", nu = 0.5, tol = 1e-8, ratio = .9, corplot = FALSE)$R,
+               t(estR(X = X, types = c("ter", "ter"), method = "approx", nu = 0.5, tol = 1e-8, ratio = .9, corplot = FALSE)$R))
 })

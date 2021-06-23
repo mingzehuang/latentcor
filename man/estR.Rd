@@ -4,7 +4,15 @@
 \alias{estR}
 \title{Estimate latent correlation matrix}
 \usage{
-estR(X, types, method = "approx", nu = 0.01, tol = 1e-08, corplot = FALSE)
+estR(
+  X,
+  types,
+  method = "approx",
+  nu = 0.01,
+  tol = 1e-08,
+  ratio = 0.9,
+  corplot = FALSE
+)
 }
 \arguments{
 \item{X}{A numeric data matrix (n by p).}
@@ -17,9 +25,9 @@ estR(X, types, method = "approx", nu = 0.01, tol = 1e-08, corplot = FALSE)
 
 \item{tol}{Desired accuracy when calculating the solution of bridge function.}
 
-\item{corplot}{Plot latent correlation matrix \code{R} as a heatmap.}
-
 \item{ratio}{The maximum ratio of Kendall's tau and boundary to implement multilinear interpolation.}
+
+\item{corplot}{Plot latent correlation matrix \code{R} as a heatmap.}
 }
 \value{
 \code{estR} returns
@@ -32,21 +40,15 @@ estR(X, types, method = "approx", nu = 0.01, tol = 1e-08, corplot = FALSE)
 Estimation of latent correlation matrix from observed data of (possibly) mixed types (continuous/biary/truncated continuous) based on the latent Gaussian copula model.
 }
 \examples{
-### Data setting
-n = 1000; p1 = 8; p2 = 5 # sample size and dimensions for two datasets.
-rho = .9
 # Data generation
-simdata = GenData(n=n, type1 = "ternary", type2 = "continuous", p1 = p1, p2 = p2, rho = rho,
-                  copula1 = "cube", copula2 = "cube", c1 = c(0, 1), c2 =  NULL)
-Sigma = simdata$Sigma; X1 = simdata$X1; X2 = simdata$X2
+X = GenData()
 # Estimate latent correlation matrix with original method
-R_nc_org = estR(X1 = X1, type1 = "ternary", X2 = X2, type2 = "continuous", method = "original")$R
+R_nc_org = estR(X = X, types = c("tru", "ter"), method = "original")$R
 # Estimate latent correlation matrix with aprroximation method
-R_nc_approx = estR(X1 = X1, type1 = "ternary", X2 = X2, type2 = "continuous", method = "approx")$R
+R_nc_approx = estR(X = X, types = c("tru", "ter"), method = "approx")$R
 
 # Heatmap for latent correlation matrix.
-Heatmap_R_nc_approx = estR(X1 = X1, type1 = "ternary", X2 = X2, type2 = "continuous",
-                           method = "approx")$plotR
+Heatmap_R_nc_approx = estR(X = X, types = c("tru", "ter"), method = "approx", corplot = TRUE)$plotR
 }
 \references{
 Fan J., Liu H., Ning Y. and Zou H. (2017) "High dimensional semiparametric latent graphicalmodel for mixed data" <doi:10.1111/rssb.12168>.
