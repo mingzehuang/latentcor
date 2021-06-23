@@ -62,21 +62,21 @@ estR = function(X, types, method = "approx", nu = 0.01, tol = 1e-8, ratio = 0.9,
     if (comb == "00") {
       R.lower[comb_select] = sin((pi / 2) * K_a.lower[comb_select])
     } else {
-      comb_select.len = sum(comb_select); bound_comb = bound_list[[comb]]; K = K_a.lower[comb_select]
+      comb_select.len = sum(comb_select); K = K_a.lower[comb_select]
       zratio1 = matrix(unlist(zratios_cp[1, comb_select]), ncol = comb_select.len)
       zratio2 = unlist(zratios_cp[2, comb_select])
       if (!(is.null(zratio2))) {zratio2 = matrix(zratio2, ncol = comb_select.len)}
       if (method == "original") {
         R.lower[comb_select] = r_sol(K = K, zratio1 = zratio1, zratio2 = zratio2, comb = comb, tol = tol)
       } else {
-        cutoff = abs(K) > ratio * bound_comb(zratio1 = zratio1, zratio2 = zratio2)
+        cutoff = abs(K) > ratio * bound_list[[comb]](zratio1 = zratio1, zratio2 = zratio2)
         if (sum(cutoff) == 0) {
-          R.lower[comb_select] = r_ml(K = K, zratio1 = zratio1, zratio2 = zratio2, bound_comb = bound_comb, comb = comb)
+          R.lower[comb_select] = r_ml(K = K, zratio1 = zratio1, zratio2 = zratio2, comb = comb)
         } else if (sum(!(cutoff)) == 0) {
           R.lower[comb_select] = r_sol(K = K, zratio1 = zratio1, zratio2 = zratio2, comb = comb, tol = tol)
         } else {
           R.lower[comb_select][cutoff] = r_sol(K = K[cutoff], zratio1 = zratio1[ , cutoff], zratio2 = zratio2[ , cutoff], comb = comb, tol = tol)
-          R.lower[comb_select][!(cutoff)] = r_ml(K = K[!(cutoff)], zratio1 = zratio1[ , !(cutoff)], zratio2 = zratio2[ , !(cutoff)], bound_comb = bound_comb, comb = comb)
+          R.lower[comb_select][!(cutoff)] = r_ml(K = K[!(cutoff)], zratio1 = zratio1[ , !(cutoff)], zratio2 = zratio2[ , !(cutoff)], comb = comb)
         }
       }
     }
@@ -144,7 +144,7 @@ r_ml = function(K, zratio1, zratio2, bound_comb, comb) {
   } else {
     zratio2.row = 0
   }
-  K = K / bound_comb(zratio1 = zratio1, zratio2 = zratio2)
+  K = K / bound_list[[comb]](zratio1 = zratio1, zratio2 = zratio2)
   if (zratio1.row > 1) {zratio1[1:(zratio1.row - 1), ] = zratio1[1:(zratio1.row - 1), ] / zratio1[2:zratio1.row, ]}
   if (zratio2.row > 1) {zratio2[1:(zratio2.row - 1), ] = zratio2[1:(zratio2.row - 1), ] / zratio2[2:zratio2.row, ]}
   out = ipol_comb(rbind(K, zratio1, zratio2)) / 10^7
