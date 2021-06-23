@@ -85,18 +85,9 @@ Memory footprints by KB:
 | ternary/truncated | - | 191776 |
 | ternary/ternary | - | 1023128 |
 
-```r
-library(latentcor)
-## Bivariate case
-# Data setting
-n = 1000 # sample size
-rho = .4 # Autocorrelated coefficient.
-# Data generation
-simdata = GenData(n = n, type1 = "ternary", type2 = "continuous", rho = rho,
-copula1 = "cube", copula2 = "cube", c1 = c(0, 1), c2 =  NULL)
-```
 
 ```r
+library(latentcor)
 X1 = simdata$X1; X2 = simdata$X2
 # Estimate latent correlation matrix with original method
 R_nc_org = estR(X1 = X1, type1 = "ternary", X2 = X2, type2 = "continuous", 
@@ -107,23 +98,16 @@ R_nc_approx = estR(X1 = X1, type1 = "ternary", X2 = X2, type2 = "continuous",
 ```
 
 ```r
-## Multivariate case
-n = 1000; p1 = 8; p2 = 5 # sample size and dimensions for two datasets.
-rho = .9 # Autocorrelated coefficient.
 # Data generation
-simdata = GenData(n=n, type1 = "ternary", type2 = "continuous", p1 = p1, p2 = p2, 
-                  rho = rho, copula1 = "cube", copula2 = "cube", c1 = c(0, 1), c2 =  NULL)
-X1 = simdata$X1; X2 = simdata$X2
+X = GenData(types = c("ternary", "continuous"), XP = list(c(0.3, .5), NA))
 # Estimate latent correlation matrix with original method
-R_nc_org = estR(X1 = X1, type1 = "ternary", X2 = X2, type2 = "continuous", method = "original")$R
+R_nc_org = estR(X = X, types = c("ter", "con"), method = "original")$R
 # Estimate latent correlation matrix with aprroximation method
-R_nc_approx = estR(X1 = X1, type1 = "ternary", X2 = X2, type2 = "continuous", method = "approx")$R
+R_nc_org = estR(X = X, types = c("ter", "con"), method = "approx")$R
 
 # Heatmap for latent correlation matrix.
-Heatmap_R_nc_approx = estR(X1 = X1, type1 = "ternary", X2 = X2, type2 = "continuous",
-                           method = "approx")$plotR
+Heatmap_R_nc_approx = estR(X = X, types = c("ter", "con"), method = "approx")$plotR
 ```
-[*See Sample Plot*](https://rpubs.com/mingzehuang/781656)
 
 
 # Rendered R Figures
