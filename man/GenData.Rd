@@ -6,16 +6,16 @@
 \usage{
 GenData(
   n = 100,
-  types = c("tru", "ter"),
+  types = c("ter", "con"),
   rhos = 0.5,
   copulas = c(NA, NA),
-  XP = list(0.5, c(0.3, 0.5))
+  XP = list(c(0.3, 0.5), NA)
 )
 }
 \arguments{
 \item{n}{Sample size}
 
-\item{types}{Types of the  dataset \code{X}. Could be "con", "tru", "bin" or "ter".}
+\item{types}{Types of the  dataset \code{X}. Could be "con" (continuous), "bin" (binary), "tru" (truncated) or "ter" (ternary).}
 
 \item{rhos}{True correlation for auto correlated data.}
 

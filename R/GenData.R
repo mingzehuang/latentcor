@@ -16,8 +16,9 @@
 #' @examples
 #' GenData()
 
-GenData = function(n = 100, types = c("tru", "ter"), rhos = .5, copulas = c(NA, NA), XP = list(.5, c(.3, .5))) {
-  p = length(types); types_code = rep(NA, p); types_code = as.numeric(type_list[types])
+GenData = function(n = 100, types = c("ter", "con"), rhos = .5, copulas = c(NA, NA), XP = list(c(.3, .5), NA)) {
+  p = length(types); types = match.arg(types, c("con", "bin", "tru", "ter"), several.ok = TRUE)
+  types_code = rep(NA, p); types_code = as.numeric(type_list[types])
   if (p == 1) {
     Z = rnorm(n = n)
     X = as.matrix(fromZtoX(z = Z, type_code = types_code, copula = copulas, xp = unlist(XP)))

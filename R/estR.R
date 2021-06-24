@@ -30,11 +30,13 @@
 #' @export
 #' @example man/examples/estR_ex.R
 
-estR = function(X, types, method = "approx", nu = 0.01, tol = 1e-8, ratio = 0.9, corplot = FALSE){
+estR = function(X, types = c("ter", "con"), method = "approx", nu = 0.01, tol = 1e-8, ratio = 0.9, corplot = FALSE){
   # shrinkage method
   if(nu < 0 | nu > 1){
     stop("nu must be be between 0 and 1.")
   }
+  types = match.arg(types, c("con", "bin", "tru", "ter"), several.ok = TRUE)
+  method = match.arg(method, c("original", "approx"), several.ok = FALSE)
   X = as.matrix(X); X = na.omit(X); n = nrow(X); p = ncol(X);
   if (length(colnames(X)) == p) {
     name = colnames(X)

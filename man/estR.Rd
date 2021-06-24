@@ -6,7 +6,7 @@
 \usage{
 estR(
   X,
-  types,
+  types = c("ter", "con"),
   method = "approx",
   nu = 0.01,
   tol = 1e-08,
