@@ -70,7 +70,7 @@ GenData = function(n = 100, rhos = .5, copulas = "no", types = c("ter", "con"), 
     }
   } else if(!(is.list(XP)) | length(XP) != p) {
     stop("XP should be a list has the same length as types, so that each element is a set of proportion(s) corresponds to a variable (feature).")
-  } else if (any(unlist(XP) <= 0) | any(unlist(XP) >= 1)) {
+  } else if (any(na.omit(unlist(XP)) <= 0) | any(na.omit(unlist(XP)) >= 1)) {
     stop("The proprotions should always between 0 and 1. Otherwise please consider to degenerate your data type.")
   }
   if (p == 1) {
