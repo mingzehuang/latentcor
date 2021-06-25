@@ -20,7 +20,7 @@
 #' Yoon G., Müller C.L., Gaynanova I. (2020) "Fast computation of latent correlations" <arXiv:2006.13875>.
 #' @import ggplot2
 #' @importFrom utils combn
-#' @importFrom stats qnorm na.omit optimize
+#' @importFrom stats quantile qnorm na.omit optimize
 #' @importFrom mnormt pmnorm
 #' @importFrom fMultivar pnorm2d
 #' @importFrom heatmaply heatmaply
@@ -31,7 +31,6 @@
 #' @example man/examples/estR_ex.R
 
 estR = function(X, types = c("ter", "con"), method = "approx", nu = 0.01, tol = 1e-8, ratio = 0.9, corplot = FALSE){
-  # shrinkage method
   if(nu < 0 | nu > 1){
     stop("nu must be be between 0 and 1.")
   }
@@ -43,7 +42,6 @@ estR = function(X, types = c("ter", "con"), method = "approx", nu = 0.01, tol = 
   } else {
     name = paste0("X", 1:p)
   }
-  types_code = as.numeric(type_list[types])
   cp = combn(p, 2); cp.col = ncol(cp); n0 = n * (n - 1) / 2
   n_X = apply(X, 2, function(x) {n_x(x = x, n)})
   n_X_sqd = sqrt(n0 - n_X)
@@ -52,9 +50,9 @@ estR = function(X, types = c("ter", "con"), method = "approx", nu = 0.01, tol = 
   K_b = pcaPP::cor.fk(X)
   K_b.lower = K_b[lower.tri(K_b)]
   K_a.lower = K_b.lower * btoa2
-  types_cp = matrix(types_code[cp], nrow = 2)
-  zratios = zratios(X = X, types_code = types_code)
-  zratios_cp = matrix(zratios[cp], nrow = 2)
+  zratios = zratios(X = X, types = types)
+  types_code = match(types, c("con", "bin", "tru", "ter")) - 1
+  types_cp = matrix(types_code[cp], nrow = 2); zratios_cp = matrix(zratios[cp], nrow = 2)
   types_mirror = types_cp[1, ] < types_cp[2, ]
   types_cp[ , types_mirror] = rbind(types_cp[2, types_mirror], types_cp[1, types_mirror])
   zratios_cp[ , types_mirror] = rbind(zratios_cp[2, types_mirror], zratios_cp[1, types_mirror])
@@ -66,21 +64,8 @@ estR = function(X, types = c("ter", "con"), method = "approx", nu = 0.01, tol = 
     } else {
       comb_select.len = sum(comb_select); K = K_a.lower[comb_select]
       zratio1 = matrix(unlist(zratios_cp[1, comb_select]), ncol = comb_select.len)
-      zratio2 = unlist(zratios_cp[2, comb_select])
-      if (!(is.null(zratio2))) {zratio2 = matrix(zratio2, ncol = comb_select.len)}
-      if (method == "original") {
-        R.lower[comb_select] = r_sol(K = K, zratio1 = zratio1, zratio2 = zratio2, comb = comb, tol = tol)
-      } else {
-        cutoff = abs(K) > ratio * bound_list[[comb]](zratio1 = zratio1, zratio2 = zratio2)
-        if (sum(cutoff) == 0) {
-          R.lower[comb_select] = r_ml(K = K, zratio1 = zratio1, zratio2 = zratio2, comb = comb)
-        } else if (sum(!(cutoff)) == 0) {
-          R.lower[comb_select] = r_sol(K = K, zratio1 = zratio1, zratio2 = zratio2, comb = comb, tol = tol)
-        } else {
-          R.lower[comb_select][cutoff] = r_sol(K = K[cutoff], zratio1 = zratio1[ , cutoff], zratio2 = zratio2[ , cutoff], comb = comb, tol = tol)
-          R.lower[comb_select][!(cutoff)] = r_ml(K = K[!(cutoff)], zratio1 = zratio1[ , !(cutoff)], zratio2 = zratio2[ , !(cutoff)], comb = comb)
-        }
-      }
+      zratio2 = matrix(unlist(zratios_cp[2, comb_select]), ncol = comb_select.len)
+      R.lower[comb_select] = r_switch(method = method, K = K, zratio1 = zratio1, zratio2 = zratio2, comb = comb, tol = tol, ratio = ratio)
     }
   }
   K = R = matrix(0, p, p)
@@ -98,57 +83,4 @@ estR = function(X, types = c("ter", "con"), method = "approx", nu = 0.01, tol = 
                       grid_color = "white", grid_width = 0.00001, label_names = c("Horizontal axis:", "Vertical axis:", "Latent correlation:"))
   }
   return(list(K = K, R = R, plotR = plotR))
-}
-
-n_x = function(x, n) {
-  if (length(unique(x) != n)) {
-    x.info = rle(sort(x))
-    t_x = x.info$lengths[x.info$lengths > 1]
-    n_x = sum(t_x * (t_x - 1) / 2)
-  } else {
-    n_x = 0
-  }
-  return(n_x)
-}
-
-zratios = function(X, types_code) {
-  X = as.matrix(X)
-  out = vector(mode = "list", length = ncol(X))
-  for (i in unique(types_code[types_code != 0])) {
-    out[types_code == i] = zratio_list[[i]](X[ , types_code == i])
-  }
-  return(out)
-}
-
-r_sol = function(K, zratio1, zratio2, comb, tol) {
-  bridge_comb = bridge_list[[comb]]
-  K.len = length(K); out = rep(NA, K.len)
-  zratio1 = as.matrix(zratio1)
-  if (!(is.null(zratio2))) {zratio2 = as.matrix(zratio2)}
-  for (i in K.len) {
-    f = function(r)(bridge_comb(r = r, zratio1 = zratio1[ , i], zratio2 = zratio2[ , i]) - K[i])^2
-    op = tryCatch(optimize(f, lower = -0.999, upper = 0.999, tol = tol)[1], error = function(e) 100)
-    if(op == 100) {
-      warning("Optimize returned error one of the pairwise correlations, returning NA")
-      out[i] = NA
-    } else {
-    out[i] = unlist(op)
-    }
-  }
-  return(out)
-}
-
-r_ml = function(K, zratio1, zratio2, comb) {
-  ipol_comb = ipol_list[[comb]]
-  zratio1 = as.matrix(zratio1); zratio1.row = nrow(zratio1)
-  if (!(is.null(zratio2))) {
-    zratio2 = as.matrix(zratio2); zratio2.row = nrow(zratio2)
-  } else {
-    zratio2.row = 0
-  }
-  K = K / bound_list[[comb]](zratio1 = zratio1, zratio2 = zratio2)
-  if (zratio1.row > 1) {zratio1[1:(zratio1.row - 1), ] = zratio1[1:(zratio1.row - 1), ] / zratio1[2:zratio1.row, ]}
-  if (zratio2.row > 1) {zratio2[1:(zratio2.row - 1), ] = zratio2[1:(zratio2.row - 1), ] / zratio2[2:zratio2.row, ]}
-  out = ipol_comb(rbind(K, zratio1, zratio2)) / 10^7
-  return(out)
 }
