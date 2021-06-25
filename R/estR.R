@@ -1,18 +1,21 @@
-#' @title Estimate latent correlation matrix
+#' @title Calculate Kendall's Tau matrix then estimate latent correlation matrix
 #' @description Estimation of latent correlation matrix from observed data of (possibly) mixed types (continuous/biary/truncated continuous) based on the latent Gaussian copula model.
 #' @rdname estR
 #' @aliases estR
 #' @param X A numeric data matrix (n by p).
-#' @param types A type of variables in \code{X}, must be one of "continuous", "binary", "trunc" or "ternary".
-#' @param method The calculation method of latent correlation. Either "original" method or "approx". If \code{method = "approx"}, multilinear approximation method is used, which is much faster than the original method. If \code{method = "original"}, optimization of the bridge inverse function is used. The default is "approx".
+#' @param types A vector with length of p which specifies types of variables in \code{X} correspondingly.
+#'              Must be one of "con" (continuous), "bin" (binary), "tru" (truncated) or "ter" (ternary). The default value is c("ter", "con") which means the first variable is ternary, second variable is continuous.
+#' @param method The calculation method of latent correlation. Either "original" method or "approx". If \code{method = "approx"}, multilinear approximation method is used, which is much faster than the original method.
+#'               If \code{method = "original"}, optimization of the bridge inverse function is used. The default is "approx".
 #' @param nu Shrinkage parameter for correlation matrix, must be between 0 and 1, the default value is 0.01.
-#' @param tol Desired accuracy when calculating the solution of bridge function.
-#' @param ratio The maximum ratio of Kendall's tau and boundary to implement multilinear interpolation.
-#' @param corplot Plot latent correlation matrix \code{R} as a heatmap.
+#' @param tol Desired accuracy when calculating the solution of bridge function. The default value is 1e-8.
+#' @param ratio The maximum ratio of Kendall's tau and boundary to implement multilinear interpolation. The default value is 0.9.
+#' @param showplot Plot latent correlation matrix \code{R} as a heatmap.
 #' @return \code{estR} returns
 #' \itemize{
-#'       \item{K: }{Kendall Tau Matrix of \code{X} (p x p)}
+#'       \item{K: }{Kendall Tau (Tau-a) Matrix of \code{X} (p x p)}
 #'       \item{R: }{Estimated latent correlation matrix of whole \code{X} (p x p)}
+#'       \item{plotR: }{Heatmap plot for latent correlation matrix \code{R}}
 #' }
 #' @references
 #' Fan J., Liu H., Ning Y. and Zou H. (2017) "High dimensional semiparametric latent graphicalmodel for mixed data" <doi:10.1111/rssb.12168>.
@@ -30,13 +33,20 @@
 #' @export
 #' @example man/examples/estR_ex.R
 
-estR = function(X, types = c("ter", "con"), method = "approx", nu = 0.01, tol = 1e-8, ratio = 0.9, corplot = FALSE){
+estR = function(X, types = c("ter", "con"), method = "approx", nu = 0.01, tol = 1e-8, ratio = 0.9, showplot = FALSE){
   if(nu < 0 | nu > 1){
     stop("nu must be be between 0 and 1.")
+  } else if(tol <= 0) {
+    stop("tol for optimization should be positive value.")
+  } else if (ratio < 0 | ratio > 1) {
+    stop("ratio for approximation should be between 0 and 1.")
   }
   types = match.arg(types, c("con", "bin", "tru", "ter"), several.ok = TRUE)
   method = match.arg(method, c("original", "approx"), several.ok = FALSE)
   X = as.matrix(X); X = na.omit(X); n = nrow(X); p = ncol(X);
+  if (length(types) != p) {
+    stop("types should have the same length as the number of variables (columns of X).")
+    }
   if (length(colnames(X)) == p) {
     name = colnames(X)
   } else {
@@ -78,7 +88,7 @@ estR = function(X, types = c("ter", "con"), method = "approx", nu = 0.01, tol = 
   R = (1 - nu) * R + nu * diag(nrow(R))
   colnames(K) = rownames(K) = colnames(R) = rownames(R) = make.names(c(name))
   plotR = NULL
-  if (corplot) {
+  if (showplot) {
     plotR = heatmaply(R, dendrogram = "none", main = "Latent Correlation", margins = c(80,80,80,80),
                       grid_color = "white", grid_width = 0.00001, label_names = c("Horizontal axis:", "Vertical axis:", "Latent correlation:"))
   }

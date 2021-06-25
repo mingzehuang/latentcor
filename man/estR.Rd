@@ -2,7 +2,7 @@
 % Please edit documentation in R/estR.R
 \name{estR}
 \alias{estR}
-\title{Estimate latent correlation matrix}
+\title{Calculate Kendall's Tau matrix then estimate latent correlation matrix}
 \usage{
 estR(
   X,
@@ -11,29 +11,32 @@ estR(
   nu = 0.01,
   tol = 1e-08,
   ratio = 0.9,
-  corplot = FALSE
+  showplot = FALSE
 )
 }
 \arguments{
 \item{X}{A numeric data matrix (n by p).}
 
-\item{types}{A type of variables in \code{X}, must be one of "continuous", "binary", "trunc" or "ternary".}
+\item{types}{A vector with length of p which specifies types of variables in \code{X} correspondingly.
+Must be one of "con" (continuous), "bin" (binary), "tru" (truncated) or "ter" (ternary). The default value is c("ter", "con") which means the first variable is ternary, second variable is continuous.}
 
-\item{method}{The calculation method of latent correlation. Either "original" method or "approx". If \code{method = "approx"}, multilinear approximation method is used, which is much faster than the original method. If \code{method = "original"}, optimization of the bridge inverse function is used. The default is "approx".}
+\item{method}{The calculation method of latent correlation. Either "original" method or "approx". If \code{method = "approx"}, multilinear approximation method is used, which is much faster than the original method.
+If \code{method = "original"}, optimization of the bridge inverse function is used. The default is "approx".}
 
 \item{nu}{Shrinkage parameter for correlation matrix, must be between 0 and 1, the default value is 0.01.}
 
-\item{tol}{Desired accuracy when calculating the solution of bridge function.}
+\item{tol}{Desired accuracy when calculating the solution of bridge function. The default value is 1e-8.}
 
-\item{ratio}{The maximum ratio of Kendall's tau and boundary to implement multilinear interpolation.}
+\item{ratio}{The maximum ratio of Kendall's tau and boundary to implement multilinear interpolation. The default value is 0.9.}
 
-\item{corplot}{Plot latent correlation matrix \code{R} as a heatmap.}
+\item{showplot}{Plot latent correlation matrix \code{R} as a heatmap.}
 }
 \value{
 \code{estR} returns
 \itemize{
-      \item{K: }{Kendall Tau Matrix of \code{X} (p x p)}
+      \item{K: }{Kendall Tau (Tau-a) Matrix of \code{X} (p x p)}
       \item{R: }{Estimated latent correlation matrix of whole \code{X} (p x p)}
+      \item{plotR: }{Heatmap plot for latent correlation matrix \code{R}}
 }
 }
 \description{
@@ -41,14 +44,13 @@ Estimation of latent correlation matrix from observed data of (possibly) mixed t
 }
 \examples{
 # Data generation
-X = GenData()
+X = GenData()$X
 # Estimate latent correlation matrix with original method
-R_nc_org = estR(X = X, types = c("tru", "ter"), method = "original")$R
+R_nc_org = estR(X = X, types = c("ter", "con"), method = "original")$R
 # Estimate latent correlation matrix with aprroximation method
-R_nc_approx = estR(X = X, types = c("tru", "ter"), method = "approx")$R
-
+R_nc_approx = estR(X = X, types = c("ter", "con"), method = "approx")$R
 # Heatmap for latent correlation matrix.
-Heatmap_R_nc_approx = estR(X = X, types = c("tru", "ter"), method = "approx", corplot = TRUE)$plotR
+Heatmap_R_nc_approx = estR(X = X, types = c("ter", "con"), method = "approx", showplot = TRUE)$plotR
 }
 \references{
 Fan J., Liu H., Ning Y. and Zou H. (2017) "High dimensional semiparametric latent graphicalmodel for mixed data" <doi:10.1111/rssb.12168>.

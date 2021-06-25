@@ -1,10 +1,10 @@
 fromZtoX = function(z, type, copula, xp) {
-  copula_switch = switch(copula, no = function(z) u = z, expo = function(z) u = exp(z), cube = function(z) u = z^3)
+  copula_switch = switch(copula, "no" = function(z) u = z, "expo" = function(z) u = exp(z), "cube" = function(z) u = z^3)
   u = copula_switch(z)
-  type_switch = switch(type, con = function(u, xp) {x = u; return(x)},
-                       bin = function(u, xp) {q = quantile(u, xp); x = ifelse(u > q, 1, 0); return(x)},
-                       tru = function(u, xp) {q = quantile(u, xp); x = ifelse(u > q, u, q) - q; return(x)},
-                       ter = function(u, xp) {q = quantile(u, xp); x = rep(1, length(u)); x[u > q[2]] = 2; x[u <= q[1]] = 0; return(x)})
+  type_switch = switch(type, "con" = function(u, xp) {x = u; return(x)},
+                       "bin" = function(u, xp) {q = quantile(u, xp); x = ifelse(u > q, 1, 0); return(x)},
+                       "tru" = function(u, xp) {q = quantile(u, xp); x = ifelse(u > q, u, q) - q; return(x)},
+                       "ter" = function(u, xp) {q = quantile(u, cumsum(xp)); x = rep(1, length(u)); x[u > q[2]] = 2; x[u <= q[1]] = 0; return(x)})
   x = type_switch(u, xp)
   return(x)
 }
@@ -23,10 +23,10 @@ n_x = function(x, n) {
 zratios = function(X, types) {
   X = as.matrix(X); out = vector(mode = "list", length = ncol(X))
   for (type in unique(types)) {
-    zratios_switch = switch(type, con = function(X) zratios = rep(NA, ncol(as.matrix(X))),
-                            bin = function(X) zratios = colMeans(as.matrix(X) == 0),
-                            tru = function(X) zratios = colMeans(as.matrix(X) == 0),
-                            ter = function(X) {zratios = rbind(colMeans(as.matrix(X) == 0), 1 - colMeans(as.matrix(X) == 2))
+    zratios_switch = switch(type, "con" = function(X) zratios = rep(NA, ncol(as.matrix(X))),
+                            "bin" = function(X) zratios = colMeans(as.matrix(X) == 0),
+                            "tru" = function(X) zratios = colMeans(as.matrix(X) == 0),
+                            "ter" = function(X) {zratios = rbind(colMeans(as.matrix(X) == 0), 1 - colMeans(as.matrix(X) == 2))
                             out = lapply(seq(ncol(zratios)), function(i) zratios[ , i])
                             return(out)})
     out[types == type] = zratios_switch(X[ , types == type])
