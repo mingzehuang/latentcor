@@ -127,7 +127,6 @@ r_ml = function(K, zratio1, zratio2, comb, tol, ratio) {
                        "30" = NCipol, "31" = NBipol, "32" = NTipol, "33" = NNipol)
   zratio1 = as.matrix(zratio1); zratio1.row = nrow(zratio1)
   zratio2 = as.matrix(zratio2); zratio2.row = nrow(zratio2)
-  K = K / bound_switch(comb = comb, zratio1 = zratio1, zratio2 = zratio2)
   if (zratio1.row > 1) {zratio1[1:(zratio1.row - 1), ] = zratio1[1:(zratio1.row - 1), ] / zratio1[2:zratio1.row, ]}
   if (zratio2.row > 1) {zratio2[1:(zratio2.row - 1), ] = zratio2[1:(zratio2.row - 1), ] / zratio2[2:zratio2.row, ]}
   if (any(is.na(zratio2))) {zratio2 = NULL}
