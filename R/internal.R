@@ -138,9 +138,9 @@ r_switch = function(method, K, zratio1, zratio2, comb, tol, ratio){
   out = switch(method, "original" = r_sol,
                "approx" = function(K, zratio1, zratio2, comb, tol, ratio) {
                  bound = bound_switch(comb = comb, zratio1 = zratio1, zratio2 = zratio2); cutoff = abs(K) > ratio * bound
-                 if (sum(cutoff) == 0) {
+                 if (all(!(cutoff))) {
                    out = r_ml(K = K / bound, zratio1 = zratio1, zratio2 = zratio2, comb = comb, tol = tol, ratio = ratio)
-                 } else if (sum(!(cutoff)) == 0) {
+                 } else if (all(cutoff)) {
                    out = r_sol(K = K, zratio1 = zratio1, zratio2 = zratio2, comb = comb, tol = tol, ratio = ratio)
                  } else {
                    out = length(K)
