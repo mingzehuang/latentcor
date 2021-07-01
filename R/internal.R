@@ -27,6 +27,17 @@ fromZtoX = function(z, type, copula, xp) {
   x = type_switch(u, xp)
   return(x)
 }
+Kendalltau = function(X) {
+  X = na.omit(X)
+  n = nrow(X); n0 = n * (n - 1) / 2
+  n_X = apply(X, 2, function(x) {n_x(x = x, n)})
+  n_X_sqd = sqrt(n0 - n_X)
+  K_b = pcaPP::cor.fk(X)
+  K_b.lower = K_b[lower.tri(K_b)]
+  btoa = n_X_sqd[row(K_b)[lower.tri(K_b)]] * n_X_sqd[col(K_b)[lower.tri(K_b)]] / n0
+  K_a.lower = K_b.lower * btoa
+  return(K_a.lower)
+}
 
 n_x = function(x, n) {
   if (length(unique(x) != n)) {
