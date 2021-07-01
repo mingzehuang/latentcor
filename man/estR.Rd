@@ -34,6 +34,7 @@ If \code{method = "original"}, optimization of the bridge inverse function is us
 \value{
 \code{estR} returns
 \itemize{
+      \item{zratios: }{A list of zratios. Each element correponds to the zratios for one variable.}
       \item{K: }{Kendall Tau (Tau-a) Matrix of \code{X} (p x p)}
       \item{R: }{Estimated latent correlation matrix of whole \code{X} (p x p)}
       \item{plotR: }{Heatmap plot for latent correlation matrix \code{R}}
