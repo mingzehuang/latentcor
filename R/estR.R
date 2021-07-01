@@ -44,7 +44,7 @@ estR = function(X, types = c("ter", "con"), method = "approx", nu = 0.01, tol = 
   }
   types = match.arg(types, c("con", "bin", "tru", "ter", "qua", "qui", "sen", "sep", "oct", "nov", "den"), several.ok = TRUE)
   method = match.arg(method, c("original", "approx"), several.ok = FALSE)
-  X = as.matrix(X); X = na.omit(X); n = nrow(X); p = ncol(X);
+  X = as.matrix(X); p = ncol(X);
   if (length(types) != p) {
     stop("types should have the same length as the number of variables (columns of X).")
     }
@@ -53,14 +53,29 @@ estR = function(X, types = c("ter", "con"), method = "approx", nu = 0.01, tol = 
   } else {
     name = paste0("X", 1:p)
   }
-  cp = combn(p, 2); cp.col = ncol(cp); n0 = n * (n - 1) / 2
-  n_X = apply(X, 2, function(x) {n_x(x = x, n)})
-  n_X_sqd = sqrt(n0 - n_X)
-  btoa_cp = matrix(n_X_sqd[cp], nrow = 2)
-  btoa2 = btoa_cp[1, ] * btoa_cp[2, ] / n0
-  K_b = pcaPP::cor.fk(X)
-  K_b.lower = K_b[lower.tri(K_b)]
-  K_a.lower = K_b.lower * btoa2
+  cp = combn(p, 2); cp.col = ncol(cp)
+
+  if (any(is.na(X))) {
+    K_b.lower = K_a.lower = rep(NA, p)
+    for (i in 1:p) {
+      x_pair = na.omit(X[ , cp[, i]]); n_pair = nrow(x_pair)
+      n0_pair = n_pair * (n_pair - 1) / 2
+      n_x_pair = apply(x_pair, 2, function(x) {n_x(x = x, n_pair)})
+      n_x_pair_sqd = sqrt(n0_pair - n_x_pair)
+      btoa_pair = n_x_pair_sqd[1] * n_x_pair_sqd[2] / n0_pair
+      K_b.lower[i] = cor(x, use = "pairwise.complete.obs", method = "kendall")
+      K_a.lower[i] = K_b.lower * btoa_pair
+    }
+  } else {
+    n = nrow(X); n0 = n * (n - 1) / 2
+    n_X = apply(X, 2, function(x) {n_x(x = x, n)})
+    n_X_sqd = sqrt(n0 - n_X)
+    btoa_cp = matrix(n_X_sqd[cp], nrow = 2)
+    btoa2 = btoa_cp[1, ] * btoa_cp[2, ] / n0
+    K_b = pcaPP::cor.fk(X)
+    K_b.lower = K_b[lower.tri(K_b)]
+    K_a.lower = K_b.lower * btoa2
+  }
   zratios = zratios(X = X, types = types)
   types_code = match(types, c("con", "bin", "tru", "ter", "qua", "qui", "sen", "sep", "oct", "nov", "den")) - 1
   types_cp = matrix(types_code[cp], nrow = 2); zratios_cp = matrix(zratios[cp], nrow = 2)

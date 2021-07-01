@@ -21,7 +21,8 @@ fromZtoX = function(z, type, copula, xp) {
                        x[u > q[7] & u <= q[8]] = 7; x[u > q[8]] = 8; return(x)},
                        "den" = function(u, xp) {q = quantile(u, cumsum(xp)); x = rep(0, length(u)); x[u > q[1] & u <= q[2]] = 1; x[u > q[2] & u <= q[3]] = 2;
                        x[u > q[3] & u <= q[4]] = 3; x[u > q[4] & u <= q[5]] = 4; x[u > q[5] & u <= q[6]] = 5; x[u > q[6] & u <= q[7]] = 6;
-                       x[u > q[7] & u <= q[8]] = 7; x[u > q[8] & u <= q[9]] = 8; x[u > q[9]] = 9; return(x)}
+                       x[u > q[7] & u <= q[8]] = 7; x[u > q[8] & u <= q[9]] = 8; x[u > q[9]] = 9; return(x)},
+                       "dtr" = function(u, xp) {q = quantile(u, xp); x = ifelse(u > q[1], u, q[1]); x = (ifelse(u <= q[2], x, q[2]) - q[1]) / (q[2] - q[1]); return(x)}
                        )
   x = type_switch(u, xp)
   return(x)
@@ -88,6 +89,7 @@ zratios = function(X, types) {
                                             colMeans(as.matrix(X0 + X1 + X2 + X3 + X4 + X5 + X6 + X7)), colMeans(as.matrix(X0 + X1 + X2 + X3 + X4 + X5 + X6 + X7 + X8)))
                             out = lapply(seq(ncol(zratios)), function(i) zratios[ , i])
                             return(out)}
+                            # "dtr" = function(X) {}
                             )
     out[types == type] = zratios_switch(X[ , types == type])
   }
@@ -240,7 +242,21 @@ r_sol = function(K, zratio1, zratio2, comb, tol, ratio) {
                      + 4 * mvnpdf[7] - 2 * zratio1[7]*zratio1[8] + 4 * mvnpdf[8] - 2 * zratio1[8]*zratio1[9]
                      + 4 * fMultivar::pnorm2d(de1[9], 0, rho = r/sqrt(2)) - 2 * zratio1[9])
     return(res)
-  })
+  },
+  "110" = function(r, zratio1, zratio2){
+     de1 = stats::qnorm(zratio1)
+     mat1 = matrix(c(1, 0, r/sqrt(2), 0, 1, r/sqrt(2), r/sqrt(2), r/sqrt(2), 1), nrow = 3)
+     mat2 = matrix(c(1, 0, - 1/sqrt(2), 0, 1, - 1/sqrt(2), - 1/sqrt(2), - 1/sqrt(2), 1), nrow = 3)
+     mat3 = matrix(c(1, 0, - 1/sqrt(2), - r/sqrt(2), 0, 1, - 1/sqrt(2), - r/sqrt(2), - 1/sqrt(2), - 1/sqrt(2), 1, r, - r/sqrt(2), - r/sqrt(2), r, 1), nrow = 4)
+     res = as.numeric(2 * zratio1[1]^2 - 4 * zratio1[1] + 2 * zratio1[1] * zratio1[2] + 2 * zratio1[2]^2 - 2 * zratio1[2]
+                       + 4 * mnormt::pmnorm(c(de1[1], -de1[1], 0), mean = rep(0, 3), varcov = mat1)
+                       + 4 * mnormt::pmnorm(c(de1[2], -de1[2], 0), mean = rep(0, 3), varcov = mat1)
+                       + 4 * mnormt::pmnorm(c(de1[1], -de1[2], 0), mean = rep(0, 3), varcov = mat1)
+                       - 2 * mnormt::pmnorm(c(-de1[1], de1[2], 0), mean = rep(0, 3), varcov = mat2)
+                       + 4 * mnormt::pmnorm(c(-de1[1], de1[2], 0, 0), mean = rep(0, 4), varcov = mat3))
+     return(res)
+   }
+  )
   K.len = length(K); out = rep(NA, K.len);
   zratio1 = as.matrix(zratio1); zratio2 = as.matrix(zratio2)
   for (i in K.len) {
