@@ -150,7 +150,8 @@ r_sol = function(K, zratio1, zratio2, comb, tol, ratio) {
     de1 = stats::qnorm(zratio1)
     mat = matrix(c(1, 0, r/sqrt(2), 0, 1, -r/sqrt(2), r/sqrt(2), -r/sqrt(2), 1), nrow = 3)
     mvnpdf = mnormt::pmnorm(rbind(c(de1[1], de1[2], 0), c(de1[2], de1[3], 0)), mean = rep(0, 3), varcov = mat)
-    res = as.numeric(4 * mvnpdf[1] - 2 * zratio1[1]*zratio1[2] + 4 * mvnpdf[2] - 2 * zratio1[2]*zratio1[3])
+    res = as.numeric(4 * mvnpdf[1] - 2 * zratio1[1]*zratio1[2] + 4 * mvnpdf[2] - 2 * zratio1[2]*zratio1[3]
+                     + 4 * fMultivar::pnorm2d(de1[3], 0, rho = r/sqrt(2)) - 2 * zratio1[3])
     return(res)
   },
   "50" = function(r, zratio1, zratio2){
@@ -158,7 +159,8 @@ r_sol = function(K, zratio1, zratio2, comb, tol, ratio) {
     de1 = stats::qnorm(zratio1)
     mat = matrix(c(1, 0, r/sqrt(2), 0, 1, -r/sqrt(2), r/sqrt(2), -r/sqrt(2), 1), nrow = 3)
     mvnpdf = mnormt::pmnorm(rbind(c(de1[1], de1[2], 0), c(de1[2], de1[3], 0), c(de1[3], de1[4], 0)), mean = rep(0, 3), varcov = mat)
-    res = as.numeric(4 * mvnpdf[1] - 2 * zratio1[1]*zratio1[2] + 4 * mvnpdf[2] - 2 * zratio1[2]*zratio1[3] + 4 * mvnpdf[3] - 2 * zratio1[3]*zratio1[4])
+    res = as.numeric(4 * mvnpdf[1] - 2 * zratio1[1]*zratio1[2] + 4 * mvnpdf[2] - 2 * zratio1[2]*zratio1[3] + 4 * mvnpdf[3] - 2 * zratio1[3]*zratio1[4]
+                     + 4 * fMultivar::pnorm2d(de1[4], 0, rho = r/sqrt(2)) - 2 * zratio1[4])
     return(res)
   },
   "60" = function(r, zratio1, zratio2){
@@ -167,7 +169,8 @@ r_sol = function(K, zratio1, zratio2, comb, tol, ratio) {
     mat = matrix(c(1, 0, r/sqrt(2), 0, 1, -r/sqrt(2), r/sqrt(2), -r/sqrt(2), 1), nrow = 3)
     mvnpdf = mnormt::pmnorm(rbind(c(de1[1], de1[2], 0), c(de1[2], de1[3], 0), c(de1[3], de1[4], 0), c(de1[4], de1[5], 0)), mean = rep(0, 3), varcov = mat)
     res = as.numeric(4 * mvnpdf[1] - 2 * zratio1[1]*zratio1[2] + 4 * mvnpdf[2] - 2 * zratio1[2]*zratio1[3]
-                     + 4 * mvnpdf[3] - 2 * zratio1[3]*zratio1[4] + 4 * mvnpdf[4] - 2 * zratio1[4]*zratio1[5])
+                     + 4 * mvnpdf[3] - 2 * zratio1[3]*zratio1[4] + 4 * mvnpdf[4] - 2 * zratio1[4]*zratio1[5]
+                     + 4 * fMultivar::pnorm2d(de1[5], 0, rho = r/sqrt(2)) - 2 * zratio1[5])
     return(res)
   },
   "70" = function(r, zratio1, zratio2){
@@ -177,7 +180,8 @@ r_sol = function(K, zratio1, zratio2, comb, tol, ratio) {
     mvnpdf = mnormt::pmnorm(rbind(c(de1[1], de1[2], 0), c(de1[2], de1[3], 0), c(de1[3], de1[4], 0), c(de1[4], de1[5], 0), c(de1[5], de1[6], 0)), mean = rep(0, 3), varcov = mat)
     res = as.numeric(4 * mvnpdf[1] - 2 * zratio1[1]*zratio1[2] + 4 * mvnpdf[2] - 2 * zratio1[2]*zratio1[3]
                      + 4 * mvnpdf[3] - 2 * zratio1[3]*zratio1[4] + 4 * mvnpdf[4] - 2 * zratio1[4]*zratio1[5]
-                     + 4 * mvnpdf[5] - 2 * zratio1[5]*zratio1[6])
+                     + 4 * mvnpdf[5] - 2 * zratio1[5]*zratio1[6]
+                     + 4 * fMultivar::pnorm2d(de1[6], 0, rho = r/sqrt(2)) - 2 * zratio1[6])
     return(res)
   },
   "80" = function(r, zratio1, zratio2){
@@ -187,7 +191,8 @@ r_sol = function(K, zratio1, zratio2, comb, tol, ratio) {
     mvnpdf = mnormt::pmnorm(rbind(c(de1[1], de1[2], 0), c(de1[2], de1[3], 0), c(de1[3], de1[4], 0), c(de1[4], de1[5], 0), c(de1[5], de1[6], 0), c(de1[6], de1[7], 0)), mean = rep(0, 3), varcov = mat)
     res = as.numeric(4 * mvnpdf[1] - 2 * zratio1[1]*zratio1[2] + 4 * mvnpdf[2] - 2 * zratio1[2]*zratio1[3]
                      + 4 * mvnpdf[3] - 2 * zratio1[3]*zratio1[4] + 4 * mvnpdf[4] - 2 * zratio1[4]*zratio1[5]
-                     + 4 * mvnpdf[5] - 2 * zratio1[5]*zratio1[6] + 4 * mvnpdf[6] - 2 * zratio1[6]*zratio1[7])
+                     + 4 * mvnpdf[5] - 2 * zratio1[5]*zratio1[6] + 4 * mvnpdf[6] - 2 * zratio1[6]*zratio1[7]
+                     + 4 * fMultivar::pnorm2d(de1[7], 0, rho = r/sqrt(2)) - 2 * zratio1[7])
     return(res)
   })
   K.len = length(K); out = rep(NA, K.len);
