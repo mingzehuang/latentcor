@@ -4,7 +4,18 @@ fromZtoX = function(z, type, copula, xp) {
   type_switch = switch(type, "con" = function(u, xp) {x = u; return(x)},
                        "bin" = function(u, xp) {q = quantile(u, xp); x = ifelse(u > q, 1, 0); return(x)},
                        "tru" = function(u, xp) {q = quantile(u, xp); x = ifelse(u > q, u, q) - q; return(x)},
-                       "ter" = function(u, xp) {q = quantile(u, cumsum(xp)); x = rep(1, length(u)); x[u > q[2]] = 2; x[u <= q[1]] = 0; return(x)})
+                       "ter" = function(u, xp) {q = quantile(u, cumsum(xp)); x = rep(0, length(u)); x[u > q[1] & u <= q[2]] = 1; x[u > q[2]] = 2; return(x)},
+                       "qua" = function(u, xp) {q = quantile(u, cumsum(xp)); x = rep(0, length(u)); x[u > q[1] & u <= q[2]] = 1; x[u > q[2] & u <= q[3]] = 2;
+                       x[u > q[3]] = 3; return(x)},
+                       "qui" = function(u, xp) {q = quantile(u, cumsum(xp)); x = rep(0, length(u)); x[u > q[1] & u <= q[2]] = 1; x[u > q[2] & u <= q[3]] = 2;
+                       x[u > q[3] & u <= q[4]] = 3; x[u > q[4]] = 4; return(x)},
+                       "sen" = function(u, xp) {q = quantile(u, cumsum(xp)); x = rep(0, length(u)); x[u > q[1] & u <= q[2]] = 1; x[u > q[2] & u <= q[3]] = 2;
+                       x[u > q[3] & u <= q[4]] = 3; x[u > q[4] & u <= q[5]] = 4; x[u > q[5]] = 5; return(x)},
+                       "sep" = function(u, xp) {q = quantile(u, cumsum(xp)); x = rep(0, length(u)); x[u > q[1] & u <= q[2]] = 1; x[u > q[2] & u <= q[3]] = 2;
+                       x[u > q[3] & u <= q[4]] = 3; x[u > q[4] & u <= q[5]] = 4; x[u > q[5] & u <= q[6]] = 5; x[u > q[6]] = 6; return(x)},
+                       "oct" = function(u, xp) {q = quantile(u, cumsum(xp)); x = rep(0, length(u)); x[u > q[1] & u <= q[2]] = 1; x[u > q[2] & u <= q[3]] = 2;
+                       x[u > q[3] & u <= q[4]] = 3; x[u > q[4] & u <= q[5]] = 4; x[u > q[5] & u <= q[6]] = 5; x[u > q[6] & u <= q[7]] = 6;
+                       x[u > q[7]] = 7; return(x)})
   x = type_switch(u, xp)
   return(x)
 }
@@ -24,11 +35,39 @@ zratios = function(X, types) {
   X = as.matrix(X); out = vector(mode = "list", length = ncol(X))
   for (type in unique(types)) {
     zratios_switch = switch(type, "con" = function(X) zratios = rep(NA, ncol(as.matrix(X))),
-                            "bin" = function(X) zratios = colMeans(as.matrix(X) == 0),
-                            "tru" = function(X) zratios = colMeans(as.matrix(X) == 0),
-                            "ter" = function(X) {zratios = rbind(colMeans(as.matrix(X) == 0), 1 - colMeans(as.matrix(X) == 2))
+                            "bin" = function(X) zratios = colMeans(as.matrix(X == 0)),
+                            "tru" = function(X) zratios = colMeans(as.matrix(X == 0)),
+                            "ter" = function(X) {X0 = X == 0; X1 = X == 1;
+                              zratios = rbind(colMeans(as.matrix(X0)), colMeans(as.matrix(X0 + X1)))
                             out = lapply(seq(ncol(zratios)), function(i) zratios[ , i])
-                            return(out)})
+                            return(out)},
+                            "qua" = function(X) {X0 = X == 0; X1 = X == 1; X2 = X == 2;
+                              zratios = rbind(colMeans(as.matrix(X0)), colMeans(as.matrix(X0 + X1)), colMeans(as.matrix(X0 + X1 + X2)))
+                            out = lapply(seq(ncol(zratios)), function(i) zratios[ , i])
+                            return(out)},
+                            "qui" = function(X) {X0 = X == 0; X1 = X == 1; X2 = X == 2; X3 = X == 3;
+                              zratios = rbind(colMeans(as.matrix(X0)), colMeans(as.matrix(X0 + X1)), colMeans(as.matrix(X0 + X1 + X2)),
+                                                                 colMeans(as.matrix(X0 + X1 + X2 + X3)))
+                            out = lapply(seq(ncol(zratios)), function(i) zratios[ , i])
+                            return(out)},
+                            "sen" = function(X) {X0 = X == 0; X1 = X == 1; X2 = X == 2; X3 = X == 3; X4 = X == 4;
+                              zratios = rbind(colMeans(as.matrix(X0)), colMeans(as.matrix(X0 + X1)), colMeans(as.matrix(X0 + X1 + X2)),
+                                                                 colMeans(as.matrix(X0 + X1 + X2 + X3)), colMeans(as.matrix(X0 + X1 + X2 + X3 + X4)))
+                            out = lapply(seq(ncol(zratios)), function(i) zratios[ , i])
+                            return(out)},
+                            "sep" = function(X) {X0 = X == 0; X1 = X == 1; X2 = X == 2; X3 = X == 3; X4 = X == 4; X5 = X == 5;
+                              zratios = rbind(colMeans(as.matrix(X0)), colMeans(as.matrix(X0 + X1)), colMeans(as.matrix(X0 + X1 + X2)),
+                                                                 colMeans(as.matrix(X0 + X1 + X2 + X3)), colMeans(as.matrix(X0 + X1 + X2 + X3 + X4)),
+                                                                 colMeans(as.matrix(X0 + X1 + X2 + X3 + X4 + X5)))
+                            out = lapply(seq(ncol(zratios)), function(i) zratios[ , i])
+                            return(out)},
+                            "oct" = function(X) {X0 = X == 0; X1 = X == 1; X2 = X == 2; X3 = X == 3; X4 = X == 4; X5 = X == 5; X6 = X == 6;
+                              zratios = rbind(colMeans(as.matrix(X0)), colMeans(as.matrix(X0 + X1)), colMeans(as.matrix(X0 + X1 + X2)),
+                                                                 colMeans(as.matrix(X0 + X1 + X2 + X3)), colMeans(as.matrix(X0 + X1 + X2 + X3 + X4)),
+                                                                 colMeans(as.matrix(X0 + X1 + X2 + X4 + X5)), colMeans(as.matrix(X0 + X1 + X2 + X4 + X5 + X6)))
+                            out = lapply(seq(ncol(zratios)), function(i) zratios[ , i])
+                            return(out)}
+                            )
     out[types == type] = zratios_switch(X[ , types == type])
   }
   return(out)
@@ -83,8 +122,8 @@ r_sol = function(K, zratio1, zratio2, comb, tol, ratio) {
   "31" = function(r, zratio1, zratio2){
     # ternary and binary
     de1 = stats::qnorm(zratio1); de2 = stats::qnorm(zratio2)
-    res = as.numeric(2 * fMultivar::pnorm2d(de2, de1[2], rho = r) * (1 - zratio1[1])
-                     - 2 * zratio1[2] * (zratio2 - fMultivar::pnorm2d(de2, de1[1], rho = r)))
+    mvnpdf = fMultivar::pnorm2d(c(de2, de2), c(de1[2], de1[1]), rho = r)
+    res = as.numeric(2 * mvnpdf[1] * (1 - zratio1[1]) - 2 * zratio1[2] * (zratio2 - mvnpdf[2]))
     return(res)
   },
   "32" = function(r, zratio1, zratio2){
@@ -102,11 +141,55 @@ r_sol = function(K, zratio1, zratio2, comb, tol, ratio) {
   "33" = function(r, zratio1, zratio2){
     # ternary and ternary
     de1 = stats::qnorm(zratio1); de2 = stats::qnorm(zratio2)
-    res = as.numeric(2 * fMultivar::pnorm2d(de1[2], de2[2], rho = r) * fMultivar::pnorm2d(-de1[1], -de2[1], rho = r)
-                     - 2 * (zratio1[2] - fMultivar::pnorm2d(de1[2], de2[1], rho = r)) * (zratio2[2] - fMultivar::pnorm2d(de1[1], de2[2], rho = r)))
+    mvnpdf = fMultivar::pnorm2d(c(de1[2], -de1[1], de1[2], de1[1]), c(de2[2], -de2[1], de2[1], de2[2]), rho = r)
+    res = as.numeric(2 * mvnpdf[1] * mvnpdf[2] - 2 * (zratio1[2] - mvnpdf[3]) * (zratio2[2] - mvnpdf[4]))
     return(res)
-  }
-  )
+  },
+  "40" = function(r, zratio1, zratio2){
+    # quaternary and continuous
+    de1 = stats::qnorm(zratio1)
+    mat = matrix(c(1, 0, r/sqrt(2), 0, 1, -r/sqrt(2), r/sqrt(2), -r/sqrt(2), 1), nrow = 3)
+    mvnpdf = mnormt::pmnorm(rbind(c(de1[1], de1[2], 0), c(de1[2], de1[3], 0)), mean = rep(0, 3), varcov = mat)
+    res = as.numeric(4 * mvnpdf[1] - 2 * zratio1[1]*zratio1[2] + 4 * mvnpdf[2] - 2 * zratio1[2]*zratio1[3])
+    return(res)
+  },
+  "50" = function(r, zratio1, zratio2){
+    # quinary and continuous
+    de1 = stats::qnorm(zratio1)
+    mat = matrix(c(1, 0, r/sqrt(2), 0, 1, -r/sqrt(2), r/sqrt(2), -r/sqrt(2), 1), nrow = 3)
+    mvnpdf = mnormt::pmnorm(rbind(c(de1[1], de1[2], 0), c(de1[2], de1[3], 0), c(de1[3], de1[4], 0)), mean = rep(0, 3), varcov = mat)
+    res = as.numeric(4 * mvnpdf[1] - 2 * zratio1[1]*zratio1[2] + 4 * mvnpdf[2] - 2 * zratio1[2]*zratio1[3] + 4 * mvnpdf[3] - 2 * zratio1[3]*zratio1[4])
+    return(res)
+  },
+  "60" = function(r, zratio1, zratio2){
+    # senary and continuous
+    de1 = stats::qnorm(zratio1)
+    mat = matrix(c(1, 0, r/sqrt(2), 0, 1, -r/sqrt(2), r/sqrt(2), -r/sqrt(2), 1), nrow = 3)
+    mvnpdf = mnormt::pmnorm(rbind(c(de1[1], de1[2], 0), c(de1[2], de1[3], 0), c(de1[3], de1[4], 0), c(de1[4], de1[5], 0)), mean = rep(0, 3), varcov = mat)
+    res = as.numeric(4 * mvnpdf[1] - 2 * zratio1[1]*zratio1[2] + 4 * mvnpdf[2] - 2 * zratio1[2]*zratio1[3]
+                     + 4 * mvnpdf[3] - 2 * zratio1[3]*zratio1[4] + 4 * mvnpdf[4] - 2 * zratio1[4]*zratio1[5])
+    return(res)
+  },
+  "70" = function(r, zratio1, zratio2){
+    # septenary and continuous
+    de1 = stats::qnorm(zratio1)
+    mat = matrix(c(1, 0, r/sqrt(2), 0, 1, -r/sqrt(2), r/sqrt(2), -r/sqrt(2), 1), nrow = 3)
+    mvnpdf = mnormt::pmnorm(rbind(c(de1[1], de1[2], 0), c(de1[2], de1[3], 0), c(de1[3], de1[4], 0), c(de1[4], de1[5], 0), c(de1[5], de1[6], 0)), mean = rep(0, 3), varcov = mat)
+    res = as.numeric(4 * mvnpdf[1] - 2 * zratio1[1]*zratio1[2] + 4 * mvnpdf[2] - 2 * zratio1[2]*zratio1[3]
+                     + 4 * mvnpdf[3] - 2 * zratio1[3]*zratio1[4] + 4 * mvnpdf[4] - 2 * zratio1[4]*zratio1[5]
+                     + 4 * mvnpdf[5] - 2 * zratio1[5]*zratio1[6])
+    return(res)
+  },
+  "80" = function(r, zratio1, zratio2){
+    # octonary and continuous
+    de1 = stats::qnorm(zratio1)
+    mat = matrix(c(1, 0, r/sqrt(2), 0, 1, -r/sqrt(2), r/sqrt(2), -r/sqrt(2), 1), nrow = 3)
+    mvnpdf = mnormt::pmnorm(rbind(c(de1[1], de1[2], 0), c(de1[2], de1[3], 0), c(de1[3], de1[4], 0), c(de1[4], de1[5], 0), c(de1[5], de1[6], 0), c(de1[6], de1[7], 0)), mean = rep(0, 3), varcov = mat)
+    res = as.numeric(4 * mvnpdf[1] - 2 * zratio1[1]*zratio1[2] + 4 * mvnpdf[2] - 2 * zratio1[2]*zratio1[3]
+                     + 4 * mvnpdf[3] - 2 * zratio1[3]*zratio1[4] + 4 * mvnpdf[4] - 2 * zratio1[4]*zratio1[5]
+                     + 4 * mvnpdf[5] - 2 * zratio1[5]*zratio1[6] + 4 * mvnpdf[6] - 2 * zratio1[6]*zratio1[7])
+    return(res)
+  })
   K.len = length(K); out = rep(NA, K.len);
   zratio1 = as.matrix(zratio1); zratio2 = as.matrix(zratio2)
   for (i in K.len) {

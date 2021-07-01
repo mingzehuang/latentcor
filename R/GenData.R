@@ -56,7 +56,7 @@
 
 GenData = function(n = 100, rhos = .5, copulas = "no", types = c("ter", "con"), XP = NULL, showplot = FALSE) {
   if (length(n) != 1 | n <= 0) {stop("n should be a positive interger as sample size")}
-  types = match.arg(types, c("con", "bin", "tru", "ter"), several.ok = TRUE); p = length(types)
+  types = match.arg(types, c("con", "bin", "tru", "ter", "qua", "qui", "sen", "sep", "oct"), several.ok = TRUE); p = length(types)
   copulas = match.arg(copulas, c("no", "expo", "cube"), several.ok = TRUE); p.copulas = length(copulas)
   if (p.copulas == 1) {
     copulas = rep(copulas, p)
@@ -66,7 +66,9 @@ GenData = function(n = 100, rhos = .5, copulas = "no", types = c("ter", "con"), 
   if (is.null(XP)) {
     XP = vector(mode = "list", length = p)
     for (type in unique(types)) {
-      XP[types == type] = switch(type, "con" = NA, "bin" = .5, "tru" = .5, "ter" = list(c(.3, .5)))
+      XP[types == type] = switch(type, "con" = NA, "bin" = .5, "tru" = .5, "ter" = list(c(.3, .5)), "qua" = list(c(.2, .2, .2)),
+                                 "qui" = list(c(.2, .2, .2, .2)), "sen" = list(c(.1, .1, .1, .1, .1)),
+                                 "sep" = list(c(.1, .1, .1, .1, .1, .1)), "oct" = list(c(.1, .1, .1, .1, .1, .1, .1)))
     }
   } else if(!(is.list(XP)) | length(XP) != p) {
     stop("XP should be a list has the same length as types, so that each element is a set of proportion(s) corresponds to a variable (feature).")

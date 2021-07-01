@@ -41,7 +41,7 @@ estR = function(X, types = c("ter", "con"), method = "approx", nu = 0.01, tol = 
   } else if (ratio < 0 | ratio > 1) {
     stop("ratio for approximation should be between 0 and 1.")
   }
-  types = match.arg(types, c("con", "bin", "tru", "ter"), several.ok = TRUE)
+  types = match.arg(types, c("con", "bin", "tru", "ter", "qua", "qui", "sen", "sep", "oct"), several.ok = TRUE)
   method = match.arg(method, c("original", "approx"), several.ok = FALSE)
   X = as.matrix(X); X = na.omit(X); n = nrow(X); p = ncol(X);
   if (length(types) != p) {
@@ -61,7 +61,7 @@ estR = function(X, types = c("ter", "con"), method = "approx", nu = 0.01, tol = 
   K_b.lower = K_b[lower.tri(K_b)]
   K_a.lower = K_b.lower * btoa2
   zratios = zratios(X = X, types = types)
-  types_code = match(types, c("con", "bin", "tru", "ter")) - 1
+  types_code = match(types, c("con", "bin", "tru", "ter", "qua", "qui", "sen", "sep", "oct")) - 1
   types_cp = matrix(types_code[cp], nrow = 2); zratios_cp = matrix(zratios[cp], nrow = 2)
   types_mirror = types_cp[1, ] < types_cp[2, ]
   types_cp[ , types_mirror] = rbind(types_cp[2, types_mirror], types_cp[1, types_mirror])
