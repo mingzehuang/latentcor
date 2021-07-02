@@ -99,8 +99,11 @@ zratios = function(X, types) {
                                             colMeans(as.matrix(X0 + X1 + X2 + X3 + X4 + X5)), colMeans(as.matrix(X0 + X1 + X2 + X3 + X4 + X5 + X6)),
                                             colMeans(as.matrix(X0 + X1 + X2 + X3 + X4 + X5 + X6 + X7)), colMeans(as.matrix(X0 + X1 + X2 + X3 + X4 + X5 + X6 + X7 + X8)))
                             out = lapply(seq(ncol(zratios)), function(i) zratios[ , i])
+                            return(out)},
+                            "dtr" = function(X) {X0 = X == 0; X2 = X == 2;
+                            zratios = rbind(colMeans(as.matrix(X0)), 1 - colMeans(as.matrix(X2)))
+                            out = lapply(seq(ncol(zratios)), function(i) zratios[ , i])
                             return(out)}
-                            # "dtr" = function(X) {}
                             )
     out[types == type] = zratios_switch(X[ , types == type])
   }
