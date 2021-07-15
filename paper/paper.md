@@ -79,7 +79,10 @@ A simple example estimating latent correlation is shown below.
 ```r
 library(latentcor)
 
-# Generate two variables with sample size 100, where the first variable is ternary (with 0.3 proportion of zeros, 0.5 proportion of ones and 1-0.3-0.5=0.2 proportion of 2s) and the second variable is continuous. No copula transformation is applied.
+# Generate two variables of sample size 100
+# The first variable is ternary (pi0 = 0.3, pi1 = 0.5, pi2 = 1-0.3-0.5 = 0.2) 
+# The second variable is continuous. 
+# No copula transformation is applied.
 X = GenData(types = c("ter", "con"), XP = list(c(0.3, .5), NA))$X
 
 # Estimate latent correlation matrix with original method
