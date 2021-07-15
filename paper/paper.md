@@ -1,10 +1,10 @@
 ---
-title: 'latentcor: An R Package for Latent Correlation Estimation'
+title: 'latentcor: An R Package for estimating latent correlations from mixed data types'
 tags:
 - R
 - Statistics
 - Latent Correlation
-date: "11 June 2021"
+date: "15 July 2021"
 output:
   html_document:
     df_print: paged
@@ -35,43 +35,28 @@ affiliations:
 
 # Summary
 
-The R package *latentcor* provides estimation for latent correlation with mixed data types (continuous, binary, truncated and ternary). Comparing to *MixedCCA*, which estimates latent correlation for canonical correlation analysis, our new package provides a standalone version for latent correlation estimation. Also we add new functionality for latent correlation between ternary/continous, ternary/binary, ternary/truncated and ternary/ternary cases.
-
-
-Compare to MixedCCA, memory footprint.
+Data with mixed variable types (continuous, binary, ordinal, zero-inflated or truncated) is routinely collected in many fields with technological advances. Many statistical analysis pipelines start with estimating correlations between the different variables, however the standard Pearson correlation is not well suited for mixed data types as the underlying normality assumption is violated. R package *latentcor* utilizes the powerful semi-parametric latent Gaussian copula models to estimating latent correlations between mixed data types. The package allows to estimate correlations between any of continuous/binary/ternary/zero-inflated (truncated) variable types. The underlying implementation takes advantage of fast multi-linear interpolation scheme with a clever choice of grid points that give the package a small memory footprint, and allows to use the latent correlations with sub-sampling and bootstrapping. 
 
 # Statement of need
 
-Currently there is no standalone package dealing with latent correlation for mixed data type like we did in *latentcor*. The R package *stats* [@team2013r] have some functionality to calculate different type of correlations (Pearson, Kendall and Spearman). The R package *polycor* [@fox2019poly] computes polycoric and polyserial correlations for ordinal data. The R package *pcaPP* [@croux2013robust] provides a fast calculation for Kendall's $\tau$. The R package *MixedCCA* [@yoon2020sparse] have functionality for latent correlation estimation as an intermediate step for canonical correlation analysis on mixed data.
+The popular *cor* function within R package *stats* [@team2013r] allows to compute Pearson's correlation, as well as Kendall's $\tau$ and Spearman's $\rho$.  A faster algorithm for calculation of Kendall's $\tau$ is implemented in the R package *pcaPP* [@croux2013robust]. Pearson's correlation is not appropriate for skewed or ordinal data, and its use leads to invalid inference in those cases. While both Kendall's $\tau$ and Spearman's $\rho$ are more robust measures of association as they are based on ranks, the resulting values do not have correlation interpretation, and can not be used as direct substitutes in statistical methods that require correlation as input (e.g. graphical models estimation). The R package *polycor* [@fox2019poly] is designed for ordinal data and allows to computes polychoric (ordinal/ordinal) and polyserial (ordinal/continuous) correlations based on latent Gaussian model. However, the package does not have functionality for zero-inflated data, nor can it handle skewed continuous measurements as it does not allow for copula transformation. The R package *mixedCCA* [@yoon2020sparse] is based on the latent Gaussian copula model, and has functionality to computer latent correlations between continuous/binary/zero-inflated variable types. However, this functionality is an intermediate step as *mixedCCA* is specifically designed for canonical correlation analysis on mixed data rather than the latent correlation estimation by itself. Furthermore, *mixedCCA* does not allow for ordinal data types. Thus, there is a need for stand-alone R package for computation of latent correlation based on latent Gaussian copula framework that takes into account all variable types (continuous/binary/ordinal/zero-inflated), is computationally efficient and has small memory footprint. The R package *latencor* is designed to meet this need.
 
 # Usage
+
+The estimation of latent correlations consists of three steps: (i) computing Kendall's $\tau$ between each pair of variables; (ii) choosing the bridge function $F()$ based on the types of variable pairs; (iii) calculating estimate of latent correlation by $F^{-1}(\tau)$. Table... summarizes the references for the explicit form of $F()$ for each variable combination as implemented in *latentcor*.
+
  
- |Type | continuous | binary | truncated | ternary |
+|Type | continuous | binary | zero-inflated (truncated) | ternary |
 |-----|----------|----------|----------|----------|
 |continuous | @liu2009nonparanormal | @fan2017high | @yoon2020sparse | @quan2018rank |
 |binary | @fan2017high | @fan2017high | @yoon2020sparse | @quan2018rank |
-|truncated | @yoon2020sparse | @yoon2020sparse | @yoon2020sparse | This paper |
-|ternary | @quan2018rank | @quan2018rank | This paper | @quan2018rank |
+|zero-inflated (truncated) | @yoon2020sparse | @yoon2020sparse | @yoon2020sparse | This work |
+|ternary | @quan2018rank | @quan2018rank | This work | @quan2018rank |
  
-*Definition 1* Fan et al. (2017) considered the problem of estimating $\Sigma$ for the latent Gaussian copula model based on Kendall's $\tau$. Given the observed data $(X_{1j}, X_{1k}), ..., (X_{nj}, X_{nk})$ for variables $X_{j}$ and $X_{k}$, Kendall's $\tau$ is defined as
-$$
-\hat{\tau}_{jk}=\frac{2}{n(n-1)}\sum_{1\leq i <i'\leq n} sign(X_{ij}-X_{i'j})sign(X_{ik}-X_{i'k})
-$$
-*Theorem 1* Let $W_{1}\in\cal{R}^{p_1}$, $W_{2}\in\cal{R}^{p_2}$, $W_{3}\in\cal{R}^{p_3}$, $W_{4}\in\cal{R}^{p_4}$ be such that $W=(W_{1}, W_{2}, W_{3}, W_{4})\sim NPN(0,\Sigma,f)$ with $p=p_{1}+p_{2}+p_{3}+p_{4}$. Let $X=(X_{1}, X_{2}, X_{3}, X_{4})\in\cal{R}^{p}$ satisfy $X_{j}=W_{j}$ for $j=1,...,p_{1}$, $X_{j}=I(W_{j}>c_{j})$ for $j=p_{1}+1,...,p_{1}+p_{2}$, $X_{j}=I(W_{j}>c_{j})W_{j}$ for $j=p_{1}+p_{2}+1,...,p$ and $X_{j}=I(W_{j}>c_{j}^{1})+I(W_{j}>c_{j}^{2})$ with $\Delta_{j}=f(c_{j})$, $\Delta_{j}^{1}=f(c_{j}^{1})$ and $\Delta_{j}^{2}=f(c_{j}^{2})$. The rank-based estimator of $\Sigma$ based on the observed $n$ realizations of $X$ is the matrix $\hat{R}$ with $\hat{r}_{jj}=1$, $\hat{r}_{jk}=\hat{r}_{kj}=F^{-1}(\hat{\tau}_{jk})$ with block structure
-<!--
-$$
-\hat{R}=\left(\begin{array}\\
-F^{-1}_{CC}(\hat{\tau})\hspace{.2in} F^{-1}_{CB}(\hat{\tau})\hspace{.2in} F^{-1}_{CT}(\hat{\tau})\hspace{.2in} F^{-1}_{CN}(\hat{\tau})\\
-F^{-1}_{BC}(\hat{\tau})\hspace{.2in} F^{-1}_{BB}(\hat{\tau})\hspace{.2in} F^{-1}_{BT}(\hat{\tau})\hspace{.2in} F^{-1}_{BN}(\hat{\tau})\\
-F^{-1}_{TC}(\hat{\tau})\hspace{.2in} F^{-1}_{TB}(\hat{\tau})\hspace{.2in} F^{-1}_{TT}(\hat{\tau})\hspace{.2in} F^{-1}_{TN}(\hat{\tau})\\
-F^{-1}_{NC}(\hat{\tau})\hspace{.2in} F^{-1}_{NB}(\hat{\tau})\hspace{.2in} F^{-1}_{NT}(\hat{\tau})\hspace{.2in} F^{-1}_{NN}(\hat{\tau})
-\end{array}\right)
-$$
--->
-The original method is taking estimated Kendall's $\hat{\tau}$ and other parameters to calculate latent correlation $\hat{r}$. Whereas the approximated method is using multilinear interpolation to approximate latent correlation $\hat{r}$ via pre-calculated grid values [@yoon2021fast].
 
+The original estimation approach relies on inverting given $F()$ numerically for each pair of variables, which is computationally expensive. A much faster approach using multi-linear interpolation on pre-calculated fixed grid of points has been proposed [@yoon2021fast], and implemented for continuous/binary/truncated pairs in *mixedCCA*. However, the implementation lacks ternary case, and the specific grid choice creates a large memory footprint. In *latentcor*, we optimized the choice of grid by rescaling the values of Kendall's $\tau$ depending on the type of variables by simultaneosly controlling the approximation error at the same or lower level. As a result, *latentcor* has significantly smaller memory footprint for the variable pairs implemented in *mixedCCA* and reasonable footprint for new cases as demonstrated below.
 
-Memory footprints by KB:
+Memory footprints (in KB):
 
  | case | mixedCCA | latentcor |
  |-----|----------|----------|
@@ -85,6 +70,7 @@ Memory footprints by KB:
 | ternary/truncated | - | 191.78 |
 | ternary/ternary | - | 1023.13 |
 
+A simple example estimating latent correlation is shown below
 
 ```r
 library(latentcor)
