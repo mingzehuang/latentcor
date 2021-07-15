@@ -43,18 +43,18 @@ The popular *cor* function within R package *stats* [@team2013r] allows to compu
 
 # Background on latent correlations
 
-The estimation of latent correlations consists of three steps: (i) computing Kendall's $\tau$ between each pair of variables; (ii) choosing the bridge function $F()$ based on the types of variable pairs; (iii) calculating estimate of latent correlation by $F^{-1}(\tau)$. Table... summarizes the references for the explicit form of $F()$ for each variable combination as implemented in *latentcor*.
+The estimation of latent correlations consists of three steps: (i) computing Kendall's $\tau$ between each pair of variables; (ii) choosing the bridge function $F(\cdot)$ based on the types of variable pairs; (iii) calculating estimate of latent correlation by $F^{-1}(\tau)$. Table... summarizes the references for the explicit form of $F()$ for each variable combination as implemented in *latentcor*.
 
  
 |Type | continuous | binary | zero-inflated (truncated) | ternary |
 |-----|----------|----------|----------|----------|
-|continuous | @liu2009nonparanormal | @fan2017high | @yoon2020sparse | @quan2018rank |
-|binary | @fan2017high | @fan2017high | @yoon2020sparse | @quan2018rank |
-|zero-inflated (truncated) | @yoon2020sparse | @yoon2020sparse | @yoon2020sparse | This work |
-|ternary | @quan2018rank | @quan2018rank | This work | @quan2018rank |
+|continuous | @liu2009nonparanormal |- | -| - |
+|binary | @fan2017high | @fan2017high | - | - |
+|zero-inflated (truncated) | @yoon2020sparse | @yoon2020sparse | @yoon2020sparse | - |
+|ternary | @quan2018rank | @quan2018rank | This work* | @quan2018rank |
  
 
-The original estimation approach relies on inverting given $F()$ numerically for each pair of variables, which is computationally expensive. A much faster approach using multi-linear interpolation on pre-calculated fixed grid of points has been proposed [@yoon2021fast], and implemented for continuous/binary/truncated pairs in *mixedCCA*. However, the implementation lacks ternary case, and the specific grid choice creates a large memory footprint. In *latentcor*, we optimized the choice of grid by rescaling the values of Kendall's $\tau$ depending on the type of variables by simultaneosly controlling the approximation error at the same or lower level. As a result, *latentcor* has significantly smaller memory footprint for the variable pairs implemented in *mixedCCA* and reasonable footprint for new cases as demonstrated below.
+The original estimation approach relies on inverting given $F(\cdot)$ numerically for each pair of variables, which is computationally expensive. Figure~\ref{fig:R_nc_org} displays the estimated latent correlations using the original approach (`method = "original"`) versus true values of underlying latent correlation for ternary/continuous case. A much faster approach using multi-linear interpolation on pre-calculated fixed grid of points has been proposed [@yoon2021fast], and implemented for continuous/binary/truncated pairs in *mixedCCA*. However, the implementation lacks ternary case, and the specific grid choice creates a large memory footprint. In *latentcor*, we optimized the choice of grid by rescaling the values of Kendall's $\tau$ depending on the type of variables by simultaneosly controlling the approximation error at the same or lower level. As a result, *latentcor* has significantly smaller memory footprint for the variable pairs implemented in *mixedCCA* and reasonable footprint for new cases as demonstrated below.
 
 Memory footprints (in KB):
 
@@ -70,16 +70,21 @@ Memory footprints (in KB):
 | ternary/truncated | - | 191.78 |
 | ternary/ternary | - | 1023.13 |
 
+Figure~\ref{fig:R_nc_approx} displays the estimated latent correlations using the approximation approach (`method = "approx"`) versus true values of underlying latent correlation for ternary/continuous case. The results are almost indistinguishable from Figure~\ref{fig:R_nc_org} at a fraction of computational cost. For reference, Figure~\ref{fig:R_nc_pearson} displays the values obtained by using standard Pearson correlation. Observe the significant bias in estimation.
+
 # Usage
 
 A simple example estimating latent correlation is shown below
 
 ```r
 library(latentcor)
-# Data generation
+
+# Generate two variables with sample size 100, where the first variable is ternary (with 0.3 proportion of zeros, 0.5 proportion of ones and 1-0.3-0.5=0.2 proportion of 2s) and the second variable is continuous. No copula transformation is applied.
 X = GenData(types = c("ter", "con"), XP = list(c(0.3, .5), NA))$X
+
 # Estimate latent correlation matrix with original method
 R_nc_org = estR(X = X, types = c("ter", "con"), method = "original")$R
+
 # Estimate latent correlation matrix with aprroximation method
 R_nc_approx = estR(X = X, types = c("ter", "con"), method = "approx")$R
 
@@ -91,13 +96,13 @@ Heatmap_R_nc_approx = estR(X = X, types = c("ter", "con"), method = "approx", sh
 # Rendered R Figures
 Script see: [latentcor_evaluation](https://github.com/mingzehuang/latentcor_evaluation/blob/master/unbias_check.R)
 
-![\label{fig:R_nc_org}](R_nc_org.pdf)
+![Estimated latent correlations by `latentcor` with `method = "original"` versus true population latent correlation. \label{fig:R_nc_org}](R_nc_org.pdf)
 
 
-![\label{fig:R_nc_approx}](R_nc_approx.pdf)
+![Estimated latent correlations by `latentcor` with `method = "approx"` versus true population latent correlation.\label{fig:R_nc_approx}](R_nc_approx.pdf)
 
 
-![\label{fig:R_nc_pearson}](R_nc_pearson.pdf)
+![Estimated correlations using `cor` function in `stats` package (Pearson correlation) versus true population latent correlation.\label{fig:R_nc_pearson}](R_nc_pearson.pdf)
 
 
 
