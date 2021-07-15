@@ -41,7 +41,7 @@ Data with mixed variable types (continuous, binary, ordinal, zero-inflated or tr
 
 The popular *cor* function within R package *stats* [@team2013r] allows to compute Pearson's correlation, as well as Kendall's $\tau$ and Spearman's $\rho$.  A faster algorithm for calculation of Kendall's $\tau$ is implemented in the R package *pcaPP* [@croux2013robust]. Pearson's correlation is not appropriate for skewed or ordinal data, and its use leads to invalid inference in those cases. While both Kendall's $\tau$ and Spearman's $\rho$ are more robust measures of association as they are based on ranks, the resulting values do not have correlation interpretation, and can not be used as direct substitutes in statistical methods that require correlation as input (e.g. graphical models estimation). The R package *polycor* [@fox2019poly] is designed for ordinal data and allows to computes polychoric (ordinal/ordinal) and polyserial (ordinal/continuous) correlations based on latent Gaussian model. However, the package does not have functionality for zero-inflated data, nor can it handle skewed continuous measurements as it does not allow for copula transformation. The R package *mixedCCA* [@yoon2020sparse] is based on the latent Gaussian copula model, and has functionality to computer latent correlations between continuous/binary/zero-inflated variable types. However, this functionality is an intermediate step as *mixedCCA* is specifically designed for canonical correlation analysis on mixed data rather than the latent correlation estimation by itself. Furthermore, *mixedCCA* does not allow for ordinal data types. Thus, there is a need for stand-alone R package for computation of latent correlation based on latent Gaussian copula framework that takes into account all variable types (continuous/binary/ordinal/zero-inflated), is computationally efficient and has small memory footprint. The R package *latencor* is designed to meet this need.
 
-# Usage
+# Background on latent correlations
 
 The estimation of latent correlations consists of three steps: (i) computing Kendall's $\tau$ between each pair of variables; (ii) choosing the bridge function $F()$ based on the types of variable pairs; (iii) calculating estimate of latent correlation by $F^{-1}(\tau)$. Table... summarizes the references for the explicit form of $F()$ for each variable combination as implemented in *latentcor*.
 
@@ -69,6 +69,8 @@ Memory footprints (in KB):
 | ternary/binary | - | 110.93 |
 | ternary/truncated | - | 191.78 |
 | ternary/ternary | - | 1023.13 |
+
+# Usage
 
 A simple example estimating latent correlation is shown below
 
