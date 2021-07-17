@@ -2,12 +2,12 @@
 % Please edit documentation in R/estR.R
 \name{estR}
 \alias{estR}
-\title{Calculate Kendall's Tau matrix then estimate latent correlation matrix}
+\title{Estimate latent correlation for mixed types.}
 \usage{
 estR(
   X,
-  types = c("ter", "con"),
-  method = "approx",
+  types = "con",
+  method = c("approx", "original"),
   nu = 0.01,
   tol = 1e-08,
   ratio = 0.9,
@@ -15,33 +15,31 @@ estR(
 )
 }
 \arguments{
-\item{X}{A numeric data matrix (n by p).}
+\item{X}{A numeric data matrix (n by p). Missing values (NA) are allowed. The estimation is based on pairwise complete observations.}
 
-\item{types}{A vector with length of p which specifies types of variables in \code{X} correspondingly.
-Must be one of "con" (continuous), "bin" (binary), "tru" (truncated) or "ter" (ternary). The default value is c("ter", "con") which means the first variable is ternary, second variable is continuous.}
+\item{types}{A vector with length of 1 for the type of all variables or p which specifies types of variables in \code{X} correspondingly. Must be one of "con" (continuous), "bin" (binary), "tru" (truncated) or "ter" (ternary). The default value is "con" which means all variables are continuous.}
 
-\item{method}{The calculation method of latent correlation. Either "original" method or "approx". If \code{method = "approx"}, multilinear approximation method is used, which is much faster than the original method.
-If \code{method = "original"}, optimization of the bridge inverse function is used. The default is "approx".}
+\item{method}{The calculation method of latent correlation. Either "original" method or "approx". If \code{method = "approx"}, multilinear approximation method is used, which is much faster than the original method. If \code{method = "original"}, optimization of the bridge inverse function is used. The default is "approx".}
 
 \item{nu}{Shrinkage parameter for correlation matrix, must be between 0 and 1, the default value is 0.01.}
 
 \item{tol}{Desired accuracy when calculating the solution of bridge function. The default value is 1e-8.}
 
-\item{ratio}{The maximum ratio of Kendall's tau and boundary to implement multilinear interpolation. The default value is 0.9.}
+\item{ratio}{The maximum ratio of Kendall's tau and boundary to implement multilinear interpolation. The default value is 0.9. If \code{method = "original"}, this parameter will be ignored automatically.}
 
-\item{showplot}{Plot latent correlation matrix \code{R} as a heatmap.}
+\item{showplot}{Logical indicator. \code{showplot = TRUE} to generate an ggplot object \code{plotR} in output list as the heatmap of latent correlation matrix \code{R}. \code{plotR = NULL} if \code{showplot = FALSE}.}
 }
 \value{
 \code{estR} returns
 \itemize{
-      \item{zratios: }{A list of zratios. Each element correponds to the zratios for one variable.}
+      \item{zratios: }{A list of zratios. Each element correponds to the zratios for one variable. zratios for continuous variables is NA (no zratios); zratios for binary/truncated variables is the proportions of zeros; zratios for ternary variables is the accumulated proportions of zeros and ones (e.g. first value is proportion of zeros, second value is proportion of zeros and ones)}
       \item{K: }{Kendall Tau (Tau-a) Matrix of \code{X} (p x p)}
       \item{R: }{Estimated latent correlation matrix of whole \code{X} (p x p)}
-      \item{plotR: }{Heatmap plot for latent correlation matrix \code{R}}
+      \item{plotR: }{Heatmap plot for latent correlation matrix \code{R}, return NULL if \code{showplot = FALSE}}
 }
 }
 \description{
-Estimation of latent correlation matrix from observed data of (possibly) mixed types (continuous/biary/truncated continuous) based on the latent Gaussian copula model.
+Estimation of latent correlation matrix from observed data of (possibly) mixed types (continuous/binary/truncated/ternary) based on the latent Gaussian copula model. Missing values (NA) are allowed. The estimation is based on pairwise complete observations.
 }
 \examples{
 # Data generation

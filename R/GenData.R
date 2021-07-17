@@ -3,19 +3,19 @@
 #' @description \code{GenData} is used to generate data of mixed types for the Gaussian copula model. It can generate single, pair or multiple variables.
 #' @param n a positive interger to specify sample size. The default value is 100.
 #' @param types A length of p vector as types for each variable. Could be "con" (continuous), "bin" (binary), "tru" (truncated) or "ter" (ternary).
+#'              The number of variables p is determined based on supplied length of types (or something along those lines).
 #'              The default value is c("ter", "con") which specifies a pair of variables, the first one is ternary, the second one is continuous.
-#' @param rhos A length of \code{sum(lower.tri(diag(p)))} vector as true latent correlations for between variables.
-#'             The default value is 0.5 which means correlations between any two variables are 0.5.
-#' @param copulas A length of p vector as copula types for each variable, e.g. U = f(Z). Which could be "no", "expo" or "cube".
+#' @param rhos A vector with length of 1 as true correlation for between any two variables (e.g. off-diagonal elements of correlation matrix, so that the correlation matrix is \code{matrix(c(1, rhos, rhos, 1), 2, 2)}) or length of \code{sum(lower.tri(diag(p)))} as lower triangular elements of correlation matrix (e.g. \code{rhos = c(.3, .5, .7)} means the correlation matrix is \code{matrix(c(1, .3, .5, .3, 1, .7, .5, .7, 1), 3, 3)}). The default value is 0.5 which means correlations between any two variables are 0.5.
+#' @param copulas A vector with length of 1 for copula type of all variables or p for copula types for each variable, e.g. U = f(Z). Which could be "no", "expo" (exponential) or "cube" (cube).
 #'                The default value is "no" which means no copula transformation for any variables.
 #' @param XP A length of p list of proportions of zeros (and ones for ternary) corresponding to each variable.
+#'           If null, the following values are automatically generated as elements of \code{XP} list for the corresponding data types:
 #'           For continuous variable, the corresponding proportion should be NA;
 #'           for binary or truncated variable, the corresponding proportion should be a number between 0 and 1 represents the proportion of zeros;
-#'           for ternary variable, the corresponding proportion should be a pair of numbers between 0 and 1,
-#'           the first number indicates the the proportion of zeros, the second number indicates the proportion of ones.
-#'           The sum of a pair of numbers should between 0 and 1.
-#'          The default value is list(c(0.3, 0.5), NA) means the first variable (ternary by default) has 0.3 proportion of zeros and 0.5 proportion of ones,
-#'          the second variable (continuous by default) do not need proportion so it's NA.
+#'           for ternary variable, the corresponding proportion should be a pair of numbers between 0 and 1, the first number indicates the the proportion of zeros, the second number indicates the proportion of ones. The sum of a pair of numbers should between 0 and 1.
+#'           The default value for continuous variable is NA, for binary/truncated variable is 0.5, for ternary variable is c(0.3, 0.5).
+#'           Otherwise, the list element should be NA if the corresponding variable is continuous; a number between 0 and 1 if the corresponding variable is binary/truncated; a vector of two numbers between 0 and 1 if the corresponding variable is ternary (first number smaller then the second, sum of them smaller than 1).
+#'
 #' @param showplot TRUE or FALSE if you want to plot data if numbers of variables (features) no more than 3. The default value is FALSE, not to generate plot.
 #' @return \code{GenData} returns a list containing
 #' \itemize{
@@ -54,9 +54,11 @@
 #' # Check the proportion of zeros for the truncated variable.
 #' sum(simdata$X[ , 3] == 0)
 
-GenData = function(n = 100, rhos = .5, copulas = "no", types = c("ter", "con"), XP = NULL, showplot = FALSE) {
+GenData = function(n = 100, types = c("ter", "con"), rhos = .5, copulas = "no", XP = NULL, showplot = FALSE) {
   if (length(n) != 1 | n <= 0) {stop("n should be a positive interger as sample size")}
-  types = match.arg(types, c("con", "bin", "tru", "ter", "qua", "qui", "sen", "sep", "oct", "nov", "den", "dtr"), several.ok = TRUE); p = length(types)
+# types = match.arg(types, c("con", "bin", "tru", "ter", "qua", "qui", "sen", "sep", "oct", "nov", "den", "dtr"), several.ok = TRUE)
+  types = match.arg(types, c("con", "bin", "tru", "ter"), several.ok = TRUE)
+  p = length(types)
   copulas = match.arg(copulas, c("no", "expo", "cube"), several.ok = TRUE); p.copulas = length(copulas)
   if (p.copulas == 1) {
     copulas = rep(copulas, p)
@@ -66,11 +68,13 @@ GenData = function(n = 100, rhos = .5, copulas = "no", types = c("ter", "con"), 
   if (is.null(XP)) {
     XP = vector(mode = "list", length = p)
     for (type in unique(types)) {
-      XP[types == type] = switch(type, "con" = NA, "bin" = .5, "tru" = .5, "ter" = list(c(.3, .5)), "qua" = list(c(.2, .2, .2)),
-                                 "qui" = list(c(.2, .2, .2, .2)), "sen" = list(c(.1, .1, .1, .1, .1)),
-                                 "sep" = list(c(.1, .1, .1, .1, .1, .1)), "oct" = list(c(.1, .1, .1, .1, .1, .1, .1)),
-                                 "nov" = list(c(.1, .1, .1, .1, .1, .1, .1, .1)), "den" = list(c(.1, .1, .1, .1, .1, .1, .1, .1, .1)),
-                                 "dtr" = list(c(.3, .5)))
+      XP[types == type] = switch(type, "con" = NA, "bin" = .5, "tru" = .5, "ter" = list(c(.3, .5))
+                                 # , "qua" = list(c(.2, .2, .2)),
+                                 # "qui" = list(c(.2, .2, .2, .2)), "sen" = list(c(.1, .1, .1, .1, .1)),
+                                 # "sep" = list(c(.1, .1, .1, .1, .1, .1)), "oct" = list(c(.1, .1, .1, .1, .1, .1, .1)),
+                                 # "nov" = list(c(.1, .1, .1, .1, .1, .1, .1, .1)), "den" = list(c(.1, .1, .1, .1, .1, .1, .1, .1, .1)),
+                                 # "dtr" = list(c(.3, .5))
+                                 )
     }
   } else if(!(is.list(XP)) | length(XP) != p) {
     stop("XP should be a list has the same length as types, so that each element is a set of proportion(s) corresponds to a variable (feature).")

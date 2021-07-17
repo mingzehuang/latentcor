@@ -6,9 +6,9 @@
 \usage{
 GenData(
   n = 100,
+  types = c("ter", "con"),
   rhos = 0.5,
   copulas = "no",
-  types = c("ter", "con"),
   XP = NULL,
   showplot = FALSE
 )
@@ -16,23 +16,22 @@ GenData(
 \arguments{
 \item{n}{a positive interger to specify sample size. The default value is 100.}
 
-\item{rhos}{A length of \code{sum(lower.tri(diag(p)))} vector as true latent correlations for between variables.
-The default value is 0.5 which means correlations between any two variables are 0.5.}
-
-\item{copulas}{A length of p vector as copula types for each variable, e.g. U = f(Z). Which could be "no", "expo" or "cube".
-The default value is "no" which means no copula transformation for any variables.}
-
 \item{types}{A length of p vector as types for each variable. Could be "con" (continuous), "bin" (binary), "tru" (truncated) or "ter" (ternary).
+The number of variables p is determined based on supplied length of types (or something along those lines).
 The default value is c("ter", "con") which specifies a pair of variables, the first one is ternary, the second one is continuous.}
 
+\item{rhos}{A vector with length of 1 as true correlation for between any two variables (e.g. off-diagonal elements of correlation matrix, so that the correlation matrix is \code{matrix(c(1, rhos, rhos, 1), 2, 2)}) or length of \code{sum(lower.tri(diag(p)))} as lower triangular elements of correlation matrix (e.g. \code{rhos = c(.3, .5, .7)} means the correlation matrix is \code{matrix(c(1, .3, .5, .3, 1, .7, .5, .7, 1), 3, 3)}). The default value is 0.5 which means correlations between any two variables are 0.5.}
+
+\item{copulas}{A vector with length of 1 for copula type of all variables or p for copula types for each variable, e.g. U = f(Z). Which could be "no", "expo" (exponential) or "cube" (cube).
+The default value is "no" which means no copula transformation for any variables.}
+
 \item{XP}{A length of p list of proportions of zeros (and ones for ternary) corresponding to each variable.
- For continuous variable, the corresponding proportion should be NA;
- for binary or truncated variable, the corresponding proportion should be a number between 0 and 1 represents the proportion of zeros;
- for ternary variable, the corresponding proportion should be a pair of numbers between 0 and 1,
- the first number indicates the the proportion of zeros, the second number indicates the proportion of ones.
- The sum of a pair of numbers should between 0 and 1.
-The default value is list(c(0.3, 0.5), NA) means the first variable (ternary by default) has 0.3 proportion of zeros and 0.5 proportion of ones,
-the second variable (continuous by default) do not need proportion so it's NA.}
+If null, the following values are automatically generated as elements of \code{XP} list for the corresponding data types:
+For continuous variable, the corresponding proportion should be NA;
+for binary or truncated variable, the corresponding proportion should be a number between 0 and 1 represents the proportion of zeros;
+for ternary variable, the corresponding proportion should be a pair of numbers between 0 and 1, the first number indicates the the proportion of zeros, the second number indicates the proportion of ones. The sum of a pair of numbers should between 0 and 1.
+The default value for continuous variable is NA, for binary/truncated variable is 0.5, for ternary variable is c(0.3, 0.5).
+Otherwise, the list element should be NA if the corresponding variable is continuous; a number between 0 and 1 if the corresponding variable is binary/truncated; a vector of two numbers between 0 and 1 if the corresponding variable is ternary (first number smaller then the second, sum of them smaller than 1).}
 
 \item{showplot}{TRUE or FALSE if you want to plot data if numbers of variables (features) no more than 3. The default value is FALSE, not to generate plot.}
 }
