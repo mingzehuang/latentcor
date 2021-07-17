@@ -99,13 +99,13 @@ Heatmap_R_nc_approx = estR(X = X, types = c("ter", "con"), method = "approx", sh
 # Rendered R Figures
 Script see: [latentcor_evaluation](https://github.com/mingzehuang/latentcor_evaluation/blob/master/unbias_check.R)
 
-![Estimated latent correlations by `latentcor` with `method = "original"` versus true population latent correlation. \label{fig:R_nc_org}](R_nc_org.pdf)
+![Estimated latent correlations by `latentcor` with `method = "original"` versus true population latent correlation. \label{fig:R_nc_org}](nc_org.pdf)
 
 
-![Estimated latent correlations by `latentcor` with `method = "approx"` versus true population latent correlation.\label{fig:R_nc_approx}](R_nc_approx.pdf)
+![Estimated latent correlations by `latentcor` with `method = "approx"` versus true population latent correlation.\label{fig:R_nc_approx}](nc_approx.pdf)
 
 
-![Estimated correlations using `cor` function in `stats` package (Pearson correlation) versus true population latent correlation.\label{fig:R_nc_pearson}](R_nc_pearson.pdf)
+![Estimated correlations using `cor` function in `stats` package (Pearson correlation) versus true population latent correlation.\label{fig:R_nc_pearson}](nc_pearson.pdf)
 
 
 
