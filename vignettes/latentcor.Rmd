@@ -211,9 +211,47 @@ r & 0 & 1 & \frac{1}{\sqrt{2}} \\
 \end{pmatrix}
 \end{align*}
 
+### Approximate Bound
+
+\begin{align}
+    \overline{\tau}_{BC}(\pi_{0})=2\pi_{0j}(1-\pi_{0j})
+\end{align}
+\begin{align}
+    \overline{\tau}_{BB}(\pi_{0j},\pi_{0k})=2\min(\pi_{0j},\pi_{0k})\{1-\max(\pi_{0j}, \pi_{0k})\}
+\end{align}
+\begin{align}
+    \overline{\tau}_{TC}(\pi_{0j})=1-(\pi_{0j})^{2}
+\end{align}
+\begin{align}
+    \overline{\tau}_{TB}(\pi_{0j},\pi_{0k})=2\max(\pi_{0k},1-\pi_{0k})\{1-\max(\pi_{0k},1-\pi_{0k},\pi_{0j})\}
+\end{align}
+\begin{align}
+    \overline{\tau}_{TT}(\pi_{0j},\pi_{0k})=1-\{\max(\pi_{0j},\pi_{0k})\}^{2}
+\end{align}
+\begin{align}
+    \overline{\tau}_{NC}(\pi_{0j},\pi_{2j})=2\{\pi_{0j}(1-\pi_{0j})+\pi_{2j}(1-\pi_{0j}-\pi_{2j})\}
+\end{align}
+\begin{align}
+    \overline{\tau}_{NB}(\pi_{0j},\pi_{2j},\pi_{0k})=2\min(\pi_{0j}(1-\pi_{0j})+\pi_{2j}(1-\pi_{0j}-\pi_{2j}),\pi_{0k}(1-\pi_{0k}))
+\end{align}
+\begin{align}
+    \overline{\tau}_{NT}(\pi_{0j},\pi_{2j},\pi_{0k})=1-\{\max(\pi_{0j},(1-\pi_{0j}-\pi_{2j}),\pi_{2j},\pi_{0k})\}^{2}
+\end{align}
+\begin{align}
+    \overline{\tau}_{NN}(\pi_{0j},\pi_{2j},\pi_{0k},\pi_{2k})=2\min(\pi_{0j}(1-\pi_{0j})+\pi_{2j}(1-\pi_{0j}-\pi_{2j}),\nonumber\\
+     \pi_{0k}(1-\pi_{0k})+\pi_{2k}(1-\pi_{0k}-\pi_{2k}))
+\end{align}
+
+### Multi-linear Interpolation
+
+#### Original Grid
+Set $\tau\in[-1, 1]$ by step side $0.1$; $\frac{\pi_{0j}}{1-\pi_{2j}}\in[0.1,0.9]$ by step side $0.1$; $1-\pi_{2j}\in[0.1,0.9]$ by step side $0.1$; $\frac{\pi_{0k}}{1-\pi_{2k}}\in[0.1,0.9]$ by step side $0.1$; $1-\pi_{2k}\in[0.1,0.9]$ by step side $0.1$.
+
+#### Scaling Grid
+Set $\tau/\overline{\tau}\in[-1, 1]$ by step side $0.1$; $\frac{\pi_{0j}}{1-\pi_{2j}}\in[0.1,0.9]$ by step side $0.1$; $1-\pi_{2j}\in[0.1,0.9]$ by step side $0.1$; $\frac{\pi_{0k}}{1-\pi_{2k}}\in[0.1,0.9]$ by step side $0.1$; $1-\pi_{2k}\in[0.1,0.9]$ by step side $0.1$.
+
 ## Appendix
 
-\section{More technical details} \label{app:technical}
 Derivation for bridge function for ternary/truncated case:
 Without loss of generality, let $j=1$ and $k=2$. By the definition of Kendall's $\tau$,
 \begin{equation}
