@@ -159,9 +159,9 @@
 <p>Let <span class="math inline">\(W_{1}\in\cal{R}^{p_{1}}\)</span>, <span class="math inline">\(W_{2}\in\cal{R}^{p_{2}}\)</span>, <span class="math inline">\(W_{3}\in\cal{R}^{p_{3}}\)</span>, <span class="math inline">\(W_{4}\in\cal{R}^{p_{4}}\)</span> be such that <span class="math inline">\(W=(W_{1}, W_{2}, W_{3}, W_{4})\sim NPN(0, \Sigma, f)\)</span> with <span class="math inline">\(p=p_{1}+p_{2}+p_{3}+p_{4}\)</span>. Let <span class="math inline">\(X=(X_{1}, X_{2}, X_{3}, X_{4})\in\cal{R}^{p}\)</span> satisfy <span class="math inline">\(X_{j}=W_{j}\)</span> for <span class="math inline">\(j=1,...,p_{1}\)</span>, <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})\)</span> for <span class="math inline">\(j=p_{1}+1, ..., p_{1}+p_{2}\)</span>, <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})W_{j}\)</span> for <span class="math inline">\(j=p_{1}+p_{2}+1, ..., p_{3}\)</span> and <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})+I(W_{j}&gt;c'_{j})\)</span> for <span class="math inline">\(j=p_{1}+p_{2}+p_{3}+1, ..., p\)</span> with <span class="math inline">\(\Delta_{j}=f(c_{j})\)</span>. The rank-based estimator of <span class="math inline">\(\Sigma\)</span> based on the observed <span class="math inline">\(n\)</span> realizations of <span class="math inline">\(X\)</span> is the matrix <span class="math inline">\(\mathbf{\hat{R}}\)</span> with <span class="math inline">\(\hat{r}_{jj}=1\)</span>, <span class="math inline">\(\hat{r}_{jk}=\hat{r}_{kj}=F^{-1}(\hat{\tau}_{jk})\)</span> with block structure</p>
 <p><span class="math display">\[
 \mathbf{\hat{R}}=\begin{pmatrix}
-F_{CC}^{-1}(\hat{\tau})\;\;\; F_{CB}^{-1}(\hat{\tau})\;\;\; F_{CT}^{-1}(\hat{\tau})\\
-F_{BC}^{-1}(\hat{\tau})\;\;\; F_{BB}^{-1}(\hat{\tau})\;\;\; F_{BT}^{-1}(\hat{\tau})\\
-F_{TC}^{-1}(\hat{\tau})\;\;\; F_{TB}^{-1}(\hat{\tau})\;\;\; F_{TT}^{-1}(\hat{\tau})
+F_{CC}^{-1}(\hat{\tau}) &amp; F_{CB}^{-1}(\hat{\tau}) &amp; F_{CT}^{-1}(\hat{\tau})\\
+F_{BC}^{-1}(\hat{\tau}) &amp; F_{BB}^{-1}(\hat{\tau}) &amp; F_{BT}^{-1}(\hat{\tau})\\
+F_{TC}^{-1}(\hat{\tau}) &amp; F_{TB}^{-1}(\hat{\tau}) &amp; F_{TT}^{-1}(\hat{\tau})
 \end{pmatrix}
 \]</span> <span class="math display">\[
 F_{CC}(r)=\frac{2}{\pi}sin^{-1}(r)
@@ -254,10 +254,65 @@ r &amp; 0 &amp; 1 &amp; \frac{1}{\sqrt{2}} \\
 \end{pmatrix}
 \end{align*}\]</span></p>
 </div>
+<div id="algorithm-1-original-method-for-latent-correlation-computation" class="section level4">
+<h4 class="hasAnchor">
+<a href="#algorithm-1-original-method-for-latent-correlation-computation" class="anchor"></a>Algorithm 1 (Original method for latent correlation computation)</h4>
+<p><strong>Input</strong>: <span class="math inline">\(F(r)=F(r, \Delta_{j}, \Delta_{k})\)</span> - bridge function based on the type of variables <span class="math inline">\(j\)</span>, <span class="math inline">\(k\)</span></p>
+<ul>
+<li><p>Step 1. Calculate <span class="math inline">\(\hat{\tau}_{jk}\)</span> using (1).</p></li>
+<li><p>Step 2. For binary/truncated variable <span class="math inline">\(j\)</span>, set <span class="math inline">\(\hat{\Delta}_{j}=\Phi^{-1}(\pi_{0j})\)</span> with <span class="math inline">\(\pi_{0j}=\sum_{i=1}^{n}I(x_{ij}=0)/n\)</span>. For ternary variable <span class="math inline">\(j\)</span>, set <span class="math inline">\(\hat{\Delta}=\Phi^{-1}(\pi_{0j}+\pi_{1j})\)</span> with <span class="math inline">\(\pi_{0j}=\sum_{i=1}^{n}I(x_{ij}=0)/n\)</span> and <span class="math inline">\(\pi_{1j}=\sum_{i=1}^{n}I(x_{ij}=1)/n\)</span>.</p></li>
+<li><p>Compute <span class="math inline">\(F^{-1}(\hat{\tau}_{jk})\)</span> as <span class="math inline">\(\hat{r}_{jk}=argmin\{F(r)-\hat{\tau}_{jk}\}^{2}\)</span> solved via <code>optimize</code> function in <em>R</em>.</p></li>
+</ul>
 </div>
-<div id="approximate-bound" class="section level3">
+</div>
+</div>
+<div id="inversion-via-multilinear-interpolation" class="section level2">
+<h2 class="hasAnchor">
+<a href="#inversion-via-multilinear-interpolation" class="anchor"></a>Inversion via Multilinear Interpolation</h2>
+<p>The inverse bridge function is an analytic function of at most 5 parameters (see Theorem 1):</p>
+<ul>
+<li>Kendall’s <span class="math inline">\(\tau\)</span>
+</li>
+<li>Proportion of zeros in the 1st variable</li>
+<li>(Possibly) proportion of zeros and ones in the 1st variable</li>
+<li>(Possibly) proportion of zeros in the 2nd variable</li>
+<li>(Possibly) proportion of zeros and ones in the 2nd variable</li>
+</ul>
+<div id="multilinear-interpolation" class="section level3">
 <h3 class="hasAnchor">
-<a href="#approximate-bound" class="anchor"></a>Approximate Bound</h3>
+<a href="#multilinear-interpolation" class="anchor"></a>Multilinear Interpolation</h3>
+<div id="definition-4-bilinear-interpolation" class="section level4">
+<h4 class="hasAnchor">
+<a href="#definition-4-bilinear-interpolation" class="anchor"></a>Definition 4 (Bilinear interpolation)</h4>
+<p>Suppose we have 4 neighboring data points <span class="math inline">\(f_{ij}=f(x_{i}, y_{j})\)</span> at <span class="math inline">\((x_{i}, y_{j})\)</span> for <span class="math inline">\(i, j\in\{0, 1\}\)</span>. For <span class="math inline">\(\{(x, y)|x_{0}\le x\le x_{1}, y_{0}\le y\le y_{1}\}\)</span>, the bilinear interpolation at <span class="math inline">\((x, y)\)</span> is <span class="math display">\[
+\tilde{f}(x, y)=(1-\alpha)(1-\beta)f_{00}+(1-\alpha)\beta f_{01}+\alpha(1-\beta)f_{10}+\alpha\beta f_{11}
+\]</span> where <span class="math inline">\(\alpha=\frac{x-x_{0}}{x_{1}-x_{0}}\)</span> and <span class="math inline">\(\beta=\frac{y-y_{0}}{y_{1}-y_{0}}\)</span>.</p>
+</div>
+<div id="definition-5-trilinear-interpolation" class="section level4">
+<h4 class="hasAnchor">
+<a href="#definition-5-trilinear-interpolation" class="anchor"></a>Definition 5 (Trilinear interpolation)</h4>
+<p>Suppose we have 8 neighoboring data points <span class="math inline">\(f_{ijk}=f(x_{i}, y_{j}, z_{k})\)</span> at <span class="math inline">\((x_{i}, y_{j}, z_{k})\)</span> for <span class="math inline">\(i, j, k\in\{0, 1\}\)</span>. For <span class="math inline">\(\{(x, y, z)|x_{0}\le x\le x_{1}, y_{0}\le y\le y_{1}, z_{0}\le z\le z_{1}\}\)</span>, the trilinear interpolation at <span class="math inline">\((x, y, z)\)</span> is</p>
+<p><span class="math display">\[\begin{align}
+\tilde{f}(x, y, z)= &amp; (1-\alpha)(1-\beta)(1-\gamma)f_{000}+(1-\alpha)(1-\beta)\gamma f_{001}+(1-\alpha)\beta(1-\gamma)f_{010} \nonumber\\
+&amp;+\alpha(1-\beta)(1-\gamma)f_{100}+(1-\alpha)\beta\gamma f_{011}+\alpha(1-\beta)\gamma f_{101} \nonumber\\
+&amp;+\alpha\beta(1-\gamma)f_{110}+\alpha\beta\gamma f_{111} \nonumber
+\end{align}\]</span> where <span class="math inline">\(\alpha=\frac{x-x_{0}}{x_{1}-x_{0}}\)</span>, <span class="math inline">\(\beta=\frac{y-y_{0}}{y_{1}-y_{0}}\)</span> and <span class="math inline">\(\gamma=\frac{z-z_{0}}{z_{1}-z_{0}}\)</span>.</p>
+<p>In short, d-dimensional multilinear interpolation uses a weighted average of <span class="math inline">\(2^{d}\)</span> neighbors to approximate the function values at the points within the d-dimensional cube of the neighbors <span class="citation">(Yoon, Müller, and Gaynanova 2021)</span>. This can be done by R package <code>chebpol</code> <span class="citation">(Gaure 2019)</span>.</p>
+</div>
+<div id="algorithm-2-multilinear-interpolation-for-latent-correlation-computation" class="section level4">
+<h4 class="hasAnchor">
+<a href="#algorithm-2-multilinear-interpolation-for-latent-correlation-computation" class="anchor"></a>Algorithm 2 (Multilinear interpolation for latent correlation computation)</h4>
+<p><strong>Input</strong>: Pre-computed values <span class="math inline">\(F^{-1}(g)\)</span> on a fixed grid <span class="math inline">\(g\in\cal{G}\)</span> based on the type of variables <span class="math inline">\(j\)</span> and <span class="math inline">\(k\)</span>. For binary/continuous case, <span class="math inline">\(g=(\tau_{jk}, \Delta{j})\)</span>; for binary/binary case, <span class="math inline">\(g=(\tau_{jk}, \Delta{j}, \Delta{k})\)</span>; for truncated/continuous case, <span class="math inline">\(g=(\tau_{jk}, \Delta_{j})\)</span>; for truncated/truncated case, <span class="math inline">\(g=(\tau_{jk}, \Delta{j}, \Delta{k})\)</span>; for ternary/continuous case, <span class="math inline">\(g=(\tau_{jk}, \Delta_{1j}, \Delta_{2j})\)</span>; for ternary/binary case, <span class="math inline">\(g=(\tau_{jk}, \Delta_{1j}, \Delta_{2j}, \Delta_{k})\)</span>; for ternary/truncated case, <span class="math inline">\(g=(\tau_{jk}, \Delta_{1j}, \Delta_{2j}, \Delta_{k})\)</span>; for ternay/ternary case, <span class="math inline">\(g=(\tau_{jk}, \Delta_{1j}, \Delta_{2j}, \Delta_{1k}, \Delta_{2k})\)</span>.</p>
+<ul>
+<li><p>Step 1 and Step 2 same as Algorithm 1.</p></li>
+<li><p>Step 3. Set <span class="math inline">\(\hat{r}_{jk}=\tilde{F}^{-1}(\hat{g})\)</span>, where <span class="math inline">\(\tilde{F}^{-1}\)</span> is the multilinear interpolation of <span class="math inline">\(F^{-1}\)</span> using <span class="math inline">\(\cal{G}\)</span>.</p></li>
+</ul>
+</div>
+</div>
+<div id="approximation-via-hybrid-scheme" class="section level3">
+<h3 class="hasAnchor">
+<a href="#approximation-via-hybrid-scheme" class="anchor"></a>Approximation via hybrid Scheme</h3>
+<p>To avoid interpolation in areas with high approximation errors close to the boundary, we use hybrid scheme <span class="citation">(Yoon, Müller, and Gaynanova 2021)</span>. The derivation of approximate bound for BC, BB, TC, TB, TT cases see <span class="citation">(Yoon, Müller, and Gaynanova 2021)</span>. The derivation of approximate bound for NC, NB, NN cases see <span class="citation">(Quan, Booth, and Wells 2018)</span>. The derivation of approximate bound for NT case see Appendix.</p>
 <p><span class="math display">\[\begin{align}
     \overline{\tau}_{BC}(\pi_{0})=2\pi_{0j}(1-\pi_{0j})
 \end{align}\]</span> <span class="math display">\[\begin{align}
@@ -278,10 +333,15 @@ r &amp; 0 &amp; 1 &amp; \frac{1}{\sqrt{2}} \\
     \overline{\tau}_{NN}(\pi_{0j},\pi_{2j},\pi_{0k},\pi_{2k})=2\min(\pi_{0j}(1-\pi_{0j})+\pi_{2j}(1-\pi_{0j}-\pi_{2j}),\nonumber\\
      \pi_{0k}(1-\pi_{0k})+\pi_{2k}(1-\pi_{0k}-\pi_{2k}))
 \end{align}\]</span></p>
+<div id="algorithm-3-multi-linear-interpolation-with-boundary-method" class="section level4">
+<h4 class="hasAnchor">
+<a href="#algorithm-3-multi-linear-interpolation-with-boundary-method" class="anchor"></a>Algorithm 3 (Multi-linear interpolation with boundary method)</h4>
+<p><strong>Input</strong>: Pre-computed values <span class="math inline">\(F^{-1}(g)\)</span> on a fixed grid <span class="math inline">\(g\in\cal{G}\)</span> based on the type of variables <span class="math inline">\(j\)</span> and <span class="math inline">\(k\)</span>. For binary/continuous case, <span class="math inline">\(g=(\tau_{jk}, \Delta{j})\)</span>; for binary/binary case, <span class="math inline">\(g=(\tau_{jk}, \Delta{j}, \Delta{k})\)</span>; for truncated/continuous case, <span class="math inline">\(g=(\tau_{jk}, \Delta_{j})\)</span>; for truncated/truncated case, <span class="math inline">\(g=(\tau_{jk}, \Delta{j}, \Delta{k})\)</span>; for ternary/continuous case, <span class="math inline">\(g=(\tau_{jk}, \Delta_{1j}, \Delta_{2j})\)</span>; for ternary/binary case, <span class="math inline">\(g=(\tau_{jk}, \Delta_{1j}, \Delta_{2j}, \Delta_{k})\)</span>; for ternary/truncated case, <span class="math inline">\(g=(\tau_{jk}, \Delta_{1j}, \Delta_{2j}, \Delta_{k})\)</span>; for ternay/ternary case, <span class="math inline">\(g=(\tau_{jk}, \Delta_{1j}, \Delta_{2j}, \Delta_{1k}, \Delta_{2k})\)</span>.</p>
+<ul>
+<li><p>Step 1 and Step2 same as Algorithm 1.</p></li>
+<li><p>Step 3. If <span class="math inline">\(|\hat{\tau_{jk}}|\le 0.9\cdot ABD\)</span>, apply multilinear interpolation Algorithm 2. otherwise, apply original Algorithm 1.</p></li>
+</ul>
 </div>
-<div id="multi-linear-interpolation" class="section level3">
-<h3 class="hasAnchor">
-<a href="#multi-linear-interpolation" class="anchor"></a>Multi-linear Interpolation</h3>
 <div id="original-grid" class="section level4">
 <h4 class="hasAnchor">
 <a href="#original-grid" class="anchor"></a>Original Grid</h4>
@@ -407,7 +467,8 @@ r &amp; 0 &amp; 1 &amp; \frac{1}{\sqrt{2}} \\
     = &amp; 2\{\frac{n_{0x}}{n-1}-(\frac{n_{0x}}{n})(\frac{n_{0x}}{n-1})+\frac{n_{2x}}{n-1}-(\frac{n_{2x}}{n})(\frac{n_{0x}}{n-1})-(\frac{n_{2x}}{n})(\frac{n_{2x}}{n-1})\} \nonumber\\
     \approx &amp; 2\{\frac{n_{0x}}{n}-(\frac{n_{0x}}{n})^2+\frac{n_{2x}}{n}-(\frac{n_{2x}}{n})(\frac{n_{0x}}{n})-(\frac{n_{2x}}{n})^2\} \nonumber\\
     = &amp; 2\{\pi_{0x}(1-\pi_{0x})+\pi_{2x}(1-\pi_{0x}-\pi_{2x})\}
-\end{align}\]</span> Combine NC and BC case, we get NB case. So does NN case. \ Derivation for approximate bound for ternary truncated case: Let <span class="math inline">\(\mathbf{x}\in\mathcal{R}^{n}\)</span> and <span class="math inline">\(\mathbf{y}\in\mathcal{R}^{n}\)</span> be the observed <span class="math inline">\(n\)</span> realizations of ternary and truncated variables, respectively. Let <span class="math inline">\(n_{0x}=\sum_{i=0}^{n}I(x_{i}=0)\)</span>, <span class="math inline">\(\pi_{0x}=\frac{n_{0x}}{n}\)</span>, <span class="math inline">\(n_{1x}=\sum_{i=0}^{n}I(x_{i}=1)\)</span>, <span class="math inline">\(\pi_{1x}=\frac{n_{1x}}{n}\)</span>, <span class="math inline">\(n_{2x}=\sum_{i=0}^{n}I(x_{i}=2)\)</span>, <span class="math inline">\(\pi_{2x}=\frac{n_{2x}}{n}\)</span>, <span class="math inline">\(n_{0y}=\sum_{i=0}^{n}I(y_{i}=0)\)</span>, <span class="math inline">\(\pi_{0y}=\frac{n_{0y}}{n}\)</span>, <span class="math inline">\(n_{0x0y}=\sum_{i=0}^{n}I(x_{i}=0 \;\&amp; \; y_{i}=0)\)</span>, <span class="math inline">\(n_{1x0y}=\sum_{i=0}^{n}I(x_{i}=1 \;\&amp; \; y_{i}=0)\)</span> and <span class="math inline">\(n_{2x0y}=\sum_{i=0}^{n}I(x_{i}=2 \;\&amp; \; y_{i}=0)\)</span>then <span class="math display">\[\begin{align}
+\end{align}\]</span></p>
+<p>Combine NC and BC case, we get NB case. So does NN case. Derivation for approximate bound for ternary truncated case: Let <span class="math inline">\(\mathbf{x}\in\mathcal{R}^{n}\)</span> and <span class="math inline">\(\mathbf{y}\in\mathcal{R}^{n}\)</span> be the observed <span class="math inline">\(n\)</span> realizations of ternary and truncated variables, respectively. Let <span class="math inline">\(n_{0x}=\sum_{i=0}^{n}I(x_{i}=0)\)</span>, <span class="math inline">\(\pi_{0x}=\frac{n_{0x}}{n}\)</span>, <span class="math inline">\(n_{1x}=\sum_{i=0}^{n}I(x_{i}=1)\)</span>, <span class="math inline">\(\pi_{1x}=\frac{n_{1x}}{n}\)</span>, <span class="math inline">\(n_{2x}=\sum_{i=0}^{n}I(x_{i}=2)\)</span>, <span class="math inline">\(\pi_{2x}=\frac{n_{2x}}{n}\)</span>, <span class="math inline">\(n_{0y}=\sum_{i=0}^{n}I(y_{i}=0)\)</span>, <span class="math inline">\(\pi_{0y}=\frac{n_{0y}}{n}\)</span>, <span class="math inline">\(n_{0x0y}=\sum_{i=0}^{n}I(x_{i}=0 \;\&amp; \; y_{i}=0)\)</span>, <span class="math inline">\(n_{1x0y}=\sum_{i=0}^{n}I(x_{i}=1 \;\&amp; \; y_{i}=0)\)</span> and <span class="math inline">\(n_{2x0y}=\sum_{i=0}^{n}I(x_{i}=2 \;\&amp; \; y_{i}=0)\)</span> then <span class="math display">\[\begin{align}
     |\tau(\mathbf{x}, \mathbf{y})|\leq &amp;
     \frac{\begin{pmatrix}n \\ 2\end{pmatrix}-\begin{pmatrix}n_{0x} \\ 2\end{pmatrix}-\begin{pmatrix}n_{1x} \\ 2\end{pmatrix}-\begin{pmatrix} n_{2x} \\ 2 \end{pmatrix}-\begin{pmatrix}n_{0y} \\ 2\end{pmatrix}+\begin{pmatrix}n_{0x0y} \\ 2 \end{pmatrix}+\begin{pmatrix}n_{1x0y} \\ 2\end{pmatrix}+\begin{pmatrix}n_{2x0y} \\ 2\end{pmatrix}}{\begin{pmatrix}n \\ 2\end{pmatrix}} \nonumber
 \end{align}\]</span> Since <span class="math inline">\(n_{0x0y}\leq\min(n_{0x},n_{0y})\)</span>, <span class="math inline">\(n_{1x0y}\leq\min(n_{1x},n_{0y})\)</span> and <span class="math inline">\(n_{2x0y}\leq\min(n_{2x},n_{0y})\)</span> we obtain <span class="math display">\[\begin{align}
@@ -430,6 +491,9 @@ Fan, Jianqing, Han Liu, Yang Ning, and Hui Zou. 2017. <span>“High Dimensional 
 </div>
 <div id="ref-filzmoser2021pcapp" class="csl-entry">
 Filzmoser, Peter, Heinrich Fritz, and Klaudius Kalcher. 2021. <em>pcaPP: Robust PCA by Projection Pursuit</em>. <a href="https://CRAN.R-project.org/package=pcaPP">https://CRAN.R-project.org/package=pcaPP</a>.
+</div>
+<div id="ref-R-chebpol" class="csl-entry">
+Gaure, Simen. 2019. <em>Chebpol: Multivariate Interpolation</em>. <a href="https://github.com/sgaure/chebpol">https://github.com/sgaure/chebpol</a>.
 </div>
 <div id="ref-quan2018rank" class="csl-entry">
 Quan, Xiaoyun, James G Booth, and Martin T Wells. 2018. <span>“Rank-Based Approach for Estimating Correlations in Mixed Ordinal Data.”</span> <em>arXiv Preprint arXiv:1809.06255</em>.
