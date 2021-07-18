@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calculate Kendall's Tau matrix then estimate latent correlation matrix — estR • latentcor</title>
+<title>Estimate latent correlation for mixed types. — estR • latentcor</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Calculate Kendall's Tau matrix then estimate latent correlation matrix — estR" />
-<meta property="og:description" content="Estimation of latent correlation matrix from observed data of (possibly) mixed types (continuous/biary/truncated continuous) based on the latent Gaussian copula model." />
+<meta property="og:title" content="Estimate latent correlation for mixed types. — estR" />
+<meta property="og:description" content="Estimation of latent correlation matrix from observed data of (possibly) mixed types (continuous/binary/truncated/ternary) based on the latent Gaussian copula model. Missing values (NA) are allowed. The estimation is based on pairwise complete observations." />
 
 
 
@@ -106,19 +106,19 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Calculate Kendall's Tau matrix then estimate latent correlation matrix</h1>
+    <h1>Estimate latent correlation for mixed types.</h1>
     
     <div class="hidden name"><code>estR.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Estimation of latent correlation matrix from observed data of (possibly) mixed types (continuous/biary/truncated continuous) based on the latent Gaussian copula model.</p>
+    <p>Estimation of latent correlation matrix from observed data of (possibly) mixed types (continuous/binary/truncated/ternary) based on the latent Gaussian copula model. Missing values (NA) are allowed. The estimation is based on pairwise complete observations.</p>
     </div>
 
     <pre class="usage"><span class='fu'>estR</span><span class='op'>(</span>
   <span class='va'>X</span>,
-  types <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"ter"</span>, <span class='st'>"con"</span><span class='op'>)</span>,
-  method <span class='op'>=</span> <span class='st'>"approx"</span>,
+  types <span class='op'>=</span> <span class='st'>"con"</span>,
+  method <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"approx"</span>, <span class='st'>"original"</span><span class='op'>)</span>,
   nu <span class='op'>=</span> <span class='fl'>0.01</span>,
   tol <span class='op'>=</span> <span class='fl'>1e-08</span>,
   ratio <span class='op'>=</span> <span class='fl'>0.9</span>,
@@ -130,17 +130,15 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>X</th>
-      <td><p>A numeric data matrix (n by p).</p></td>
+      <td><p>A numeric data matrix (n by p). Missing values (NA) are allowed. The estimation is based on pairwise complete observations.</p></td>
     </tr>
     <tr>
       <th>types</th>
-      <td><p>A vector with length of p which specifies types of variables in <code>X</code> correspondingly.
-Must be one of "con" (continuous), "bin" (binary), "tru" (truncated) or "ter" (ternary). The default value is c("ter", "con") which means the first variable is ternary, second variable is continuous.</p></td>
+      <td><p>A vector with length of 1 for the type of all variables or p which specifies types of variables in <code>X</code> correspondingly. Must be one of "con" (continuous), "bin" (binary), "tru" (truncated) or "ter" (ternary). The default value is "con" which means all variables are continuous.</p></td>
     </tr>
     <tr>
       <th>method</th>
-      <td><p>The calculation method of latent correlation. Either "original" method or "approx". If <code>method = "approx"</code>, multilinear approximation method is used, which is much faster than the original method.
-If <code>method = "original"</code>, optimization of the bridge inverse function is used. The default is "approx".</p></td>
+      <td><p>The calculation method of latent correlation. Either "original" method or "approx". If <code>method = "approx"</code>, multilinear approximation method is used, which is much faster than the original method. If <code>method = "original"</code>, optimization of the bridge inverse function is used. The default is "approx".</p></td>
     </tr>
     <tr>
       <th>nu</th>
@@ -152,20 +150,21 @@ If <code>method = "original"</code>, optimization of the bridge inverse function
     </tr>
     <tr>
       <th>ratio</th>
-      <td><p>The maximum ratio of Kendall's tau and boundary to implement multilinear interpolation. The default value is 0.9.</p></td>
+      <td><p>The maximum ratio of Kendall's tau and boundary to implement multilinear interpolation. The default value is 0.9. If <code>method = "original"</code>, this parameter will be ignored automatically.</p></td>
     </tr>
     <tr>
       <th>showplot</th>
-      <td><p>Plot latent correlation matrix <code>R</code> as a heatmap.</p></td>
+      <td><p>Logical indicator. <code>showplot = TRUE</code> to generate an ggplot object <code>plotR</code> in output list as the heatmap of latent correlation matrix <code>R</code>. <code>plotR = NULL</code> if <code>showplot = FALSE</code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p><code>estR</code> returns</p><ul>
+<li><p>zratios: A list of zratios. Each element correponds to the zratios for one variable. zratios for continuous variables is NA (no zratios); zratios for binary/truncated variables is the proportions of zeros; zratios for ternary variables is the cumulative proportions of zeros and ones (e.g. first value is proportion of zeros, second value is proportion of zeros and ones)</p></li>
 <li><p>K: Kendall Tau (Tau-a) Matrix of <code>X</code> (p x p)</p></li>
 <li><p>R: Estimated latent correlation matrix of whole <code>X</code> (p x p)</p></li>
-<li><p>plotR: Heatmap plot for latent correlation matrix <code>R</code></p></li>
+<li><p>plotR: Heatmap plot for latent correlation matrix <code>R</code>, return NULL if <code>showplot = FALSE</code></p></li>
 </ul>
 
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>

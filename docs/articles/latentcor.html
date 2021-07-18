@@ -66,7 +66,7 @@
       <h1 data-toc-skip>latentcor</h1>
                         <h4 class="author">Mingze Huang, Irina Gaynanova, Christian L. Müller</h4>
             
-            <h4 class="date">2021-06-25</h4>
+            <h4 class="date">2021-07-18</h4>
       
       
       <div class="hidden name"><code>latentcor.Rmd</code></div>
@@ -75,24 +75,367 @@
 
     
     
-<div id="vignette-info" class="section level2">
+<div id="information" class="section level2">
 <h2 class="hasAnchor">
-<a href="#vignette-info" class="anchor"></a>Vignette Info</h2>
+<a href="#information" class="anchor"></a>Information</h2>
+<p>R package <code>latentcor</code> utilizes the powerful semi-parametric latent Gaussian copula models to estimating latent correlations between mixed data types. The package allows to estimate correlations between any of continuous/binary/ternary/zero-inflated (truncated) variable types. The underlying implementation takes advantage of fast multi-linear interpolation scheme with a clever choice of grid points that give the package a small memory footprint, and allows to use the latent correlations with sub-sampling and bootstrapping.</p>
 </div>
-<div id="figures" class="section level2">
+<div id="a-simple-example" class="section level2">
 <h2 class="hasAnchor">
-<a href="#figures" class="anchor"></a>Figures</h2>
+<a href="#a-simple-example" class="anchor"></a>A Simple Example</h2>
+<p>In this example, we will generate two variables with different data types. Each variable has 100 observations. First variable will be ternary, second variable will be continuous.</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">sampledata</span> <span class="op">=</span> <span class="fu"><a href="../reference/GenData.html">GenData</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">100</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ter"</span>, <span class="st">"con"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p>The <code>sampledata</code> is a list with several elements:</p>
+<ul>
+<li>
+<code>X</code>: a matrix (<span class="math inline">\(100\times 2\)</span>), the first column is the ternary variable; the second column is the continuous variable.</li>
+<li>
+<code>plotX</code>: NULL</li>
+</ul>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="va">sampledata</span><span class="op">$</span><span class="va">X</span></code></pre></div>
+<p><code>X</code> is just the input matrix for estimation.</p>
+<p>Then we can estimate latent correlation matrix of these 2 variables.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">estimate</span> <span class="op">=</span> <span class="fu"><a href="../reference/estR.html">estR</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ter"</span>, <span class="st">"con"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p><code>estimate</code> is a list with several elements:</p>
+<ul>
+<li><p>zratios: a list of zratios. The first element of the list is a (<span class="math inline">\(2\times1\)</span>) vector indicates the cumulative proportions for zeros and ones in the ternary variable (e.g. first element in vector is the proportion of zeros, second element in vector is the proportion of zeros and ones.) The second element of the list is NA for continuous variable.</p></li>
+<li><p>K: Kendall <span class="math inline">\(\tau\)</span> (<span class="math inline">\(\tau_{a}\)</span>) correlation matrix for these 2 variables.</p></li>
+<li><p>R: estimated latent correlation matrix of these 2 variable.</p></li>
+<li><p>plotR: NULL</p></li>
+</ul>
+<p>Thus, the latent correlation matrix for these 2 variable is <code>R</code>.</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">R</span> <span class="op">=</span> <span class="va">estimate</span><span class="op">$</span><span class="va">R</span></code></pre></div>
 </div>
-<div id="more-examples" class="section level2">
+<div id="another-example" class="section level2">
 <h2 class="hasAnchor">
-<a href="#more-examples" class="anchor"></a>More Examples</h2>
+<a href="#another-example" class="anchor"></a>Another example</h2>
+</div>
+<div id="latent-correlation-of-latent-gaussian-copula-model" class="section level2">
+<h2 class="hasAnchor">
+<a href="#latent-correlation-of-latent-gaussian-copula-model" class="anchor"></a>Latent Correlation of Latent Gaussian Copula Model</h2>
+<div id="latent-gaussian-copula-model-for-mixed-data" class="section level3">
+<h3 class="hasAnchor">
+<a href="#latent-gaussian-copula-model-for-mixed-data" class="anchor"></a>Latent Gaussian Copula Model for Mixed Data</h3>
+<div id="definition-1-continuous-model" class="section level4">
+<h4 class="hasAnchor">
+<a href="#definition-1-continuous-model" class="anchor"></a>Definition 1 (Continuous model)</h4>
+<p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span> satisfies the Gaussian copula model if there exist monotonically increasing <span class="math inline">\(f=(f_{j})_{j=1}^{p}\)</span> with <span class="math inline">\(Z_{j}=f_{j}(X_{j})\)</span> satisfying <span class="math inline">\(Z\sim N_{p}(0, \Sigma)\)</span>, <span class="math inline">\(\sigma_{jj}=1\)</span>; <span class="math inline">\(X\sim NPN(0, \Sigma, f)\)</span>.</p>
+</div>
+<div id="definition-2-binary-model" class="section level4">
+<h4 class="hasAnchor">
+<a href="#definition-2-binary-model" class="anchor"></a>Definition 2 (Binary model)</h4>
+<p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span> satisfies the binary latent Gaussian copula model if there exists <span class="math inline">\(W\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})\)</span>, where <span class="math inline">\(I(\cdot)\)</span> is the indicator function and <span class="math inline">\(c_{j}\)</span> are constants.</p>
+</div>
+<div id="definition-3-truncated-model" class="section level4">
+<h4 class="hasAnchor">
+<a href="#definition-3-truncated-model" class="anchor"></a>Definition 3 (Truncated model)</h4>
+<p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span> satisfies the truncated latent Gaussian copula model if there exists <span class="math inline">\(W\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})W_{j}\)</span>, where <span class="math inline">\(I(\cdot)\)</span> is the indicator function and <span class="math inline">\(c_{j}\)</span> are constants.</p>
+</div>
+<div id="definition-4-ternary-model" class="section level4">
+<h4 class="hasAnchor">
+<a href="#definition-4-ternary-model" class="anchor"></a>Definition 4 (Ternary model)</h4>
+<p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span> satisfies the binary latent Gaussian copula model if there exists <span class="math inline">\(W\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})+I(W_{j}&gt;c'_{j})\)</span>, where <span class="math inline">\(I(\cdot)\)</span> is the indicator function and <span class="math inline">\(c_{j}&lt;c'_{j}\)</span> are constants.</p>
+</div>
+<div id="mixed-latent-gaussian-copula-model" class="section level4">
+<h4 class="hasAnchor">
+<a href="#mixed-latent-gaussian-copula-model" class="anchor"></a>Mixed Latent Gaussian Copula Model</h4>
+<p>The mixed latent Gaussian copula model jointly models <span class="math inline">\(W=(W_{1}, W_{2}, W_{3}, W_{4})\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{1j}=W_{1j}\)</span>, <span class="math inline">\(X_{2j}=I(W_{2j}&gt;c_{2j})\)</span>, <span class="math inline">\(X_{3j}=I(W_{3j}&gt;c_{3j})W_{3j}\)</span> and <span class="math inline">\(X_{4j}=I(W_{4j}&gt;c_{4j})+I(W_{4j}&gt;c'_{4j})\)</span>.</p>
+</div>
+</div>
+<div id="bridge-functions" class="section level3">
+<h3 class="hasAnchor">
+<a href="#bridge-functions" class="anchor"></a>Bridge Functions</h3>
+<p>Estimation of latent correlations is achieved via the bridge function <span class="math inline">\(F\)</span> such that <span class="math inline">\(E(\hat{\tau}_{jk})=F(\sigma_{jk})\)</span>, where <span class="math inline">\(\sigma_{jk}\)</span> is the latent correlation between variables <span class="math inline">\(j\)</span> and <span class="math inline">\(k\)</span>, and <span class="math inline">\(\hat{\tau}_{jk}\)</span> is the corresponding sample Kendall’s <span class="math inline">\(\tau\)</span>. Given observed <span class="math inline">\(\mathbf{x}_{j}, \mathbf{x}_{k}\in\cal{R}^{n}\)</span>,</p>
+<p><span class="math display">\[
+\hat{\tau}_{jk}=\hat{\tau}(\mathbf{x}_{j}, \mathbf{x}_{k})=\frac{2}{n(n-1)}\sum_{1\le i&lt;i'\le n}sign(x_{ij}-x_{i'j})sign(x_{ik}-x_{i'k})
+\]</span> where <span class="math inline">\(n\)</span> is the sample size. Using <span class="math inline">\(F\)</span> one can construct <span class="math inline">\(\hat{\sigma}_{jk}=F^{-1}(\hat{\tau}_{jk})\)</span> with the corresponding estimator <span class="math inline">\(\hat{\Sigma}\)</span> being consistent for <span class="math inline">\(\Sigma\)</span> <span class="citation">(Fan et al. 2017; Quan, Booth, and Wells 2018; Yoon, Müller, and Gaynanova 2021)</span>. The explicit form of <span class="math inline">\(F\)</span> has been derived for all combinations of continuous(C)/binary(B)/truncated(T)/ternary(N) variables <span class="citation">(Fan et al. 2017; Yoon, Müller, and Gaynanova 2021)</span>.</p>
+<div id="theorem-1" class="section level4">
+<h4 class="hasAnchor">
+<a href="#theorem-1" class="anchor"></a>Theorem 1</h4>
+<p>Let <span class="math inline">\(W_{1}\in\cal{R}^{p_{1}}\)</span>, <span class="math inline">\(W_{2}\in\cal{R}^{p_{2}}\)</span>, <span class="math inline">\(W_{3}\in\cal{R}^{p_{3}}\)</span>, <span class="math inline">\(W_{4}\in\cal{R}^{p_{4}}\)</span> be such that <span class="math inline">\(W=(W_{1}, W_{2}, W_{3}, W_{4})\sim NPN(0, \Sigma, f)\)</span> with <span class="math inline">\(p=p_{1}+p_{2}+p_{3}+p_{4}\)</span>. Let <span class="math inline">\(X=(X_{1}, X_{2}, X_{3}, X_{4})\in\cal{R}^{p}\)</span> satisfy <span class="math inline">\(X_{j}=W_{j}\)</span> for <span class="math inline">\(j=1,...,p_{1}\)</span>, <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})\)</span> for <span class="math inline">\(j=p_{1}+1, ..., p_{1}+p_{2}\)</span>, <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})W_{j}\)</span> for <span class="math inline">\(j=p_{1}+p_{2}+1, ..., p_{3}\)</span> and <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})+I(W_{j}&gt;c'_{j})\)</span> for <span class="math inline">\(j=p_{1}+p_{2}+p_{3}+1, ..., p\)</span> with <span class="math inline">\(\Delta_{j}=f(c_{j})\)</span>. The rank-based estimator of <span class="math inline">\(\Sigma\)</span> based on the observed <span class="math inline">\(n\)</span> realizations of <span class="math inline">\(X\)</span> is the matrix <span class="math inline">\(\mathbf{\hat{R}}\)</span> with <span class="math inline">\(\hat{r}_{jj}=1\)</span>, <span class="math inline">\(\hat{r}_{jk}=\hat{r}_{kj}=F^{-1}(\hat{\tau}_{jk})\)</span> with block structure</p>
+<p><span class="math display">\[
+\mathbf{\hat{R}}=\begin{pmatrix}
+F_{CC}^{-1}(\hat{\tau})\;\;\; F_{CB}^{-1}(\hat{\tau})\;\;\; F_{CT}^{-1}(\hat{\tau})\\
+F_{BC}^{-1}(\hat{\tau})\;\;\; F_{BB}^{-1}(\hat{\tau})\;\;\; F_{BT}^{-1}(\hat{\tau})\\
+F_{TC}^{-1}(\hat{\tau})\;\;\; F_{TB}^{-1}(\hat{\tau})\;\;\; F_{TT}^{-1}(\hat{\tau})
+\end{pmatrix}
+\]</span> <span class="math display">\[
+F_{CC}(r)=\frac{2}{\pi}sin^{-1}(r)
+\]</span> <span class="math display">\[
+F_{BC}(r;\Delta_{j})=4\Phi_{2}(\Delta_{j},0;\frac{r}{\sqrt{2}})-2\Phi(\Delta_{j})
+\]</span> <span class="math display">\[
+F_{BB}(r;\Delta_{j},\Delta_{k})=2\{\Phi_{2}(\Delta_{j},\Delta_{k};r)-\Phi(\Delta_{j})\Phi(\Delta_{k})\}
+\]</span> <span class="math display">\[
+F_{TC}(r;\Delta_{j})=-2\Phi_{2}(-\Delta_{j},0;\frac{1}{\sqrt{2}})+4\Phi_{3}(-\Delta_{j},0,0;\Sigma_{3}(r))
+\]</span> <span class="math display">\[
+F_{TB}(r;\Delta_{j},\Delta_{k})= 2\{1-\Phi(\Delta_{j})\}\Phi(\Delta_{k})-2\Phi_{3}(-\Delta_{j},\Delta_{k},0;\Sigma_{3a}(r))-2\Phi_{3}(-\Delta_{j},\Delta_{k},0;\Sigma_{3b}(r))
+\]</span> <span class="math display">\[
+F_{TT}(r;\Delta_{j},\Delta_{k})=-2\Phi_{4}(-\Delta_{j},-\Delta_{k},0,0;\Sigma_{4a}(r))+2\Phi_{4}(-\Delta_{j},-\Delta_{k},0,0;\Sigma_{4b}(r))
+\]</span> <span class="math display">\[
+F_{NC}(r;\Delta_{j}^{1},\Delta_{j}^{2})=4\Phi_{2}(\Delta_{j}^{2},0;\frac{r}{\sqrt{2}})-2\Phi(\Delta_{j}^{2})+4\Phi_{3}(\Delta_{j}^{1},\Delta_{j}^{2},0;\Sigma_{3c}(r))-2\Phi(\Delta_{j}^{1})\Phi(\Delta_{j}^{2})
+\]</span> <span class="math display">\[
+F_{NB}(r;\Delta_{j}^{1},\Delta_{j}^{2},\Delta_{k})=2\Phi_{2}(\Delta_{j}^{2},\Delta_{k},r)(1-\Phi(\Delta_{j}^{1}))-2\Phi(\Delta_{j}^{2})(\Phi(\Delta_{k})-\Phi_{2}(\Delta_{j}^{1},\Delta_{k},r))
+\]</span></p>
+<p><span class="math display">\[\begin{align}
+    F_{NT}(r;\Delta_{j}^{1},\Delta_{j}^{2},\Delta_{k})= &amp; -2\Phi(-\Delta_{j}^{1})\Phi(\Delta_{j}^{2}) + 2\Phi_{3}(-\Delta_{j}^{1},\Delta_{j}^{2},\Delta_{k};\Sigma_{3e}(r)) \nonumber\\
+    &amp; +2\Phi_{4}(-\Delta_{j}^{1},\Delta_{j}^{2},-\Delta_{k},0;\Sigma_{4c}(r))+2\Phi_{4}(-\Delta_{j}^{1},\Delta_{j}^{2},-\Delta_{k},0;\Sigma_{4d}(r))
+\end{align}\]</span> <span class="math display">\[\begin{align}
+    F_{NN}(r;\Delta_{j}^{1},\Delta_{j}^{2},\Delta_{k}^{1},\Delta_{k}^{2})=&amp;2\Phi_{2}(\Delta_{j}^{2},\Delta_{k}^{2};r)\Phi_{2}(-\Delta_{j}^{1},-\Delta_{k}^{1};r) \nonumber\\
+    &amp; -2[\Phi(\Delta_{j}^{2})-\Phi_{2}(\Delta_{j}^{2},\Delta_{k}^{1};r)][\Phi(\Delta_{k}^{2}-\Phi_{2}(\Delta_{j}^{1},\Delta_{k}^{2};r))]
+\end{align}\]</span> with <span class="math display">\[\begin{align*}
+&amp;&amp;&amp; \Sigma_{3}(r)=
+\begin{pmatrix}
+1 &amp; \frac{1}{\sqrt{2}} &amp; \frac{r}{\sqrt{2}}\\
+\frac{1}{\sqrt{2}} &amp; 1 &amp; r \\
+\frac{r}{\sqrt{2}} &amp; 2 &amp; 1
+\end{pmatrix},
+\qquad\qquad\qquad
+&amp;&amp;&amp;&amp; \Sigma_{3a}(r)=
+\begin{pmatrix}
+1 &amp; -r &amp; \frac{1}{\sqrt{2}} \\
+-r &amp; 1 &amp; -\frac{r}{\sqrt{2}} \\
+\frac{1}{\sqrt{2}} &amp; -\frac{r}{\sqrt{2}} &amp; 1
+\end{pmatrix}\\
+&amp;&amp;&amp; \Sigma_{3b}(r)=
+\begin{pmatrix}
+1 &amp; 0 &amp; -\frac{1}{\sqrt{2}} \\
+0 &amp; 1 &amp; -\frac{r}{\sqrt{2}} \\
+-\frac{1}{\sqrt{2}} &amp; -\frac{r}{\sqrt{2}} &amp; 1
+\end{pmatrix},
+&amp;&amp;&amp;&amp; \Sigma_{3c}(r)=
+\begin{pmatrix}
+1 &amp; 0 &amp; \frac{r}{\sqrt{2}} \\
+0 &amp; 1 &amp; -\frac{r}{\sqrt{2}} \\
+\frac{r}{\sqrt{2}} &amp; -\frac{r}{\sqrt{2}} &amp; 1
+\end{pmatrix} \\
+&amp;&amp;&amp; \Sigma_{3d}(r)=
+\begin{pmatrix}
+1 &amp; 0 &amp; -r \\
+0 &amp; 1 &amp; 0 \\
+-r &amp; 0 &amp; 1
+\end{pmatrix},
+&amp;&amp;&amp;&amp; \Sigma_{3e}(r)=
+\begin{pmatrix}
+1 &amp; 0 &amp; 0 \\
+0 &amp; 1 &amp; r \\
+0 &amp; r &amp; 1
+\end{pmatrix} \\
+&amp;&amp;&amp; \Sigma_{4a}(r)=
+\begin{pmatrix}
+1 &amp; 0 &amp; \frac{1}{\sqrt{2}} &amp; -\frac{r}{\sqrt{2}} \\
+0 &amp; 1 &amp; -\frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} \\
+\frac{1}{\sqrt{2}} &amp; -\frac{r}{\sqrt{2}} &amp; 1 &amp; -r \\
+-\frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} &amp; -r &amp; 1
+\end{pmatrix}, 
+&amp;&amp;&amp;&amp; \Sigma_{4b}(r)=
+\begin{pmatrix}
+1 &amp; r &amp; \frac{1}{\sqrt{2}} &amp; \frac{r}{\sqrt{2}} \\
+r &amp; 1 &amp; \frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} \\
+\frac{1}{\sqrt{2}} &amp; \frac{r}{\sqrt{2}} &amp; 1 &amp; r \\
+\frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} &amp; r &amp; 1
+\end{pmatrix} \\
+&amp;&amp;&amp; \Sigma_{4c}(r)=
+\begin{pmatrix}
+1 &amp; 0 &amp; 0 &amp; \frac{r}{\sqrt{2}} \\
+0 &amp; 1 &amp; -r &amp; \frac{r}{\sqrt{2}} \\
+0 &amp; -r &amp; 1 &amp; -\frac{1}{\sqrt{2}} \\
+\frac{r}{\sqrt{2}} &amp; \frac{r}{\sqrt{2}} &amp; -\frac{1}{\sqrt{2}} &amp; 1
+\end{pmatrix},
+&amp;&amp;&amp;&amp; \Sigma_{4d}(r)=
+\begin{pmatrix}
+1 &amp; 0 &amp; r &amp; \frac{r}{\sqrt{2}} \\
+0 &amp; 1 &amp; 0 &amp; \frac{r}{\sqrt{2}} \\
+r &amp; 0 &amp; 1 &amp; \frac{1}{\sqrt{2}} \\
+\frac{r}{\sqrt{2}} &amp; \frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} &amp; 1
+\end{pmatrix}
+\end{align*}\]</span></p>
+</div>
+</div>
+<div id="approximate-bound" class="section level3">
+<h3 class="hasAnchor">
+<a href="#approximate-bound" class="anchor"></a>Approximate Bound</h3>
+<p><span class="math display">\[\begin{align}
+    \overline{\tau}_{BC}(\pi_{0})=2\pi_{0j}(1-\pi_{0j})
+\end{align}\]</span> <span class="math display">\[\begin{align}
+    \overline{\tau}_{BB}(\pi_{0j},\pi_{0k})=2\min(\pi_{0j},\pi_{0k})\{1-\max(\pi_{0j}, \pi_{0k})\}
+\end{align}\]</span> <span class="math display">\[\begin{align}
+    \overline{\tau}_{TC}(\pi_{0j})=1-(\pi_{0j})^{2}
+\end{align}\]</span> <span class="math display">\[\begin{align}
+    \overline{\tau}_{TB}(\pi_{0j},\pi_{0k})=2\max(\pi_{0k},1-\pi_{0k})\{1-\max(\pi_{0k},1-\pi_{0k},\pi_{0j})\}
+\end{align}\]</span> <span class="math display">\[\begin{align}
+    \overline{\tau}_{TT}(\pi_{0j},\pi_{0k})=1-\{\max(\pi_{0j},\pi_{0k})\}^{2}
+\end{align}\]</span> <span class="math display">\[\begin{align}
+    \overline{\tau}_{NC}(\pi_{0j},\pi_{2j})=2\{\pi_{0j}(1-\pi_{0j})+\pi_{2j}(1-\pi_{0j}-\pi_{2j})\}
+\end{align}\]</span> <span class="math display">\[\begin{align}
+    \overline{\tau}_{NB}(\pi_{0j},\pi_{2j},\pi_{0k})=2\min(\pi_{0j}(1-\pi_{0j})+\pi_{2j}(1-\pi_{0j}-\pi_{2j}),\pi_{0k}(1-\pi_{0k}))
+\end{align}\]</span> <span class="math display">\[\begin{align}
+    \overline{\tau}_{NT}(\pi_{0j},\pi_{2j},\pi_{0k})=1-\{\max(\pi_{0j},(1-\pi_{0j}-\pi_{2j}),\pi_{2j},\pi_{0k})\}^{2}
+\end{align}\]</span> <span class="math display">\[\begin{align}
+    \overline{\tau}_{NN}(\pi_{0j},\pi_{2j},\pi_{0k},\pi_{2k})=2\min(\pi_{0j}(1-\pi_{0j})+\pi_{2j}(1-\pi_{0j}-\pi_{2j}),\nonumber\\
+     \pi_{0k}(1-\pi_{0k})+\pi_{2k}(1-\pi_{0k}-\pi_{2k}))
+\end{align}\]</span></p>
+</div>
+<div id="multi-linear-interpolation" class="section level3">
+<h3 class="hasAnchor">
+<a href="#multi-linear-interpolation" class="anchor"></a>Multi-linear Interpolation</h3>
+<div id="original-grid" class="section level4">
+<h4 class="hasAnchor">
+<a href="#original-grid" class="anchor"></a>Original Grid</h4>
+<p>Set <span class="math inline">\(\tau\in[-1, 1]\)</span> by step side <span class="math inline">\(0.1\)</span>; <span class="math inline">\(\frac{\pi_{0j}}{1-\pi_{2j}}\in[0.1,0.9]\)</span> by step side <span class="math inline">\(0.1\)</span>; <span class="math inline">\(1-\pi_{2j}\in[0.1,0.9]\)</span> by step side <span class="math inline">\(0.1\)</span>; <span class="math inline">\(\frac{\pi_{0k}}{1-\pi_{2k}}\in[0.1,0.9]\)</span> by step side <span class="math inline">\(0.1\)</span>; <span class="math inline">\(1-\pi_{2k}\in[0.1,0.9]\)</span> by step side <span class="math inline">\(0.1\)</span>.</p>
+</div>
+<div id="scaling-grid" class="section level4">
+<h4 class="hasAnchor">
+<a href="#scaling-grid" class="anchor"></a>Scaling Grid</h4>
+<p>Set <span class="math inline">\(\tau/\overline{\tau}\in[-1, 1]\)</span> by step side <span class="math inline">\(0.1\)</span>; <span class="math inline">\(\frac{\pi_{0j}}{1-\pi_{2j}}\in[0.1,0.9]\)</span> by step side <span class="math inline">\(0.1\)</span>; <span class="math inline">\(1-\pi_{2j}\in[0.1,0.9]\)</span> by step side <span class="math inline">\(0.1\)</span>; <span class="math inline">\(\frac{\pi_{0k}}{1-\pi_{2k}}\in[0.1,0.9]\)</span> by step side <span class="math inline">\(0.1\)</span>; <span class="math inline">\(1-\pi_{2k}\in[0.1,0.9]\)</span> by step side <span class="math inline">\(0.1\)</span>.</p>
+</div>
+</div>
+</div>
+<div id="appendix" class="section level2">
+<h2 class="hasAnchor">
+<a href="#appendix" class="anchor"></a>Appendix</h2>
+<p>Derivation for bridge function for ternary/truncated case: Without loss of generality, let <span class="math inline">\(j=1\)</span> and <span class="math inline">\(k=2\)</span>. By the definition of Kendall’s <span class="math inline">\(\tau\)</span>, <span class="math display">\[\begin{equation}
+    \tau_{12}=E(\hat{\tau}_{12})=E[\frac{2}{n(n-1)}\sum_{1\leq i\leq i' \leq n} sign\{(X_{i1}-X_{i'1})(X_{i2}-X_{i'2})\}]
+\end{equation}\]</span> Since <span class="math inline">\(X_{1}\)</span> is ternary, <span class="math display">\[\begin{align}
+    &amp;sign(X_{1}-X_{1}') \nonumber\\ =&amp;[I(U_{1}&gt;C_{11},U_{1}'\leq C_{11})+I(U_{1}&gt;C_{12},U_{1}'\leq C_{12})-I(U_{1}&gt;C_{12},U_{1}'\leq C_{11})] \nonumber\\
+    &amp;-[I(U_{1}\leq C_{11}, U_{1}'&gt;C_{11})+I(U_{1}\leq C_{12}, U_{1}'&gt;C_{12})-I(U_{1}\leq C_{11}, U_{1}'&gt;C_{12})] \nonumber\\
+    =&amp;[I(U_{1}&gt;C_{11})-I(U_{1}&gt;C_{11},U_{1}'&gt;C_{11})+I(U_{1}&gt;C_{12})-I(U_{1}&gt;C_{12},U_{1}'&gt;C_{12}) \nonumber\\
+    &amp;-I(U_{1}&gt;C_{12})+I(U_{1}&gt;C_{12},U_{1}'&gt;C_{11})] \nonumber\\
+    &amp;-[I(U_{1}'&gt;C_{11})-I(U_{1}&gt;C_{11},U_{1}'&gt;C_{11})+I(U_{1}'&gt;C_{12})-I(U_{1}&gt;C_{12},U_{1}'&gt;C_{12}) \nonumber\\
+    &amp;-I(U_{1}'&gt;C_{12})+I(U_{1}&gt;C_{11},U_{1}'&gt;C_{12})] \nonumber\\
+    =&amp;I(U_{1}&gt;C_{11})+I(U_{1}&gt;C_{12},U_{1}'&gt;C_{11})-I(U_{1}'&gt;C_{11})-I(U_{1}&gt;C_{11},U_{1}'&gt;C_{12}) \nonumber\\
+    =&amp;I(U_{1}&gt;C_{11},U_{1}'\leq C_{12})-I(U_{1}'&gt;C_{11},U_{1}\leq C_{12})
+\end{align}\]</span> Since <span class="math inline">\(X_{2}\)</span> is truncated, <span class="math inline">\(C_{1}&gt;0\)</span> and <span class="math display">\[\begin{align}
+    sign(X_{2}-X_{2}')=&amp;-I(X_{2}=0,X_{2}'&gt;0)+I(X_{2}&gt;0,X_{2}'=0) \nonumber\\
+    &amp;+I(X_{2}&gt;0,X_{2}'&gt;0)sign(X_{2}-X_{2}') \nonumber\\
+    =&amp;-I(X_{2}=0)+I(X_{2}'=0)+I(X_{2}&gt;0,X_{2}'&gt;0)sign(X_{2}-X_{2}')
+\end{align}\]</span> Since <span class="math inline">\(f\)</span> is monotonically increasing, <span class="math inline">\(sign(X_{2}-X_{2}')=sign(Z_{2}-Z_{2}')\)</span>, <span class="math display">\[\begin{align}
+    \tau_{12}=&amp;E[I(U_{1}&gt;C_{11},U_{1}'\leq C_{12}) sign(X_{2}-X_{2}')] \nonumber\\ &amp;-E[I(U_{1}'&gt;C_{11},U_{1}\leq C_{12}) sign(X_{2}-X_{2}')] \nonumber\\
+    =&amp;-E[I(U_{1}&gt;C_{11},U_{1}'\leq C_{12}) I(X_{2}=0)] \nonumber\\
+    &amp;+E[I(U_{1}&gt;C_{11},U_{1}'\leq C_{12}) I(X_{2}'=0)] \nonumber\\
+    &amp;+E[I(U_{1}&gt;C_{11},U_{1}'\leq C_{12})I(X_{2}&gt;0,X_{2}'&gt;0)sign(Z_{2}-Z_{2}')] \nonumber\\
+    &amp;+E[I(U_{1}'&gt;C_{11},U_{1}\leq C_{12}) I(X_{2}=0)] \nonumber\\
+    &amp;-E[I(U_{1}'&gt;C_{11},U_{1}\leq C_{12}) I(X_{2}'=0)] \nonumber\\
+    &amp;-E[I(U_{1}'&gt;C_{11},U_{1}\leq C_{12})I(X_{2}&gt;0,X_{2}'&gt;0)sign(Z_{2}-Z_{2}')]  \nonumber\\
+    =&amp;-2E[I(U_{1}&gt;C_{11},U_{1}'\leq C_{12}) I(X_{2}=0)] \nonumber\\
+    &amp;+2E[I(U_{1}&gt;C_{11},U_{1}'\leq C_{12}) I(X_{2}'=0)] \nonumber\\
+    &amp;+E[I(U_{1}&gt;C_{11},U_{1}'\leq C_{12})I(X_{2}&gt;0,X_{2}'&gt;0)sign(Z_{2}-Z_{2}')] \nonumber\\
+    &amp;-E[I(U_{1}'&gt;C_{11},U_{1}\leq C_{12})I(X_{2}&gt;0,X_{2}'&gt;0)sign(Z_{2}-Z_{2}')]
+\end{align}\]</span> From the definition of <span class="math inline">\(U\)</span>, let <span class="math inline">\(Z_{j}=f_{j}(U_{j})\)</span> and <span class="math inline">\(\Delta_{j}=f_{j}(C_{j})\)</span> for <span class="math inline">\(j=1,2\)</span>. Using <span class="math inline">\(sign(x)=2I(x&gt;0)-1\)</span>, we obtain <span class="math display">\[\begin{align}
+    \tau_{12}=&amp;-2E[I(Z_{1}&gt;\Delta_{11},Z_{1}'\leq \Delta_{12},Z_{2}\leq \Delta_{2})]+2E[I(Z_{1}&gt;\Delta_{11},Z_{1}'\leq \Delta_{12},Z_{2}'\leq \Delta_{2})] \nonumber\\
+    &amp;+2E[I(Z_{1}&gt;\Delta_{11},Z_{1}'\leq \Delta_{12})I(Z_{2}&gt;\Delta_{2},Z_{2}'&gt;\Delta_{2},Z_{2}-Z_{2}'&gt;0)] \nonumber\\
+    &amp;-2E[I(Z_{1}'&gt;\Delta_{11},Z_{1}\leq \Delta_{12})I(Z_{2}&gt;\Delta_{2},Z_{2}'&gt;\Delta_{2},Z_{2}-Z_{2}'&gt;0)] \nonumber\\
+    =&amp;-2E[I(Z_{1}&gt;\Delta_{11},Z_{1}'\leq \Delta_{12}, Z_{2}\leq \Delta_{2})]+2E[I(Z_{1}&gt;\Delta_{11},Z_{1}'\leq \Delta_{12}, Z_{2}'\leq \Delta_{2})] \nonumber\\
+    &amp;+2E[I(Z_{1}&gt;\Delta_{11},Z_{1}'\leq\Delta_{12},Z_{2}'&gt;\Delta_{2},Z_{2}&gt;Z_{2}')] \nonumber\\
+    &amp;-2E[I(Z_{1}'&gt;\Delta_{11},Z_{1}\leq\Delta_{12},Z_{2}'&gt;\Delta_{2},Z_{2}&gt;Z_{2}')]
+\end{align}\]</span> Since <span class="math inline">\(\{\frac{Z_{2}'-Z_{2}}{\sqrt{2}}, -Z{1}\}\)</span>, <span class="math inline">\(\{\frac{Z_{2}'-Z_{2}}{\sqrt{2}}, Z{1}'\}\)</span> and <span class="math inline">\(\{\frac{Z_{2}'-Z_{2}}{\sqrt{2}}, -Z{2}'\}\)</span> are standard bivariate normally distributed variables with correlation <span class="math inline">\(-\frac{1}{\sqrt{2}}\)</span>, <span class="math inline">\(r/\sqrt{2}\)</span> and <span class="math inline">\(-\frac{r}{\sqrt{2}}\)</span>, respectively, by the definition of <span class="math inline">\(\Phi_3(\cdot,\cdot, \cdot;\cdot)\)</span> and <span class="math inline">\(\Phi_4(\cdot,\cdot, \cdot,\cdot;\cdot)\)</span> we have <span class="math display">\[\begin{align}
+    F_{NT}(r;\Delta_{j}^{1},\Delta_{j}^{2},\Delta_{k})= &amp; -2\Phi_{3}\left\{-\Delta_{j}^{1},\Delta_{j}^{2},\Delta_{k};\begin{pmatrix}
+1 &amp; 0 &amp; -r \\
+0 &amp; 1 &amp; 0 \\
+-r &amp; 0 &amp; 1
+\end{pmatrix} \right\} \nonumber\\
+    &amp;+2\Phi_{3}\left\{-\Delta_{j}^{1},\Delta_{j}^{2},\Delta_{k};\begin{pmatrix}
+1 &amp; 0 &amp; 0 \\
+0 &amp; 1 &amp; r \\
+0 &amp; r &amp; 1
+\end{pmatrix}\right\}\nonumber \\
+    &amp; +2\Phi_{4}\left\{-\Delta_{j}^{1},\Delta_{j}^{2},-\Delta_{k},0;\begin{pmatrix}
+1 &amp; 0 &amp; 0 &amp; \frac{r}{\sqrt{2}} \\
+0 &amp; 1 &amp; -r &amp; \frac{r}{\sqrt{2}} \\
+0 &amp; -r &amp; 1 &amp; -\frac{1}{\sqrt{2}} \\
+\frac{r}{\sqrt{2}} &amp; \frac{r}{\sqrt{2}} &amp; -\frac{1}{\sqrt{2}} &amp; 1
+\end{pmatrix}\right\} \nonumber\\
+    &amp;-2\Phi_{4}\left\{-\Delta_{j}^{1},\Delta_{j}^{2},-\Delta_{k},0;\begin{pmatrix}
+1 &amp; 0 &amp; r &amp; -\frac{r}{\sqrt{2}} \\
+0 &amp; 1 &amp; 0 &amp; -\frac{r}{\sqrt{2}} \\
+r &amp; 0 &amp; 1 &amp; -\frac{1}{\sqrt{2}} \\
+-\frac{r}{\sqrt{2}} &amp; -\frac{r}{\sqrt{2}} &amp; -\frac{1}{\sqrt{2}} &amp; 1
+\end{pmatrix}\right\}
+\end{align}\]</span> Using the facts that <span class="math display">\[\begin{align}
+&amp;\Phi_{4}\left\{-\Delta_{j}^{1},\Delta_{j}^{2},-\Delta_{k},0;\begin{pmatrix}
+1 &amp; 0 &amp; r &amp; -\frac{r}{\sqrt{2}} \\
+0 &amp; 1 &amp; 0 &amp; -\frac{r}{\sqrt{2}} \\
+r &amp; 0 &amp; 1 &amp; -\frac{1}{\sqrt{2}} \\
+-\frac{r}{\sqrt{2}} &amp; -\frac{r}{\sqrt{2}} &amp; -\frac{1}{\sqrt{2}} &amp; 1
+\end{pmatrix}\right\} \nonumber\\ &amp;+\Phi_{4}\left\{-\Delta_{j}^{1},\Delta_{j}^{2},-\Delta_{k},0;\begin{pmatrix}
+1 &amp; 0 &amp; r &amp; \frac{r}{\sqrt{2}} \\
+0 &amp; 1 &amp; 0 &amp; \frac{r}{\sqrt{2}} \\
+r &amp; 0 &amp; 1 &amp; \frac{1}{\sqrt{2}} \\
+\frac{r}{\sqrt{2}} &amp; \frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} &amp; 1
+\end{pmatrix}\right\} \nonumber\\
+=&amp;\Phi_{3}\left\{-\Delta_{j}^{1},\Delta_{j}^{2},-\Delta_{k};\begin{pmatrix}
+1 &amp; 0 &amp; 0 \\
+0 &amp; 1 &amp; r \\
+0 &amp; r &amp; 1
+\end{pmatrix}\right\}
+\end{align}\]</span> and <span class="math display">\[\begin{align}
+&amp;\Phi_{3}\left\{-\Delta_{j}^{1},\Delta_{j}^{2},-\Delta_{k};\begin{pmatrix}
+1 &amp; 0 &amp; 0 \\
+0 &amp; 1 &amp; r \\
+0 &amp; r &amp; 1
+\end{pmatrix}\right\}+\Phi_{3}\left\{-\Delta_{j}^{1},\Delta_{j}^{2},\Delta_{k};\begin{pmatrix}
+1 &amp; 0 &amp; -r \\
+0 &amp; 1 &amp; 0 \\
+-r &amp; 0 &amp; 1
+\end{pmatrix} \right\} \nonumber\\
+=&amp;\Phi_{2}(-\Delta_{j}^{1},\Delta_{j}^{2};0)
+=\Phi(-\Delta_{j}^{1})\Phi(\Delta_{j}^{2})
+\end{align}\]</span> So that, <span class="math display">\[\begin{align}
+    F_{NT}(r;\Delta_{j}^{1},\Delta_{j}^{2},\Delta_{k})= &amp; -2\Phi(-\Delta_{j}^{1})\Phi(\Delta_{j}^{2}) \nonumber\\
+    &amp;+2\Phi_{3}\left\{-\Delta_{j}^{1},\Delta_{j}^{2},\Delta_{k};\begin{pmatrix}
+1 &amp; 0 &amp; 0 \\
+0 &amp; 1 &amp; r \\
+0 &amp; r &amp; 1
+\end{pmatrix}\right\}\nonumber \\
+    &amp; +2\Phi_{4}\left\{-\Delta_{j}^{1},\Delta_{j}^{2},-\Delta_{k},0;\begin{pmatrix}
+1 &amp; 0 &amp; 0 &amp; \frac{r}{\sqrt{2}} \\
+0 &amp; 1 &amp; -r &amp; \frac{r}{\sqrt{2}} \\
+0 &amp; -r &amp; 1 &amp; -\frac{1}{\sqrt{2}} \\
+\frac{r}{\sqrt{2}} &amp; \frac{r}{\sqrt{2}} &amp; -\frac{1}{\sqrt{2}} &amp; 1
+\end{pmatrix}\right\} \nonumber\\
+    &amp;+2\Phi_{4}\left\{-\Delta_{j}^{1},\Delta_{j}^{2},-\Delta_{k},0;\begin{pmatrix}
+1 &amp; 0 &amp; r &amp; \frac{r}{\sqrt{2}} \\
+0 &amp; 1 &amp; 0 &amp; \frac{r}{\sqrt{2}} \\
+r &amp; 0 &amp; 1 &amp; \frac{1}{\sqrt{2}} \\
+\frac{r}{\sqrt{2}} &amp; \frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} &amp; 1
+\end{pmatrix}\right\}
+\end{align}\]</span> Derivation for approximate bound for ternary/continuous case: \ Let <span class="math inline">\(n_{0x}=\sum_{i=1}^{n_x}I(x_{i}=0)\)</span>, <span class="math inline">\(n_{2x}=\sum_{i=1}^{n_x}I(x_{i}=2)\)</span>, <span class="math inline">\(\pi_{0x}=\frac{n_{0x}}{n_{x}}\)</span> and <span class="math inline">\(\pi_{2x}=\frac{n_{2x}}{n_{x}}\)</span>, then <span class="math display">\[\begin{align}
+    |\tau(\mathbf{x})|\leq &amp; \frac{n_{0x}(n-n_{0x})+n_{2x}(n-n_{0x}-n_{2x})}{\begin{pmatrix} n \\ 2 \end{pmatrix}} \nonumber\\
+    = &amp; 2\{\frac{n_{0x}}{n-1}-(\frac{n_{0x}}{n})(\frac{n_{0x}}{n-1})+\frac{n_{2x}}{n-1}-(\frac{n_{2x}}{n})(\frac{n_{0x}}{n-1})-(\frac{n_{2x}}{n})(\frac{n_{2x}}{n-1})\} \nonumber\\
+    \approx &amp; 2\{\frac{n_{0x}}{n}-(\frac{n_{0x}}{n})^2+\frac{n_{2x}}{n}-(\frac{n_{2x}}{n})(\frac{n_{0x}}{n})-(\frac{n_{2x}}{n})^2\} \nonumber\\
+    = &amp; 2\{\pi_{0x}(1-\pi_{0x})+\pi_{2x}(1-\pi_{0x}-\pi_{2x})\}
+\end{align}\]</span> Combine NC and BC case, we get NB case. So does NN case. \ Derivation for approximate bound for ternary truncated case: Let <span class="math inline">\(\mathbf{x}\in\mathcal{R}^{n}\)</span> and <span class="math inline">\(\mathbf{y}\in\mathcal{R}^{n}\)</span> be the observed <span class="math inline">\(n\)</span> realizations of ternary and truncated variables, respectively. Let <span class="math inline">\(n_{0x}=\sum_{i=0}^{n}I(x_{i}=0)\)</span>, <span class="math inline">\(\pi_{0x}=\frac{n_{0x}}{n}\)</span>, <span class="math inline">\(n_{1x}=\sum_{i=0}^{n}I(x_{i}=1)\)</span>, <span class="math inline">\(\pi_{1x}=\frac{n_{1x}}{n}\)</span>, <span class="math inline">\(n_{2x}=\sum_{i=0}^{n}I(x_{i}=2)\)</span>, <span class="math inline">\(\pi_{2x}=\frac{n_{2x}}{n}\)</span>, <span class="math inline">\(n_{0y}=\sum_{i=0}^{n}I(y_{i}=0)\)</span>, <span class="math inline">\(\pi_{0y}=\frac{n_{0y}}{n}\)</span>, <span class="math inline">\(n_{0x0y}=\sum_{i=0}^{n}I(x_{i}=0 \;\&amp; \; y_{i}=0)\)</span>, <span class="math inline">\(n_{1x0y}=\sum_{i=0}^{n}I(x_{i}=1 \;\&amp; \; y_{i}=0)\)</span> and <span class="math inline">\(n_{2x0y}=\sum_{i=0}^{n}I(x_{i}=2 \;\&amp; \; y_{i}=0)\)</span>then <span class="math display">\[\begin{align}
+    |\tau(\mathbf{x}, \mathbf{y})|\leq &amp;
+    \frac{\begin{pmatrix}n \\ 2\end{pmatrix}-\begin{pmatrix}n_{0x} \\ 2\end{pmatrix}-\begin{pmatrix}n_{1x} \\ 2\end{pmatrix}-\begin{pmatrix} n_{2x} \\ 2 \end{pmatrix}-\begin{pmatrix}n_{0y} \\ 2\end{pmatrix}+\begin{pmatrix}n_{0x0y} \\ 2 \end{pmatrix}+\begin{pmatrix}n_{1x0y} \\ 2\end{pmatrix}+\begin{pmatrix}n_{2x0y} \\ 2\end{pmatrix}}{\begin{pmatrix}n \\ 2\end{pmatrix}} \nonumber
+\end{align}\]</span> Since <span class="math inline">\(n_{0x0y}\leq\min(n_{0x},n_{0y})\)</span>, <span class="math inline">\(n_{1x0y}\leq\min(n_{1x},n_{0y})\)</span> and <span class="math inline">\(n_{2x0y}\leq\min(n_{2x},n_{0y})\)</span> we obtain <span class="math display">\[\begin{align}
+     |\tau(\mathbf{x}, \mathbf{y})|\leq &amp;
+    \frac{\begin{pmatrix}n \\ 2\end{pmatrix}-\begin{pmatrix}n_{0x} \\ 2\end{pmatrix}-\begin{pmatrix}n_{1x} \\ 2\end{pmatrix}-\begin{pmatrix} n_{2x} \\ 2 \end{pmatrix}-\begin{pmatrix}n_{0y} \\ 2\end{pmatrix}}{\begin{pmatrix}n \\ 2\end{pmatrix}} \nonumber\\
+    &amp; +  \frac{\begin{pmatrix}\min(n_{0x},n_{0y}) \\ 2 \end{pmatrix}+\begin{pmatrix}\min(n_{1x},n_{0y}) \\ 2\end{pmatrix}+\begin{pmatrix}\min(n_{2x},n_{0y}) \\ 2\end{pmatrix}}{\begin{pmatrix}n \\ 2\end{pmatrix}} \nonumber\\
+    \leq &amp; \frac{\begin{pmatrix}n \\ 2\end{pmatrix}-\begin{pmatrix}\max(n_{0x},n_{1x},n_{2x},n_{0y}) \\ 2\end{pmatrix}}{\begin{pmatrix}n \\ 2\end{pmatrix}} \nonumber\\
+    \leq &amp; 1-\frac{\max(n_{0x},n_{1x},n_{2x},n_{0y})(\max(n_{0x},n_{1x},n_{2x},n_{0y})-1)}{n(n-1)} \nonumber\\
+    \approx &amp; 1-(\frac{\max(n_{0x},n_{1x},n_{2x},n_{0y})}{n})^{2} \nonumber\\
+    =&amp; 1-\{\max(\pi_{0x},\pi_{1x},\pi_{2x},\pi_{0y})\}^{2} \nonumber\\
+    =&amp; 1-\{\max(\pi_{0x},(1-\pi_{0x}-\pi_{2x}),\pi_{2x},\pi_{0y})\}^{2}
+\end{align}\]</span></p>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">
 <a href="#references" class="anchor"></a>References</h1>
 <div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-fan2017high" class="csl-entry">
+Fan, Jianqing, Han Liu, Yang Ning, and Hui Zou. 2017. <span>“High Dimensional Semiparametric Latent Graphical Model for Mixed Data.”</span> <em>Journal of the Royal Statistical Society. Series B: Statistical Methodology</em> 79 (2): 405–21.
+</div>
 <div id="ref-filzmoser2021pcapp" class="csl-entry">
 Filzmoser, Peter, Heinrich Fritz, and Klaudius Kalcher. 2021. <em>pcaPP: Robust PCA by Projection Pursuit</em>. <a href="https://CRAN.R-project.org/package=pcaPP">https://CRAN.R-project.org/package=pcaPP</a>.
+</div>
+<div id="ref-quan2018rank" class="csl-entry">
+Quan, Xiaoyun, James G Booth, and Martin T Wells. 2018. <span>“Rank-Based Approach for Estimating Correlations in Mixed Ordinal Data.”</span> <em>arXiv Preprint arXiv:1809.06255</em>.
+</div>
+<div id="ref-yoon2021fast" class="csl-entry">
+Yoon, Grace, Christian L Müller, and Irina Gaynanova. 2021. <span>“Fast Computation of Latent Correlations.”</span> <em>Journal of Computational and Graphical Statistics</em>, 1–8.
 </div>
 </div>
 </div>
