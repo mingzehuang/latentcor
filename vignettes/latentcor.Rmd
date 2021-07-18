@@ -104,9 +104,9 @@ Let $W_{1}\in\cal{R}^{p_{1}}$, $W_{2}\in\cal{R}^{p_{2}}$, $W_{3}\in\cal{R}^{p_{3
 
 $$
 \mathbf{\hat{R}}=\begin{pmatrix}
-F_{CC}^{-1}(\hat{\tau})\;\;\; F_{CB}^{-1}(\hat{\tau})\;\;\; F_{CT}^{-1}(\hat{\tau})\\
-F_{BC}^{-1}(\hat{\tau})\;\;\; F_{BB}^{-1}(\hat{\tau})\;\;\; F_{BT}^{-1}(\hat{\tau})\\
-F_{TC}^{-1}(\hat{\tau})\;\;\; F_{TB}^{-1}(\hat{\tau})\;\;\; F_{TT}^{-1}(\hat{\tau})
+F_{CC}^{-1}(\hat{\tau}) & F_{CB}^{-1}(\hat{\tau}) & F_{CT}^{-1}(\hat{\tau})\\
+F_{BC}^{-1}(\hat{\tau}) & F_{BB}^{-1}(\hat{\tau}) & F_{BT}^{-1}(\hat{\tau})\\
+F_{TC}^{-1}(\hat{\tau}) & F_{TB}^{-1}(\hat{\tau}) & F_{TT}^{-1}(\hat{\tau})
 \end{pmatrix}
 $$
 $$
@@ -211,7 +211,57 @@ r & 0 & 1 & \frac{1}{\sqrt{2}} \\
 \end{pmatrix}
 \end{align*}
 
-### Approximate Bound
+#### Algorithm 1 (Original method for latent correlation computation)
+
+**Input**: $F(r)=F(r, \Delta_{j}, \Delta_{k})$ - bridge function based on the type of variables $j$, $k$
+
+   - Step 1. Calculate $\hat{\tau}_{jk}$ using (1).
+   
+   - Step 2. For binary/truncated variable $j$, set $\hat{\Delta}_{j}=\Phi^{-1}(\pi_{0j})$ with $\pi_{0j}=\sum_{i=1}^{n}I(x_{ij}=0)/n$. For ternary variable $j$, set $\hat{\Delta}=\Phi^{-1}(\pi_{0j}+\pi_{1j})$ with $\pi_{0j}=\sum_{i=1}^{n}I(x_{ij}=0)/n$ and $\pi_{1j}=\sum_{i=1}^{n}I(x_{ij}=1)/n$.
+   
+   - Compute $F^{-1}(\hat{\tau}_{jk})$ as $\hat{r}_{jk}=argmin\{F(r)-\hat{\tau}_{jk}\}^{2}$ solved via `optimize` function in *R*.
+
+## Inversion via Multilinear Interpolation
+
+The inverse bridge function is an analytic function of at most 5 parameters (see Theorem 1):
+
+  - Kendall's $\tau$
+  - Proportion of zeros in the 1st variable 
+  - (Possibly) proportion of zeros and ones in the 1st variable
+  - (Possibly) proportion of zeros in the 2nd variable
+  - (Possibly) proportion of zeros and ones in the 2nd variable
+   
+### Multilinear Interpolation
+
+#### Definition 4 (Bilinear interpolation)
+Suppose we have 4 neighboring data points $f_{ij}=f(x_{i}, y_{j})$ at $(x_{i}, y_{j})$ for $i, j\in\{0, 1\}$. For $\{(x, y)|x_{0}\le x\le x_{1}, y_{0}\le y\le y_{1}\}$, the bilinear interpolation at $(x, y)$ is
+$$
+\tilde{f}(x, y)=(1-\alpha)(1-\beta)f_{00}+(1-\alpha)\beta f_{01}+\alpha(1-\beta)f_{10}+\alpha\beta f_{11}
+$$
+where $\alpha=\frac{x-x_{0}}{x_{1}-x_{0}}$ and $\beta=\frac{y-y_{0}}{y_{1}-y_{0}}$.
+
+#### Definition 5 (Trilinear interpolation)
+Suppose we have 8 neighoboring data points $f_{ijk}=f(x_{i}, y_{j}, z_{k})$ at $(x_{i}, y_{j}, z_{k})$ for $i, j, k\in\{0, 1\}$. For $\{(x, y, z)|x_{0}\le x\le x_{1}, y_{0}\le y\le y_{1}, z_{0}\le z\le z_{1}\}$, the trilinear interpolation at $(x, y, z)$ is
+
+\begin{align}
+\tilde{f}(x, y, z)= & (1-\alpha)(1-\beta)(1-\gamma)f_{000}+(1-\alpha)(1-\beta)\gamma f_{001}+(1-\alpha)\beta(1-\gamma)f_{010} \nonumber\\
+&+\alpha(1-\beta)(1-\gamma)f_{100}+(1-\alpha)\beta\gamma f_{011}+\alpha(1-\beta)\gamma f_{101} \nonumber\\
+&+\alpha\beta(1-\gamma)f_{110}+\alpha\beta\gamma f_{111} \nonumber
+\end{align}
+where $\alpha=\frac{x-x_{0}}{x_{1}-x_{0}}$, $\beta=\frac{y-y_{0}}{y_{1}-y_{0}}$ and $\gamma=\frac{z-z_{0}}{z_{1}-z_{0}}$.
+
+In short, d-dimensional multilinear interpolation uses a weighted average of $2^{d}$ neighbors to approximate the function values at the points within the d-dimensional cube of the neighbors [@yoon2021fast]. This can be done by R package `chebpol` [@R-chebpol].
+
+#### Algorithm 2 (Multilinear interpolation for latent correlation computation)
+**Input**: Pre-computed values $F^{-1}(g)$ on a fixed grid $g\in\cal{G}$ based on the type of variables $j$ and $k$. For binary/continuous case, $g=(\tau_{jk}, \Delta{j})$; for binary/binary case, $g=(\tau_{jk}, \Delta{j}, \Delta{k})$; for truncated/continuous case, $g=(\tau_{jk}, \Delta_{j})$; for truncated/truncated case, $g=(\tau_{jk}, \Delta{j}, \Delta{k})$; for ternary/continuous case, $g=(\tau_{jk}, \Delta_{1j}, \Delta_{2j})$; for ternary/binary case, $g=(\tau_{jk}, \Delta_{1j}, \Delta_{2j}, \Delta_{k})$; for ternary/truncated case, $g=(\tau_{jk}, \Delta_{1j}, \Delta_{2j}, \Delta_{k})$; for ternay/ternary case, $g=(\tau_{jk}, \Delta_{1j}, \Delta_{2j}, \Delta_{1k}, \Delta_{2k})$.
+
+  - Step 1 and Step 2 same as Algorithm 1.
+  
+  - Step 3. Set $\hat{r}_{jk}=\tilde{F}^{-1}(\hat{g})$, where $\tilde{F}^{-1}$ is the multilinear interpolation of $F^{-1}$ using $\cal{G}$.
+
+### Approximation via hybrid Scheme
+
+To avoid interpolation in areas with high approximation errors close to the boundary, we use hybrid scheme [@yoon2021fast]. The derivation of approximate bound for BC, BB, TC, TB, TT cases see [@yoon2021fast]. The derivation of approximate bound for NC, NB, NN cases see [@quan2018rank]. The derivation of approximate bound for NT case see Appendix.
 
 \begin{align}
     \overline{\tau}_{BC}(\pi_{0})=2\pi_{0j}(1-\pi_{0j})
@@ -242,7 +292,12 @@ r & 0 & 1 & \frac{1}{\sqrt{2}} \\
      \pi_{0k}(1-\pi_{0k})+\pi_{2k}(1-\pi_{0k}-\pi_{2k}))
 \end{align}
 
-### Multi-linear Interpolation
+#### Algorithm 3 (Multi-linear interpolation with boundary method)
+**Input**: Pre-computed values $F^{-1}(g)$ on a fixed grid $g\in\cal{G}$ based on the type of variables $j$ and $k$. For binary/continuous case, $g=(\tau_{jk}, \Delta{j})$; for binary/binary case, $g=(\tau_{jk}, \Delta{j}, \Delta{k})$; for truncated/continuous case, $g=(\tau_{jk}, \Delta_{j})$; for truncated/truncated case, $g=(\tau_{jk}, \Delta{j}, \Delta{k})$; for ternary/continuous case, $g=(\tau_{jk}, \Delta_{1j}, \Delta_{2j})$; for ternary/binary case, $g=(\tau_{jk}, \Delta_{1j}, \Delta_{2j}, \Delta_{k})$; for ternary/truncated case, $g=(\tau_{jk}, \Delta_{1j}, \Delta_{2j}, \Delta_{k})$; for ternay/ternary case, $g=(\tau_{jk}, \Delta_{1j}, \Delta_{2j}, \Delta_{1k}, \Delta_{2k})$.
+
+  - Step 1 and Step2 same as Algorithm 1.
+  
+  - Step 3. If $|\hat{\tau_{jk}}|\le 0.9\cdot ABD$, apply multilinear interpolation Algorithm 2. otherwise, apply original Algorithm 1.
 
 #### Original Grid
 Set $\tau\in[-1, 1]$ by step side $0.1$; $\frac{\pi_{0j}}{1-\pi_{2j}}\in[0.1,0.9]$ by step side $0.1$; $1-\pi_{2j}\in[0.1,0.9]$ by step side $0.1$; $\frac{\pi_{0k}}{1-\pi_{2k}}\in[0.1,0.9]$ by step side $0.1$; $1-\pi_{2k}\in[0.1,0.9]$ by step side $0.1$.
@@ -251,7 +306,6 @@ Set $\tau\in[-1, 1]$ by step side $0.1$; $\frac{\pi_{0j}}{1-\pi_{2j}}\in[0.1,0.9
 Set $\tau/\overline{\tau}\in[-1, 1]$ by step side $0.1$; $\frac{\pi_{0j}}{1-\pi_{2j}}\in[0.1,0.9]$ by step side $0.1$; $1-\pi_{2j}\in[0.1,0.9]$ by step side $0.1$; $\frac{\pi_{0k}}{1-\pi_{2k}}\in[0.1,0.9]$ by step side $0.1$; $1-\pi_{2k}\in[0.1,0.9]$ by step side $0.1$.
 
 ## Appendix
-
 Derivation for bridge function for ternary/truncated case:
 Without loss of generality, let $j=1$ and $k=2$. By the definition of Kendall's $\tau$,
 \begin{equation}
@@ -384,10 +438,10 @@ Let $n_{0x}=\sum_{i=1}^{n_x}I(x_{i}=0)$, $n_{2x}=\sum_{i=1}^{n_x}I(x_{i}=2)$, $\
     \approx & 2\{\frac{n_{0x}}{n}-(\frac{n_{0x}}{n})^2+\frac{n_{2x}}{n}-(\frac{n_{2x}}{n})(\frac{n_{0x}}{n})-(\frac{n_{2x}}{n})^2\} \nonumber\\
     = & 2\{\pi_{0x}(1-\pi_{0x})+\pi_{2x}(1-\pi_{0x}-\pi_{2x})\}
 \end{align}
-Combine NC and BC case, we get NB case. So does NN case. \\
-Derivation for approximate bound for ternary truncated case: Let $\mathbf{x}\in\mathcal{R}^{n}$ and $\mathbf{y}\in\mathcal{R}^{n}$ be the observed $n$ realizations of ternary and truncated variables, respectively. Let $n_{0x}=\sum_{i=0}^{n}I(x_{i}=0)$, $\pi_{0x}=\frac{n_{0x}}{n}$, $n_{1x}=\sum_{i=0}^{n}I(x_{i}=1)$, $\pi_{1x}=\frac{n_{1x}}{n}$, $n_{2x}=\sum_{i=0}^{n}I(x_{i}=2)$, $\pi_{2x}=\frac{n_{2x}}{n}$,
+
+Combine NC and BC case, we get NB case. So does NN case. Derivation for approximate bound for ternary truncated case: Let $\mathbf{x}\in\mathcal{R}^{n}$ and $\mathbf{y}\in\mathcal{R}^{n}$ be the observed $n$ realizations of ternary and truncated variables, respectively. Let $n_{0x}=\sum_{i=0}^{n}I(x_{i}=0)$, $\pi_{0x}=\frac{n_{0x}}{n}$, $n_{1x}=\sum_{i=0}^{n}I(x_{i}=1)$, $\pi_{1x}=\frac{n_{1x}}{n}$, $n_{2x}=\sum_{i=0}^{n}I(x_{i}=2)$, $\pi_{2x}=\frac{n_{2x}}{n}$,
 $n_{0y}=\sum_{i=0}^{n}I(y_{i}=0)$, $\pi_{0y}=\frac{n_{0y}}{n}$, $n_{0x0y}=\sum_{i=0}^{n}I(x_{i}=0 \;\& \; y_{i}=0)$, $n_{1x0y}=\sum_{i=0}^{n}I(x_{i}=1 \;\& \; y_{i}=0)$ and
-$n_{2x0y}=\sum_{i=0}^{n}I(x_{i}=2 \;\& \; y_{i}=0)$then
+$n_{2x0y}=\sum_{i=0}^{n}I(x_{i}=2 \;\& \; y_{i}=0)$ then
 \begin{align}
     |\tau(\mathbf{x}, \mathbf{y})|\leq &
     \frac{\begin{pmatrix}n \\ 2\end{pmatrix}-\begin{pmatrix}n_{0x} \\ 2\end{pmatrix}-\begin{pmatrix}n_{1x} \\ 2\end{pmatrix}-\begin{pmatrix} n_{2x} \\ 2 \end{pmatrix}-\begin{pmatrix}n_{0y} \\ 2\end{pmatrix}+\begin{pmatrix}n_{0x0y} \\ 2 \end{pmatrix}+\begin{pmatrix}n_{1x0y} \\ 2\end{pmatrix}+\begin{pmatrix}n_{2x0y} \\ 2\end{pmatrix}}{\begin{pmatrix}n \\ 2\end{pmatrix}} \nonumber
