@@ -32,7 +32,7 @@ estR(
 \value{
 \code{estR} returns
 \itemize{
-      \item{zratios: }{A list of zratios. Each element correponds to the zratios for one variable. zratios for continuous variables is NA (no zratios); zratios for binary/truncated variables is the proportions of zeros; zratios for ternary variables is the accumulated proportions of zeros and ones (e.g. first value is proportion of zeros, second value is proportion of zeros and ones)}
+      \item{zratios: }{A list of zratios. Each element correponds to the zratios for one variable. zratios for continuous variables is NA (no zratios); zratios for binary/truncated variables is the proportions of zeros; zratios for ternary variables is the cumulative proportions of zeros and ones (e.g. first value is proportion of zeros, second value is proportion of zeros and ones)}
       \item{K: }{Kendall Tau (Tau-a) Matrix of \code{X} (p x p)}
       \item{R: }{Estimated latent correlation matrix of whole \code{X} (p x p)}
       \item{plotR: }{Heatmap plot for latent correlation matrix \code{R}, return NULL if \code{showplot = FALSE}}

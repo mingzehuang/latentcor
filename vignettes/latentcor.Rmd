@@ -18,16 +18,62 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+library(latentcor)
 ```
 
 
-## Vignette Info
+## Information
 
+R package `latentcor` utilizes the powerful semi-parametric latent Gaussian copula models to estimating latent correlations between mixed data types. The package allows to estimate correlations between any of continuous/binary/ternary/zero-inflated (truncated) variable types. The underlying implementation takes advantage of fast multi-linear interpolation scheme with a clever choice of grid points that give the package a small memory footprint, and allows to use the latent correlations with sub-sampling and bootstrapping.
 
-## Figures
+## A Simple Example
 
+In this example, we will generate two variables with different data types. Each variable has 100 observations. First variable will be ternary, second variable will be continuous.
 
-## More Examples
+```{r}
+sampledata = GenData(n = 100, types = c("ter", "con"))
+```
+
+The `sampledata` is a list with several elements:
+
+  - `X`: a matrix ($100\times 2$), the first column is the ternary variable; the second column is the continuous variable.
+  - `plotX`: NULL
+
+```{r}
+X = sampledata$X
+```
+
+`X` is just the input matrix for estimation.
+
+Then we can estimate latent correlation matrix of these 2 variables.
+
+```{r}
+estimate = estR(X, types = c("ter", "con"))
+```
+
+`estimate` is a list with several elements:
+
+  - zratios: a list of zratios. The first element of the list is a ($2\times1$) vector indicates the cumulative proportions for zeros and ones in the ternary variable (e.g. first element in vector is the proportion of zeros, second element in vector is the proportion of zeros and ones.) The second element of the list is NA for continuous variable.
+  
+  - K: Kendall $\tau$ ($\tau_{a}$) correlation matrix for these 2 variables.
+  
+  - R: estimated latent correlation matrix of these 2 variable.
+  
+  - plotR: NULL
+
+Thus, the latent correlation matrix for these 2 variable is `R`.
+
+```{r}
+R = estimate$R
+```
+
+## Another example
+
+## Latent Correlation of Latent Gaussian Copula Model
+
+### Latent Gaussian Copula Model for Mixed Data
+
+### Bridge Functions
 
 
 # References
