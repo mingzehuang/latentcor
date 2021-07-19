@@ -213,11 +213,11 @@ r & 0 & 1 & \frac{1}{\sqrt{2}} \\
 
 #### Algorithm 1 (Original method for latent correlation computation)
 
-**Input**: $F(r)=F(r, \Delta_{j}, \Delta_{k})$ - bridge function based on the type of variables $j$, $k$
+**Input**: $F(r)=F(r, \mathbf{\Delta})$ - bridge function based on the type of variables $j$, $k$
 
    - Step 1. Calculate $\hat{\tau}_{jk}$ using (1).
    
-   - Step 2. For binary/truncated variable $j$, set $\hat{\Delta}_{j}=\Phi^{-1}(\pi_{0j})$ with $\pi_{0j}=\sum_{i=1}^{n}I(x_{ij}=0)/n$. For ternary variable $j$, set $\hat{\Delta}=\Phi^{-1}(\pi_{0j}+\pi_{1j})$ with $\pi_{0j}=\sum_{i=1}^{n}I(x_{ij}=0)/n$ and $\pi_{1j}=\sum_{i=1}^{n}I(x_{ij}=1)/n$.
+   - Step 2. For binary/truncated variable $j$, set $\hat{\mathbf{\Delta}_{j}}=\hat{\Delta}_{j}=\Phi^{-1}(\pi_{0j})$ with $\pi_{0j}=\sum_{i=1}^{n}I(x_{ij}=0)/n$. For ternary variable $j$, set $\hat{\mathbf{\Delta}_{j}}=(\hat{\Delta}_{j}^{1}, \hat{\Delta_{j}^{2}})$ where $\hat{\Delta}_{j}^{1}=\Phi^{-1}(\pi_{0j})$ and $\hat{\Delta}_{j}^{2}=\Phi^{-1}(\pi_{0}+\pi_{1})$ with $\pi_{0j}=\sum_{i=1}^{n}I(x_{ij}=0)/n$ and $\pi_{1j}=\sum_{i=1}^{n}I(x_{ij}=1)/n$.
    
    - Compute $F^{-1}(\hat{\tau}_{jk})$ as $\hat{r}_{jk}=argmin\{F(r)-\hat{\tau}_{jk}\}^{2}$ solved via `optimize` function in *R*.
 
@@ -253,7 +253,7 @@ where $\alpha=\frac{x-x_{0}}{x_{1}-x_{0}}$, $\beta=\frac{y-y_{0}}{y_{1}-y_{0}}$ 
 In short, d-dimensional multilinear interpolation uses a weighted average of $2^{d}$ neighbors to approximate the function values at the points within the d-dimensional cube of the neighbors [@yoon2021fast]. This can be done by R package `chebpol` [@R-chebpol].
 
 #### Algorithm 2 (Multilinear interpolation for latent correlation computation)
-**Input**: Pre-computed values $F^{-1}(g)$ on a fixed grid $g\in\cal{G}$ based on the type of variables $j$ and $k$. For binary/continuous case, $g=(\tau_{jk}, \Delta{j})$; for binary/binary case, $g=(\tau_{jk}, \Delta{j}, \Delta{k})$; for truncated/continuous case, $g=(\tau_{jk}, \Delta_{j})$; for truncated/truncated case, $g=(\tau_{jk}, \Delta{j}, \Delta{k})$; for ternary/continuous case, $g=(\tau_{jk}, \Delta_{1j}, \Delta_{2j})$; for ternary/binary case, $g=(\tau_{jk}, \Delta_{1j}, \Delta_{2j}, \Delta_{k})$; for ternary/truncated case, $g=(\tau_{jk}, \Delta_{1j}, \Delta_{2j}, \Delta_{k})$; for ternay/ternary case, $g=(\tau_{jk}, \Delta_{1j}, \Delta_{2j}, \Delta_{1k}, \Delta_{2k})$.
+**Input**: Pre-computed values $F^{-1}(g)$ on a fixed grid $g\in\cal{G}$ based on the type of variables $j$ and $k$. For binary/continuous case, $g=(\tau_{jk}, \Delta{j})$; for binary/binary case, $g=(\tau_{jk}, \Delta{j}, \Delta{k})$; for truncated/continuous case, $g=(\tau_{jk}, \Delta_{j})$; for truncated/truncated case, $g=(\tau_{jk}, \Delta{j}, \Delta{k})$; for ternary/continuous case, $g=(\tau_{jk}, \Delta_{j}^{1}, \Delta_{j}^{2})$; for ternary/binary case, $g=(\tau_{jk}, \Delta_{j}^{1}, \Delta_{j}^{2}, \Delta_{k})$; for ternary/truncated case, $g=(\tau_{jk}, \Delta_{j}^{1}, \Delta_{j}^{2}, \Delta_{k})$; for ternay/ternary case, $g=(\tau_{jk}, \Delta_{j}^{1}, \Delta_{j}^{2}, \Delta_{k}^{1}, \Delta_{k}^{2})$.
 
   - Step 1 and Step 2 same as Algorithm 1.
   
@@ -261,10 +261,10 @@ In short, d-dimensional multilinear interpolation uses a weighted average of $2^
 
 ### Approximation via hybrid Scheme
 
-To avoid interpolation in areas with high approximation errors close to the boundary, we use hybrid scheme [@yoon2021fast]. The derivation of approximate bound for BC, BB, TC, TB, TT cases see [@yoon2021fast]. The derivation of approximate bound for NC, NB, NN cases see [@quan2018rank]. The derivation of approximate bound for NT case see Appendix.
+To avoid interpolation in areas with high approximation errors close to the boundary, we use hybrid scheme [@yoon2021fast]. The derivation of approximate bound for BC, BB, TC, TB, TT cases see [@yoon2021fast]. The derivation of approximate bound for NC, NB, NN, NT case see Appendix.
 
 \begin{align}
-    \overline{\tau}_{BC}(\pi_{0})=2\pi_{0j}(1-\pi_{0j})
+    \overline{\tau}_{BC}(\pi_{0j})=2\pi_{0j}(1-\pi_{0j})
 \end{align}
 \begin{align}
     \overline{\tau}_{BB}(\pi_{0j},\pi_{0k})=2\min(\pi_{0j},\pi_{0k})\{1-\max(\pi_{0j}, \pi_{0k})\}
@@ -292,21 +292,22 @@ To avoid interpolation in areas with high approximation errors close to the boun
      \pi_{0k}(1-\pi_{0k})+\pi_{2k}(1-\pi_{0k}-\pi_{2k}))
 \end{align}
 
+#### Rescale Grid for Interpolation
+Note that $|\hat{\tau}|\le \bar{\tau}$, the grid does not need to cover the domain $\tau\in[-1, 1]$. Instead, we rescale $\tau$ as $\tilde{\tau}=\frac{\tau}{\bar{\tau}}$, then we have $\tilde{\tau}\in[-1, 1]$.
+
+For ternary variable $j$, we know $\Delta_{j}^{2}>\Delta_{j}^{1}$ always holds since $\Delta_{j}^{1}=\Phi^{-1}(\pi_{0j})$ and $\Delta_{j}^{2}=\Phi^{-1}(\pi_{0j}+\pi_{1j})$, the grid should not cover the domain for the areas of $\Delta_{j}^{2}\ge\Delta_{j}^{1}$. Instead, we rescale $\Delta_{j}^{1}$ as $\tilde{\Delta}_{j}^{1}=\frac{\Delta_{j}^{1}}{\Delta_{j}^{2}}\in[0, 1]$, but keep $\Delta_{j}^{2}$ as $\tilde{\Delta}_{j}^{2}=\Delta_{j}^{2}\in[0, 1]$.
+
 #### Algorithm 3 (Multi-linear interpolation with boundary method)
-**Input**: Pre-computed values $F^{-1}(g)$ on a fixed grid $g\in\cal{G}$ based on the type of variables $j$ and $k$. For binary/continuous case, $g=(\tau_{jk}, \Delta{j})$; for binary/binary case, $g=(\tau_{jk}, \Delta{j}, \Delta{k})$; for truncated/continuous case, $g=(\tau_{jk}, \Delta_{j})$; for truncated/truncated case, $g=(\tau_{jk}, \Delta{j}, \Delta{k})$; for ternary/continuous case, $g=(\tau_{jk}, \Delta_{1j}, \Delta_{2j})$; for ternary/binary case, $g=(\tau_{jk}, \Delta_{1j}, \Delta_{2j}, \Delta_{k})$; for ternary/truncated case, $g=(\tau_{jk}, \Delta_{1j}, \Delta_{2j}, \Delta_{k})$; for ternay/ternary case, $g=(\tau_{jk}, \Delta_{1j}, \Delta_{2j}, \Delta_{1k}, \Delta_{2k})$.
+**Input**: Pre-computed values $F^{-1}(g)$ on a fixed grid $g\in\cal{G}$ based on the type of variables $j$ and $k$. For binary/continuous case, $g=(\tau_{jk}, \Delta{j})$; for binary/binary case, $g=(\tau_{jk}, \Delta{j}, \Delta{k})$; for truncated/continuous case, $g=(\tau_{jk}, \Delta_{j})$; for truncated/truncated case, $g=(\tau_{jk}, \Delta{j}, \Delta{k})$; for ternary/continuous case, $g=(\tau_{jk}, \Delta_{0j}, \Delta_{1j})$; for ternary/binary case, $g=(\tau_{jk}, \Delta_{0j}, \Delta_{1j}, \Delta_{k})$; for ternary/truncated case, $g=(\tau_{jk}, \Delta_{0j}, \Delta_{1j}, \Delta_{k})$; for ternary/ternary case, $g=(\tau_{jk}, \Delta_{1j}, \Delta_{2j}, \Delta_{1k}, \Delta_{2k})$.
 
   - Step 1 and Step2 same as Algorithm 1.
   
   - Step 3. If $|\hat{\tau_{jk}}|\le 0.9\cdot ABD$, apply multilinear interpolation Algorithm 2. otherwise, apply original Algorithm 1.
 
-#### Original Grid
-Set $\tau\in[-1, 1]$ by step side $0.1$; $\frac{\pi_{0j}}{1-\pi_{2j}}\in[0.1,0.9]$ by step side $0.1$; $1-\pi_{2j}\in[0.1,0.9]$ by step side $0.1$; $\frac{\pi_{0k}}{1-\pi_{2k}}\in[0.1,0.9]$ by step side $0.1$; $1-\pi_{2k}\in[0.1,0.9]$ by step side $0.1$.
-
-#### Scaling Grid
-Set $\tau/\overline{\tau}\in[-1, 1]$ by step side $0.1$; $\frac{\pi_{0j}}{1-\pi_{2j}}\in[0.1,0.9]$ by step side $0.1$; $1-\pi_{2j}\in[0.1,0.9]$ by step side $0.1$; $\frac{\pi_{0k}}{1-\pi_{2k}}\in[0.1,0.9]$ by step side $0.1$; $1-\pi_{2k}\in[0.1,0.9]$ by step side $0.1$.
-
 ## Appendix
-Derivation for bridge function for ternary/truncated case:
+
+### Derivation for bridge function for ternary/truncated case
+
 Without loss of generality, let $j=1$ and $k=2$. By the definition of Kendall's $\tau$,
 \begin{equation}
     \tau_{12}=E(\hat{\tau}_{12})=E[\frac{2}{n(n-1)}\sum_{1\leq i\leq i' \leq n} sign\{(X_{i1}-X_{i'1})(X_{i2}-X_{i'2})\}]
@@ -430,7 +431,9 @@ r & 0 & 1 & \frac{1}{\sqrt{2}} \\
 \frac{r}{\sqrt{2}} & \frac{r}{\sqrt{2}} & \frac{1}{\sqrt{2}} & 1
 \end{pmatrix}\right\}
 \end{align}
-Derivation for approximate bound for ternary/continuous case: \\
+
+### Derivation for approximate bound for ternary/continuous case
+
 Let $n_{0x}=\sum_{i=1}^{n_x}I(x_{i}=0)$, $n_{2x}=\sum_{i=1}^{n_x}I(x_{i}=2)$, $\pi_{0x}=\frac{n_{0x}}{n_{x}}$ and $\pi_{2x}=\frac{n_{2x}}{n_{x}}$, then
 \begin{align}
     |\tau(\mathbf{x})|\leq & \frac{n_{0x}(n-n_{0x})+n_{2x}(n-n_{0x}-n_{2x})}{\begin{pmatrix} n \\ 2 \end{pmatrix}} \nonumber\\
@@ -439,7 +442,13 @@ Let $n_{0x}=\sum_{i=1}^{n_x}I(x_{i}=0)$, $n_{2x}=\sum_{i=1}^{n_x}I(x_{i}=2)$, $\
     = & 2\{\pi_{0x}(1-\pi_{0x})+\pi_{2x}(1-\pi_{0x}-\pi_{2x})\}
 \end{align}
 
-Combine NC and BC case, we get NB case. So does NN case. Derivation for approximate bound for ternary truncated case: Let $\mathbf{x}\in\mathcal{R}^{n}$ and $\mathbf{y}\in\mathcal{R}^{n}$ be the observed $n$ realizations of ternary and truncated variables, respectively. Let $n_{0x}=\sum_{i=0}^{n}I(x_{i}=0)$, $\pi_{0x}=\frac{n_{0x}}{n}$, $n_{1x}=\sum_{i=0}^{n}I(x_{i}=1)$, $\pi_{1x}=\frac{n_{1x}}{n}$, $n_{2x}=\sum_{i=0}^{n}I(x_{i}=2)$, $\pi_{2x}=\frac{n_{2x}}{n}$,
+### Approximate bound for ternary/binary case and ternary/ternary case
+
+Combine NC and BC case, we get NB case. So does NN case. 
+
+### Derivation for approximate bound for ternary/truncated case
+
+Derivation for approximate bound for ternary truncated case: Let $\mathbf{x}\in\mathcal{R}^{n}$ and $\mathbf{y}\in\mathcal{R}^{n}$ be the observed $n$ realizations of ternary and truncated variables, respectively. Let $n_{0x}=\sum_{i=0}^{n}I(x_{i}=0)$, $\pi_{0x}=\frac{n_{0x}}{n}$, $n_{1x}=\sum_{i=0}^{n}I(x_{i}=1)$, $\pi_{1x}=\frac{n_{1x}}{n}$, $n_{2x}=\sum_{i=0}^{n}I(x_{i}=2)$, $\pi_{2x}=\frac{n_{2x}}{n}$,
 $n_{0y}=\sum_{i=0}^{n}I(y_{i}=0)$, $\pi_{0y}=\frac{n_{0y}}{n}$, $n_{0x0y}=\sum_{i=0}^{n}I(x_{i}=0 \;\& \; y_{i}=0)$, $n_{1x0y}=\sum_{i=0}^{n}I(x_{i}=1 \;\& \; y_{i}=0)$ and
 $n_{2x0y}=\sum_{i=0}^{n}I(x_{i}=2 \;\& \; y_{i}=0)$ then
 \begin{align}

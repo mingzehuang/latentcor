@@ -257,10 +257,10 @@ r &amp; 0 &amp; 1 &amp; \frac{1}{\sqrt{2}} \\
 <div id="algorithm-1-original-method-for-latent-correlation-computation" class="section level4">
 <h4 class="hasAnchor">
 <a href="#algorithm-1-original-method-for-latent-correlation-computation" class="anchor"></a>Algorithm 1 (Original method for latent correlation computation)</h4>
-<p><strong>Input</strong>: <span class="math inline">\(F(r)=F(r, \Delta_{j}, \Delta_{k})\)</span> - bridge function based on the type of variables <span class="math inline">\(j\)</span>, <span class="math inline">\(k\)</span></p>
+<p><strong>Input</strong>: <span class="math inline">\(F(r)=F(r, \mathbf{\Delta})\)</span> - bridge function based on the type of variables <span class="math inline">\(j\)</span>, <span class="math inline">\(k\)</span></p>
 <ul>
 <li><p>Step 1. Calculate <span class="math inline">\(\hat{\tau}_{jk}\)</span> using (1).</p></li>
-<li><p>Step 2. For binary/truncated variable <span class="math inline">\(j\)</span>, set <span class="math inline">\(\hat{\Delta}_{j}=\Phi^{-1}(\pi_{0j})\)</span> with <span class="math inline">\(\pi_{0j}=\sum_{i=1}^{n}I(x_{ij}=0)/n\)</span>. For ternary variable <span class="math inline">\(j\)</span>, set <span class="math inline">\(\hat{\Delta}=\Phi^{-1}(\pi_{0j}+\pi_{1j})\)</span> with <span class="math inline">\(\pi_{0j}=\sum_{i=1}^{n}I(x_{ij}=0)/n\)</span> and <span class="math inline">\(\pi_{1j}=\sum_{i=1}^{n}I(x_{ij}=1)/n\)</span>.</p></li>
+<li><p>Step 2. For binary/truncated variable <span class="math inline">\(j\)</span>, set <span class="math inline">\(\hat{\mathbf{\Delta}_{j}}=\hat{\Delta}_{j}=\Phi^{-1}(\pi_{0j})\)</span> with <span class="math inline">\(\pi_{0j}=\sum_{i=1}^{n}I(x_{ij}=0)/n\)</span>. For ternary variable <span class="math inline">\(j\)</span>, set <span class="math inline">\(\hat{\mathbf{\Delta}_{j}}=(\hat{\Delta}_{j}^{1}, \hat{\Delta_{j}^{2}})\)</span> where <span class="math inline">\(\hat{\Delta}_{j}^{1}=\Phi^{-1}(\pi_{0j})\)</span> and <span class="math inline">\(\hat{\Delta}_{j}^{2}=\Phi^{-1}(\pi_{0}+\pi_{1})\)</span> with <span class="math inline">\(\pi_{0j}=\sum_{i=1}^{n}I(x_{ij}=0)/n\)</span> and <span class="math inline">\(\pi_{1j}=\sum_{i=1}^{n}I(x_{ij}=1)/n\)</span>.</p></li>
 <li><p>Compute <span class="math inline">\(F^{-1}(\hat{\tau}_{jk})\)</span> as <span class="math inline">\(\hat{r}_{jk}=argmin\{F(r)-\hat{\tau}_{jk}\}^{2}\)</span> solved via <code>optimize</code> function in <em>R</em>.</p></li>
 </ul>
 </div>
@@ -302,7 +302,7 @@ r &amp; 0 &amp; 1 &amp; \frac{1}{\sqrt{2}} \\
 <div id="algorithm-2-multilinear-interpolation-for-latent-correlation-computation" class="section level4">
 <h4 class="hasAnchor">
 <a href="#algorithm-2-multilinear-interpolation-for-latent-correlation-computation" class="anchor"></a>Algorithm 2 (Multilinear interpolation for latent correlation computation)</h4>
-<p><strong>Input</strong>: Pre-computed values <span class="math inline">\(F^{-1}(g)\)</span> on a fixed grid <span class="math inline">\(g\in\cal{G}\)</span> based on the type of variables <span class="math inline">\(j\)</span> and <span class="math inline">\(k\)</span>. For binary/continuous case, <span class="math inline">\(g=(\tau_{jk}, \Delta{j})\)</span>; for binary/binary case, <span class="math inline">\(g=(\tau_{jk}, \Delta{j}, \Delta{k})\)</span>; for truncated/continuous case, <span class="math inline">\(g=(\tau_{jk}, \Delta_{j})\)</span>; for truncated/truncated case, <span class="math inline">\(g=(\tau_{jk}, \Delta{j}, \Delta{k})\)</span>; for ternary/continuous case, <span class="math inline">\(g=(\tau_{jk}, \Delta_{1j}, \Delta_{2j})\)</span>; for ternary/binary case, <span class="math inline">\(g=(\tau_{jk}, \Delta_{1j}, \Delta_{2j}, \Delta_{k})\)</span>; for ternary/truncated case, <span class="math inline">\(g=(\tau_{jk}, \Delta_{1j}, \Delta_{2j}, \Delta_{k})\)</span>; for ternay/ternary case, <span class="math inline">\(g=(\tau_{jk}, \Delta_{1j}, \Delta_{2j}, \Delta_{1k}, \Delta_{2k})\)</span>.</p>
+<p><strong>Input</strong>: Pre-computed values <span class="math inline">\(F^{-1}(g)\)</span> on a fixed grid <span class="math inline">\(g\in\cal{G}\)</span> based on the type of variables <span class="math inline">\(j\)</span> and <span class="math inline">\(k\)</span>. For binary/continuous case, <span class="math inline">\(g=(\tau_{jk}, \Delta{j})\)</span>; for binary/binary case, <span class="math inline">\(g=(\tau_{jk}, \Delta{j}, \Delta{k})\)</span>; for truncated/continuous case, <span class="math inline">\(g=(\tau_{jk}, \Delta_{j})\)</span>; for truncated/truncated case, <span class="math inline">\(g=(\tau_{jk}, \Delta{j}, \Delta{k})\)</span>; for ternary/continuous case, <span class="math inline">\(g=(\tau_{jk}, \Delta_{j}^{1}, \Delta_{j}^{2})\)</span>; for ternary/binary case, <span class="math inline">\(g=(\tau_{jk}, \Delta_{j}^{1}, \Delta_{j}^{2}, \Delta_{k})\)</span>; for ternary/truncated case, <span class="math inline">\(g=(\tau_{jk}, \Delta_{j}^{1}, \Delta_{j}^{2}, \Delta_{k})\)</span>; for ternay/ternary case, <span class="math inline">\(g=(\tau_{jk}, \Delta_{j}^{1}, \Delta_{j}^{2}, \Delta_{k}^{1}, \Delta_{k}^{2})\)</span>.</p>
 <ul>
 <li><p>Step 1 and Step 2 same as Algorithm 1.</p></li>
 <li><p>Step 3. Set <span class="math inline">\(\hat{r}_{jk}=\tilde{F}^{-1}(\hat{g})\)</span>, where <span class="math inline">\(\tilde{F}^{-1}\)</span> is the multilinear interpolation of <span class="math inline">\(F^{-1}\)</span> using <span class="math inline">\(\cal{G}\)</span>.</p></li>
@@ -312,9 +312,9 @@ r &amp; 0 &amp; 1 &amp; \frac{1}{\sqrt{2}} \\
 <div id="approximation-via-hybrid-scheme" class="section level3">
 <h3 class="hasAnchor">
 <a href="#approximation-via-hybrid-scheme" class="anchor"></a>Approximation via hybrid Scheme</h3>
-<p>To avoid interpolation in areas with high approximation errors close to the boundary, we use hybrid scheme <span class="citation">(Yoon, Müller, and Gaynanova 2021)</span>. The derivation of approximate bound for BC, BB, TC, TB, TT cases see <span class="citation">(Yoon, Müller, and Gaynanova 2021)</span>. The derivation of approximate bound for NC, NB, NN cases see <span class="citation">(Quan, Booth, and Wells 2018)</span>. The derivation of approximate bound for NT case see Appendix.</p>
+<p>To avoid interpolation in areas with high approximation errors close to the boundary, we use hybrid scheme <span class="citation">(Yoon, Müller, and Gaynanova 2021)</span>. The derivation of approximate bound for BC, BB, TC, TB, TT cases see <span class="citation">(Yoon, Müller, and Gaynanova 2021)</span>. The derivation of approximate bound for NC, NB, NN, NT case see Appendix.</p>
 <p><span class="math display">\[\begin{align}
-    \overline{\tau}_{BC}(\pi_{0})=2\pi_{0j}(1-\pi_{0j})
+    \overline{\tau}_{BC}(\pi_{0j})=2\pi_{0j}(1-\pi_{0j})
 \end{align}\]</span> <span class="math display">\[\begin{align}
     \overline{\tau}_{BB}(\pi_{0j},\pi_{0k})=2\min(\pi_{0j},\pi_{0k})\{1-\max(\pi_{0j}, \pi_{0k})\}
 \end{align}\]</span> <span class="math display">\[\begin{align}
@@ -333,31 +333,30 @@ r &amp; 0 &amp; 1 &amp; \frac{1}{\sqrt{2}} \\
     \overline{\tau}_{NN}(\pi_{0j},\pi_{2j},\pi_{0k},\pi_{2k})=2\min(\pi_{0j}(1-\pi_{0j})+\pi_{2j}(1-\pi_{0j}-\pi_{2j}),\nonumber\\
      \pi_{0k}(1-\pi_{0k})+\pi_{2k}(1-\pi_{0k}-\pi_{2k}))
 \end{align}\]</span></p>
+<div id="rescale-grid-for-interpolation" class="section level4">
+<h4 class="hasAnchor">
+<a href="#rescale-grid-for-interpolation" class="anchor"></a>Rescale Grid for Interpolation</h4>
+<p>Note that <span class="math inline">\(|\hat{\tau}|\le \bar{\tau}\)</span>, the grid does not need to cover the domain <span class="math inline">\(\tau\in[-1, 1]\)</span>. Instead, we rescale <span class="math inline">\(\tau\)</span> as <span class="math inline">\(\tilde{\tau}=\frac{\tau}{\bar{\tau}}\)</span>, then we have <span class="math inline">\(\tilde{\tau}\in[-1, 1]\)</span>.</p>
+<p>For ternary variable <span class="math inline">\(j\)</span>, we know <span class="math inline">\(\Delta_{j}^{2}&gt;\Delta_{j}^{1}\)</span> always holds since <span class="math inline">\(\Delta_{j}^{1}=\Phi^{-1}(\pi_{0j})\)</span> and <span class="math inline">\(\Delta_{j}^{2}=\Phi^{-1}(\pi_{0j}+\pi_{1j})\)</span>, the grid should not cover the domain for the areas of <span class="math inline">\(\Delta_{j}^{2}\ge\Delta_{j}^{1}\)</span>. Instead, we rescale <span class="math inline">\(\Delta_{j}^{1}\)</span> as <span class="math inline">\(\tilde{\Delta}_{j}^{1}=\frac{\Delta_{j}^{1}}{\Delta_{j}^{2}}\in[0, 1]\)</span>, but keep <span class="math inline">\(\Delta_{j}^{2}\)</span> as <span class="math inline">\(\tilde{\Delta}_{j}^{2}=\Delta_{j}^{2}\in[0, 1]\)</span>.</p>
+</div>
 <div id="algorithm-3-multi-linear-interpolation-with-boundary-method" class="section level4">
 <h4 class="hasAnchor">
 <a href="#algorithm-3-multi-linear-interpolation-with-boundary-method" class="anchor"></a>Algorithm 3 (Multi-linear interpolation with boundary method)</h4>
-<p><strong>Input</strong>: Pre-computed values <span class="math inline">\(F^{-1}(g)\)</span> on a fixed grid <span class="math inline">\(g\in\cal{G}\)</span> based on the type of variables <span class="math inline">\(j\)</span> and <span class="math inline">\(k\)</span>. For binary/continuous case, <span class="math inline">\(g=(\tau_{jk}, \Delta{j})\)</span>; for binary/binary case, <span class="math inline">\(g=(\tau_{jk}, \Delta{j}, \Delta{k})\)</span>; for truncated/continuous case, <span class="math inline">\(g=(\tau_{jk}, \Delta_{j})\)</span>; for truncated/truncated case, <span class="math inline">\(g=(\tau_{jk}, \Delta{j}, \Delta{k})\)</span>; for ternary/continuous case, <span class="math inline">\(g=(\tau_{jk}, \Delta_{1j}, \Delta_{2j})\)</span>; for ternary/binary case, <span class="math inline">\(g=(\tau_{jk}, \Delta_{1j}, \Delta_{2j}, \Delta_{k})\)</span>; for ternary/truncated case, <span class="math inline">\(g=(\tau_{jk}, \Delta_{1j}, \Delta_{2j}, \Delta_{k})\)</span>; for ternay/ternary case, <span class="math inline">\(g=(\tau_{jk}, \Delta_{1j}, \Delta_{2j}, \Delta_{1k}, \Delta_{2k})\)</span>.</p>
+<p><strong>Input</strong>: Pre-computed values <span class="math inline">\(F^{-1}(g)\)</span> on a fixed grid <span class="math inline">\(g\in\cal{G}\)</span> based on the type of variables <span class="math inline">\(j\)</span> and <span class="math inline">\(k\)</span>. For binary/continuous case, <span class="math inline">\(g=(\tau_{jk}, \Delta{j})\)</span>; for binary/binary case, <span class="math inline">\(g=(\tau_{jk}, \Delta{j}, \Delta{k})\)</span>; for truncated/continuous case, <span class="math inline">\(g=(\tau_{jk}, \Delta_{j})\)</span>; for truncated/truncated case, <span class="math inline">\(g=(\tau_{jk}, \Delta{j}, \Delta{k})\)</span>; for ternary/continuous case, <span class="math inline">\(g=(\tau_{jk}, \Delta_{0j}, \Delta_{1j})\)</span>; for ternary/binary case, <span class="math inline">\(g=(\tau_{jk}, \Delta_{0j}, \Delta_{1j}, \Delta_{k})\)</span>; for ternary/truncated case, <span class="math inline">\(g=(\tau_{jk}, \Delta_{0j}, \Delta_{1j}, \Delta_{k})\)</span>; for ternary/ternary case, <span class="math inline">\(g=(\tau_{jk}, \Delta_{1j}, \Delta_{2j}, \Delta_{1k}, \Delta_{2k})\)</span>.</p>
 <ul>
 <li><p>Step 1 and Step2 same as Algorithm 1.</p></li>
 <li><p>Step 3. If <span class="math inline">\(|\hat{\tau_{jk}}|\le 0.9\cdot ABD\)</span>, apply multilinear interpolation Algorithm 2. otherwise, apply original Algorithm 1.</p></li>
 </ul>
-</div>
-<div id="original-grid" class="section level4">
-<h4 class="hasAnchor">
-<a href="#original-grid" class="anchor"></a>Original Grid</h4>
-<p>Set <span class="math inline">\(\tau\in[-1, 1]\)</span> by step side <span class="math inline">\(0.1\)</span>; <span class="math inline">\(\frac{\pi_{0j}}{1-\pi_{2j}}\in[0.1,0.9]\)</span> by step side <span class="math inline">\(0.1\)</span>; <span class="math inline">\(1-\pi_{2j}\in[0.1,0.9]\)</span> by step side <span class="math inline">\(0.1\)</span>; <span class="math inline">\(\frac{\pi_{0k}}{1-\pi_{2k}}\in[0.1,0.9]\)</span> by step side <span class="math inline">\(0.1\)</span>; <span class="math inline">\(1-\pi_{2k}\in[0.1,0.9]\)</span> by step side <span class="math inline">\(0.1\)</span>.</p>
-</div>
-<div id="scaling-grid" class="section level4">
-<h4 class="hasAnchor">
-<a href="#scaling-grid" class="anchor"></a>Scaling Grid</h4>
-<p>Set <span class="math inline">\(\tau/\overline{\tau}\in[-1, 1]\)</span> by step side <span class="math inline">\(0.1\)</span>; <span class="math inline">\(\frac{\pi_{0j}}{1-\pi_{2j}}\in[0.1,0.9]\)</span> by step side <span class="math inline">\(0.1\)</span>; <span class="math inline">\(1-\pi_{2j}\in[0.1,0.9]\)</span> by step side <span class="math inline">\(0.1\)</span>; <span class="math inline">\(\frac{\pi_{0k}}{1-\pi_{2k}}\in[0.1,0.9]\)</span> by step side <span class="math inline">\(0.1\)</span>; <span class="math inline">\(1-\pi_{2k}\in[0.1,0.9]\)</span> by step side <span class="math inline">\(0.1\)</span>.</p>
 </div>
 </div>
 </div>
 <div id="appendix" class="section level2">
 <h2 class="hasAnchor">
 <a href="#appendix" class="anchor"></a>Appendix</h2>
-<p>Derivation for bridge function for ternary/truncated case: Without loss of generality, let <span class="math inline">\(j=1\)</span> and <span class="math inline">\(k=2\)</span>. By the definition of Kendall’s <span class="math inline">\(\tau\)</span>, <span class="math display">\[\begin{equation}
+<div id="derivation-for-bridge-function-for-ternarytruncated-case" class="section level3">
+<h3 class="hasAnchor">
+<a href="#derivation-for-bridge-function-for-ternarytruncated-case" class="anchor"></a>Derivation for bridge function for ternary/truncated case</h3>
+<p>Without loss of generality, let <span class="math inline">\(j=1\)</span> and <span class="math inline">\(k=2\)</span>. By the definition of Kendall’s <span class="math inline">\(\tau\)</span>, <span class="math display">\[\begin{equation}
     \tau_{12}=E(\hat{\tau}_{12})=E[\frac{2}{n(n-1)}\sum_{1\leq i\leq i' \leq n} sign\{(X_{i1}-X_{i'1})(X_{i2}-X_{i'2})\}]
 \end{equation}\]</span> Since <span class="math inline">\(X_{1}\)</span> is ternary, <span class="math display">\[\begin{align}
     &amp;sign(X_{1}-X_{1}') \nonumber\\ =&amp;[I(U_{1}&gt;C_{11},U_{1}'\leq C_{11})+I(U_{1}&gt;C_{12},U_{1}'\leq C_{12})-I(U_{1}&gt;C_{12},U_{1}'\leq C_{11})] \nonumber\\
@@ -462,13 +461,27 @@ r &amp; 0 &amp; 1 &amp; \frac{1}{\sqrt{2}} \\
 r &amp; 0 &amp; 1 &amp; \frac{1}{\sqrt{2}} \\
 \frac{r}{\sqrt{2}} &amp; \frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} &amp; 1
 \end{pmatrix}\right\}
-\end{align}\]</span> Derivation for approximate bound for ternary/continuous case: \ Let <span class="math inline">\(n_{0x}=\sum_{i=1}^{n_x}I(x_{i}=0)\)</span>, <span class="math inline">\(n_{2x}=\sum_{i=1}^{n_x}I(x_{i}=2)\)</span>, <span class="math inline">\(\pi_{0x}=\frac{n_{0x}}{n_{x}}\)</span> and <span class="math inline">\(\pi_{2x}=\frac{n_{2x}}{n_{x}}\)</span>, then <span class="math display">\[\begin{align}
+\end{align}\]</span></p>
+</div>
+<div id="derivation-for-approximate-bound-for-ternarycontinuous-case" class="section level3">
+<h3 class="hasAnchor">
+<a href="#derivation-for-approximate-bound-for-ternarycontinuous-case" class="anchor"></a>Derivation for approximate bound for ternary/continuous case</h3>
+<p>Let <span class="math inline">\(n_{0x}=\sum_{i=1}^{n_x}I(x_{i}=0)\)</span>, <span class="math inline">\(n_{2x}=\sum_{i=1}^{n_x}I(x_{i}=2)\)</span>, <span class="math inline">\(\pi_{0x}=\frac{n_{0x}}{n_{x}}\)</span> and <span class="math inline">\(\pi_{2x}=\frac{n_{2x}}{n_{x}}\)</span>, then <span class="math display">\[\begin{align}
     |\tau(\mathbf{x})|\leq &amp; \frac{n_{0x}(n-n_{0x})+n_{2x}(n-n_{0x}-n_{2x})}{\begin{pmatrix} n \\ 2 \end{pmatrix}} \nonumber\\
     = &amp; 2\{\frac{n_{0x}}{n-1}-(\frac{n_{0x}}{n})(\frac{n_{0x}}{n-1})+\frac{n_{2x}}{n-1}-(\frac{n_{2x}}{n})(\frac{n_{0x}}{n-1})-(\frac{n_{2x}}{n})(\frac{n_{2x}}{n-1})\} \nonumber\\
     \approx &amp; 2\{\frac{n_{0x}}{n}-(\frac{n_{0x}}{n})^2+\frac{n_{2x}}{n}-(\frac{n_{2x}}{n})(\frac{n_{0x}}{n})-(\frac{n_{2x}}{n})^2\} \nonumber\\
     = &amp; 2\{\pi_{0x}(1-\pi_{0x})+\pi_{2x}(1-\pi_{0x}-\pi_{2x})\}
 \end{align}\]</span></p>
-<p>Combine NC and BC case, we get NB case. So does NN case. Derivation for approximate bound for ternary truncated case: Let <span class="math inline">\(\mathbf{x}\in\mathcal{R}^{n}\)</span> and <span class="math inline">\(\mathbf{y}\in\mathcal{R}^{n}\)</span> be the observed <span class="math inline">\(n\)</span> realizations of ternary and truncated variables, respectively. Let <span class="math inline">\(n_{0x}=\sum_{i=0}^{n}I(x_{i}=0)\)</span>, <span class="math inline">\(\pi_{0x}=\frac{n_{0x}}{n}\)</span>, <span class="math inline">\(n_{1x}=\sum_{i=0}^{n}I(x_{i}=1)\)</span>, <span class="math inline">\(\pi_{1x}=\frac{n_{1x}}{n}\)</span>, <span class="math inline">\(n_{2x}=\sum_{i=0}^{n}I(x_{i}=2)\)</span>, <span class="math inline">\(\pi_{2x}=\frac{n_{2x}}{n}\)</span>, <span class="math inline">\(n_{0y}=\sum_{i=0}^{n}I(y_{i}=0)\)</span>, <span class="math inline">\(\pi_{0y}=\frac{n_{0y}}{n}\)</span>, <span class="math inline">\(n_{0x0y}=\sum_{i=0}^{n}I(x_{i}=0 \;\&amp; \; y_{i}=0)\)</span>, <span class="math inline">\(n_{1x0y}=\sum_{i=0}^{n}I(x_{i}=1 \;\&amp; \; y_{i}=0)\)</span> and <span class="math inline">\(n_{2x0y}=\sum_{i=0}^{n}I(x_{i}=2 \;\&amp; \; y_{i}=0)\)</span> then <span class="math display">\[\begin{align}
+</div>
+<div id="approximate-bound-for-ternarybinary-case-and-ternaryternary-case" class="section level3">
+<h3 class="hasAnchor">
+<a href="#approximate-bound-for-ternarybinary-case-and-ternaryternary-case" class="anchor"></a>Approximate bound for ternary/binary case and ternary/ternary case</h3>
+<p>Combine NC and BC case, we get NB case. So does NN case.</p>
+</div>
+<div id="derivation-for-approximate-bound-for-ternarytruncated-case" class="section level3">
+<h3 class="hasAnchor">
+<a href="#derivation-for-approximate-bound-for-ternarytruncated-case" class="anchor"></a>Derivation for approximate bound for ternary/truncated case</h3>
+<p>Derivation for approximate bound for ternary truncated case: Let <span class="math inline">\(\mathbf{x}\in\mathcal{R}^{n}\)</span> and <span class="math inline">\(\mathbf{y}\in\mathcal{R}^{n}\)</span> be the observed <span class="math inline">\(n\)</span> realizations of ternary and truncated variables, respectively. Let <span class="math inline">\(n_{0x}=\sum_{i=0}^{n}I(x_{i}=0)\)</span>, <span class="math inline">\(\pi_{0x}=\frac{n_{0x}}{n}\)</span>, <span class="math inline">\(n_{1x}=\sum_{i=0}^{n}I(x_{i}=1)\)</span>, <span class="math inline">\(\pi_{1x}=\frac{n_{1x}}{n}\)</span>, <span class="math inline">\(n_{2x}=\sum_{i=0}^{n}I(x_{i}=2)\)</span>, <span class="math inline">\(\pi_{2x}=\frac{n_{2x}}{n}\)</span>, <span class="math inline">\(n_{0y}=\sum_{i=0}^{n}I(y_{i}=0)\)</span>, <span class="math inline">\(\pi_{0y}=\frac{n_{0y}}{n}\)</span>, <span class="math inline">\(n_{0x0y}=\sum_{i=0}^{n}I(x_{i}=0 \;\&amp; \; y_{i}=0)\)</span>, <span class="math inline">\(n_{1x0y}=\sum_{i=0}^{n}I(x_{i}=1 \;\&amp; \; y_{i}=0)\)</span> and <span class="math inline">\(n_{2x0y}=\sum_{i=0}^{n}I(x_{i}=2 \;\&amp; \; y_{i}=0)\)</span> then <span class="math display">\[\begin{align}
     |\tau(\mathbf{x}, \mathbf{y})|\leq &amp;
     \frac{\begin{pmatrix}n \\ 2\end{pmatrix}-\begin{pmatrix}n_{0x} \\ 2\end{pmatrix}-\begin{pmatrix}n_{1x} \\ 2\end{pmatrix}-\begin{pmatrix} n_{2x} \\ 2 \end{pmatrix}-\begin{pmatrix}n_{0y} \\ 2\end{pmatrix}+\begin{pmatrix}n_{0x0y} \\ 2 \end{pmatrix}+\begin{pmatrix}n_{1x0y} \\ 2\end{pmatrix}+\begin{pmatrix}n_{2x0y} \\ 2\end{pmatrix}}{\begin{pmatrix}n \\ 2\end{pmatrix}} \nonumber
 \end{align}\]</span> Since <span class="math inline">\(n_{0x0y}\leq\min(n_{0x},n_{0y})\)</span>, <span class="math inline">\(n_{1x0y}\leq\min(n_{1x},n_{0y})\)</span> and <span class="math inline">\(n_{2x0y}\leq\min(n_{2x},n_{0y})\)</span> we obtain <span class="math display">\[\begin{align}
@@ -481,6 +494,7 @@ r &amp; 0 &amp; 1 &amp; \frac{1}{\sqrt{2}} \\
     =&amp; 1-\{\max(\pi_{0x},\pi_{1x},\pi_{2x},\pi_{0y})\}^{2} \nonumber\\
     =&amp; 1-\{\max(\pi_{0x},(1-\pi_{0x}-\pi_{2x}),\pi_{2x},\pi_{0y})\}^{2}
 \end{align}\]</span></p>
+</div>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">
