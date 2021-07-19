@@ -142,7 +142,9 @@ $$
     F_{NN}(r;\Delta_{j}^{1},\Delta_{j}^{2},\Delta_{k}^{1},\Delta_{k}^{2})=&2\Phi_{2}(\Delta_{j}^{2},\Delta_{k}^{2};r)\Phi_{2}(-\Delta_{j}^{1},-\Delta_{k}^{1};r) \nonumber\\
     & -2[\Phi(\Delta_{j}^{2})-\Phi_{2}(\Delta_{j}^{2},\Delta_{k}^{1};r)][\Phi(\Delta_{k}^{2}-\Phi_{2}(\Delta_{j}^{1},\Delta_{k}^{2};r))]
 \end{align}
-with
+
+with $\Delta_{j}=\Phi^{-1}(\pi_{0j})$, $\Delta_{k}=\Phi^{-1}(\pi_{0k})$, $\Delta_{j}^{1}=\Phi^{-1}(\pi_{0j})$, $\Delta_{j}^{2}=\Phi^{-1}(\pi_{0j}+\pi_{1j})$, $\Delta_{k}^{1}=\Phi^{-1}(\pi_{0k})$, $\Delta_{k}^{2}=\Phi^{-1}(\pi_{0k}+\pi_{1k})$ and
+
 \begin{align*}
 &&& \Sigma_{3}(r)=
 \begin{pmatrix}
@@ -234,6 +236,7 @@ The inverse bridge function is an analytic function of at most 5 parameters (see
 ### Multilinear Interpolation
 
 #### Definition 4 (Bilinear interpolation)
+
 Suppose we have 4 neighboring data points $f_{ij}=f(x_{i}, y_{j})$ at $(x_{i}, y_{j})$ for $i, j\in\{0, 1\}$. For $\{(x, y)|x_{0}\le x\le x_{1}, y_{0}\le y\le y_{1}\}$, the bilinear interpolation at $(x, y)$ is
 $$
 \tilde{f}(x, y)=(1-\alpha)(1-\beta)f_{00}+(1-\alpha)\beta f_{01}+\alpha(1-\beta)f_{10}+\alpha\beta f_{11}
@@ -241,6 +244,7 @@ $$
 where $\alpha=\frac{x-x_{0}}{x_{1}-x_{0}}$ and $\beta=\frac{y-y_{0}}{y_{1}-y_{0}}$.
 
 #### Definition 5 (Trilinear interpolation)
+
 Suppose we have 8 neighoboring data points $f_{ijk}=f(x_{i}, y_{j}, z_{k})$ at $(x_{i}, y_{j}, z_{k})$ for $i, j, k\in\{0, 1\}$. For $\{(x, y, z)|x_{0}\le x\le x_{1}, y_{0}\le y\le y_{1}, z_{0}\le z\le z_{1}\}$, the trilinear interpolation at $(x, y, z)$ is
 
 \begin{align}
@@ -253,6 +257,7 @@ where $\alpha=\frac{x-x_{0}}{x_{1}-x_{0}}$, $\beta=\frac{y-y_{0}}{y_{1}-y_{0}}$ 
 In short, d-dimensional multilinear interpolation uses a weighted average of $2^{d}$ neighbors to approximate the function values at the points within the d-dimensional cube of the neighbors [@yoon2021fast]. This can be done by R package `chebpol` [@R-chebpol].
 
 #### Algorithm 2 (Multilinear interpolation for latent correlation computation)
+
 **Input**: Pre-computed values $F^{-1}(g)$ on a fixed grid $g\in\cal{G}$ based on the type of variables $j$ and $k$. For binary/continuous case, $g=(\tau_{jk}, \Delta{j})$; for binary/binary case, $g=(\tau_{jk}, \Delta{j}, \Delta{k})$; for truncated/continuous case, $g=(\tau_{jk}, \Delta_{j})$; for truncated/truncated case, $g=(\tau_{jk}, \Delta{j}, \Delta{k})$; for ternary/continuous case, $g=(\tau_{jk}, \Delta_{j}^{1}, \Delta_{j}^{2})$; for ternary/binary case, $g=(\tau_{jk}, \Delta_{j}^{1}, \Delta_{j}^{2}, \Delta_{k})$; for ternary/truncated case, $g=(\tau_{jk}, \Delta_{j}^{1}, \Delta_{j}^{2}, \Delta_{k})$; for ternay/ternary case, $g=(\tau_{jk}, \Delta_{j}^{1}, \Delta_{j}^{2}, \Delta_{k}^{1}, \Delta_{k}^{2})$.
 
   - Step 1 and Step 2 same as Algorithm 1.
@@ -263,48 +268,49 @@ In short, d-dimensional multilinear interpolation uses a weighted average of $2^
 
 To avoid interpolation in areas with high approximation errors close to the boundary, we use hybrid scheme [@yoon2021fast]. The derivation of approximate bound for BC, BB, TC, TB, TT cases see [@yoon2021fast]. The derivation of approximate bound for NC, NB, NN, NT case see Appendix.
 
-\begin{align}
-    \overline{\tau}_{BC}(\pi_{0j})=2\pi_{0j}(1-\pi_{0j})
-\end{align}
-\begin{align}
-    \overline{\tau}_{BB}(\pi_{0j},\pi_{0k})=2\min(\pi_{0j},\pi_{0k})\{1-\max(\pi_{0j}, \pi_{0k})\}
-\end{align}
-\begin{align}
-    \overline{\tau}_{TC}(\pi_{0j})=1-(\pi_{0j})^{2}
-\end{align}
-\begin{align}
-    \overline{\tau}_{TB}(\pi_{0j},\pi_{0k})=2\max(\pi_{0k},1-\pi_{0k})\{1-\max(\pi_{0k},1-\pi_{0k},\pi_{0j})\}
-\end{align}
-\begin{align}
-    \overline{\tau}_{TT}(\pi_{0j},\pi_{0k})=1-\{\max(\pi_{0j},\pi_{0k})\}^{2}
-\end{align}
-\begin{align}
-    \overline{\tau}_{NC}(\pi_{0j},\pi_{2j})=2\{\pi_{0j}(1-\pi_{0j})+\pi_{2j}(1-\pi_{0j}-\pi_{2j})\}
-\end{align}
-\begin{align}
-    \overline{\tau}_{NB}(\pi_{0j},\pi_{2j},\pi_{0k})=2\min(\pi_{0j}(1-\pi_{0j})+\pi_{2j}(1-\pi_{0j}-\pi_{2j}),\pi_{0k}(1-\pi_{0k}))
-\end{align}
-\begin{align}
-    \overline{\tau}_{NT}(\pi_{0j},\pi_{2j},\pi_{0k})=1-\{\max(\pi_{0j},(1-\pi_{0j}-\pi_{2j}),\pi_{2j},\pi_{0k})\}^{2}
-\end{align}
-\begin{align}
-    \overline{\tau}_{NN}(\pi_{0j},\pi_{2j},\pi_{0k},\pi_{2k})=2\min(\pi_{0j}(1-\pi_{0j})+\pi_{2j}(1-\pi_{0j}-\pi_{2j}),\nonumber\\
-     \pi_{0k}(1-\pi_{0k})+\pi_{2k}(1-\pi_{0k}-\pi_{2k}))
-\end{align}
+$$
+\bar{\tau}_{BC}(\pi_{0j})=2\pi_{0j}(1-\pi_{0j})
+$$
+$$
+\bar{\tau}_{BB}(\pi_{0j},\pi_{0k})=2\min(\pi_{0j},\pi_{0k})\{1-\max(\pi_{0j}, \pi_{0k})\}
+$$
+$$
+\bar{\tau}_{TC}(\pi_{0j})=1-(\pi_{0j})^{2}
+$$
+$$
+\bar{\tau}_{TB}(\pi_{0j},\pi_{0k})=2\max(\pi_{0k},1-\pi_{0k})\{1-\max(\pi_{0k},1-\pi_{0k},\pi_{0j})\}
+$$
+$$
+\bar{\tau}_{TT}(\pi_{0j},\pi_{0k})=1-\{\max(\pi_{0j},\pi_{0k})\}^{2}
+$$
+$$
+\bar{\tau}_{NC}(\pi_{0j},\pi_{1j})=2\{\pi_{0j}(1-\pi_{0j})+\pi_{1j}(1-\pi_{0j}-\pi_{1j})\}
+$$
+$$
+\bar{\tau}_{NB}(\pi_{0j},\pi_{1j},\pi_{0k})=2\min(\pi_{0j}(1-\pi_{0j})+\pi_{1j}(1-\pi_{0j}-\pi_{1j}),\pi_{0k}(1-\pi_{0k}))
+$$
+$$
+\bar{\tau}_{NT}(\pi_{0j},\pi_{1j},\pi_{0k})=1-\{\max(\pi_{0j},\pi_{1j},1-\pi_{0j}-\pi_{1j},\pi_{0k})\}^{2}
+$$
+$$
+\bar{\tau}_{NN}(\pi_{0j},\pi_{1j},\pi_{0k},\pi_{1k})=2\min(\pi_{0j}(1-\pi_{0j})+\pi_{1j}(1-\pi_{0j}-\pi_{1j}), \pi_{0k}(1-\pi_{0k})+\pi_{1k}(1-\pi_{0k}-\pi_{1k}))
+$$
 
 #### Rescale Grid for Interpolation
+
 Note that $|\hat{\tau}|\le \bar{\tau}$, the grid does not need to cover the domain $\tau\in[-1, 1]$. Instead, we rescale $\tau$ as $\tilde{\tau}=\frac{\tau}{\bar{\tau}}$, then we have $\tilde{\tau}\in[-1, 1]$.
 
 For ternary variable $j$, we know $\Delta_{j}^{2}>\Delta_{j}^{1}$ always holds since $\Delta_{j}^{1}=\Phi^{-1}(\pi_{0j})$ and $\Delta_{j}^{2}=\Phi^{-1}(\pi_{0j}+\pi_{1j})$, the grid should not cover the domain for the areas of $\Delta_{j}^{2}\ge\Delta_{j}^{1}$. Instead, we rescale $\Delta_{j}^{1}$ as $\tilde{\Delta}_{j}^{1}=\frac{\Delta_{j}^{1}}{\Delta_{j}^{2}}\in[0, 1]$, but keep $\Delta_{j}^{2}$ as $\tilde{\Delta}_{j}^{2}=\Delta_{j}^{2}\in[0, 1]$.
 
 #### Algorithm 3 (Multi-linear interpolation with boundary method)
+
 **Input**: Pre-computed values $F^{-1}(g)$ on a fixed grid $g\in\cal{G}$ based on the type of variables $j$ and $k$. For binary/continuous case, $g=(\tau_{jk}, \Delta{j})$; for binary/binary case, $g=(\tau_{jk}, \Delta{j}, \Delta{k})$; for truncated/continuous case, $g=(\tau_{jk}, \Delta_{j})$; for truncated/truncated case, $g=(\tau_{jk}, \Delta{j}, \Delta{k})$; for ternary/continuous case, $g=(\tau_{jk}, \Delta_{0j}, \Delta_{1j})$; for ternary/binary case, $g=(\tau_{jk}, \Delta_{0j}, \Delta_{1j}, \Delta_{k})$; for ternary/truncated case, $g=(\tau_{jk}, \Delta_{0j}, \Delta_{1j}, \Delta_{k})$; for ternary/ternary case, $g=(\tau_{jk}, \Delta_{1j}, \Delta_{2j}, \Delta_{1k}, \Delta_{2k})$.
 
   - Step 1 and Step2 same as Algorithm 1.
   
   - Step 3. If $|\hat{\tau_{jk}}|\le 0.9\cdot ABD$, apply multilinear interpolation Algorithm 2. otherwise, apply original Algorithm 1.
 
-## Appendix
+# Appendix
 
 ### Derivation for bridge function for ternary/truncated case
 

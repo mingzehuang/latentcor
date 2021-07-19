@@ -186,7 +186,9 @@ F_{NB}(r;\Delta_{j}^{1},\Delta_{j}^{2},\Delta_{k})=2\Phi_{2}(\Delta_{j}^{2},\Del
 \end{align}\]</span> <span class="math display">\[\begin{align}
     F_{NN}(r;\Delta_{j}^{1},\Delta_{j}^{2},\Delta_{k}^{1},\Delta_{k}^{2})=&amp;2\Phi_{2}(\Delta_{j}^{2},\Delta_{k}^{2};r)\Phi_{2}(-\Delta_{j}^{1},-\Delta_{k}^{1};r) \nonumber\\
     &amp; -2[\Phi(\Delta_{j}^{2})-\Phi_{2}(\Delta_{j}^{2},\Delta_{k}^{1};r)][\Phi(\Delta_{k}^{2}-\Phi_{2}(\Delta_{j}^{1},\Delta_{k}^{2};r))]
-\end{align}\]</span> with <span class="math display">\[\begin{align*}
+\end{align}\]</span></p>
+<p>with <span class="math inline">\(\Delta_{j}=\Phi^{-1}(\pi_{0j})\)</span>, <span class="math inline">\(\Delta_{k}=\Phi^{-1}(\pi_{0k})\)</span>, <span class="math inline">\(\Delta_{j}^{1}=\Phi^{-1}(\pi_{0j})\)</span>, <span class="math inline">\(\Delta_{j}^{2}=\Phi^{-1}(\pi_{0j}+\pi_{1j})\)</span>, <span class="math inline">\(\Delta_{k}^{1}=\Phi^{-1}(\pi_{0k})\)</span>, <span class="math inline">\(\Delta_{k}^{2}=\Phi^{-1}(\pi_{0k}+\pi_{1k})\)</span> and</p>
+<p><span class="math display">\[\begin{align*}
 &amp;&amp;&amp; \Sigma_{3}(r)=
 \begin{pmatrix}
 1 &amp; \frac{1}{\sqrt{2}} &amp; \frac{r}{\sqrt{2}}\\
@@ -313,26 +315,25 @@ r &amp; 0 &amp; 1 &amp; \frac{1}{\sqrt{2}} \\
 <h3 class="hasAnchor">
 <a href="#approximation-via-hybrid-scheme" class="anchor"></a>Approximation via hybrid Scheme</h3>
 <p>To avoid interpolation in areas with high approximation errors close to the boundary, we use hybrid scheme <span class="citation">(Yoon, Müller, and Gaynanova 2021)</span>. The derivation of approximate bound for BC, BB, TC, TB, TT cases see <span class="citation">(Yoon, Müller, and Gaynanova 2021)</span>. The derivation of approximate bound for NC, NB, NN, NT case see Appendix.</p>
-<p><span class="math display">\[\begin{align}
-    \overline{\tau}_{BC}(\pi_{0j})=2\pi_{0j}(1-\pi_{0j})
-\end{align}\]</span> <span class="math display">\[\begin{align}
-    \overline{\tau}_{BB}(\pi_{0j},\pi_{0k})=2\min(\pi_{0j},\pi_{0k})\{1-\max(\pi_{0j}, \pi_{0k})\}
-\end{align}\]</span> <span class="math display">\[\begin{align}
-    \overline{\tau}_{TC}(\pi_{0j})=1-(\pi_{0j})^{2}
-\end{align}\]</span> <span class="math display">\[\begin{align}
-    \overline{\tau}_{TB}(\pi_{0j},\pi_{0k})=2\max(\pi_{0k},1-\pi_{0k})\{1-\max(\pi_{0k},1-\pi_{0k},\pi_{0j})\}
-\end{align}\]</span> <span class="math display">\[\begin{align}
-    \overline{\tau}_{TT}(\pi_{0j},\pi_{0k})=1-\{\max(\pi_{0j},\pi_{0k})\}^{2}
-\end{align}\]</span> <span class="math display">\[\begin{align}
-    \overline{\tau}_{NC}(\pi_{0j},\pi_{2j})=2\{\pi_{0j}(1-\pi_{0j})+\pi_{2j}(1-\pi_{0j}-\pi_{2j})\}
-\end{align}\]</span> <span class="math display">\[\begin{align}
-    \overline{\tau}_{NB}(\pi_{0j},\pi_{2j},\pi_{0k})=2\min(\pi_{0j}(1-\pi_{0j})+\pi_{2j}(1-\pi_{0j}-\pi_{2j}),\pi_{0k}(1-\pi_{0k}))
-\end{align}\]</span> <span class="math display">\[\begin{align}
-    \overline{\tau}_{NT}(\pi_{0j},\pi_{2j},\pi_{0k})=1-\{\max(\pi_{0j},(1-\pi_{0j}-\pi_{2j}),\pi_{2j},\pi_{0k})\}^{2}
-\end{align}\]</span> <span class="math display">\[\begin{align}
-    \overline{\tau}_{NN}(\pi_{0j},\pi_{2j},\pi_{0k},\pi_{2k})=2\min(\pi_{0j}(1-\pi_{0j})+\pi_{2j}(1-\pi_{0j}-\pi_{2j}),\nonumber\\
-     \pi_{0k}(1-\pi_{0k})+\pi_{2k}(1-\pi_{0k}-\pi_{2k}))
-\end{align}\]</span></p>
+<p><span class="math display">\[
+\bar{\tau}_{BC}(\pi_{0j})=2\pi_{0j}(1-\pi_{0j})
+\]</span> <span class="math display">\[
+\bar{\tau}_{BB}(\pi_{0j},\pi_{0k})=2\min(\pi_{0j},\pi_{0k})\{1-\max(\pi_{0j}, \pi_{0k})\}
+\]</span> <span class="math display">\[
+\bar{\tau}_{TC}(\pi_{0j})=1-(\pi_{0j})^{2}
+\]</span> <span class="math display">\[
+\bar{\tau}_{TB}(\pi_{0j},\pi_{0k})=2\max(\pi_{0k},1-\pi_{0k})\{1-\max(\pi_{0k},1-\pi_{0k},\pi_{0j})\}
+\]</span> <span class="math display">\[
+\bar{\tau}_{TT}(\pi_{0j},\pi_{0k})=1-\{\max(\pi_{0j},\pi_{0k})\}^{2}
+\]</span> <span class="math display">\[
+\bar{\tau}_{NC}(\pi_{0j},\pi_{1j})=2\{\pi_{0j}(1-\pi_{0j})+\pi_{1j}(1-\pi_{0j}-\pi_{1j})\}
+\]</span> <span class="math display">\[
+\bar{\tau}_{NB}(\pi_{0j},\pi_{1j},\pi_{0k})=2\min(\pi_{0j}(1-\pi_{0j})+\pi_{1j}(1-\pi_{0j}-\pi_{1j}),\pi_{0k}(1-\pi_{0k}))
+\]</span> <span class="math display">\[
+\bar{\tau}_{NT}(\pi_{0j},\pi_{1j},\pi_{0k})=1-\{\max(\pi_{0j},\pi_{1j},1-\pi_{0j}-\pi_{1j},\pi_{0k})\}^{2}
+\]</span> <span class="math display">\[
+\bar{\tau}_{NN}(\pi_{0j},\pi_{1j},\pi_{0k},\pi_{1k})=2\min(\pi_{0j}(1-\pi_{0j})+\pi_{1j}(1-\pi_{0j}-\pi_{1j}), \pi_{0k}(1-\pi_{0k})+\pi_{1k}(1-\pi_{0k}-\pi_{1k}))
+\]</span></p>
 <div id="rescale-grid-for-interpolation" class="section level4">
 <h4 class="hasAnchor">
 <a href="#rescale-grid-for-interpolation" class="anchor"></a>Rescale Grid for Interpolation</h4>
@@ -350,9 +351,9 @@ r &amp; 0 &amp; 1 &amp; \frac{1}{\sqrt{2}} \\
 </div>
 </div>
 </div>
-<div id="appendix" class="section level2">
-<h2 class="hasAnchor">
-<a href="#appendix" class="anchor"></a>Appendix</h2>
+<div id="appendix" class="section level1">
+<h1 class="hasAnchor">
+<a href="#appendix" class="anchor"></a>Appendix</h1>
 <div id="derivation-for-bridge-function-for-ternarytruncated-case" class="section level3">
 <h3 class="hasAnchor">
 <a href="#derivation-for-bridge-function-for-ternarytruncated-case" class="anchor"></a>Derivation for bridge function for ternary/truncated case</h3>
