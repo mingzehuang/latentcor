@@ -3,9 +3,9 @@ title: "latentcor"
 author: "Mingze Huang, Irina Gaynanova, Christian L. Müller"
 date: "`r Sys.Date()`"
 bibliography: latentcor.bib
-output: rmarkdown::html_vignette
+#output: rmarkdown::html_vignette
 extra_dependencies: ["amsmath"]
-# output: pdf_document
+output: rmarkdown::pdf_document
 nocite: |
   @filzmoser2021pcapp
 vignette: >
