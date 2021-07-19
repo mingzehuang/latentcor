@@ -4,6 +4,7 @@ author: "Mingze Huang, Irina Gaynanova, Christian L. Müller"
 date: "`r Sys.Date()`"
 bibliography: latentcor.bib
 output: rmarkdown::html_vignette
+extra_dependencies: ["amsmath"]
 # output: pdf_document
 nocite: |
   @filzmoser2021pcapp
@@ -240,7 +241,7 @@ The inverse bridge function is an analytic function of at most 5 parameters (see
 
 Suppose we have 4 neighboring data points $f_{ij}=f(x_{i}, y_{j})$ at $(x_{i}, y_{j})$ for $i, j\in\{0, 1\}$. For $\{(x, y)|x_{0}\le x\le x_{1}, y_{0}\le y\le y_{1}\}$, the bilinear interpolation at $(x, y)$ is
 $$
-\tilde{f}(x, y)=(1-\alpha)(1-\beta)f_{00}+(1-\alpha)\beta f_{01}+\alpha(1-\beta)f_{10}+\alpha\beta f_{11}
+\hat{f}(x, y)=(1-\alpha)(1-\beta)f_{00}+(1-\alpha)\beta f_{01}+\alpha(1-\beta)f_{10}+\alpha\beta f_{11}
 $$
 where $\alpha=\frac{x-x_{0}}{x_{1}-x_{0}}$ and $\beta=\frac{y-y_{0}}{y_{1}-y_{0}}$.
 
@@ -249,7 +250,7 @@ where $\alpha=\frac{x-x_{0}}{x_{1}-x_{0}}$ and $\beta=\frac{y-y_{0}}{y_{1}-y_{0}
 Suppose we have 8 neighoboring data points $f_{ijk}=f(x_{i}, y_{j}, z_{k})$ at $(x_{i}, y_{j}, z_{k})$ for $i, j, k\in\{0, 1\}$. For $\{(x, y, z)|x_{0}\le x\le x_{1}, y_{0}\le y\le y_{1}, z_{0}\le z\le z_{1}\}$, the trilinear interpolation at $(x, y, z)$ is
 
 \begin{align}
-\tilde{f}(x, y, z)= & (1-\alpha)(1-\beta)(1-\gamma)f_{000}+(1-\alpha)(1-\beta)\gamma f_{001}+(1-\alpha)\beta(1-\gamma)f_{010} \nonumber\\
+\hat{f}(x, y, z)= & (1-\alpha)(1-\beta)(1-\gamma)f_{000}+(1-\alpha)(1-\beta)\gamma f_{001}+(1-\alpha)\beta(1-\gamma)f_{010} \nonumber\\
 &+\alpha(1-\beta)(1-\gamma)f_{100}+(1-\alpha)\beta\gamma f_{011}+\alpha(1-\beta)\gamma f_{101} \nonumber\\
 &+\alpha\beta(1-\gamma)f_{110}+\alpha\beta\gamma f_{111} \nonumber
 \end{align}
@@ -259,11 +260,11 @@ In short, d-dimensional multilinear interpolation uses a weighted average of $2^
 
 #### Algorithm 2 (Multilinear interpolation for latent correlation computation)
 
-**Input**: Pre-computed values $F^{-1}(g)$ on a fixed grid $g\in\cal{G}$ based on the type of variables $j$ and $k$. For binary/continuous case, $g=(\tau_{jk}, \Delta{j})$; for binary/binary case, $g=(\tau_{jk}, \Delta{j}, \Delta{k})$; for truncated/continuous case, $g=(\tau_{jk}, \Delta_{j})$; for truncated/truncated case, $g=(\tau_{jk}, \Delta{j}, \Delta{k})$; for ternary/continuous case, $g=(\tau_{jk}, \Delta_{j}^{1}, \Delta_{j}^{2})$; for ternary/binary case, $g=(\tau_{jk}, \Delta_{j}^{1}, \Delta_{j}^{2}, \Delta_{k})$; for ternary/truncated case, $g=(\tau_{jk}, \Delta_{j}^{1}, \Delta_{j}^{2}, \Delta_{k})$; for ternay/ternary case, $g=(\tau_{jk}, \Delta_{j}^{1}, \Delta_{j}^{2}, \Delta_{k}^{1}, \Delta_{k}^{2})$.
+**Input**: Pre-computed values $F^{-1}(g)$ on a fixed grid $g\in\cal{G}$ based on the type of variables $j$ and $k$. For binary/continuous case, $g=(\tau_{jk}, \Delta_{j})$; for binary/binary case, $g=(\tau_{jk}, \Delta_{j}, \Delta_{k})$; for truncated/continuous case, $g=(\tau_{jk}, \Delta_{j})$; for truncated/truncated case, $g=(\tau_{jk}, \Delta_{j}, \Delta_{k})$; for ternary/continuous case, $g=(\tau_{jk}, \Delta_{j}^{1}, \Delta_{j}^{2})$; for ternary/binary case, $g=(\tau_{jk}, \Delta_{j}^{1}, \Delta_{j}^{2}, \Delta_{k})$; for ternary/truncated case, $g=(\tau_{jk}, \Delta_{j}^{1}, \Delta_{j}^{2}, \Delta_{k})$; for ternay/ternary case, $g=(\tau_{jk}, \Delta_{j}^{1}, \Delta_{j}^{2}, \Delta_{k}^{1}, \Delta_{k}^{2})$.
 
   - Step 1 and Step 2 same as Algorithm 1.
   
-  - Step 3. Set $\hat{r}_{jk}=\tilde{F}^{-1}(\hat{g})$, where $\tilde{F}^{-1}$ is the multilinear interpolation of $F^{-1}$ using $\cal{G}$.
+  - Step 3. Set $\hat{r}_{jk}=\hat{F}^{-1}(\hat{g})$, where $\hat{F}^{-1}$ is the multilinear interpolation of $F^{-1}(\cdot)$ using $\cal{G}$.
 
 ### Approximation via hybrid Scheme
 
@@ -299,17 +300,26 @@ $$
 
 #### Rescale Grid for Interpolation
 
-Note that $|\hat{\tau}|\le \bar{\tau}$, the grid does not need to cover the domain $\tau\in[-1, 1]$. Instead, we rescale $\tau$ as $\tilde{\tau}=\frac{\tau}{\bar{\tau}}$, then we have $\tilde{\tau}\in[-1, 1]$.
+Note that $|\hat{\tau}|\le \bar{\tau}$, the grid does not need to cover the domain $\tau\in[-1, 1]$. Instead, we rescale them as following:
+$\tilde{\tau}_{jk}=\frac{\tau_{jk}}{\bar{\tau}_{jk}}\in[-1, 1]$, where $\bar{\tau}_{jk}$ applies the approximation bound function with respect to the data types corresponding to variable $j$ and $k$. For ternary variable $j$, we know $\Delta_{j}^{2}>\Delta_{j}^{1}$ always holds since $\Delta_{j}^{1}=\Phi^{-1}(\pi_{0j})$ and $\Delta_{j}^{2}=\Phi^{-1}(\pi_{0j}+\pi_{1j})$, the grid should not cover the domain for the areas of $\Delta_{j}^{2}\ge\Delta_{j}^{1}$. So that we rescale them as following: $\tilde{\Delta}_{j}^{1}=\frac{\Delta_{j}^{1}}{\Delta_{j}^{2}}\in[0, 1]$; $\tilde{\Delta}_{j}^{2}=\Delta_{j}^{2}\in[0, 1]$
 
-For ternary variable $j$, we know $\Delta_{j}^{2}>\Delta_{j}^{1}$ always holds since $\Delta_{j}^{1}=\Phi^{-1}(\pi_{0j})$ and $\Delta_{j}^{2}=\Phi^{-1}(\pi_{0j}+\pi_{1j})$, the grid should not cover the domain for the areas of $\Delta_{j}^{2}\ge\Delta_{j}^{1}$. Instead, we rescale $\Delta_{j}^{1}$ as $\tilde{\Delta}_{j}^{1}=\frac{\Delta_{j}^{1}}{\Delta_{j}^{2}}\in[0, 1]$, but keep $\Delta_{j}^{2}$ as $\tilde{\Delta}_{j}^{2}=\Delta_{j}^{2}\in[0, 1]$.
+#### Algorithm 3 (Multi-linear interpolation with rescaled grid)
 
-#### Algorithm 3 (Multi-linear interpolation with boundary method)
+**Input**: Let $\tilde{g}=h(g)$, pre-computed values $F^{-1}(h^{-1}(\tilde{g}))$ on a fixed grid $\tilde{g}\in\tilde{\cal{G}}$ based on the type of variables $j$ and $k$. For binary/continuous case, $\tilde{g}=(\tilde{\tau}_{jk}, \tilde{\Delta}_{j})$; for binary/binary case, $\tilde{g}=(\tilde{\tau}_{jk}, \tilde{\Delta}_{j}, \tilde{\Delta}_{k})$; for truncated/continuous case, $\tilde{g}=(\tilde{\tau}_{jk}, \tilde{\Delta}_{j})$; for truncated/truncated case, $\tilde{g}=(\tilde{\tau}_{jk}, \tilde{\Delta}_{j}, \tilde{\Delta}_{k})$; for ternary/continuous case, $\tilde{g}=(\tilde{\tau}_{jk}, \tilde{\Delta}_{j}^{1}, \tilde{\Delta}_{j}^{2})$; for ternary/binary case, $\tilde{g}=(\tilde{\tau}_{jk}, \tilde{\Delta}_{j}^{1}, \tilde{\Delta}_{j}^{2}, \tilde{\Delta}_{k})$; for ternary/truncated case, $\tilde{g}=(\tilde{\tau}_{jk}, \tilde{\Delta}_{j}^{1}, \tilde{\Delta}_{j}^{2}, \tilde{\Delta}_{k})$; for ternay/ternary case, $\tilde{g}=(\tilde{\tau}_{jk}, \tilde{\Delta}_{j}^{1}, \tilde{\Delta}_{j}^{2}, \tilde{\Delta}_{k}^{1}, \tilde{\Delta}_{k}^{2})$.
 
-**Input**: Pre-computed values $F^{-1}(g)$ on a fixed grid $g\in\cal{G}$ based on the type of variables $j$ and $k$. For binary/continuous case, $g=(\tau_{jk}, \Delta{j})$; for binary/binary case, $g=(\tau_{jk}, \Delta{j}, \Delta{k})$; for truncated/continuous case, $g=(\tau_{jk}, \Delta_{j})$; for truncated/truncated case, $g=(\tau_{jk}, \Delta{j}, \Delta{k})$; for ternary/continuous case, $g=(\tau_{jk}, \Delta_{0j}, \Delta_{1j})$; for ternary/binary case, $g=(\tau_{jk}, \Delta_{0j}, \Delta_{1j}, \Delta_{k})$; for ternary/truncated case, $g=(\tau_{jk}, \Delta_{0j}, \Delta_{1j}, \Delta_{k})$; for ternary/ternary case, $g=(\tau_{jk}, \Delta_{1j}, \Delta_{2j}, \Delta_{1k}, \Delta_{2k})$.
-
-  - Step 1 and Step2 same as Algorithm 1.
+  - Step 1 and Step 2 same as Algorithm 1.
   
-  - Step 3. If $|\hat{\tau_{jk}}|\le 0.9\cdot ABD$, apply multilinear interpolation Algorithm 2. otherwise, apply original Algorithm 1.
+  - Step 3. Calculate $\tilde{\hat{g}}=h((\hat{g}))$.
+  
+  - Step 4. Set $\hat{r}_{jk}={(\hat{F}\cdot \hat{h})}^{-1}(\tilde{\hat{g}})$, where ${(\hat{F}\cdot \hat{h})}^{-1}(\cdot)$ is the multilinear interpolation of $F^{-1}(h^{-1}(\cdot))$ using $\tilde{\cal{G}}$.
+
+#### Algorithm 4 (Multi-linear interpolation with rescaled grid and boundary method)
+
+**Input**: Let $\tilde{g}=h(g)$, pre-computed values $F^{-1}(h^{-1}(\tilde{g}))$ on a fixed grid $\tilde{g}\in\tilde{\cal{G}}$ based on the type of variables $j$ and $k$. For binary/continuous case, $\tilde{g}=(\tilde{\tau}_{jk}, \tilde{\Delta}_{j})$; for binary/binary case, $\tilde{g}=(\tilde{\tau}_{jk}, \tilde{\Delta}_{j}, \tilde{\Delta}_{k})$; for truncated/continuous case, $\tilde{g}=(\tilde{\tau}_{jk}, \tilde{\Delta}_{j})$; for truncated/truncated case, $\tilde{g}=(\tilde{\tau}_{jk}, \tilde{\Delta}_{j}, \tilde{\Delta}_{k})$; for ternary/continuous case, $\tilde{g}=(\tilde{\tau}_{jk}, \tilde{\Delta}_{j}^{1}, \tilde{\Delta}_{j}^{2})$; for ternary/binary case, $\tilde{g}=(\tilde{\tau}_{jk}, \tilde{\Delta}_{j}^{1}, \tilde{\Delta}_{j}^{2}, \tilde{\Delta}_{k})$; for ternary/truncated case, $\tilde{g}=(\tilde{\tau}_{jk}, \tilde{\Delta}_{j}^{1}, \tilde{\Delta}_{j}^{2}, \tilde{\Delta}_{k})$; for ternay/ternary case, $\tilde{g}=(\tilde{\tau}_{jk}, \tilde{\Delta}_{j}^{1}, \tilde{\Delta}_{j}^{2}, \tilde{\Delta}_{k}^{1}, \tilde{\Delta}_{k}^{2})$.
+
+  - Step 1 and Step 2 same as Algorithm 1.
+  
+  - Step 3. If $|\hat{\tau}_{jk}|\le 0.9\times ABD$, apply Algorithm 3; Otherwise apply Algorithm 1.
 
 # Appendix
 
