@@ -22,11 +22,11 @@ library(latentcor)
 ```
 
 
-## Information
+# Introduction
 
 R package `latentcor` utilizes the powerful semi-parametric latent Gaussian copula models to estimating latent correlations between mixed data types. The package allows to estimate correlations between any of continuous/binary/ternary/zero-inflated (truncated) variable types. The underlying implementation takes advantage of fast multi-linear interpolation scheme with a clever choice of grid points that give the package a small memory footprint, and allows to use the latent correlations with sub-sampling and bootstrapping.
 
-## A Simple Example
+# A Simple Example
 
 In this example, we will generate two variables with different data types. Each variable has 100 observations. First variable will be ternary, second variable will be continuous.
 
@@ -67,11 +67,11 @@ Thus, the latent correlation matrix for these 2 variable is `R`.
 R = estimate$R
 ```
 
-## Another example
+# Another example
 
-## Latent Correlation of Latent Gaussian Copula Model
+# Latent Correlation of Latent Gaussian Copula Model
 
-### Latent Gaussian Copula Model for Mixed Data
+## Latent Gaussian Copula Model for Mixed Data
 
 #### Definition 1 (Continuous model)
 A random $X\in\cal{R}^{p}$ satisfies the Gaussian copula model if there exist monotonically increasing $f=(f_{j})_{j=1}^{p}$ with $Z_{j}=f_{j}(X_{j})$ satisfying $Z\sim N_{p}(0, \Sigma)$, $\sigma_{jj}=1$; $X\sim NPN(0, \Sigma, f)$.
@@ -90,7 +90,7 @@ The mixed latent Gaussian copula model jointly models $W=(W_{1}, W_{2}, W_{3}, W
 
 
 
-### Bridge Functions
+## Bridge Functions
 
 Estimation of latent correlations is achieved via the bridge function $F$ such that $E(\hat{\tau}_{jk})=F(\sigma_{jk})$, where $\sigma_{jk}$ is the latent correlation between variables $j$ and $k$, and $\hat{\tau}_{jk}$ is the corresponding sample Kendall's $\tau$. Given observed $\mathbf{x}_{j}, \mathbf{x}_{k}\in\cal{R}^{n}$,
 
@@ -223,7 +223,10 @@ r & 0 & 1 & \frac{1}{\sqrt{2}} \\
    
    - Compute $F^{-1}(\hat{\tau}_{jk})$ as $\hat{r}_{jk}=argmin\{F(r)-\hat{\tau}_{jk}\}^{2}$ solved via `optimize` function in *R*.
 
-## Inversion via Multilinear Interpolation
+
+## Multilinear Interpolation
+
+### Inversion via Multilinear Interpolation
 
 The inverse bridge function is an analytic function of at most 5 parameters (see Theorem 1):
 
@@ -232,8 +235,6 @@ The inverse bridge function is an analytic function of at most 5 parameters (see
   - (Possibly) proportion of zeros and ones in the 1st variable
   - (Possibly) proportion of zeros in the 2nd variable
   - (Possibly) proportion of zeros and ones in the 2nd variable
-   
-### Multilinear Interpolation
 
 #### Definition 4 (Bilinear interpolation)
 
