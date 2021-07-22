@@ -2,25 +2,27 @@
 #' @description Estimation of latent correlation matrix from observed data of (possibly) mixed types (continuous/binary/truncated/ternary) based on the latent Gaussian copula model. Missing values (NA) are allowed. The estimation is based on pairwise complete observations.
 #' @rdname estR
 #' @aliases estR
-#' @param X A numeric data matrix (n by p). Missing values (NA) are allowed. The estimation is based on pairwise complete observations.
-#' @param types A vector with length of 1 for the type of all variables or p which specifies types of variables in \code{X} correspondingly. Must be one of "con" (continuous), "bin" (binary), "tru" (truncated) or "ter" (ternary). The default value is "con" which means all variables are continuous.
-#' @param method The calculation method of latent correlation. Either "original" method or "approx". If \code{method = "approx"}, multilinear approximation method is used, which is much faster than the original method. If \code{method = "original"}, optimization of the bridge inverse function is used. The default is "approx".
-#' @param nu Shrinkage parameter for correlation matrix, must be between 0 and 1, the default value is 0.01.
+#' @param X A numeric data matrix (n by p), where n is number of samples, and p is number of variables. Missing values (NA) are allowed, in which case the estimation is based on pairwise complete observations.
+#' @param types A vector of length p indicating the type of each of the p variables in \code{X}. Each element must be one of \code{"con"} (continuous), \code{"bin"} (binary), \code{"tru"} (truncated) or \code{"ter"} (ternary). If the vector has length 1, then all p variables are assumed to be of the same type that is supplied. The default value is \code{"con"} which means all variables are continuous.
+#' @param method The calculation method for latent correlations. Either \code{"original"} or \code{"approx"}. If \code{method = "approx"}, multilinear approximation method is used, which is much faster than the original method. If \code{method = "original"}, optimization of the bridge inverse function is used. The default is \code{"approx"}.
+#' @param nu Shrinkage parameter for the correlation matrix, must be between 0 and 1, the default value is 0.01.
 #' @param tol Desired accuracy when calculating the solution of bridge function. The default value is 1e-8.
-#' @param ratio The maximum ratio of Kendall's tau and boundary to implement multilinear interpolation. The default value is 0.9. If \code{method = "original"}, this parameter will be ignored automatically.
-#' @param showplot Logical indicator. \code{showplot = TRUE} to generate an ggplot object \code{plotR} in output list as the heatmap of latent correlation matrix \code{R}. \code{plotR = NULL} if \code{showplot = FALSE}.
+#' @param ratio The boundary value for multilinear interpolation, must be between 0 and 1, the default value is 0.9. If \code{method = "original"}, this parameter is ignored.
+#' @param showplot Logical indicator. \code{showplot = TRUE} generates a ggplot object \code{plotR} with the heatmap of latent correlation matrix \code{R}. \code{plotR = NULL} if \code{showplot = FALSE}.
 #' @return \code{estR} returns
 #' \itemize{
-#'       \item{zratios: }{A list of zratios. Each element correponds to the zratios for one variable. zratios for continuous variables is NA (no zratios); zratios for binary/truncated variables is the proportions of zeros; zratios for ternary variables is the cumulative proportions of zeros and ones (e.g. first value is proportion of zeros, second value is proportion of zeros and ones)}
-#'       \item{K: }{Kendall Tau (Tau-a) Matrix of \code{X} (p x p)}
-#'       \item{R: }{Estimated latent correlation matrix of whole \code{X} (p x p)}
-#'       \item{plotR: }{Heatmap plot for latent correlation matrix \code{R}, return NULL if \code{showplot = FALSE}}
+#'       \item{zratios: }{A list of of length p corresponding to each variable. Returns NA for continuous variable; proportion of zeros for binary/truncated variables; the cumulative proportions of zeros and ones (e.g. first value is proportion of zeros, second value is proportion of zeros and ones) for ternary variable. }
+#'       \item{K: }{(p x p) Kendall Tau (Tau-a) Matrix for \code{X} }
+#'       \item{R: }{(p x p) Estimated latent correlation matrix for \code{X} }
+#'       \item{plotR: }{Heatmap plot of latent correlation matrix \code{R}, NULL if \code{showplot = FALSE}}
 #' }
 #'
 #' @references
-#' Fan J., Liu H., Ning Y. and Zou H. (2017) "High dimensional semiparametric latent graphicalmodel for mixed data" <doi:10.1111/rssb.12168>.
-#' Yoon G., Carroll R.J. and Gaynanova I. (2020) "Sparse semiparametric canonical correlation analysis for data of mixed types" <doi:10.1093/biomet/asaa007>.
-#' Yoon G., Müller C.L., Gaynanova I. (2020) "Fast computation of latent correlations" <arXiv:2006.13875>.
+#' Fan J., Liu H., Ning Y. and Zou H. (2017) "High dimensional semiparametric latent graphicalmodel for mixed data" \doi{10.1111/rssb.12168}.
+#'
+#' Yoon G., Carroll R.J. and Gaynanova I. (2020) "Sparse semiparametric canonical correlation analysis for data of mixed types" \doi{10.1093/biomet/asaa007}.
+#'
+#' Yoon G., Müller C.L., Gaynanova I. (2020) "Fast computation of latent correlations" \doi{10.1080/10618600.2021.1882468}.
 #'
 #' @import ggplot2
 #' @importFrom stats quantile qnorm na.omit optimize
