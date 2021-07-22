@@ -66,7 +66,7 @@
       <h1 data-toc-skip>latentcor</h1>
                         <h4 class="author">Mingze Huang, Irina Gaynanova, Christian L. Müller</h4>
             
-            <h4 class="date">2021-07-20</h4>
+            <h4 class="date">2021-07-22</h4>
       
       
       <div class="hidden name"><code>latentcor.Rmd</code></div>
@@ -78,12 +78,15 @@
 <div id="introduction" class="section level1">
 <h1 class="hasAnchor">
 <a href="#introduction" class="anchor"></a>Introduction</h1>
-<p>R package <code>latentcor</code> utilizes the powerful semi-parametric latent Gaussian copula models to estimating latent correlations between mixed data types. The package allows to estimate correlations between any of continuous/binary/ternary/zero-inflated (truncated) variable types. The underlying implementation takes advantage of fast multi-linear interpolation scheme with a clever choice of grid points that give the package a small memory footprint, and allows to use the latent correlations with sub-sampling and bootstrapping.</p>
+<p>R package <code>latentcor</code> utilizes the powerful semi-parametric latent Gaussian copula models to estimate latent correlations between mixed data types. The package allows to estimate correlations between any of continuous/binary/ternary/zero-inflated (truncated) variable types. The underlying implementation takes advantage of fast multi-linear interpolation scheme with a clever choice of grid points that give the package a small memory footprint, and allows to use the latent correlations with sub-sampling and bootstrapping.</p>
 </div>
-<div id="a-simple-example" class="section level1">
+<div id="getting-started" class="section level1">
 <h1 class="hasAnchor">
-<a href="#a-simple-example" class="anchor"></a>A Simple Example</h1>
-<p>In this example, we will generate two variables with different data types. Each variable has 100 observations. First variable will be ternary, second variable will be continuous.</p>
+<a href="#getting-started" class="anchor"></a>Getting started</h1>
+<div id="a-simple-example-with-two-variables" class="section level2">
+<h2 class="hasAnchor">
+<a href="#a-simple-example-with-two-variables" class="anchor"></a>A simple example with two variables</h2>
+<p>First, we will generate a pair of variables with different types using a sample size <span class="math inline">\(n=100\)</span> which will serve as example data. Here first variable will be ternary, and second variable will be continuous.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">sampledata</span> <span class="op">=</span> <span class="fu"><a href="../reference/GenData.html">GenData</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">100</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ter"</span>, <span class="st">"con"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>The <code>sampledata</code> is a list with several elements:</p>
@@ -91,68 +94,88 @@
 <li>
 <code>X</code>: a matrix (<span class="math inline">\(100\times 2\)</span>), the first column is the ternary variable; the second column is the continuous variable.</li>
 <li>
-<code>plotX</code>: NULL</li>
+<code>plotX</code>: NULL (<code>showplot = FALSE</code>, can be changed to display the plot of generated data in<code>GenData</code> input)</li>
 </ul>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="va">sampledata</span><span class="op">$</span><span class="va">X</span></code></pre></div>
-<p><code>X</code> is just the input matrix for estimation.</p>
-<p>Then we can estimate latent correlation matrix of these 2 variables.</p>
+<p>Then we can estimate the latent correlation matrix based on these 2 variables using <code>estR</code> function.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span> <span class="op">=</span> <span class="fu"><a href="../reference/estR.html">estR</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ter"</span>, <span class="st">"con"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p><code>estimate</code> is a list with several elements:</p>
-<ul>
-<li><p>zratios: a list of zratios. The first element of the list is a (<span class="math inline">\(2\times1\)</span>) vector indicates the cumulative proportions for zeros and ones in the ternary variable (e.g. first element in vector is the proportion of zeros, second element in vector is the proportion of zeros and ones.) The second element of the list is NA for continuous variable.</p></li>
-<li><p>K: Kendall <span class="math inline">\(\tau\)</span> (<span class="math inline">\(\tau_{a}\)</span>) correlation matrix for these 2 variables.</p></li>
-<li><p>R: estimated latent correlation matrix of these 2 variable.</p></li>
-<li><p>plotR: NULL</p></li>
-</ul>
-<p>Thus, the latent correlation matrix for these 2 variable is <code>R</code>.</p>
+<p>Here <code>estimate</code> is a list with several elements:</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">R</span> <span class="op">=</span> <span class="va">estimate</span><span class="op">$</span><span class="va">R</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">estimate</span><span class="op">)</span>
+<span class="co">#&gt; [1] "zratios" "K"       "R"       "plotR"</span></code></pre></div>
+<p><code>zratios</code> is a list of the same length as the number of variables. Here the first element is a (<span class="math inline">\(2\times1\)</span>) vector indicating the cumulative proportions for zeros and ones in the ternary variable (e.g. first element in vector is the proportion of zeros, second element in vector is the proportion of zeros and ones.) The second element of the list is NA for continuous variable.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">zratios</span>
+<span class="co">#&gt; [[1]]</span>
+<span class="co">#&gt; [1] 0.3 0.8</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; [[2]]</span>
+<span class="co">#&gt; [1] NA</span></code></pre></div>
+<p>K: Kendall <span class="math inline">\(\tau\)</span> (<span class="math inline">\(\tau_{a}\)</span>) correlation matrix for these 2 variables.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">K</span>
+<span class="co">#&gt;           X1        X2</span>
+<span class="co">#&gt; X1 1.0000000 0.3777778</span>
+<span class="co">#&gt; X2 0.3777778 1.0000000</span></code></pre></div>
+<p>R: estimated latent correlation matrix for these 2 variable.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">R</span>
+<span class="co">#&gt;           X1        X2</span>
+<span class="co">#&gt; X1 1.0000000 0.6591231</span>
+<span class="co">#&gt; X2 0.6591231 1.0000000</span></code></pre></div>
+<p>plotR: NULL by default as <code>showplot = FALSE</code> in <code>estR</code>. Otherwise displays a heatmap of latent correlation matrix.</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">plotR</span>
+<span class="co">#&gt; NULL</span></code></pre></div>
 </div>
-<div id="another-example" class="section level1">
-<h1 class="hasAnchor">
-<a href="#another-example" class="anchor"></a>Another example</h1>
+<div id="another-example" class="section level2">
+<h2 class="hasAnchor">
+<a href="#another-example" class="anchor"></a>Another example</h2>
 </div>
-<div id="latent-correlation-of-latent-gaussian-copula-model" class="section level1">
+</div>
+<div id="mathematical-framework-for-estimation" class="section level1">
 <h1 class="hasAnchor">
-<a href="#latent-correlation-of-latent-gaussian-copula-model" class="anchor"></a>Latent Correlation of Latent Gaussian Copula Model</h1>
+<a href="#mathematical-framework-for-estimation" class="anchor"></a>Mathematical framework for estimation</h1>
 <div id="latent-gaussian-copula-model-for-mixed-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#latent-gaussian-copula-model-for-mixed-data" class="anchor"></a>Latent Gaussian Copula Model for Mixed Data</h2>
+<p><code>latentcor</code> utilizes the powerful semi-parametric latent Gaussian copula models to estimate latent correlations between mixed data types (continuous/binary/ternary/truncated or zero-inflated). Below we review the definitions for each type.</p>
 <div id="definition-1-continuous-model" class="section level4">
 <h4 class="hasAnchor">
 <a href="#definition-1-continuous-model" class="anchor"></a>Definition 1 (Continuous model)</h4>
-<p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span> satisfies the Gaussian copula model if there exist monotonically increasing <span class="math inline">\(f=(f_{j})_{j=1}^{p}\)</span> with <span class="math inline">\(Z_{j}=f_{j}(X_{j})\)</span> satisfying <span class="math inline">\(Z\sim N_{p}(0, \Sigma)\)</span>, <span class="math inline">\(\sigma_{jj}=1\)</span>; <span class="math inline">\(X\sim NPN(0, \Sigma, f)\)</span>.</p>
+<p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span> satisfies the Gaussian copula (or nonparanormal) model if there exist monotonically increasing <span class="math inline">\(f=(f_{j})_{j=1}^{p}\)</span> with <span class="math inline">\(Z_{j}=f_{j}(X_{j})\)</span> satisfying <span class="math inline">\(Z\sim N_{p}(0, \Sigma)\)</span>, <span class="math inline">\(\sigma_{jj}=1\)</span>; we denote <span class="math inline">\(X\sim NPN(0, \Sigma, f)\)</span>.</p>
 </div>
-<div id="definition-2-binary-model" class="section level4">
+<div id="definition-2-binary-model-fan2017high" class="section level4">
 <h4 class="hasAnchor">
-<a href="#definition-2-binary-model" class="anchor"></a>Definition 2 (Binary model)</h4>
+<a href="#definition-2-binary-model-fan2017high" class="anchor"></a>Definition 2 (Binary model) <span class="citation">Fan et al. (2017)</span>
+</h4>
 <p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span> satisfies the binary latent Gaussian copula model if there exists <span class="math inline">\(W\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})\)</span>, where <span class="math inline">\(I(\cdot)\)</span> is the indicator function and <span class="math inline">\(c_{j}\)</span> are constants.</p>
 </div>
-<div id="definition-3-truncated-model" class="section level4">
+<div id="definition-3-ternary-model" class="section level4">
 <h4 class="hasAnchor">
-<a href="#definition-3-truncated-model" class="anchor"></a>Definition 3 (Truncated model)</h4>
-<p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span> satisfies the truncated latent Gaussian copula model if there exists <span class="math inline">\(W\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})W_{j}\)</span>, where <span class="math inline">\(I(\cdot)\)</span> is the indicator function and <span class="math inline">\(c_{j}\)</span> are constants.</p>
+<a href="#definition-3-ternary-model" class="anchor"></a>Definition 3 (Ternary model)</h4>
+<p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span> satisfies the ternary latent Gaussian copula model if there exists <span class="math inline">\(W\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})+I(W_{j}&gt;c'_{j})\)</span>, where <span class="math inline">\(I(\cdot)\)</span> is the indicator function and <span class="math inline">\(c_{j}&lt;c'_{j}\)</span> are constants.</p>
 </div>
-<div id="definition-4-ternary-model" class="section level4">
+<div id="definition-4-truncated-or-zero-inflated-model" class="section level4">
 <h4 class="hasAnchor">
-<a href="#definition-4-ternary-model" class="anchor"></a>Definition 4 (Ternary model)</h4>
-<p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span> satisfies the binary latent Gaussian copula model if there exists <span class="math inline">\(W\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})+I(W_{j}&gt;c'_{j})\)</span>, where <span class="math inline">\(I(\cdot)\)</span> is the indicator function and <span class="math inline">\(c_{j}&lt;c'_{j}\)</span> are constants.</p>
+<a href="#definition-4-truncated-or-zero-inflated-model" class="anchor"></a>Definition 4 (Truncated or zero-inflated model)</h4>
+<p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span> satisfies the truncated latent Gaussian copula model if there exists <span class="math inline">\(W\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})W_{j}\)</span>, where <span class="math inline">\(I(\cdot)\)</span> is the indicator function and <span class="math inline">\(c_{j}\)</span> are constants.</p>
 </div>
 <div id="mixed-latent-gaussian-copula-model" class="section level4">
 <h4 class="hasAnchor">
 <a href="#mixed-latent-gaussian-copula-model" class="anchor"></a>Mixed Latent Gaussian Copula Model</h4>
-<p>The mixed latent Gaussian copula model jointly models <span class="math inline">\(W=(W_{1}, W_{2}, W_{3}, W_{4})\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{1j}=W_{1j}\)</span>, <span class="math inline">\(X_{2j}=I(W_{2j}&gt;c_{2j})\)</span>, <span class="math inline">\(X_{3j}=I(W_{3j}&gt;c_{3j})W_{3j}\)</span> and <span class="math inline">\(X_{4j}=I(W_{4j}&gt;c_{4j})+I(W_{4j}&gt;c'_{4j})\)</span>.</p>
+<p>The mixed latent Gaussian copula model jointly models <span class="math inline">\(W=(W_{1}, W_{2}, W_{3}, W_{4})\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{1j}=W_{1j}\)</span>, <span class="math inline">\(X_{2j}=I(W_{2j}&gt;c_{2j})\)</span>, <span class="math inline">\(X_{3j}=I(W_{3j}&gt;c_{3j})+I(W_{3j}&gt;c'_{3j})\)</span> and <span class="math inline">\(X_{4j}=I(W_{4j}&gt;c_{4j})W_{4j}\)</span>.</p>
 </div>
 </div>
 <div id="bridge-functions" class="section level2">
 <h2 class="hasAnchor">
 <a href="#bridge-functions" class="anchor"></a>Bridge Functions</h2>
-<p>Estimation of latent correlations is achieved via the bridge function <span class="math inline">\(F\)</span> such that <span class="math inline">\(E(\hat{\tau}_{jk})=F(\sigma_{jk})\)</span>, where <span class="math inline">\(\sigma_{jk}\)</span> is the latent correlation between variables <span class="math inline">\(j\)</span> and <span class="math inline">\(k\)</span>, and <span class="math inline">\(\hat{\tau}_{jk}\)</span> is the corresponding sample Kendall’s <span class="math inline">\(\tau\)</span>. Given observed <span class="math inline">\(\mathbf{x}_{j}, \mathbf{x}_{k}\in\cal{R}^{n}\)</span>,</p>
+<p>The estimation of latent correlation matrix <span class="math inline">\(\Sigma\)</span> is achieved via the bridge function <span class="math inline">\(F\)</span> which is defined such that <span class="math inline">\(E(\hat{\tau}_{jk})=F(\sigma_{jk})\)</span>, where <span class="math inline">\(\sigma_{jk}\)</span> is the latent correlation between variables <span class="math inline">\(j\)</span> and <span class="math inline">\(k\)</span>, and <span class="math inline">\(\hat{\tau}_{jk}\)</span> is the corresponding sample Kendall’s <span class="math inline">\(\tau\)</span>. Given observed <span class="math inline">\(\mathbf{x}_{j}, \mathbf{x}_{k}\in\cal{R}^{n}\)</span>,</p>
 <p><span class="math display">\[
-\hat{\tau}_{jk}=\hat{\tau}(\mathbf{x}_{j}, \mathbf{x}_{k})=\frac{2}{n(n-1)}\sum_{1\le i&lt;i'\le n}sign(x_{ij}-x_{i'j})sign(x_{ik}-x_{i'k})
-\]</span> where <span class="math inline">\(n\)</span> is the sample size. Using <span class="math inline">\(F\)</span> one can construct <span class="math inline">\(\hat{\sigma}_{jk}=F^{-1}(\hat{\tau}_{jk})\)</span> with the corresponding estimator <span class="math inline">\(\hat{\Sigma}\)</span> being consistent for <span class="math inline">\(\Sigma\)</span> <span class="citation">(Fan et al. 2017; Quan, Booth, and Wells 2018; Yoon, Müller, and Gaynanova 2021)</span>. The explicit form of <span class="math inline">\(F\)</span> has been derived for all combinations of continuous(C)/binary(B)/truncated(T)/ternary(N) variables <span class="citation">(Fan et al. 2017; Yoon, Müller, and Gaynanova 2021)</span>.</p>
+\hat{\tau}_{jk}=\hat{\tau}(\mathbf{x}_{j}, \mathbf{x}_{k})=\frac{2}{n(n-1)}\sum_{1\le i&lt;i'\le n}sign(x_{ij}-x_{i'j})sign(x_{ik}-x_{i'k}),
+\]</span> where <span class="math inline">\(n\)</span> is the sample size. Using <span class="math inline">\(F\)</span>, a moment-based estimator is <span class="math inline">\(\hat{\sigma}_{jk}=F^{-1}(\hat{\tau}_{jk})\)</span> with the corresponding <span class="math inline">\(\hat{\Sigma}\)</span> being consistent for <span class="math inline">\(\Sigma\)</span> <span class="citation">(Fan et al. 2017; Quan, Booth, and Wells 2018; Yoon, Müller, and Gaynanova 2021)</span>. The explicit form of <span class="math inline">\(F\)</span> has been derived for all combinations of continuous(C)/binary(B)/ternary(N)/truncated(T) variable types <span class="citation">(Fan et al. 2017; Yoon, Müller, and Gaynanova 2021)</span>.</p>
 <div id="theorem-1" class="section level4">
 <h4 class="hasAnchor">
 <a href="#theorem-1" class="anchor"></a>Theorem 1</h4>
