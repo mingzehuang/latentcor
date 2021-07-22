@@ -29,11 +29,13 @@ library(latentcor)
 
 # Introduction
 
-R package `latentcor` utilizes the powerful semi-parametric latent Gaussian copula models to estimating latent correlations between mixed data types. The package allows to estimate correlations between any of continuous/binary/ternary/zero-inflated (truncated) variable types. The underlying implementation takes advantage of fast multi-linear interpolation scheme with a clever choice of grid points that give the package a small memory footprint, and allows to use the latent correlations with sub-sampling and bootstrapping.
+R package `latentcor` utilizes the powerful semi-parametric latent Gaussian copula models to estimate latent correlations between mixed data types. The package allows to estimate correlations between any of continuous/binary/ternary/zero-inflated (truncated) variable types. The underlying implementation takes advantage of fast multi-linear interpolation scheme with a clever choice of grid points that give the package a small memory footprint, and allows to use the latent correlations with sub-sampling and bootstrapping.
 
-# A Simple Example
+# Getting started
 
-In this example, we will generate two variables with different data types. Each variable has 100 observations. First variable will be ternary, second variable will be continuous.
+## A simple example with two variables
+
+First, we will generate a pair of variables with different types using a sample size $n=100$ which will serve as example data. Here first variable will be ternary, and second variable will be continuous.
 
 ```{r}
 sampledata = GenData(n = 100, types = c("ter", "con"))
@@ -42,67 +44,81 @@ sampledata = GenData(n = 100, types = c("ter", "con"))
 The `sampledata` is a list with several elements:
 
   - `X`: a matrix ($100\times 2$), the first column is the ternary variable; the second column is the continuous variable.
-  - `plotX`: NULL
+  - `plotX`: NULL (`showplot = FALSE`, can be changed to display the plot of generated data in`GenData` input)
 
 ```{r}
 X = sampledata$X
 ```
 
-`X` is just the input matrix for estimation.
-
-Then we can estimate latent correlation matrix of these 2 variables.
+Then we can estimate the latent correlation matrix based on these 2 variables using `estR` function.
 
 ```{r}
 estimate = estR(X, types = c("ter", "con"))
 ```
 
-`estimate` is a list with several elements:
-
-  - zratios: a list of zratios. The first element of the list is a ($2\times1$) vector indicates the cumulative proportions for zeros and ones in the ternary variable (e.g. first element in vector is the proportion of zeros, second element in vector is the proportion of zeros and ones.) The second element of the list is NA for continuous variable.
-  
-  - K: Kendall $\tau$ ($\tau_{a}$) correlation matrix for these 2 variables.
-  
-  - R: estimated latent correlation matrix of these 2 variable.
-  
-  - plotR: NULL
-
-Thus, the latent correlation matrix for these 2 variable is `R`.
-
+Here `estimate` is a list with several elements:
 ```{r}
-R = estimate$R
+names(estimate)
 ```
 
-# Another example
+`zratios` is a list of the same length as the number of variables. Here the first element is a ($2\times1$) vector indicating the cumulative proportions for zeros and ones in the ternary variable (e.g. first element in vector is the proportion of zeros, second element in vector is the proportion of zeros and ones.) The second element of the list is NA for continuous variable.
 
-# Latent Correlation of Latent Gaussian Copula Model
+```{r}
+estimate$zratios
+```
+
+K: Kendall $\tau$ ($\tau_{a}$) correlation matrix for these 2 variables. 
+  
+```{r}
+estimate$K
+```  
+
+R: estimated latent correlation matrix for these 2 variable.
+
+```{r}
+estimate$R
+``` 
+
+plotR: NULL by default as `showplot = FALSE` in `estR`. Otherwise displays a heatmap of latent correlation matrix.
+```{r}
+estimate$plotR
+``` 
+
+
+## Another example
+
+# Mathematical framework for estimation
 
 ## Latent Gaussian Copula Model for Mixed Data
 
-#### Definition 1 (Continuous model)
-A random $X\in\cal{R}^{p}$ satisfies the Gaussian copula model if there exist monotonically increasing $f=(f_{j})_{j=1}^{p}$ with $Z_{j}=f_{j}(X_{j})$ satisfying $Z\sim N_{p}(0, \Sigma)$, $\sigma_{jj}=1$; $X\sim NPN(0, \Sigma, f)$.
+`latentcor` utilizes the powerful semi-parametric latent Gaussian copula models to estimate latent correlations between mixed data types (continuous/binary/ternary/truncated or zero-inflated). Below we review the definitions for each type.
 
-#### Definition 2 (Binary model)
+#### Definition 1 (Continuous model)
+A random $X\in\cal{R}^{p}$ satisfies the Gaussian copula (or nonparanormal) model if there exist monotonically increasing $f=(f_{j})_{j=1}^{p}$ with $Z_{j}=f_{j}(X_{j})$ satisfying $Z\sim N_{p}(0, \Sigma)$, $\sigma_{jj}=1$; we denote $X\sim NPN(0, \Sigma, f)$.
+
+#### Definition 2 (Binary model) @fan2017high
 A random $X\in\cal{R}^{p}$ satisfies the binary latent Gaussian copula model if there exists $W\sim NPN(0, \Sigma, f)$ such that $X_{j}=I(W_{j}>c_{j})$, where $I(\cdot)$ is the indicator function and $c_{j}$ are constants.
 
-#### Definition 3 (Truncated model)
+#### Definition 3 (Ternary model)
+A random $X\in\cal{R}^{p}$ satisfies the ternary latent Gaussian copula model if there exists $W\sim NPN(0, \Sigma, f)$ such that $X_{j}=I(W_{j}>c_{j})+I(W_{j}>c'_{j})$, where $I(\cdot)$ is the indicator function and $c_{j}<c'_{j}$ are constants.
+
+#### Definition 4 (Truncated or zero-inflated model)
 A random $X\in\cal{R}^{p}$ satisfies the truncated latent Gaussian copula model if there exists $W\sim NPN(0, \Sigma, f)$ such that $X_{j}=I(W_{j}>c_{j})W_{j}$, where $I(\cdot)$ is the indicator function and $c_{j}$ are constants.
 
-#### Definition 4 (Ternary model)
-A random $X\in\cal{R}^{p}$ satisfies the binary latent Gaussian copula model if there exists $W\sim NPN(0, \Sigma, f)$ such that $X_{j}=I(W_{j}>c_{j})+I(W_{j}>c'_{j})$, where $I(\cdot)$ is the indicator function and $c_{j}<c'_{j}$ are constants.
 
 #### Mixed Latent Gaussian Copula Model
-The mixed latent Gaussian copula model jointly models $W=(W_{1}, W_{2}, W_{3}, W_{4})\sim NPN(0, \Sigma, f)$ such that $X_{1j}=W_{1j}$, $X_{2j}=I(W_{2j}>c_{2j})$, $X_{3j}=I(W_{3j}>c_{3j})W_{3j}$ and $X_{4j}=I(W_{4j}>c_{4j})+I(W_{4j}>c'_{4j})$.
+The mixed latent Gaussian copula model jointly models $W=(W_{1}, W_{2}, W_{3}, W_{4})\sim NPN(0, \Sigma, f)$ such that $X_{1j}=W_{1j}$, $X_{2j}=I(W_{2j}>c_{2j})$, $X_{3j}=I(W_{3j}>c_{3j})+I(W_{3j}>c'_{3j})$  and $X_{4j}=I(W_{4j}>c_{4j})W_{4j}$.
 
 
 
 ## Bridge Functions
 
-Estimation of latent correlations is achieved via the bridge function $F$ such that $E(\hat{\tau}_{jk})=F(\sigma_{jk})$, where $\sigma_{jk}$ is the latent correlation between variables $j$ and $k$, and $\hat{\tau}_{jk}$ is the corresponding sample Kendall's $\tau$. Given observed $\mathbf{x}_{j}, \mathbf{x}_{k}\in\cal{R}^{n}$,
+The estimation of latent correlation matrix $\Sigma$ is achieved via the bridge function $F$ which is defined such that $E(\hat{\tau}_{jk})=F(\sigma_{jk})$, where $\sigma_{jk}$ is the latent correlation between variables $j$ and $k$, and $\hat{\tau}_{jk}$ is the corresponding sample Kendall's $\tau$. Given observed $\mathbf{x}_{j}, \mathbf{x}_{k}\in\cal{R}^{n}$,
 
 $$
-\hat{\tau}_{jk}=\hat{\tau}(\mathbf{x}_{j}, \mathbf{x}_{k})=\frac{2}{n(n-1)}\sum_{1\le i<i'\le n}sign(x_{ij}-x_{i'j})sign(x_{ik}-x_{i'k})
+\hat{\tau}_{jk}=\hat{\tau}(\mathbf{x}_{j}, \mathbf{x}_{k})=\frac{2}{n(n-1)}\sum_{1\le i<i'\le n}sign(x_{ij}-x_{i'j})sign(x_{ik}-x_{i'k}),
 $$
-where $n$ is the sample size. Using $F$ one can construct $\hat{\sigma}_{jk}=F^{-1}(\hat{\tau}_{jk})$ with the corresponding estimator $\hat{\Sigma}$ being consistent for $\Sigma$ [@fan2017high; @quan2018rank; @yoon2021fast]. The explicit form of $F$ has been derived for all combinations of continuous(C)/binary(B)/truncated(T)/ternary(N) variables [@fan2017high; @yoon2021fast]. 
+where $n$ is the sample size. Using $F$, a moment-based estimator is $\hat{\sigma}_{jk}=F^{-1}(\hat{\tau}_{jk})$ with the corresponding  $\hat{\Sigma}$ being consistent for $\Sigma$ [@fan2017high; @quan2018rank; @yoon2021fast]. The explicit form of $F$ has been derived for all combinations of continuous(C)/binary(B)/ternary(N)/truncated(T) variable types [@fan2017high; @yoon2021fast]. 
 
 #### Theorem 1
 Let $W_{1}\in\cal{R}^{p_{1}}$, $W_{2}\in\cal{R}^{p_{2}}$, $W_{3}\in\cal{R}^{p_{3}}$, $W_{4}\in\cal{R}^{p_{4}}$ be such that $W=(W_{1}, W_{2}, W_{3}, W_{4})\sim NPN(0, \Sigma, f)$ with $p=p_{1}+p_{2}+p_{3}+p_{4}$. Let $X=(X_{1}, X_{2}, X_{3}, X_{4})\in\cal{R}^{p}$ satisfy $X_{j}=W_{j}$ for $j=1,...,p_{1}$, $X_{j}=I(W_{j}>c_{j})$ for $j=p_{1}+1, ..., p_{1}+p_{2}$, $X_{j}=I(W_{j}>c_{j})W_{j}$ for $j=p_{1}+p_{2}+1, ..., p_{3}$ and $X_{j}=I(W_{j}>c_{j})+I(W_{j}>c'_{j})$ for $j=p_{1}+p_{2}+p_{3}+1, ..., p$ with $\Delta_{j}=f(c_{j})$. The rank-based estimator of $\Sigma$ based on the observed $n$ realizations of $X$ is the matrix $\mathbf{\hat{R}}$ with $\hat{r}_{jj}=1$, $\hat{r}_{jk}=\hat{r}_{kj}=F^{-1}(\hat{\tau}_{jk})$ with block structure
