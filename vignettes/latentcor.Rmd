@@ -343,7 +343,7 @@ $\tilde{\tau}_{jk}=\frac{\tau_{jk}}{\bar{\tau}_{jk}}\in[-1, 1]$, where $\bar{\ta
 
 # Appendix
 
-### Derivation for bridge function for ternary/truncated case
+## Derivation for bridge function for ternary/truncated case
 
 Without loss of generality, let $j=1$ and $k=2$. By the definition of Kendall's $\tau$,
 \begin{equation}
@@ -469,7 +469,7 @@ r & 0 & 1 & \frac{1}{\sqrt{2}} \\
 \end{pmatrix}\right\}
 \end{align}
 
-### Derivation for approximate bound for ternary/continuous case
+## Derivation for approximate bound for ternary/continuous case
 
 Let $n_{0x}=\sum_{i=1}^{n_x}I(x_{i}=0)$, $n_{2x}=\sum_{i=1}^{n_x}I(x_{i}=2)$, $\pi_{0x}=\frac{n_{0x}}{n_{x}}$ and $\pi_{2x}=\frac{n_{2x}}{n_{x}}$, then
 \begin{align}
@@ -479,11 +479,11 @@ Let $n_{0x}=\sum_{i=1}^{n_x}I(x_{i}=0)$, $n_{2x}=\sum_{i=1}^{n_x}I(x_{i}=2)$, $\
     = & 2\{\pi_{0x}(1-\pi_{0x})+\pi_{2x}(1-\pi_{0x}-\pi_{2x})\}
 \end{align}
 
-### Approximate bound for ternary/binary case and ternary/ternary case
+## Approximate bound for ternary/binary case and ternary/ternary case
 
 Combine NC and BC case, we get NB case. So does NN case. 
 
-### Derivation for approximate bound for ternary/truncated case
+## Derivation for approximate bound for ternary/truncated case
 
 Derivation for approximate bound for ternary truncated case: Let $\mathbf{x}\in\mathcal{R}^{n}$ and $\mathbf{y}\in\mathcal{R}^{n}$ be the observed $n$ realizations of ternary and truncated variables, respectively. Let $n_{0x}=\sum_{i=0}^{n}I(x_{i}=0)$, $\pi_{0x}=\frac{n_{0x}}{n}$, $n_{1x}=\sum_{i=0}^{n}I(x_{i}=1)$, $\pi_{1x}=\frac{n_{1x}}{n}$, $n_{2x}=\sum_{i=0}^{n}I(x_{i}=2)$, $\pi_{2x}=\frac{n_{2x}}{n}$,
 $n_{0y}=\sum_{i=0}^{n}I(y_{i}=0)$, $\pi_{0y}=\frac{n_{0y}}{n}$, $n_{0x0y}=\sum_{i=0}^{n}I(x_{i}=0 \;\& \; y_{i}=0)$, $n_{1x0y}=\sum_{i=0}^{n}I(x_{i}=1 \;\& \; y_{i}=0)$ and

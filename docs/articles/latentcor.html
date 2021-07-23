@@ -117,14 +117,14 @@
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">K</span>
 <span class="co">#&gt;           X1        X2</span>
-<span class="co">#&gt; X1 1.0000000 0.3777778</span>
-<span class="co">#&gt; X2 0.3777778 1.0000000</span></code></pre></div>
+<span class="co">#&gt; X1 1.0000000 0.2852525</span>
+<span class="co">#&gt; X2 0.2852525 1.0000000</span></code></pre></div>
 <p>R: estimated latent correlation matrix for these 2 variable.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">R</span>
 <span class="co">#&gt;           X1        X2</span>
-<span class="co">#&gt; X1 1.0000000 0.6591231</span>
-<span class="co">#&gt; X2 0.6591231 1.0000000</span></code></pre></div>
+<span class="co">#&gt; X1 1.0000000 0.5100908</span>
+<span class="co">#&gt; X2 0.5100908 1.0000000</span></code></pre></div>
 <p>plotR: NULL by default as <code>showplot = FALSE</code> in <code>estR</code>. Otherwise displays a heatmap of latent correlation matrix.</p>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">plotR</span>
@@ -386,9 +386,9 @@ r &amp; 0 &amp; 1 &amp; \frac{1}{\sqrt{2}} \\
 <div id="appendix" class="section level1">
 <h1 class="hasAnchor">
 <a href="#appendix" class="anchor"></a>Appendix</h1>
-<div id="derivation-for-bridge-function-for-ternarytruncated-case" class="section level3">
-<h3 class="hasAnchor">
-<a href="#derivation-for-bridge-function-for-ternarytruncated-case" class="anchor"></a>Derivation for bridge function for ternary/truncated case</h3>
+<div id="derivation-for-bridge-function-for-ternarytruncated-case" class="section level2">
+<h2 class="hasAnchor">
+<a href="#derivation-for-bridge-function-for-ternarytruncated-case" class="anchor"></a>Derivation for bridge function for ternary/truncated case</h2>
 <p>Without loss of generality, let <span class="math inline">\(j=1\)</span> and <span class="math inline">\(k=2\)</span>. By the definition of Kendall’s <span class="math inline">\(\tau\)</span>, <span class="math display">\[\begin{equation}
     \tau_{12}=E(\hat{\tau}_{12})=E[\frac{2}{n(n-1)}\sum_{1\leq i\leq i' \leq n} sign\{(X_{i1}-X_{i'1})(X_{i2}-X_{i'2})\}]
 \end{equation}\]</span> Since <span class="math inline">\(X_{1}\)</span> is ternary, <span class="math display">\[\begin{align}
@@ -496,9 +496,9 @@ r &amp; 0 &amp; 1 &amp; \frac{1}{\sqrt{2}} \\
 \end{pmatrix}\right\}
 \end{align}\]</span></p>
 </div>
-<div id="derivation-for-approximate-bound-for-ternarycontinuous-case" class="section level3">
-<h3 class="hasAnchor">
-<a href="#derivation-for-approximate-bound-for-ternarycontinuous-case" class="anchor"></a>Derivation for approximate bound for ternary/continuous case</h3>
+<div id="derivation-for-approximate-bound-for-ternarycontinuous-case" class="section level2">
+<h2 class="hasAnchor">
+<a href="#derivation-for-approximate-bound-for-ternarycontinuous-case" class="anchor"></a>Derivation for approximate bound for ternary/continuous case</h2>
 <p>Let <span class="math inline">\(n_{0x}=\sum_{i=1}^{n_x}I(x_{i}=0)\)</span>, <span class="math inline">\(n_{2x}=\sum_{i=1}^{n_x}I(x_{i}=2)\)</span>, <span class="math inline">\(\pi_{0x}=\frac{n_{0x}}{n_{x}}\)</span> and <span class="math inline">\(\pi_{2x}=\frac{n_{2x}}{n_{x}}\)</span>, then <span class="math display">\[\begin{align}
     |\tau(\mathbf{x})|\leq &amp; \frac{n_{0x}(n-n_{0x})+n_{2x}(n-n_{0x}-n_{2x})}{\begin{pmatrix} n \\ 2 \end{pmatrix}} \nonumber\\
     = &amp; 2\{\frac{n_{0x}}{n-1}-(\frac{n_{0x}}{n})(\frac{n_{0x}}{n-1})+\frac{n_{2x}}{n-1}-(\frac{n_{2x}}{n})(\frac{n_{0x}}{n-1})-(\frac{n_{2x}}{n})(\frac{n_{2x}}{n-1})\} \nonumber\\
@@ -506,14 +506,14 @@ r &amp; 0 &amp; 1 &amp; \frac{1}{\sqrt{2}} \\
     = &amp; 2\{\pi_{0x}(1-\pi_{0x})+\pi_{2x}(1-\pi_{0x}-\pi_{2x})\}
 \end{align}\]</span></p>
 </div>
-<div id="approximate-bound-for-ternarybinary-case-and-ternaryternary-case" class="section level3">
-<h3 class="hasAnchor">
-<a href="#approximate-bound-for-ternarybinary-case-and-ternaryternary-case" class="anchor"></a>Approximate bound for ternary/binary case and ternary/ternary case</h3>
+<div id="approximate-bound-for-ternarybinary-case-and-ternaryternary-case" class="section level2">
+<h2 class="hasAnchor">
+<a href="#approximate-bound-for-ternarybinary-case-and-ternaryternary-case" class="anchor"></a>Approximate bound for ternary/binary case and ternary/ternary case</h2>
 <p>Combine NC and BC case, we get NB case. So does NN case.</p>
 </div>
-<div id="derivation-for-approximate-bound-for-ternarytruncated-case" class="section level3">
-<h3 class="hasAnchor">
-<a href="#derivation-for-approximate-bound-for-ternarytruncated-case" class="anchor"></a>Derivation for approximate bound for ternary/truncated case</h3>
+<div id="derivation-for-approximate-bound-for-ternarytruncated-case" class="section level2">
+<h2 class="hasAnchor">
+<a href="#derivation-for-approximate-bound-for-ternarytruncated-case" class="anchor"></a>Derivation for approximate bound for ternary/truncated case</h2>
 <p>Derivation for approximate bound for ternary truncated case: Let <span class="math inline">\(\mathbf{x}\in\mathcal{R}^{n}\)</span> and <span class="math inline">\(\mathbf{y}\in\mathcal{R}^{n}\)</span> be the observed <span class="math inline">\(n\)</span> realizations of ternary and truncated variables, respectively. Let <span class="math inline">\(n_{0x}=\sum_{i=0}^{n}I(x_{i}=0)\)</span>, <span class="math inline">\(\pi_{0x}=\frac{n_{0x}}{n}\)</span>, <span class="math inline">\(n_{1x}=\sum_{i=0}^{n}I(x_{i}=1)\)</span>, <span class="math inline">\(\pi_{1x}=\frac{n_{1x}}{n}\)</span>, <span class="math inline">\(n_{2x}=\sum_{i=0}^{n}I(x_{i}=2)\)</span>, <span class="math inline">\(\pi_{2x}=\frac{n_{2x}}{n}\)</span>, <span class="math inline">\(n_{0y}=\sum_{i=0}^{n}I(y_{i}=0)\)</span>, <span class="math inline">\(\pi_{0y}=\frac{n_{0y}}{n}\)</span>, <span class="math inline">\(n_{0x0y}=\sum_{i=0}^{n}I(x_{i}=0 \;\&amp; \; y_{i}=0)\)</span>, <span class="math inline">\(n_{1x0y}=\sum_{i=0}^{n}I(x_{i}=1 \;\&amp; \; y_{i}=0)\)</span> and <span class="math inline">\(n_{2x0y}=\sum_{i=0}^{n}I(x_{i}=2 \;\&amp; \; y_{i}=0)\)</span> then <span class="math display">\[\begin{align}
     |\tau(\mathbf{x}, \mathbf{y})|\leq &amp;
     \frac{\begin{pmatrix}n \\ 2\end{pmatrix}-\begin{pmatrix}n_{0x} \\ 2\end{pmatrix}-\begin{pmatrix}n_{1x} \\ 2\end{pmatrix}-\begin{pmatrix} n_{2x} \\ 2 \end{pmatrix}-\begin{pmatrix}n_{0y} \\ 2\end{pmatrix}+\begin{pmatrix}n_{0x0y} \\ 2 \end{pmatrix}+\begin{pmatrix}n_{1x0y} \\ 2\end{pmatrix}+\begin{pmatrix}n_{2x0y} \\ 2\end{pmatrix}}{\begin{pmatrix}n \\ 2\end{pmatrix}} \nonumber
