@@ -3,5 +3,6 @@ pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   latentcor: latentcor.html
-last_built: 2021-07-23T04:06Z
+  tutorials: tutorials.html
+last_built: 2021-07-25T03:18Z
 
