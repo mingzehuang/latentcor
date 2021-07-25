@@ -60,10 +60,7 @@
 
       
 
-      </header><script src="latentcor_files/header-attrs-2.9/header-attrs.js"></script><script src="latentcor_files/jquery-1.11.3/jquery.min.js"></script><link href="latentcor_files/font-awesome-5.1.0/css/all.css" rel="stylesheet">
-<link href="latentcor_files/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet">
-<script src="latentcor_files/bootbox-4.4.0/bootbox.min.js"></script><script src="latentcor_files/idb-keyvalue-3.2.0/idb-keyval-iife-compat.min.js"></script><link href="latentcor_files/tutorial-0.10.1/tutorial.css" rel="stylesheet">
-<script src="latentcor_files/tutorial-0.10.1/tutorial.js"></script><script src="latentcor_files/tutorial-autocompletion-0.10.1/tutorial-autocompletion.js"></script><script src="latentcor_files/tutorial-diagnostics-0.10.1/tutorial-diagnostics.js"></script><script src="latentcor_files/ace-1.2.6/ace.js"></script><script src="latentcor_files/clipboardjs-1.5.15/clipboard.min.js"></script><div class="row">
+      </header><script src="latentcor_files/header-attrs-2.9/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>latentcor</h1>
@@ -78,22 +75,20 @@
 
     
     
-<div id="section-introduction" class="section level1">
+<div id="introduction" class="section level1">
 <h1 class="hasAnchor">
-<a href="#section-introduction" class="anchor"></a>Introduction</h1>
+<a href="#introduction" class="anchor"></a>Introduction</h1>
 <p>R package <code>latentcor</code> utilizes the powerful semi-parametric latent Gaussian copula models to estimate latent correlations between mixed data types. The package allows to estimate correlations between any of continuous/binary/ternary/zero-inflated (truncated) variable types. The underlying implementation takes advantage of fast multi-linear interpolation scheme with a clever choice of grid points that give the package a small memory footprint, and allows to use the latent correlations with sub-sampling and bootstrapping.</p>
 </div>
-<div id="section-getting-started" class="section level1">
+<div id="getting-started" class="section level1">
 <h1 class="hasAnchor">
-<a href="#section-getting-started" class="anchor"></a>Getting started</h1>
-<div id="section-a-simple-example-with-two-variables" class="section level2">
+<a href="#getting-started" class="anchor"></a>Getting started</h1>
+<div id="a-simple-example-with-two-variables" class="section level2">
 <h2 class="hasAnchor">
-<a href="#section-a-simple-example-with-two-variables" class="anchor"></a>A simple example with two variables</h2>
+<a href="#a-simple-example-with-two-variables" class="anchor"></a>A simple example with two variables</h2>
 <p>First, we will generate a pair of variables with different types using a sample size <span class="math inline">\(n=100\)</span> which will serve as example data. Here first variable will be ternary, and second variable will be continuous.</p>
-<div class="tutorial-exercise" data-label="data_generation" data-caption="Code" data-completion="1" data-diagnostics="1" data-startover="1" data-lines="0">
-<pre class="text"><code>simdata = GenData(n = 100, types = c("ter", "con"))</code></pre>
-<script type="application/json" data-opts-chunk="1">{"fig.width":7.2917,"fig.height":4.5066,"fig.retina":2,"fig.align":"default","fig.keep":"high","fig.show":"asis","out.width":700,"warning":true,"error":false,"message":true,"exercise.df_print":"default","exercise.checker":"NULL"}</script>
-</div>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">simdata</span> <span class="op">=</span> <span class="fu"><a href="../reference/GenData.html">GenData</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">100</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ter"</span>, <span class="st">"con"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>The output of <code>GenData</code> is a list with several elements:</p>
 <ul>
 <li>
@@ -101,39 +96,39 @@
 <li>
 <code>plotX</code>: NULL (<code>showplot = FALSE</code>, can be changed to display the plot of generated data in<code>GenData</code> input)</li>
 </ul>
-<div class="sourceCode" id="section-cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="va">simdata</span><span class="op">$</span><span class="va">X</span></code></pre></div>
 <p>Then we can estimate the latent correlation matrix based on these 2 variables using <code>estR</code> function.</p>
-<div class="sourceCode" id="section-cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span> <span class="op">=</span> <span class="fu"><a href="../reference/estR.html">estR</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ter"</span>, <span class="st">"con"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>The output of <code>estR</code> is a list with several elements:</p>
 <p><code>zratios</code> is a list of the same length as the number of variables. Here the first element is a (<span class="math inline">\(2\times1\)</span>) vector indicating the cumulative proportions for zeros and ones in the ternary variable (e.g. first element in vector is the proportion of zeros, second element in vector is the proportion of zeros and ones.) The second element of the list is NA for continuous variable.</p>
-<div class="sourceCode" id="section-cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">zratios</span> <span class="op">=</span> <span class="va">estimate</span><span class="op">$</span><span class="va">zratios</span></code></pre></div>
 <p>K: Kendall <span class="math inline">\(\tau\)</span> (<span class="math inline">\(\tau_{a}\)</span>) correlation matrix for these 2 variables.</p>
-<div class="sourceCode" id="section-cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">K</span> <span class="op">=</span> <span class="va">estimate</span><span class="op">$</span><span class="va">K</span></code></pre></div>
 <p>R: estimated latent correlation matrix for these 2 variable.</p>
-<div class="sourceCode" id="section-cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">R</span> <span class="op">=</span> <span class="va">estimate</span><span class="op">$</span><span class="va">R</span></code></pre></div>
 <p>plotR: NULL by default as <code>showplot = FALSE</code> in <code>estR</code>. Otherwise displays a heatmap of latent correlation matrix.</p>
-<div class="sourceCode" id="section-cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">plotR</span> <span class="op">=</span> <span class="va">estimate</span><span class="op">$</span><span class="va">plotR</span></code></pre></div>
 </div>
-<div id="section-another-example" class="section level2">
+<div id="another-example" class="section level2">
 <h2 class="hasAnchor">
-<a href="#section-another-example" class="anchor"></a>Another example</h2>
+<a href="#another-example" class="anchor"></a>Another example</h2>
 </div>
 </div>
-<div id="section-estimation-methods" class="section level1">
+<div id="estimation-methods" class="section level1">
 <h1 class="hasAnchor">
-<a href="#section-estimation-methods" class="anchor"></a>Estimation methods</h1>
-<div id="section-original-method" class="section level2">
+<a href="#estimation-methods" class="anchor"></a>Estimation methods</h1>
+<div id="original-method" class="section level2">
 <h2 class="hasAnchor">
-<a href="#section-original-method" class="anchor"></a>Original method</h2>
-<div id="section-latent-gaussian-copula-model-for-mixed-data" class="section level3">
+<a href="#original-method" class="anchor"></a>Original method</h2>
+<div id="latent-gaussian-copula-model-for-mixed-data" class="section level3">
 <h3 class="hasAnchor">
-<a href="#section-latent-gaussian-copula-model-for-mixed-data" class="anchor"></a>Latent Gaussian Copula Model for Mixed Data</h3>
+<a href="#latent-gaussian-copula-model-for-mixed-data" class="anchor"></a>Latent Gaussian Copula Model for Mixed Data</h3>
 <p><code>latentcor</code> utilizes the powerful semi-parametric latent Gaussian copula models to estimate latent correlations between mixed data types (continuous/binary/ternary/truncated or zero-inflated). Below we review the definitions for each type.</p>
 <p><strong><em>Definition of continuous model <code><a href="../reference/GenData.html">latentcor::GenData(types = "con")</a></code></em></strong></p>
 <p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span> satisfies the Gaussian copula (or nonparanormal) model if there exist monotonically increasing <span class="math inline">\(f=(f_{j})_{j=1}^{p}\)</span> with <span class="math inline">\(Z_{j}=f_{j}(X_{j})\)</span> satisfying <span class="math inline">\(Z\sim N_{p}(0, \Sigma)\)</span>, <span class="math inline">\(\sigma_{jj}=1\)</span>; we denote <span class="math inline">\(X\sim NPN(0, \Sigma, f)\)</span>.</p>
@@ -151,9 +146,9 @@
 \hat{\tau}_{jk}=\hat{\tau}(\mathbf{x}_{j}, \mathbf{x}_{k})=\frac{2}{n(n-1)}\sum_{1\le i&lt;i'\le n}sign(x_{ij}-x_{i'j})sign(x_{ik}-x_{i'k}),
 \]</span> where <span class="math inline">\(n\)</span> is the sample size. Using <span class="math inline">\(F\)</span>, a moment-based estimator is <span class="math inline">\(\hat{\sigma}_{jk}=F^{-1}(\hat{\tau}_{jk})\)</span> with the corresponding <span class="math inline">\(\hat{\Sigma}\)</span> being consistent for <span class="math inline">\(\Sigma\)</span> <span class="citation">(Fan et al. 2017; Quan, Booth, and Wells 2018; Yoon, Müller, and Gaynanova 2021)</span>. The explicit form of <span class="math inline">\(F\)</span> has been derived for all combinations of continuous(C)/binary(B)/ternary(N)/truncated(T) variable types <span class="citation">(Fan et al. 2017; Yoon, Müller, and Gaynanova 2021)</span>.</p>
 </div>
-<div id="section-theorem-of-bridge-functions" class="section level3">
+<div id="theorem-of-bridge-functions" class="section level3">
 <h3 class="hasAnchor">
-<a href="#section-theorem-of-bridge-functions" class="anchor"></a>Theorem of bridge functions</h3>
+<a href="#theorem-of-bridge-functions" class="anchor"></a>Theorem of bridge functions</h3>
 <p>Let <span class="math inline">\(W_{1}\in\cal{R}^{p_{1}}\)</span>, <span class="math inline">\(W_{2}\in\cal{R}^{p_{2}}\)</span>, <span class="math inline">\(W_{3}\in\cal{R}^{p_{3}}\)</span>, <span class="math inline">\(W_{4}\in\cal{R}^{p_{4}}\)</span> be such that <span class="math inline">\(W=(W_{1}, W_{2}, W_{3}, W_{4})\sim NPN(0, \Sigma, f)\)</span> with <span class="math inline">\(p=p_{1}+p_{2}+p_{3}+p_{4}\)</span>. Let <span class="math inline">\(X=(X_{1}, X_{2}, X_{3}, X_{4})\in\cal{R}^{p}\)</span> satisfy <span class="math inline">\(X_{j}=W_{j}\)</span> for <span class="math inline">\(j=1,...,p_{1}\)</span>, <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})\)</span> for <span class="math inline">\(j=p_{1}+1, ..., p_{1}+p_{2}\)</span>, <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})W_{j}\)</span> for <span class="math inline">\(j=p_{1}+p_{2}+1, ..., p_{3}\)</span> and <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})+I(W_{j}&gt;c'_{j})\)</span> for <span class="math inline">\(j=p_{1}+p_{2}+p_{3}+1, ..., p\)</span> with <span class="math inline">\(\Delta_{j}=f(c_{j})\)</span>. The rank-based estimator of <span class="math inline">\(\Sigma\)</span> based on the observed <span class="math inline">\(n\)</span> realizations of <span class="math inline">\(X\)</span> is the matrix <span class="math inline">\(\mathbf{\hat{R}}\)</span> with <span class="math inline">\(\hat{r}_{jj}=1\)</span>, <span class="math inline">\(\hat{r}_{jk}=\hat{r}_{kj}=F^{-1}(\hat{\tau}_{jk})\)</span> with block structure</p>
 <p><span class="math display">\[
 \mathbf{\hat{R}}=\begin{pmatrix}
@@ -303,12 +298,12 @@ r &amp; 0 &amp; 1 &amp; \frac{1}{\sqrt{2}} \\
 </ul>
 </div>
 </div>
-<div id="section-approximation-method" class="section level2">
+<div id="approximation-method" class="section level2">
 <h2 class="hasAnchor">
-<a href="#section-approximation-method" class="anchor"></a>Approximation method</h2>
-<div id="section-inversion-via-multilinear-interpolation" class="section level3">
+<a href="#approximation-method" class="anchor"></a>Approximation method</h2>
+<div id="inversion-via-multilinear-interpolation" class="section level3">
 <h3 class="hasAnchor">
-<a href="#section-inversion-via-multilinear-interpolation" class="anchor"></a>Inversion via Multilinear Interpolation</h3>
+<a href="#inversion-via-multilinear-interpolation" class="anchor"></a>Inversion via Multilinear Interpolation</h3>
 <p>The inverse bridge function is an analytic function of at most 5 parameters (see Theorem 1):</p>
 <ul>
 <li>Kendall’s <span class="math inline">\(\tau\)</span>
@@ -320,9 +315,9 @@ r &amp; 0 &amp; 1 &amp; \frac{1}{\sqrt{2}} \\
 </ul>
 <p>In short, d-dimensional multilinear interpolation uses a weighted average of <span class="math inline">\(2^{d}\)</span> neighbors to approximate the function values at the points within the d-dimensional cube of the neighbors <span class="citation">(Yoon, Müller, and Gaynanova 2021)</span>. This can be done by R package <code>chebpol</code> <span class="citation">(Gaure 2019)</span>.</p>
 </div>
-<div id="section-approximation-via-hybrid-scheme" class="section level3">
+<div id="approximation-via-hybrid-scheme" class="section level3">
 <h3 class="hasAnchor">
-<a href="#section-approximation-via-hybrid-scheme" class="anchor"></a>Approximation via hybrid Scheme</h3>
+<a href="#approximation-via-hybrid-scheme" class="anchor"></a>Approximation via hybrid Scheme</h3>
 <p><strong><em>Algorithm for approximation method <code><a href="../reference/estR.html">latentcor::estR(X, method = "approx")</a></code></em></strong></p>
 <p><strong>Input</strong>: Let <span class="math inline">\(\tilde{g}=h(g)\)</span>, pre-computed values <span class="math inline">\(F^{-1}(h^{-1}(\tilde{g}))\)</span> on a fixed grid <span class="math inline">\(\tilde{g}\in\tilde{\cal{G}}\)</span> based on the type of variables <span class="math inline">\(j\)</span> and <span class="math inline">\(k\)</span>. For binary/continuous case, <span class="math inline">\(\tilde{g}=(\tilde{\tau}_{jk}, \tilde{\Delta}_{j})\)</span>; for binary/binary case, <span class="math inline">\(\tilde{g}=(\tilde{\tau}_{jk}, \tilde{\Delta}_{j}, \tilde{\Delta}_{k})\)</span>; for truncated/continuous case, <span class="math inline">\(\tilde{g}=(\tilde{\tau}_{jk}, \tilde{\Delta}_{j})\)</span>; for truncated/truncated case, <span class="math inline">\(\tilde{g}=(\tilde{\tau}_{jk}, \tilde{\Delta}_{j}, \tilde{\Delta}_{k})\)</span>; for ternary/continuous case, <span class="math inline">\(\tilde{g}=(\tilde{\tau}_{jk}, \tilde{\Delta}_{j}^{1}, \tilde{\Delta}_{j}^{2})\)</span>; for ternary/binary case, <span class="math inline">\(\tilde{g}=(\tilde{\tau}_{jk}, \tilde{\Delta}_{j}^{1}, \tilde{\Delta}_{j}^{2}, \tilde{\Delta}_{k})\)</span>; for ternary/truncated case, <span class="math inline">\(\tilde{g}=(\tilde{\tau}_{jk}, \tilde{\Delta}_{j}^{1}, \tilde{\Delta}_{j}^{2}, \tilde{\Delta}_{k})\)</span>; for ternay/ternary case, <span class="math inline">\(\tilde{g}=(\tilde{\tau}_{jk}, \tilde{\Delta}_{j}^{1}, \tilde{\Delta}_{j}^{2}, \tilde{\Delta}_{k}^{1}, \tilde{\Delta}_{k}^{2})\)</span>.</p>
 <ul>
@@ -350,12 +345,12 @@ r &amp; 0 &amp; 1 &amp; \frac{1}{\sqrt{2}} \\
 </div>
 </div>
 </div>
-<div id="section-appendix" class="section level1">
+<div id="appendix" class="section level1">
 <h1 class="hasAnchor">
-<a href="#section-appendix" class="anchor"></a>Appendix</h1>
-<div id="section-derivation-for-bridge-function-for-ternarytruncated-case" class="section level2">
+<a href="#appendix" class="anchor"></a>Appendix</h1>
+<div id="derivation-for-bridge-function-for-ternarytruncated-case" class="section level2">
 <h2 class="hasAnchor">
-<a href="#section-derivation-for-bridge-function-for-ternarytruncated-case" class="anchor"></a>Derivation for bridge function for ternary/truncated case</h2>
+<a href="#derivation-for-bridge-function-for-ternarytruncated-case" class="anchor"></a>Derivation for bridge function for ternary/truncated case</h2>
 <p>Without loss of generality, let <span class="math inline">\(j=1\)</span> and <span class="math inline">\(k=2\)</span>. By the definition of Kendall’s <span class="math inline">\(\tau\)</span>, <span class="math display">\[
     \tau_{12}=E(\hat{\tau}_{12})=E[\frac{2}{n(n-1)}\sum_{1\leq i\leq i' \leq n} sign\{(X_{i1}-X_{i'1})(X_{i2}-X_{i'2})\}]
 \]</span> Since <span class="math inline">\(X_{1}\)</span> is ternary, <span class="math display">\[\begin{align}
@@ -463,9 +458,9 @@ r &amp; 0 &amp; 1 &amp; \frac{1}{\sqrt{2}} \\
 \end{pmatrix}\right\}
 \end{align}\]</span></p>
 </div>
-<div id="section-derivation-for-approximate-bound-for-ternarycontinuous-case" class="section level2">
+<div id="derivation-for-approximate-bound-for-ternarycontinuous-case" class="section level2">
 <h2 class="hasAnchor">
-<a href="#section-derivation-for-approximate-bound-for-ternarycontinuous-case" class="anchor"></a>Derivation for approximate bound for ternary/continuous case</h2>
+<a href="#derivation-for-approximate-bound-for-ternarycontinuous-case" class="anchor"></a>Derivation for approximate bound for ternary/continuous case</h2>
 <p>Let <span class="math inline">\(n_{0x}=\sum_{i=1}^{n_x}I(x_{i}=0)\)</span>, <span class="math inline">\(n_{2x}=\sum_{i=1}^{n_x}I(x_{i}=2)\)</span>, <span class="math inline">\(\pi_{0x}=\frac{n_{0x}}{n_{x}}\)</span> and <span class="math inline">\(\pi_{2x}=\frac{n_{2x}}{n_{x}}\)</span>, then <span class="math display">\[\begin{align}
     |\tau(\mathbf{x})|\leq &amp; \frac{n_{0x}(n-n_{0x})+n_{2x}(n-n_{0x}-n_{2x})}{\begin{pmatrix} n \\ 2 \end{pmatrix}} \nonumber\\
     = &amp; 2\{\frac{n_{0x}}{n-1}-(\frac{n_{0x}}{n})(\frac{n_{0x}}{n-1})+\frac{n_{2x}}{n-1}-(\frac{n_{2x}}{n})(\frac{n_{0x}}{n-1})-(\frac{n_{2x}}{n})(\frac{n_{2x}}{n-1})\} \nonumber\\
@@ -473,14 +468,14 @@ r &amp; 0 &amp; 1 &amp; \frac{1}{\sqrt{2}} \\
     = &amp; 2\{\pi_{0x}(1-\pi_{0x})+\pi_{2x}(1-\pi_{0x}-\pi_{2x})\}
 \end{align}\]</span></p>
 </div>
-<div id="section-approximate-bound-for-ternarybinary-case-and-ternaryternary-case" class="section level2">
+<div id="approximate-bound-for-ternarybinary-case-and-ternaryternary-case" class="section level2">
 <h2 class="hasAnchor">
-<a href="#section-approximate-bound-for-ternarybinary-case-and-ternaryternary-case" class="anchor"></a>Approximate bound for ternary/binary case and ternary/ternary case</h2>
+<a href="#approximate-bound-for-ternarybinary-case-and-ternaryternary-case" class="anchor"></a>Approximate bound for ternary/binary case and ternary/ternary case</h2>
 <p>Combine NC and BC case, we get NB case. So does NN case.</p>
 </div>
-<div id="section-derivation-for-approximate-bound-for-ternarytruncated-case" class="section level2">
+<div id="derivation-for-approximate-bound-for-ternarytruncated-case" class="section level2">
 <h2 class="hasAnchor">
-<a href="#section-derivation-for-approximate-bound-for-ternarytruncated-case" class="anchor"></a>Derivation for approximate bound for ternary/truncated case</h2>
+<a href="#derivation-for-approximate-bound-for-ternarytruncated-case" class="anchor"></a>Derivation for approximate bound for ternary/truncated case</h2>
 <p>Derivation for approximate bound for ternary truncated case: Let <span class="math inline">\(\mathbf{x}\in\mathcal{R}^{n}\)</span> and <span class="math inline">\(\mathbf{y}\in\mathcal{R}^{n}\)</span> be the observed <span class="math inline">\(n\)</span> realizations of ternary and truncated variables, respectively. Let <span class="math inline">\(n_{0x}=\sum_{i=0}^{n}I(x_{i}=0)\)</span>, <span class="math inline">\(\pi_{0x}=\frac{n_{0x}}{n}\)</span>, <span class="math inline">\(n_{1x}=\sum_{i=0}^{n}I(x_{i}=1)\)</span>, <span class="math inline">\(\pi_{1x}=\frac{n_{1x}}{n}\)</span>, <span class="math inline">\(n_{2x}=\sum_{i=0}^{n}I(x_{i}=2)\)</span>, <span class="math inline">\(\pi_{2x}=\frac{n_{2x}}{n}\)</span>, <span class="math inline">\(n_{0y}=\sum_{i=0}^{n}I(y_{i}=0)\)</span>, <span class="math inline">\(\pi_{0y}=\frac{n_{0y}}{n}\)</span>, <span class="math inline">\(n_{0x0y}=\sum_{i=0}^{n}I(x_{i}=0 \;\&amp; \; y_{i}=0)\)</span>, <span class="math inline">\(n_{1x0y}=\sum_{i=0}^{n}I(x_{i}=1 \;\&amp; \; y_{i}=0)\)</span> and <span class="math inline">\(n_{2x0y}=\sum_{i=0}^{n}I(x_{i}=2 \;\&amp; \; y_{i}=0)\)</span> then <span class="math display">\[\begin{align}
     |\tau(\mathbf{x}, \mathbf{y})|\leq &amp;
     \frac{\begin{pmatrix}n \\ 2\end{pmatrix}-\begin{pmatrix}n_{0x} \\ 2\end{pmatrix}-\begin{pmatrix}n_{1x} \\ 2\end{pmatrix}-\begin{pmatrix} n_{2x} \\ 2 \end{pmatrix}-\begin{pmatrix}n_{0y} \\ 2\end{pmatrix}+\begin{pmatrix}n_{0x0y} \\ 2 \end{pmatrix}+\begin{pmatrix}n_{1x0y} \\ 2\end{pmatrix}+\begin{pmatrix}n_{2x0y} \\ 2\end{pmatrix}}{\begin{pmatrix}n \\ 2\end{pmatrix}} \nonumber
@@ -496,59 +491,35 @@ r &amp; 0 &amp; 1 &amp; \frac{1}{\sqrt{2}} \\
 \end{align}\]</span></p>
 </div>
 </div>
-<div id="section-references" class="section level1">
+<div id="references" class="section level1 unnumbered">
 <h1 class="hasAnchor">
-<a href="#section-references" class="anchor"></a>References</h1>
-
-<script type="application/shiny-prerendered" data-context="server-start">
-options(tinytex.verbose = TRUE)
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>"
-)
-library(learnr)
-library(latentcor)
-</script><script type="application/shiny-prerendered" data-context="server">
-learnr:::register_http_handlers(session, metadata = NULL)
-</script><script type="application/shiny-prerendered" data-context="server">
-session$onSessionEnded(function() {
-        learnr:::session_stop_event(session)
-      })
-</script><script type="application/shiny-prerendered" data-context="server">
-`tutorial-exercise-data_generation-result` <- learnr:::setup_exercise_handler(reactive(req(input$`tutorial-exercise-data_generation-code-editor`)), session)
-output$`tutorial-exercise-data_generation-output` <- renderUI({
-  `tutorial-exercise-data_generation-result`()
-})
-</script><!--html_preserve--><script type="application/shiny-prerendered" data-context="dependencies">
-{"type":"list","attributes":{},"value":[]}
-</script><!--/html_preserve--><!--html_preserve--><script type="application/shiny-prerendered" data-context="execution_dependencies">
-{"type":"list","attributes":{},"value":[{"type":"NULL"}]}
-</script><!--/html_preserve--><div id="section-refs" class="references csl-bib-body hanging-indent">
-<div id="section-ref-croux2013robust" class="csl-entry">
+<a href="#references" class="anchor"></a>References</h1>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-croux2013robust" class="csl-entry">
 Croux, Christophe, Peter Filzmoser, and Heinrich Fritz. 2013. <span>“Robust Sparse Principal Component Analysis.”</span> <em>Technometrics</em> 55 (2): 202–14.
 </div>
-<div id="section-ref-fan2017high" class="csl-entry">
+<div id="ref-fan2017high" class="csl-entry">
 Fan, Jianqing, Han Liu, Yang Ning, and Hui Zou. 2017. <span>“High Dimensional Semiparametric Latent Graphical Model for Mixed Data.”</span> <em>Journal of the Royal Statistical Society. Series B: Statistical Methodology</em> 79 (2): 405–21.
 </div>
-<div id="section-ref-filzmoser2021pcapp" class="csl-entry">
+<div id="ref-filzmoser2021pcapp" class="csl-entry">
 Filzmoser, Peter, Heinrich Fritz, and Klaudius Kalcher. 2021. <em>pcaPP: Robust PCA by Projection Pursuit</em>. <a href="https://CRAN.R-project.org/package=pcaPP">https://CRAN.R-project.org/package=pcaPP</a>.
 </div>
-<div id="section-ref-fox2019poly" class="csl-entry">
+<div id="ref-fox2019poly" class="csl-entry">
 Fox, John. 2019. <em>Polycor: Polychoric and Polyserial Correlations</em>. <a href="https://CRAN.R-project.org/package=polycor">https://CRAN.R-project.org/package=polycor</a>.
 </div>
-<div id="section-ref-R-chebpol" class="csl-entry">
+<div id="ref-R-chebpol" class="csl-entry">
 Gaure, Simen. 2019. <em>Chebpol: Multivariate Interpolation</em>. <a href="https://github.com/sgaure/chebpol">https://github.com/sgaure/chebpol</a>.
 </div>
-<div id="section-ref-liu2009nonparanormal" class="csl-entry">
+<div id="ref-liu2009nonparanormal" class="csl-entry">
 Liu, Han, John Lafferty, and Larry Wasserman. 2009. <span>“The Nonparanormal: Semiparametric Estimation of High Dimensional Undirected Graphs.”</span> <em>Journal of Machine Learning Research</em> 10 (10).
 </div>
-<div id="section-ref-quan2018rank" class="csl-entry">
+<div id="ref-quan2018rank" class="csl-entry">
 Quan, Xiaoyun, James G Booth, and Martin T Wells. 2018. <span>“Rank-Based Approach for Estimating Correlations in Mixed Ordinal Data.”</span> <em>arXiv Preprint arXiv:1809.06255</em>.
 </div>
-<div id="section-ref-yoon2020sparse" class="csl-entry">
+<div id="ref-yoon2020sparse" class="csl-entry">
 Yoon, Grace, Raymond J Carroll, and Irina Gaynanova. 2020. <span>“Sparse Semiparametric Canonical Correlation Analysis for Data of Mixed Types.”</span> <em>Biometrika</em> 107 (3): 609–25.
 </div>
-<div id="section-ref-yoon2021fast" class="csl-entry">
+<div id="ref-yoon2021fast" class="csl-entry">
 Yoon, Grace, Christian L Müller, and Irina Gaynanova. 2021. <span>“Fast Computation of Latent Correlations.”</span> <em>Journal of Computational and Graphical Statistics</em>, 1–8.
 </div>
 </div>
