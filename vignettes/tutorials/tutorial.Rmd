@@ -5,6 +5,7 @@ runtime: shiny_prerendered
 ---
 
 ```{r setup, include=FALSE}
+library(shiny)
 library(learnr)
 knitr::opts_chunk$set(echo = FALSE)
 ```

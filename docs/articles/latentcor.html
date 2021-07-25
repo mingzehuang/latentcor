@@ -49,18 +49,6 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="../articles/tutorials.html">Tutorial</a>
-    </li>
-  </ul>
-</li>
       </ul>
 <ul class="nav navbar-nav navbar-right"></ul>
 </div>
@@ -78,7 +66,7 @@
       <h1 data-toc-skip>latentcor</h1>
                         <h4 class="author">Mingze Huang, Irina Gaynanova, Christian L. Müller</h4>
             
-            <h4 class="date">2021-07-24</h4>
+            <h4 class="date">2021-07-25</h4>
       
       
       <div class="hidden name"><code>latentcor.Rmd</code></div>
@@ -150,24 +138,17 @@
 <p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span> satisfies the ternary latent Gaussian copula model if there exists <span class="math inline">\(W\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})+I(W_{j}&gt;c'_{j})\)</span>, where <span class="math inline">\(I(\cdot)\)</span> is the indicator function and <span class="math inline">\(c_{j}&lt;c'_{j}\)</span> are constants.</p>
 <p><strong><em>Definition of truncated or zero-inflated model <code><a href="../reference/GenData.html">latentcor::GenData(types = "tru")</a></code></em></strong></p>
 <p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span> satisfies the truncated latent Gaussian copula model if there exists <span class="math inline">\(W\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})W_{j}\)</span>, where <span class="math inline">\(I(\cdot)\)</span> is the indicator function and <span class="math inline">\(c_{j}\)</span> are constants.</p>
-</div>
-<div id="mixed-latent-gaussian-copula-model-latentcorgendatatypes-ccon-bin-ter-tru" class="section level3">
-<h3 class="hasAnchor">
-<a href="#mixed-latent-gaussian-copula-model-latentcorgendatatypes-ccon-bin-ter-tru" class="anchor"></a>Mixed latent Gaussian copula model <code>latentcor::GenData(types = c("con", "bin", "ter", "tru"))</code>
-</h3>
+<p><strong><em>Mixed latent Gaussian copula model <code><a href="../reference/GenData.html">latentcor::GenData(types = c("con", "bin", "ter", "tru"))</a></code></em></strong></p>
 <p>The mixed latent Gaussian copula model jointly models <span class="math inline">\(W=(W_{1}, W_{2}, W_{3}, W_{4})\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{1j}=W_{1j}\)</span>, <span class="math inline">\(X_{2j}=I(W_{2j}&gt;c_{2j})\)</span>, <span class="math inline">\(X_{3j}=I(W_{3j}&gt;c_{3j})+I(W_{3j}&gt;c'_{3j})\)</span> and <span class="math inline">\(X_{4j}=I(W_{4j}&gt;c_{4j})W_{4j}\)</span>.</p>
-<div id="kendalls-tau-latentcorestrxk" class="section level4">
-<h4 class="hasAnchor">
-<a href="#kendalls-tau-latentcorestrxk" class="anchor"></a>Kendall’s <span class="math inline">\(\tau\)</span> <code>latentcor::estR(X)$K</code>
-</h4>
+<p><strong><em>Kendall’s <span class="math inline">\(\tau\)</span> <code>latentcor::estR(X)$K</code></em></strong></p>
 <p>The estimation of latent correlation matrix <span class="math inline">\(\Sigma\)</span> is achieved via the bridge function <span class="math inline">\(F\)</span> which is defined such that <span class="math inline">\(E(\hat{\tau}_{jk})=F(\sigma_{jk})\)</span>, where <span class="math inline">\(\sigma_{jk}\)</span> is the latent correlation between variables <span class="math inline">\(j\)</span> and <span class="math inline">\(k\)</span>, and <span class="math inline">\(\hat{\tau}_{jk}\)</span> is the corresponding sample Kendall’s <span class="math inline">\(\tau\)</span>. Given observed <span class="math inline">\(\mathbf{x}_{j}, \mathbf{x}_{k}\in\cal{R}^{n}\)</span>,</p>
 <p><span class="math display">\[
 \hat{\tau}_{jk}=\hat{\tau}(\mathbf{x}_{j}, \mathbf{x}_{k})=\frac{2}{n(n-1)}\sum_{1\le i&lt;i'\le n}sign(x_{ij}-x_{i'j})sign(x_{ik}-x_{i'k}),
 \]</span> where <span class="math inline">\(n\)</span> is the sample size. Using <span class="math inline">\(F\)</span>, a moment-based estimator is <span class="math inline">\(\hat{\sigma}_{jk}=F^{-1}(\hat{\tau}_{jk})\)</span> with the corresponding <span class="math inline">\(\hat{\Sigma}\)</span> being consistent for <span class="math inline">\(\Sigma\)</span> <span class="citation">(Fan et al. 2017; Quan, Booth, and Wells 2018; Yoon, Müller, and Gaynanova 2021)</span>. The explicit form of <span class="math inline">\(F\)</span> has been derived for all combinations of continuous(C)/binary(B)/ternary(N)/truncated(T) variable types <span class="citation">(Fan et al. 2017; Yoon, Müller, and Gaynanova 2021)</span>.</p>
 </div>
-<div id="theorem-of-bridge-functions" class="section level4">
-<h4 class="hasAnchor">
-<a href="#theorem-of-bridge-functions" class="anchor"></a>Theorem of bridge functions</h4>
+<div id="theorem-of-bridge-functions" class="section level3">
+<h3 class="hasAnchor">
+<a href="#theorem-of-bridge-functions" class="anchor"></a>Theorem of bridge functions</h3>
 <p>Let <span class="math inline">\(W_{1}\in\cal{R}^{p_{1}}\)</span>, <span class="math inline">\(W_{2}\in\cal{R}^{p_{2}}\)</span>, <span class="math inline">\(W_{3}\in\cal{R}^{p_{3}}\)</span>, <span class="math inline">\(W_{4}\in\cal{R}^{p_{4}}\)</span> be such that <span class="math inline">\(W=(W_{1}, W_{2}, W_{3}, W_{4})\sim NPN(0, \Sigma, f)\)</span> with <span class="math inline">\(p=p_{1}+p_{2}+p_{3}+p_{4}\)</span>. Let <span class="math inline">\(X=(X_{1}, X_{2}, X_{3}, X_{4})\in\cal{R}^{p}\)</span> satisfy <span class="math inline">\(X_{j}=W_{j}\)</span> for <span class="math inline">\(j=1,...,p_{1}\)</span>, <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})\)</span> for <span class="math inline">\(j=p_{1}+1, ..., p_{1}+p_{2}\)</span>, <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})W_{j}\)</span> for <span class="math inline">\(j=p_{1}+p_{2}+1, ..., p_{3}\)</span> and <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})+I(W_{j}&gt;c'_{j})\)</span> for <span class="math inline">\(j=p_{1}+p_{2}+p_{3}+1, ..., p\)</span> with <span class="math inline">\(\Delta_{j}=f(c_{j})\)</span>. The rank-based estimator of <span class="math inline">\(\Sigma\)</span> based on the observed <span class="math inline">\(n\)</span> realizations of <span class="math inline">\(X\)</span> is the matrix <span class="math inline">\(\mathbf{\hat{R}}\)</span> with <span class="math inline">\(\hat{r}_{jj}=1\)</span>, <span class="math inline">\(\hat{r}_{jk}=\hat{r}_{kj}=F^{-1}(\hat{\tau}_{jk})\)</span> with block structure</p>
 <p><span class="math display">\[
 \mathbf{\hat{R}}=\begin{pmatrix}
@@ -175,7 +156,47 @@ F_{CC}^{-1}(\hat{\tau}) &amp; F_{CB}^{-1}(\hat{\tau}) &amp; F_{CT}^{-1}(\hat{\ta
 F_{BC}^{-1}(\hat{\tau}) &amp; F_{BB}^{-1}(\hat{\tau}) &amp; F_{BT}^{-1}(\hat{\tau})\\
 F_{TC}^{-1}(\hat{\tau}) &amp; F_{TB}^{-1}(\hat{\tau}) &amp; F_{TT}^{-1}(\hat{\tau})
 \end{pmatrix}
-\]</span> <span class="math display">\[
+\]</span></p>
+<table class="table">
+<thead><tr class="header">
+<th>Type</th>
+<th>continuous</th>
+<th>binary</th>
+<th>zero-inflated (truncated)</th>
+<th>ternary</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>continuous</td>
+<td><span class="citation">Liu, Lafferty, and Wasserman (2009)</span></td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td>binary</td>
+<td><span class="citation">Fan et al. (2017)</span></td>
+<td><span class="citation">Fan et al. (2017)</span></td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr class="odd">
+<td>zero-inflated (truncated)</td>
+<td><span class="citation">Yoon, Carroll, and Gaynanova (2020)</span></td>
+<td><span class="citation">Yoon, Carroll, and Gaynanova (2020)</span></td>
+<td><span class="citation">Yoon, Carroll, and Gaynanova (2020)</span></td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td>ternary</td>
+<td><span class="citation">Quan, Booth, and Wells (2018)</span></td>
+<td><span class="citation">Quan, Booth, and Wells (2018)</span></td>
+<td>See Appendix</td>
+<td><span class="citation">Quan, Booth, and Wells (2018)</span></td>
+</tr>
+</tbody>
+</table>
+<p><span class="math display">\[
 F(\cdot)=\begin{cases}
 \frac{2}{\pi}sin^{-1}(r)  &amp;  for \; CC\\
 4\Phi_{2}(\Delta_{j},0;\frac{r}{\sqrt{2}})-2\Phi(\Delta_{j}))  &amp;  for \; BC\\
@@ -277,11 +298,9 @@ r &amp; 0 &amp; 1 &amp; \frac{1}{\sqrt{2}} \\
 </ul>
 </div>
 </div>
-</div>
-<div id="approximation-method-latentcorestrx-method-approx" class="section level2">
+<div id="approximation-method" class="section level2">
 <h2 class="hasAnchor">
-<a href="#approximation-method-latentcorestrx-method-approx" class="anchor"></a>Approximation method <code>latentcor::estR(X, method = "approx")</code>
-</h2>
+<a href="#approximation-method" class="anchor"></a>Approximation method</h2>
 <div id="inversion-via-multilinear-interpolation" class="section level3">
 <h3 class="hasAnchor">
 <a href="#inversion-via-multilinear-interpolation" class="anchor"></a>Inversion via Multilinear Interpolation</h3>
@@ -296,10 +315,9 @@ r &amp; 0 &amp; 1 &amp; \frac{1}{\sqrt{2}} \\
 </ul>
 <p>In short, d-dimensional multilinear interpolation uses a weighted average of <span class="math inline">\(2^{d}\)</span> neighbors to approximate the function values at the points within the d-dimensional cube of the neighbors <span class="citation">(Yoon, Müller, and Gaynanova 2021)</span>. This can be done by R package <code>chebpol</code> <span class="citation">(Gaure 2019)</span>.</p>
 </div>
-<div id="approximation-via-hybrid-scheme-latentcorestrx-method-approx" class="section level3">
+<div id="approximation-via-hybrid-scheme" class="section level3">
 <h3 class="hasAnchor">
-<a href="#approximation-via-hybrid-scheme-latentcorestrx-method-approx" class="anchor"></a>Approximation via hybrid Scheme <code>latentcor::estR(X, method = "approx")</code>
-</h3>
+<a href="#approximation-via-hybrid-scheme" class="anchor"></a>Approximation via hybrid Scheme</h3>
 <p><strong><em>Algorithm for approximation method <code><a href="../reference/estR.html">latentcor::estR(X, method = "approx")</a></code></em></strong></p>
 <p><strong>Input</strong>: Let <span class="math inline">\(\tilde{g}=h(g)\)</span>, pre-computed values <span class="math inline">\(F^{-1}(h^{-1}(\tilde{g}))\)</span> on a fixed grid <span class="math inline">\(\tilde{g}\in\tilde{\cal{G}}\)</span> based on the type of variables <span class="math inline">\(j\)</span> and <span class="math inline">\(k\)</span>. For binary/continuous case, <span class="math inline">\(\tilde{g}=(\tilde{\tau}_{jk}, \tilde{\Delta}_{j})\)</span>; for binary/binary case, <span class="math inline">\(\tilde{g}=(\tilde{\tau}_{jk}, \tilde{\Delta}_{j}, \tilde{\Delta}_{k})\)</span>; for truncated/continuous case, <span class="math inline">\(\tilde{g}=(\tilde{\tau}_{jk}, \tilde{\Delta}_{j})\)</span>; for truncated/truncated case, <span class="math inline">\(\tilde{g}=(\tilde{\tau}_{jk}, \tilde{\Delta}_{j}, \tilde{\Delta}_{k})\)</span>; for ternary/continuous case, <span class="math inline">\(\tilde{g}=(\tilde{\tau}_{jk}, \tilde{\Delta}_{j}^{1}, \tilde{\Delta}_{j}^{2})\)</span>; for ternary/binary case, <span class="math inline">\(\tilde{g}=(\tilde{\tau}_{jk}, \tilde{\Delta}_{j}^{1}, \tilde{\Delta}_{j}^{2}, \tilde{\Delta}_{k})\)</span>; for ternary/truncated case, <span class="math inline">\(\tilde{g}=(\tilde{\tau}_{jk}, \tilde{\Delta}_{j}^{1}, \tilde{\Delta}_{j}^{2}, \tilde{\Delta}_{k})\)</span>; for ternay/ternary case, <span class="math inline">\(\tilde{g}=(\tilde{\tau}_{jk}, \tilde{\Delta}_{j}^{1}, \tilde{\Delta}_{j}^{2}, \tilde{\Delta}_{k}^{1}, \tilde{\Delta}_{k}^{2})\)</span>.</p>
 <ul>
@@ -497,6 +515,9 @@ Liu, Han, John Lafferty, and Larry Wasserman. 2009. <span>“The Nonparanormal: 
 </div>
 <div id="ref-quan2018rank" class="csl-entry">
 Quan, Xiaoyun, James G Booth, and Martin T Wells. 2018. <span>“Rank-Based Approach for Estimating Correlations in Mixed Ordinal Data.”</span> <em>arXiv Preprint arXiv:1809.06255</em>.
+</div>
+<div id="ref-yoon2020sparse" class="csl-entry">
+Yoon, Grace, Raymond J Carroll, and Irina Gaynanova. 2020. <span>“Sparse Semiparametric Canonical Correlation Analysis for Data of Mixed Types.”</span> <em>Biometrika</em> 107 (3): 609–25.
 </div>
 <div id="ref-yoon2021fast" class="csl-entry">
 Yoon, Grace, Christian L Müller, and Irina Gaynanova. 2021. <span>“Fast Computation of Latent Correlations.”</span> <em>Journal of Computational and Graphical Statistics</em>, 1–8.
