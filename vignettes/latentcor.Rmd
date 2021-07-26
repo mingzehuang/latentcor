@@ -96,8 +96,6 @@ estimate$plotR
 ``` 
 
 
-## Another example
-
 # Estimation methods
 
 ## Original method
@@ -162,7 +160,9 @@ $$
 where $n$ is the sample size.
 
 ```{r KendallTau}
-estR(X, types = c("con", "bin", "ter", "tru"), method = "original")$K
+estimate = estR(X, types = c("con", "bin", "ter", "tru"), method = "original")
+K = estimate$K
+K
 ```
 
 Using $F$, a moment-based estimator is $\hat{\sigma}_{jk}=F^{-1}(\hat{\tau}_{jk})$ with the corresponding  $\hat{\Sigma}$ being consistent for $\Sigma$ [@fan2017high; @quan2018rank; @yoon2021fast]. The explicit form of $F$ has been derived for all combinations of continuous(C)/binary(B)/ternary(N)/truncated(T) variable types [@fan2017high; @yoon2021fast]. 
@@ -178,6 +178,7 @@ F_{BC}^{-1}(\hat{\tau}) & F_{BB}^{-1}(\hat{\tau}) & F_{BT}^{-1}(\hat{\tau})\\
 F_{TC}^{-1}(\hat{\tau}) & F_{TB}^{-1}(\hat{\tau}) & F_{TT}^{-1}(\hat{\tau})
 \end{pmatrix}
 $$
+We summarize the references for the explicit form of $F(\cdot)$ for each variable combination as implemented in `latentcor` below.
 
 |Type | continuous | binary | zero-inflated (truncated) | ternary |
 |-----|----------|----------|----------|----------|
@@ -286,7 +287,7 @@ r & 0 & 1 & \frac{1}{\sqrt{2}} \\
 \end{pmatrix}.
 $$
 
-***Algorithm for Original method `latentcor::estR(X, method = "original")`***
+***Algorithm for Original method***
 
 **Input**: $F(r)=F(r, \mathbf{\Delta})$ - bridge function based on the type of variables $j$, $k$
 
@@ -294,14 +295,23 @@ $$
    
    - Step 2. For binary/truncated variable $j$, set $\hat{\mathbf{\Delta}_{j}}=\hat{\Delta}_{j}=\Phi^{-1}(\pi_{0j})$ with $\pi_{0j}=\sum_{i=1}^{n}\frac{I(x_{ij}=0)}{n}$. For ternary variable $j$, set $\hat{\mathbf{\Delta}_{j}}=(\hat{\Delta}_{j}^{1}, \hat{\Delta_{j}^{2}})$ where $\hat{\Delta}_{j}^{1}=\Phi^{-1}(\pi_{0j})$ and $\hat{\Delta}_{j}^{2}=\Phi^{-1}(\pi_{0}+\pi_{1})$ with $\pi_{0j}=\sum_{i=1}^{n}\frac{I(x_{ij}=0)}{n}$ and $\pi_{1j}=\sum_{i=1}^{n}\frac{I(x_{ij}=1)}{n}$.
    
+```{r zratios_2}
+zratios = estimate$zratios
+zratios
+```
+   
    - Compute $F^{-1}(\hat{\tau}_{jk})$ as $\hat{r}_{jk}=argmin\{F(r)-\hat{\tau}_{jk}\}^{2}$ solved via `optimize` function in *R*.
+
+```{r estimate2}
+estimate$R
+```
 
 
 ## Approximation method
 
 ### Inversion via Multilinear Interpolation
 
-The inverse bridge function is an analytic function of at most 5 parameters (see Theorem 1):
+The inverse bridge function is an analytic function of at most 5 parameters (see Theorem of bridge functions):
 
   - Kendall's $\tau$
   - Proportion of zeros in the 1st variable 
@@ -321,6 +331,10 @@ In short, d-dimensional multilinear interpolation uses a weighted average of $2^
   - Step 1 and Step 2 same as Algorithm 1.
   
   - Step 3. If $|\hat{\tau}_{jk}|\le ratio\times \bar{\tau}(\cdot)$, apply Algorithm 3; Otherwise apply Algorithm 1.
+
+```{r estimate3}
+estR(X, types = c("con", "bin", "ter", "tru"), method = "approx")
+```
 
 To avoid interpolation in areas with high approximation errors close to the boundary, we use hybrid scheme [@yoon2021fast]. The derivation of approximate bound for BC, BB, TC, TB, TT cases see [@yoon2021fast]. The derivation of approximate bound for NC, NB, NN, NT case see Appendix.
 
