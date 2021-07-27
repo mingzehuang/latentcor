@@ -226,7 +226,7 @@ $$
 \begin{pmatrix}
 1 & \frac{1}{\sqrt{2}} & \frac{r}{\sqrt{2}}\\
 \frac{1}{\sqrt{2}} & 1 & r \\
-\frac{r}{\sqrt{2}} & 2 & 1
+\frac{r}{\sqrt{2}} & r & 1
 \end{pmatrix}, \;\;\;
 \Sigma_{3a}(r)=
 \begin{pmatrix}
