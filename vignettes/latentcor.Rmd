@@ -313,7 +313,7 @@ estimate = estR(X, types = c("con", "bin", "ter", "tru"), method = "original")
 estimate$K
 ```
    
-   - Step 2. For binary/truncated variable $j$, set $\hat{\mathbf{\Delta}_{j}}=\hat{\Delta}_{j}=\Phi^{-1}(\pi_{0j})$ with $\pi_{0j}=\sum_{i=1}^{n}\frac{I(x_{ij}=0)}{n}$. For ternary variable $j$, set $\hat{\mathbf{\Delta}_{j}}=(\hat{\Delta}_{j}^{1}, \hat{\Delta_{j}^{2}})$ where $\hat{\Delta}_{j}^{1}=\Phi^{-1}(\pi_{0j})$ and $\hat{\Delta}_{j}^{2}=\Phi^{-1}(\pi_{0}+\pi_{1})$ with $\pi_{0j}=\sum_{i=1}^{n}\frac{I(x_{ij}=0)}{n}$ and $\pi_{1j}=\sum_{i=1}^{n}\frac{I(x_{ij}=1)}{n}$.
+   - Step 2. For binary/truncated variable $j$, set $\hat{\mathbf{\Delta}}_{j}=\hat{\Delta}_{j}=\Phi^{-1}(\pi_{0j})$ with $\pi_{0j}=\sum_{i=1}^{n}\frac{I(x_{ij}=0)}{n}$. For ternary variable $j$, set $\hat{\mathbf{\Delta}}_{j}=(\hat{\Delta}_{j}^{1}, \hat{\Delta}_{j}^{2})$ where $\hat{\Delta}_{j}^{1}=\Phi^{-1}(\pi_{0j})$ and $\hat{\Delta}_{j}^{2}=\Phi^{-1}(\pi_{0j}+\pi_{1j})$ with $\pi_{0j}=\sum_{i=1}^{n}\frac{I(x_{ij}=0)}{n}$ and $\pi_{1j}=\sum_{i=1}^{n}\frac{I(x_{ij}=1)}{n}$.
    
 ```{r zratios_2}
 estimate$zratios
@@ -349,7 +349,7 @@ estimate = estR(X, types = c("con", "bin", "ter", "tru"), method = "approx")
 
 ***Algorithm for Approximation method ***
 
-**Input**: Let $\tilde{g}=h(g)$, pre-computed values $F^{-1}(h^{-1}(\tilde{g}))$ on a fixed grid $\tilde{g}\in\tilde{\cal{G}}$ based on the type of variables $j$ and $k$. For binary/continuous case, $\tilde{g}=(\tilde{\tau}_{jk}, \tilde{\Delta}_{j})$; for binary/binary case, $\tilde{g}=(\tilde{\tau}_{jk}, \tilde{\Delta}_{j}, \tilde{\Delta}_{k})$; for truncated/continuous case, $\tilde{g}=(\tilde{\tau}_{jk}, \tilde{\Delta}_{j})$; for truncated/truncated case, $\tilde{g}=(\tilde{\tau}_{jk}, \tilde{\Delta}_{j}, \tilde{\Delta}_{k})$; for ternary/continuous case, $\tilde{g}=(\tilde{\tau}_{jk}, \tilde{\Delta}_{j}^{1}, \tilde{\Delta}_{j}^{2})$; for ternary/binary case, $\tilde{g}=(\tilde{\tau}_{jk}, \tilde{\Delta}_{j}^{1}, \tilde{\Delta}_{j}^{2}, \tilde{\Delta}_{k})$; for ternary/truncated case, $\tilde{g}=(\tilde{\tau}_{jk}, \tilde{\Delta}_{j}^{1}, \tilde{\Delta}_{j}^{2}, \tilde{\Delta}_{k})$; for ternay/ternary case, $\tilde{g}=(\tilde{\tau}_{jk}, \tilde{\Delta}_{j}^{1}, \tilde{\Delta}_{j}^{2}, \tilde{\Delta}_{k}^{1}, \tilde{\Delta}_{k}^{2})$.
+**Input**: Let $\check{g}=h(g)$, pre-computed values $F^{-1}(h^{-1}(\check{g}))$ on a fixed grid $\check{g}\in\check{\cal{G}}$ based on the type of variables $j$ and $k$. For binary/continuous case, $\check{g}=(\check{\tau}_{jk}, \check{\Delta}_{j})$; for binary/binary case, $\check{g}=(\check{\tau}_{jk}, \check{\Delta}_{j}, \check{\Delta}_{k})$; for truncated/continuous case, $\check{g}=(\check{\tau}_{jk}, \check{\Delta}_{j})$; for truncated/truncated case, $\check{g}=(\check{\tau}_{jk}, \check{\Delta}_{j}, \check{\Delta}_{k})$; for ternary/continuous case, $\check{g}=(\check{\tau}_{jk}, \check{\Delta}_{j}^{1}, \check{\Delta}_{j}^{2})$; for ternary/binary case, $\check{g}=(\check{\tau}_{jk}, \check{\Delta}_{j}^{1}, \check{\Delta}_{j}^{2}, \check{\Delta}_{k})$; for ternary/truncated case, $\check{g}=(\check{\tau}_{jk}, \check{\Delta}_{j}^{1}, \check{\Delta}_{j}^{2}, \check{\Delta}_{k})$; for ternay/ternary case, $\check{g}=(\check{\tau}_{jk}, \check{\Delta}_{j}^{1}, \check{\Delta}_{j}^{2}, \check{\Delta}_{k}^{1}, \check{\Delta}_{k}^{2})$.
 
   - Step 1 and Step 2 same as Original method.
   
@@ -375,7 +375,7 @@ $$
 \end{cases}
 $$
 
-By default, `latentcor` uses `ratio = 0.9`, but this value can be modified by the user
+By default, `latentcor` uses $\mbox{ratio} = 0.9$, but this value can be modified by the user
 
 ```{r estimate3, warning = FALSE, message = F}
 estR(X, types = c("con", "bin", "ter", "tru"), method = "approx", ratio = 0.99)$R
@@ -388,9 +388,9 @@ The lower is the `ratio`, the closer is the approximation method to original met
 **Rescaled Grid for Interpolation**
 
 Since $|\hat{\tau}|\le \bar{\tau}$, the grid does not need to cover the whole domain $\tau\in[-1, 1]$. To optimize memory associated with storing the grid, we rescale $\tau$ as follows:
-$\tilde{\tau}_{jk}=\tau_{jk}/\bar{\tau}_{jk}\in[-1, 1]$, where $\bar{\tau}_{jk}$ is as defined above. 
+$\check{\tau}_{jk}=\tau_{jk}/\bar{\tau}_{jk}\in[-1, 1]$, where $\bar{\tau}_{jk}$ is as defined above. 
 
-In addition, for ternary variable $j$, it always holds that $\Delta_{j}^{2}>\Delta_{j}^{1}$ since $\Delta_{j}^{1}=\Phi^{-1}(\pi_{0j})$ and $\Delta_{j}^{2}=\Phi^{-1}(\pi_{0j}+\pi_{1j})$. Thus, the grid should not cover the the area corresponding to $\Delta_{j}^{2}\ge\Delta_{j}^{1}$. We thus rescale as follows: $\tilde{\Delta}_{j}^{1}=\Delta_{j}^{1}/\Delta_{j}^{2}\in[0, 1]$; $\tilde{\Delta}_{j}^{2}=\Delta_{j}^{2}\in[0, 1]$.
+In addition, for ternary variable $j$, it always holds that $\Delta_{j}^{2}>\Delta_{j}^{1}$ since $\Delta_{j}^{1}=\Phi^{-1}(\pi_{0j})$ and $\Delta_{j}^{2}=\Phi^{-1}(\pi_{0j}+\pi_{1j})$. Thus, the grid should not cover the the area corresponding to $\Delta_{j}^{2}\ge\Delta_{j}^{1}$. We thus rescale as follows: $\tilde{\Delta}_{j}^{1}=\Delta_{j}^{1}/\Delta_{j}^{2}\in[0, 1]$; $\check{\Delta}_{j}^{2}=\Delta_{j}^{2}\in[0, 1]$.
 
 
 # Appendix
@@ -554,6 +554,8 @@ Since $n_{0x0y}\leq\min(n_{0x},n_{0y})$, $n_{1x0y}\leq\min(n_{1x},n_{0y})$ and $
     =& 1-\{\max(\pi_{0x},\pi_{1x},\pi_{2x},\pi_{0y})\}^{2} \nonumber\\
     =& 1-\{\max(\pi_{0x},(1-\pi_{0x}-\pi_{2x}),\pi_{2x},\pi_{0y})\}^{2}
 \end{align}
+
+It is easy to get the approximate bound for truncated/ternary case by switching $\mathbf{x}$ and $\mathbf{y}$.
 
 # References
 

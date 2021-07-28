@@ -66,7 +66,7 @@
       <h1 data-toc-skip>latentcor</h1>
                         <h4 class="author">Mingze Huang, Christian L. Müller, Irina Gaynanova</h4>
             
-            <h4 class="date">2021-07-27</h4>
+            <h4 class="date">2021-07-28</h4>
       
       
       <div class="hidden name"><code>latentcor.Rmd</code></div>
@@ -100,13 +100,13 @@
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="va">simdata</span><span class="op">$</span><span class="va">X</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">X</span>, n <span class="op">=</span> <span class="fl">6L</span><span class="op">)</span>
-<span class="co">#&gt;      [,1]        [,2]</span>
-<span class="co">#&gt; [1,]    2  0.76775292</span>
-<span class="co">#&gt; [2,]    1 -0.82039982</span>
-<span class="co">#&gt; [3,]    1 -1.20384317</span>
-<span class="co">#&gt; [4,]    0 -1.03838321</span>
-<span class="co">#&gt; [5,]    1 -0.09951143</span>
-<span class="co">#&gt; [6,]    2  0.02872440</span></code></pre></div>
+<span class="co">#&gt;      [,1]       [,2]</span>
+<span class="co">#&gt; [1,]    1 -0.1193743</span>
+<span class="co">#&gt; [2,]    0 -1.2732472</span>
+<span class="co">#&gt; [3,]    0 -2.2740900</span>
+<span class="co">#&gt; [4,]    2 -0.3445415</span>
+<span class="co">#&gt; [5,]    0 -1.0211178</span>
+<span class="co">#&gt; [6,]    1  0.9721633</span></code></pre></div>
 <ul>
 <li>
 <code>plotX</code>: NULL (<code>showplot = FALSE</code>, can be changed to display the plot of generated data in<code>GenData</code> input).</li>
@@ -138,16 +138,16 @@
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">K</span>
 <span class="co">#&gt;           X1        X2</span>
-<span class="co">#&gt; X1 1.0000000 0.2686869</span>
-<span class="co">#&gt; X2 0.2686869 1.0000000</span></code></pre></div>
+<span class="co">#&gt; X1 1.0000000 0.1834343</span>
+<span class="co">#&gt; X2 0.1834343 1.0000000</span></code></pre></div>
 <ul>
 <li>R: estimated latent correlation matrix for these 2 variable.</li>
 </ul>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">R</span>
 <span class="co">#&gt;           X1        X2</span>
-<span class="co">#&gt; X1 1.0000000 0.4821287</span>
-<span class="co">#&gt; X2 0.4821287 1.0000000</span></code></pre></div>
+<span class="co">#&gt; X1 1.0000000 0.3342882</span>
+<span class="co">#&gt; X2 0.3342882 1.0000000</span></code></pre></div>
 <ul>
 <li>plotR: NULL by default as <code>showplot = FALSE</code> in <code>estR</code>. Otherwise displays a heatmap of latent correlation matrix.</li>
 </ul>
@@ -168,13 +168,13 @@
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/GenData.html">GenData</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6</span>, types <span class="op">=</span> <span class="st">"con"</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
 <span class="va">X</span>
-<span class="co">#&gt;            [,1]</span>
-<span class="co">#&gt; [1,]  1.3110286</span>
-<span class="co">#&gt; [2,]  1.6254654</span>
-<span class="co">#&gt; [3,] -0.1937518</span>
-<span class="co">#&gt; [4,] -0.6158853</span>
-<span class="co">#&gt; [5,]  0.3617546</span>
-<span class="co">#&gt; [6,]  0.6522381</span></code></pre></div>
+<span class="co">#&gt;             [,1]</span>
+<span class="co">#&gt; [1,] -1.25142036</span>
+<span class="co">#&gt; [2,] -0.64465043</span>
+<span class="co">#&gt; [3,] -0.73342899</span>
+<span class="co">#&gt; [4,] -0.67527513</span>
+<span class="co">#&gt; [5,] -0.30116769</span>
+<span class="co">#&gt; [6,] -0.08046541</span></code></pre></div>
 <p><strong><em>Definition of binary model</em></strong> <span class="citation">(Fan et al. 2017)</span></p>
 <p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span> satisfies the binary latent Gaussian copula model if there exists <span class="math inline">\(W\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})\)</span>, where <span class="math inline">\(I(\cdot)\)</span> is the indicator function and <span class="math inline">\(c_{j}\)</span> are constants.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
@@ -183,34 +183,34 @@
 <span class="co">#&gt;      [,1]</span>
 <span class="co">#&gt; [1,]    0</span>
 <span class="co">#&gt; [2,]    1</span>
-<span class="co">#&gt; [3,]    0</span>
-<span class="co">#&gt; [4,]    1</span>
-<span class="co">#&gt; [5,]    1</span>
-<span class="co">#&gt; [6,]    0</span></code></pre></div>
+<span class="co">#&gt; [3,]    1</span>
+<span class="co">#&gt; [4,]    0</span>
+<span class="co">#&gt; [5,]    0</span>
+<span class="co">#&gt; [6,]    1</span></code></pre></div>
 <p><strong><em>Definition of ternary model</em></strong> <span class="citation">(Quan, Booth, and Wells 2018)</span></p>
 <p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span> satisfies the ternary latent Gaussian copula model if there exists <span class="math inline">\(W\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})+I(W_{j}&gt;c'_{j})\)</span>, where <span class="math inline">\(I(\cdot)\)</span> is the indicator function and <span class="math inline">\(c_{j}&lt;c'_{j}\)</span> are constants.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/GenData.html">GenData</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6</span>, types <span class="op">=</span> <span class="st">"ter"</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
 <span class="va">X</span>
 <span class="co">#&gt;      [,1]</span>
-<span class="co">#&gt; [1,]    0</span>
-<span class="co">#&gt; [2,]    2</span>
+<span class="co">#&gt; [1,]    1</span>
+<span class="co">#&gt; [2,]    1</span>
 <span class="co">#&gt; [3,]    1</span>
-<span class="co">#&gt; [4,]    1</span>
-<span class="co">#&gt; [5,]    1</span>
-<span class="co">#&gt; [6,]    0</span></code></pre></div>
+<span class="co">#&gt; [4,]    0</span>
+<span class="co">#&gt; [5,]    0</span>
+<span class="co">#&gt; [6,]    2</span></code></pre></div>
 <p><strong><em>Definition of truncated or zero-inflated model</em></strong> <span class="citation">(Yoon, Carroll, and Gaynanova 2020)</span></p>
 <p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span> satisfies the truncated latent Gaussian copula model if there exists <span class="math inline">\(W\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})W_{j}\)</span>, where <span class="math inline">\(I(\cdot)\)</span> is the indicator function and <span class="math inline">\(c_{j}\)</span> are constants.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/GenData.html">GenData</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6</span>, types <span class="op">=</span> <span class="st">"tru"</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
 <span class="va">X</span>
-<span class="co">#&gt;           [,1]</span>
-<span class="co">#&gt; [1,] 0.0000000</span>
-<span class="co">#&gt; [2,] 0.0000000</span>
-<span class="co">#&gt; [3,] 2.2271442</span>
-<span class="co">#&gt; [4,] 0.0000000</span>
-<span class="co">#&gt; [5,] 0.1892114</span>
-<span class="co">#&gt; [6,] 1.0106253</span></code></pre></div>
+<span class="co">#&gt;            [,1]</span>
+<span class="co">#&gt; [1,] 0.02941303</span>
+<span class="co">#&gt; [2,] 0.42913654</span>
+<span class="co">#&gt; [3,] 0.00000000</span>
+<span class="co">#&gt; [4,] 1.41233717</span>
+<span class="co">#&gt; [5,] 0.00000000</span>
+<span class="co">#&gt; [6,] 0.00000000</span></code></pre></div>
 <p><strong><em>Mixed latent Gaussian copula model</em></strong></p>
 <p>The mixed latent Gaussian copula model jointly models <span class="math inline">\(W=(W_{1}, W_{2}, W_{3}, W_{4})\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{1j}=W_{1j}\)</span>, <span class="math inline">\(X_{2j}=I(W_{2j}&gt;c_{2j})\)</span>, <span class="math inline">\(X_{3j}=I(W_{3j}&gt;c_{3j})+I(W_{3j}&gt;c'_{3j})\)</span> and <span class="math inline">\(X_{4j}=I(W_{4j}&gt;c_{4j})W_{4j}\)</span>.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
@@ -414,7 +414,7 @@ r &amp; 1 &amp; \frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} \\
 <span class="co">#&gt; X3 0.2456566 0.1555556 1.0000000 0.2183838</span>
 <span class="co">#&gt; X4 0.3331313 0.2339394 0.2183838 1.0000000</span></code></pre></div>
 <ul>
-<li>Step 2. For binary/truncated variable <span class="math inline">\(j\)</span>, set <span class="math inline">\(\hat{\mathbf{\Delta}_{j}}=\hat{\Delta}_{j}=\Phi^{-1}(\pi_{0j})\)</span> with <span class="math inline">\(\pi_{0j}=\sum_{i=1}^{n}\frac{I(x_{ij}=0)}{n}\)</span>. For ternary variable <span class="math inline">\(j\)</span>, set <span class="math inline">\(\hat{\mathbf{\Delta}_{j}}=(\hat{\Delta}_{j}^{1}, \hat{\Delta_{j}^{2}})\)</span> where <span class="math inline">\(\hat{\Delta}_{j}^{1}=\Phi^{-1}(\pi_{0j})\)</span> and <span class="math inline">\(\hat{\Delta}_{j}^{2}=\Phi^{-1}(\pi_{0}+\pi_{1})\)</span> with <span class="math inline">\(\pi_{0j}=\sum_{i=1}^{n}\frac{I(x_{ij}=0)}{n}\)</span> and <span class="math inline">\(\pi_{1j}=\sum_{i=1}^{n}\frac{I(x_{ij}=1)}{n}\)</span>.</li>
+<li>Step 2. For binary/truncated variable <span class="math inline">\(j\)</span>, set <span class="math inline">\(\hat{\mathbf{\Delta}}_{j}=\hat{\Delta}_{j}=\Phi^{-1}(\pi_{0j})\)</span> with <span class="math inline">\(\pi_{0j}=\sum_{i=1}^{n}\frac{I(x_{ij}=0)}{n}\)</span>. For ternary variable <span class="math inline">\(j\)</span>, set <span class="math inline">\(\hat{\mathbf{\Delta}}_{j}=(\hat{\Delta}_{j}^{1}, \hat{\Delta}_{j}^{2})\)</span> where <span class="math inline">\(\hat{\Delta}_{j}^{1}=\Phi^{-1}(\pi_{0j})\)</span> and <span class="math inline">\(\hat{\Delta}_{j}^{2}=\Phi^{-1}(\pi_{0j}+\pi_{1j})\)</span> with <span class="math inline">\(\pi_{0j}=\sum_{i=1}^{n}\frac{I(x_{ij}=0)}{n}\)</span> and <span class="math inline">\(\pi_{1j}=\sum_{i=1}^{n}\frac{I(x_{ij}=1)}{n}\)</span>.</li>
 </ul>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">zratios</span>
@@ -456,7 +456,7 @@ r &amp; 1 &amp; \frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} \\
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span> <span class="op">=</span> <span class="fu"><a href="../reference/estR.html">estR</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"approx"</span><span class="op">)</span></code></pre></div>
 <p><strong><em>Algorithm for Approximation method </em></strong></p>
-<p><strong>Input</strong>: Let <span class="math inline">\(\tilde{g}=h(g)\)</span>, pre-computed values <span class="math inline">\(F^{-1}(h^{-1}(\tilde{g}))\)</span> on a fixed grid <span class="math inline">\(\tilde{g}\in\tilde{\cal{G}}\)</span> based on the type of variables <span class="math inline">\(j\)</span> and <span class="math inline">\(k\)</span>. For binary/continuous case, <span class="math inline">\(\tilde{g}=(\tilde{\tau}_{jk}, \tilde{\Delta}_{j})\)</span>; for binary/binary case, <span class="math inline">\(\tilde{g}=(\tilde{\tau}_{jk}, \tilde{\Delta}_{j}, \tilde{\Delta}_{k})\)</span>; for truncated/continuous case, <span class="math inline">\(\tilde{g}=(\tilde{\tau}_{jk}, \tilde{\Delta}_{j})\)</span>; for truncated/truncated case, <span class="math inline">\(\tilde{g}=(\tilde{\tau}_{jk}, \tilde{\Delta}_{j}, \tilde{\Delta}_{k})\)</span>; for ternary/continuous case, <span class="math inline">\(\tilde{g}=(\tilde{\tau}_{jk}, \tilde{\Delta}_{j}^{1}, \tilde{\Delta}_{j}^{2})\)</span>; for ternary/binary case, <span class="math inline">\(\tilde{g}=(\tilde{\tau}_{jk}, \tilde{\Delta}_{j}^{1}, \tilde{\Delta}_{j}^{2}, \tilde{\Delta}_{k})\)</span>; for ternary/truncated case, <span class="math inline">\(\tilde{g}=(\tilde{\tau}_{jk}, \tilde{\Delta}_{j}^{1}, \tilde{\Delta}_{j}^{2}, \tilde{\Delta}_{k})\)</span>; for ternay/ternary case, <span class="math inline">\(\tilde{g}=(\tilde{\tau}_{jk}, \tilde{\Delta}_{j}^{1}, \tilde{\Delta}_{j}^{2}, \tilde{\Delta}_{k}^{1}, \tilde{\Delta}_{k}^{2})\)</span>.</p>
+<p><strong>Input</strong>: Let <span class="math inline">\(\check{g}=h(g)\)</span>, pre-computed values <span class="math inline">\(F^{-1}(h^{-1}(\check{g}))\)</span> on a fixed grid <span class="math inline">\(\check{g}\in\check{\cal{G}}\)</span> based on the type of variables <span class="math inline">\(j\)</span> and <span class="math inline">\(k\)</span>. For binary/continuous case, <span class="math inline">\(\check{g}=(\check{\tau}_{jk}, \check{\Delta}_{j})\)</span>; for binary/binary case, <span class="math inline">\(\check{g}=(\check{\tau}_{jk}, \check{\Delta}_{j}, \check{\Delta}_{k})\)</span>; for truncated/continuous case, <span class="math inline">\(\check{g}=(\check{\tau}_{jk}, \check{\Delta}_{j})\)</span>; for truncated/truncated case, <span class="math inline">\(\check{g}=(\check{\tau}_{jk}, \check{\Delta}_{j}, \check{\Delta}_{k})\)</span>; for ternary/continuous case, <span class="math inline">\(\check{g}=(\check{\tau}_{jk}, \check{\Delta}_{j}^{1}, \check{\Delta}_{j}^{2})\)</span>; for ternary/binary case, <span class="math inline">\(\check{g}=(\check{\tau}_{jk}, \check{\Delta}_{j}^{1}, \check{\Delta}_{j}^{2}, \check{\Delta}_{k})\)</span>; for ternary/truncated case, <span class="math inline">\(\check{g}=(\check{\tau}_{jk}, \check{\Delta}_{j}^{1}, \check{\Delta}_{j}^{2}, \check{\Delta}_{k})\)</span>; for ternay/ternary case, <span class="math inline">\(\check{g}=(\check{\tau}_{jk}, \check{\Delta}_{j}^{1}, \check{\Delta}_{j}^{2}, \check{\Delta}_{k}^{1}, \check{\Delta}_{k}^{2})\)</span>.</p>
 <ul>
 <li><p>Step 1 and Step 2 same as Original method.</p></li>
 <li><p>Step 3. If <span class="math inline">\(|\hat{\tau}_{jk}|\le \mbox{ratio}\times \bar{\tau}_{jk}(\cdot)\)</span>, apply interpolation; otherwise apply Original method.</p></li>
@@ -477,7 +477,7 @@ r &amp; 1 &amp; \frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} \\
 1-\{\max(\pi_{0j},\pi_{0k})\}^{2}  &amp;   for \; TT \; case\\
 \end{cases}
 \]</span></p>
-<p>By default, <code>latentcor</code> uses <code>ratio = 0.9</code>, but this value can be modified by the user</p>
+<p>By default, <code>latentcor</code> uses <span class="math inline">\(\mbox{ratio} = 0.9\)</span>, but this value can be modified by the user</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/estR.html">estR</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"approx"</span>, ratio <span class="op">=</span> <span class="fl">0.99</span><span class="op">)</span><span class="op">$</span><span class="va">R</span>
 <span class="co">#&gt;           X1        X2        X3        X4</span>
@@ -499,8 +499,8 @@ r &amp; 1 &amp; \frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} \\
 <span class="co">#&gt; X4 0.5767910 0.5763297 0.4607337 1.0000000</span></code></pre></div>
 <p>The lower is the <code>ratio</code>, the closer is the approximation method to original method (with <code>ratio = 0</code> being equivalent to <code>method = "original"</code>), but also the higher is the cost of computations.</p>
 <p><strong>Rescaled Grid for Interpolation</strong></p>
-<p>Since <span class="math inline">\(|\hat{\tau}|\le \bar{\tau}\)</span>, the grid does not need to cover the whole domain <span class="math inline">\(\tau\in[-1, 1]\)</span>. To optimize memory associated with storing the grid, we rescale <span class="math inline">\(\tau\)</span> as follows: <span class="math inline">\(\tilde{\tau}_{jk}=\tau_{jk}/\bar{\tau}_{jk}\in[-1, 1]\)</span>, where <span class="math inline">\(\bar{\tau}_{jk}\)</span> is as defined above.</p>
-<p>In addition, for ternary variable <span class="math inline">\(j\)</span>, it always holds that <span class="math inline">\(\Delta_{j}^{2}&gt;\Delta_{j}^{1}\)</span> since <span class="math inline">\(\Delta_{j}^{1}=\Phi^{-1}(\pi_{0j})\)</span> and <span class="math inline">\(\Delta_{j}^{2}=\Phi^{-1}(\pi_{0j}+\pi_{1j})\)</span>. Thus, the grid should not cover the the area corresponding to <span class="math inline">\(\Delta_{j}^{2}\ge\Delta_{j}^{1}\)</span>. We thus rescale as follows: <span class="math inline">\(\tilde{\Delta}_{j}^{1}=\Delta_{j}^{1}/\Delta_{j}^{2}\in[0, 1]\)</span>; <span class="math inline">\(\tilde{\Delta}_{j}^{2}=\Delta_{j}^{2}\in[0, 1]\)</span>.</p>
+<p>Since <span class="math inline">\(|\hat{\tau}|\le \bar{\tau}\)</span>, the grid does not need to cover the whole domain <span class="math inline">\(\tau\in[-1, 1]\)</span>. To optimize memory associated with storing the grid, we rescale <span class="math inline">\(\tau\)</span> as follows: <span class="math inline">\(\check{\tau}_{jk}=\tau_{jk}/\bar{\tau}_{jk}\in[-1, 1]\)</span>, where <span class="math inline">\(\bar{\tau}_{jk}\)</span> is as defined above.</p>
+<p>In addition, for ternary variable <span class="math inline">\(j\)</span>, it always holds that <span class="math inline">\(\Delta_{j}^{2}&gt;\Delta_{j}^{1}\)</span> since <span class="math inline">\(\Delta_{j}^{1}=\Phi^{-1}(\pi_{0j})\)</span> and <span class="math inline">\(\Delta_{j}^{2}=\Phi^{-1}(\pi_{0j}+\pi_{1j})\)</span>. Thus, the grid should not cover the the area corresponding to <span class="math inline">\(\Delta_{j}^{2}\ge\Delta_{j}^{1}\)</span>. We thus rescale as follows: <span class="math inline">\(\tilde{\Delta}_{j}^{1}=\Delta_{j}^{1}/\Delta_{j}^{2}\in[0, 1]\)</span>; <span class="math inline">\(\check{\Delta}_{j}^{2}=\Delta_{j}^{2}\in[0, 1]\)</span>.</p>
 </div>
 </div>
 <div id="appendix" class="section level1">
@@ -643,6 +643,7 @@ r &amp; 0 &amp; 1 &amp; \frac{1}{\sqrt{2}} \\
     =&amp; 1-\{\max(\pi_{0x},\pi_{1x},\pi_{2x},\pi_{0y})\}^{2} \nonumber\\
     =&amp; 1-\{\max(\pi_{0x},(1-\pi_{0x}-\pi_{2x}),\pi_{2x},\pi_{0y})\}^{2}
 \end{align}\]</span></p>
+<p>It is easy to get the approximate bound for truncated/ternary case by switching <span class="math inline">\(\mathbf{x}\)</span> and <span class="math inline">\(\mathbf{y}\)</span>.</p>
 </div>
 </div>
 <div id="references" class="section level1 unnumbered">
