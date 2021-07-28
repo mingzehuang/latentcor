@@ -101,12 +101,12 @@
 <code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="va">simdata</span><span class="op">$</span><span class="va">X</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">X</span>, n <span class="op">=</span> <span class="fl">6L</span><span class="op">)</span>
 <span class="co">#&gt;      [,1]       [,2]</span>
-<span class="co">#&gt; [1,]    1 -0.1193743</span>
-<span class="co">#&gt; [2,]    0 -1.2732472</span>
-<span class="co">#&gt; [3,]    0 -2.2740900</span>
-<span class="co">#&gt; [4,]    2 -0.3445415</span>
-<span class="co">#&gt; [5,]    0 -1.0211178</span>
-<span class="co">#&gt; [6,]    1  0.9721633</span></code></pre></div>
+<span class="co">#&gt; [1,]    0 -0.2736796</span>
+<span class="co">#&gt; [2,]    0 -0.1534229</span>
+<span class="co">#&gt; [3,]    0 -0.2569992</span>
+<span class="co">#&gt; [4,]    2 -0.5275419</span>
+<span class="co">#&gt; [5,]    1  0.2723334</span>
+<span class="co">#&gt; [6,]    0 -0.5835123</span></code></pre></div>
 <ul>
 <li>
 <code>plotX</code>: NULL (<code>showplot = FALSE</code>, can be changed to display the plot of generated data in<code>GenData</code> input).</li>
@@ -137,17 +137,17 @@
 </ul>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">K</span>
-<span class="co">#&gt;           X1        X2</span>
-<span class="co">#&gt; X1 1.0000000 0.1834343</span>
-<span class="co">#&gt; X2 0.1834343 1.0000000</span></code></pre></div>
+<span class="co">#&gt;          X1       X2</span>
+<span class="co">#&gt; X1 1.000000 0.319596</span>
+<span class="co">#&gt; X2 0.319596 1.000000</span></code></pre></div>
 <ul>
 <li>R: estimated latent correlation matrix for these 2 variable.</li>
 </ul>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">R</span>
 <span class="co">#&gt;           X1        X2</span>
-<span class="co">#&gt; X1 1.0000000 0.3342882</span>
-<span class="co">#&gt; X2 0.3342882 1.0000000</span></code></pre></div>
+<span class="co">#&gt; X1 1.0000000 0.5667015</span>
+<span class="co">#&gt; X2 0.5667015 1.0000000</span></code></pre></div>
 <ul>
 <li>plotR: NULL by default as <code>showplot = FALSE</code> in <code>estR</code>. Otherwise displays a heatmap of latent correlation matrix.</li>
 </ul>
@@ -168,21 +168,21 @@
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/GenData.html">GenData</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6</span>, types <span class="op">=</span> <span class="st">"con"</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
 <span class="va">X</span>
-<span class="co">#&gt;             [,1]</span>
-<span class="co">#&gt; [1,] -1.25142036</span>
-<span class="co">#&gt; [2,] -0.64465043</span>
-<span class="co">#&gt; [3,] -0.73342899</span>
-<span class="co">#&gt; [4,] -0.67527513</span>
-<span class="co">#&gt; [5,] -0.30116769</span>
-<span class="co">#&gt; [6,] -0.08046541</span></code></pre></div>
+<span class="co">#&gt;            [,1]</span>
+<span class="co">#&gt; [1,] -0.3388099</span>
+<span class="co">#&gt; [2,] -1.0524234</span>
+<span class="co">#&gt; [3,] -0.8854328</span>
+<span class="co">#&gt; [4,]  0.3294553</span>
+<span class="co">#&gt; [5,] -0.2249191</span>
+<span class="co">#&gt; [6,]  0.5205890</span></code></pre></div>
 <p><strong><em>Definition of binary model</em></strong> <span class="citation">(Fan et al. 2017)</span></p>
 <p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span> satisfies the binary latent Gaussian copula model if there exists <span class="math inline">\(W\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})\)</span>, where <span class="math inline">\(I(\cdot)\)</span> is the indicator function and <span class="math inline">\(c_{j}\)</span> are constants.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/GenData.html">GenData</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6</span>, types <span class="op">=</span> <span class="st">"bin"</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
 <span class="va">X</span>
 <span class="co">#&gt;      [,1]</span>
-<span class="co">#&gt; [1,]    0</span>
-<span class="co">#&gt; [2,]    1</span>
+<span class="co">#&gt; [1,]    1</span>
+<span class="co">#&gt; [2,]    0</span>
 <span class="co">#&gt; [3,]    1</span>
 <span class="co">#&gt; [4,]    0</span>
 <span class="co">#&gt; [5,]    0</span>
@@ -193,22 +193,22 @@
 <code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/GenData.html">GenData</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6</span>, types <span class="op">=</span> <span class="st">"ter"</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
 <span class="va">X</span>
 <span class="co">#&gt;      [,1]</span>
-<span class="co">#&gt; [1,]    1</span>
-<span class="co">#&gt; [2,]    1</span>
+<span class="co">#&gt; [1,]    2</span>
+<span class="co">#&gt; [2,]    0</span>
 <span class="co">#&gt; [3,]    1</span>
-<span class="co">#&gt; [4,]    0</span>
-<span class="co">#&gt; [5,]    0</span>
-<span class="co">#&gt; [6,]    2</span></code></pre></div>
+<span class="co">#&gt; [4,]    1</span>
+<span class="co">#&gt; [5,]    1</span>
+<span class="co">#&gt; [6,]    0</span></code></pre></div>
 <p><strong><em>Definition of truncated or zero-inflated model</em></strong> <span class="citation">(Yoon, Carroll, and Gaynanova 2020)</span></p>
 <p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span> satisfies the truncated latent Gaussian copula model if there exists <span class="math inline">\(W\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})W_{j}\)</span>, where <span class="math inline">\(I(\cdot)\)</span> is the indicator function and <span class="math inline">\(c_{j}\)</span> are constants.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/GenData.html">GenData</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6</span>, types <span class="op">=</span> <span class="st">"tru"</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
 <span class="va">X</span>
 <span class="co">#&gt;            [,1]</span>
-<span class="co">#&gt; [1,] 0.02941303</span>
-<span class="co">#&gt; [2,] 0.42913654</span>
-<span class="co">#&gt; [3,] 0.00000000</span>
-<span class="co">#&gt; [4,] 1.41233717</span>
+<span class="co">#&gt; [1,] 1.62669122</span>
+<span class="co">#&gt; [2,] 0.51514691</span>
+<span class="co">#&gt; [3,] 0.09895824</span>
+<span class="co">#&gt; [4,] 0.00000000</span>
 <span class="co">#&gt; [5,] 0.00000000</span>
 <span class="co">#&gt; [6,] 0.00000000</span></code></pre></div>
 <p><strong><em>Mixed latent Gaussian copula model</em></strong></p>
@@ -500,7 +500,7 @@ r &amp; 1 &amp; \frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} \\
 <p>The lower is the <code>ratio</code>, the closer is the approximation method to original method (with <code>ratio = 0</code> being equivalent to <code>method = "original"</code>), but also the higher is the cost of computations.</p>
 <p><strong>Rescaled Grid for Interpolation</strong></p>
 <p>Since <span class="math inline">\(|\hat{\tau}|\le \bar{\tau}\)</span>, the grid does not need to cover the whole domain <span class="math inline">\(\tau\in[-1, 1]\)</span>. To optimize memory associated with storing the grid, we rescale <span class="math inline">\(\tau\)</span> as follows: <span class="math inline">\(\check{\tau}_{jk}=\tau_{jk}/\bar{\tau}_{jk}\in[-1, 1]\)</span>, where <span class="math inline">\(\bar{\tau}_{jk}\)</span> is as defined above.</p>
-<p>In addition, for ternary variable <span class="math inline">\(j\)</span>, it always holds that <span class="math inline">\(\Delta_{j}^{2}&gt;\Delta_{j}^{1}\)</span> since <span class="math inline">\(\Delta_{j}^{1}=\Phi^{-1}(\pi_{0j})\)</span> and <span class="math inline">\(\Delta_{j}^{2}=\Phi^{-1}(\pi_{0j}+\pi_{1j})\)</span>. Thus, the grid should not cover the the area corresponding to <span class="math inline">\(\Delta_{j}^{2}\ge\Delta_{j}^{1}\)</span>. We thus rescale as follows: <span class="math inline">\(\tilde{\Delta}_{j}^{1}=\Delta_{j}^{1}/\Delta_{j}^{2}\in[0, 1]\)</span>; <span class="math inline">\(\check{\Delta}_{j}^{2}=\Delta_{j}^{2}\in[0, 1]\)</span>.</p>
+<p>In addition, for ternary variable <span class="math inline">\(j\)</span>, it always holds that <span class="math inline">\(\Delta_{j}^{2}&gt;\Delta_{j}^{1}\)</span> since <span class="math inline">\(\Delta_{j}^{1}=\Phi^{-1}(\pi_{0j})\)</span> and <span class="math inline">\(\Delta_{j}^{2}=\Phi^{-1}(\pi_{0j}+\pi_{1j})\)</span>. Thus, the grid should not cover the the area corresponding to <span class="math inline">\(\Delta_{j}^{2}\ge\Delta_{j}^{1}\)</span>. We thus rescale as follows: <span class="math inline">\(\check{\Delta}_{j}^{1}=\Delta_{j}^{1}/\Delta_{j}^{2}\in[0, 1]\)</span>; <span class="math inline">\(\check{\Delta}_{j}^{2}=\Delta_{j}^{2}\in[0, 1]\)</span>.</p>
 </div>
 </div>
 <div id="appendix" class="section level1">
@@ -615,6 +615,7 @@ r &amp; 0 &amp; 1 &amp; \frac{1}{\sqrt{2}} \\
 \frac{r}{\sqrt{2}} &amp; \frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} &amp; 1
 \end{pmatrix}\right\}.
 \end{align}\]</span></p>
+<p>It is easy to get the bridge function for truncated/ternary case by switching <span class="math inline">\(j\)</span> and <span class="math inline">\(k\)</span>.</p>
 </div>
 <div id="derivation-of-approximate-bound-for-the-ternarycontinuous-case" class="section level2">
 <h2 class="hasAnchor">

@@ -390,7 +390,7 @@ The lower is the `ratio`, the closer is the approximation method to original met
 Since $|\hat{\tau}|\le \bar{\tau}$, the grid does not need to cover the whole domain $\tau\in[-1, 1]$. To optimize memory associated with storing the grid, we rescale $\tau$ as follows:
 $\check{\tau}_{jk}=\tau_{jk}/\bar{\tau}_{jk}\in[-1, 1]$, where $\bar{\tau}_{jk}$ is as defined above. 
 
-In addition, for ternary variable $j$, it always holds that $\Delta_{j}^{2}>\Delta_{j}^{1}$ since $\Delta_{j}^{1}=\Phi^{-1}(\pi_{0j})$ and $\Delta_{j}^{2}=\Phi^{-1}(\pi_{0j}+\pi_{1j})$. Thus, the grid should not cover the the area corresponding to $\Delta_{j}^{2}\ge\Delta_{j}^{1}$. We thus rescale as follows: $\tilde{\Delta}_{j}^{1}=\Delta_{j}^{1}/\Delta_{j}^{2}\in[0, 1]$; $\check{\Delta}_{j}^{2}=\Delta_{j}^{2}\in[0, 1]$.
+In addition, for ternary variable $j$, it always holds that $\Delta_{j}^{2}>\Delta_{j}^{1}$ since $\Delta_{j}^{1}=\Phi^{-1}(\pi_{0j})$ and $\Delta_{j}^{2}=\Phi^{-1}(\pi_{0j}+\pi_{1j})$. Thus, the grid should not cover the the area corresponding to $\Delta_{j}^{2}\ge\Delta_{j}^{1}$. We thus rescale as follows: $\check{\Delta}_{j}^{1}=\Delta_{j}^{1}/\Delta_{j}^{2}\in[0, 1]$; $\check{\Delta}_{j}^{2}=\Delta_{j}^{2}\in[0, 1]$.
 
 
 # Appendix
@@ -520,6 +520,8 @@ r & 0 & 1 & \frac{1}{\sqrt{2}} \\
 \frac{r}{\sqrt{2}} & \frac{r}{\sqrt{2}} & \frac{1}{\sqrt{2}} & 1
 \end{pmatrix}\right\}.
 \end{align}
+
+It is easy to get the bridge function for truncated/ternary case by switching $j$ and $k$.
 
 ## Derivation of approximate bound for the ternary/continuous case
 
