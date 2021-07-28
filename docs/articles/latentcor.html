@@ -100,13 +100,13 @@
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="va">simdata</span><span class="op">$</span><span class="va">X</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">X</span>, n <span class="op">=</span> <span class="fl">6L</span><span class="op">)</span>
-<span class="co">#&gt;      [,1]       [,2]</span>
-<span class="co">#&gt; [1,]    2  0.4889935</span>
-<span class="co">#&gt; [2,]    2  1.1844760</span>
-<span class="co">#&gt; [3,]    2  0.6653812</span>
-<span class="co">#&gt; [4,]    0 -2.0842268</span>
-<span class="co">#&gt; [5,]    2  0.2081489</span>
-<span class="co">#&gt; [6,]    1 -1.1633011</span></code></pre></div>
+<span class="co">#&gt;      [,1]        [,2]</span>
+<span class="co">#&gt; [1,]    2  0.76775292</span>
+<span class="co">#&gt; [2,]    1 -0.82039982</span>
+<span class="co">#&gt; [3,]    1 -1.20384317</span>
+<span class="co">#&gt; [4,]    0 -1.03838321</span>
+<span class="co">#&gt; [5,]    1 -0.09951143</span>
+<span class="co">#&gt; [6,]    2  0.02872440</span></code></pre></div>
 <ul>
 <li>
 <code>plotX</code>: NULL (<code>showplot = FALSE</code>, can be changed to display the plot of generated data in<code>GenData</code> input).</li>
@@ -138,16 +138,16 @@
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">K</span>
 <span class="co">#&gt;           X1        X2</span>
-<span class="co">#&gt; X1 1.0000000 0.3030303</span>
-<span class="co">#&gt; X2 0.3030303 1.0000000</span></code></pre></div>
+<span class="co">#&gt; X1 1.0000000 0.2686869</span>
+<span class="co">#&gt; X2 0.2686869 1.0000000</span></code></pre></div>
 <ul>
 <li>R: estimated latent correlation matrix for these 2 variable.</li>
 </ul>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">R</span>
 <span class="co">#&gt;           X1        X2</span>
-<span class="co">#&gt; X1 1.0000000 0.5393952</span>
-<span class="co">#&gt; X2 0.5393952 1.0000000</span></code></pre></div>
+<span class="co">#&gt; X1 1.0000000 0.4821287</span>
+<span class="co">#&gt; X2 0.4821287 1.0000000</span></code></pre></div>
 <ul>
 <li>plotR: NULL by default as <code>showplot = FALSE</code> in <code>estR</code>. Otherwise displays a heatmap of latent correlation matrix.</li>
 </ul>
@@ -168,13 +168,13 @@
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/GenData.html">GenData</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6</span>, types <span class="op">=</span> <span class="st">"con"</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
 <span class="va">X</span>
-<span class="co">#&gt;              [,1]</span>
-<span class="co">#&gt; [1,]  0.008487707</span>
-<span class="co">#&gt; [2,] -0.579621825</span>
-<span class="co">#&gt; [3,] -1.709586606</span>
-<span class="co">#&gt; [4,]  0.424519368</span>
-<span class="co">#&gt; [5,]  0.524044647</span>
-<span class="co">#&gt; [6,] -0.556759795</span></code></pre></div>
+<span class="co">#&gt;            [,1]</span>
+<span class="co">#&gt; [1,]  1.3110286</span>
+<span class="co">#&gt; [2,]  1.6254654</span>
+<span class="co">#&gt; [3,] -0.1937518</span>
+<span class="co">#&gt; [4,] -0.6158853</span>
+<span class="co">#&gt; [5,]  0.3617546</span>
+<span class="co">#&gt; [6,]  0.6522381</span></code></pre></div>
 <p><strong><em>Definition of binary model</em></strong> <span class="citation">(Fan et al. 2017)</span></p>
 <p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span> satisfies the binary latent Gaussian copula model if there exists <span class="math inline">\(W\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})\)</span>, where <span class="math inline">\(I(\cdot)\)</span> is the indicator function and <span class="math inline">\(c_{j}\)</span> are constants.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
@@ -182,19 +182,19 @@
 <span class="va">X</span>
 <span class="co">#&gt;      [,1]</span>
 <span class="co">#&gt; [1,]    0</span>
-<span class="co">#&gt; [2,]    0</span>
-<span class="co">#&gt; [3,]    1</span>
+<span class="co">#&gt; [2,]    1</span>
+<span class="co">#&gt; [3,]    0</span>
 <span class="co">#&gt; [4,]    1</span>
-<span class="co">#&gt; [5,]    0</span>
-<span class="co">#&gt; [6,]    1</span></code></pre></div>
+<span class="co">#&gt; [5,]    1</span>
+<span class="co">#&gt; [6,]    0</span></code></pre></div>
 <p><strong><em>Definition of ternary model</em></strong> <span class="citation">(Quan, Booth, and Wells 2018)</span></p>
 <p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span> satisfies the ternary latent Gaussian copula model if there exists <span class="math inline">\(W\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})+I(W_{j}&gt;c'_{j})\)</span>, where <span class="math inline">\(I(\cdot)\)</span> is the indicator function and <span class="math inline">\(c_{j}&lt;c'_{j}\)</span> are constants.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/GenData.html">GenData</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6</span>, types <span class="op">=</span> <span class="st">"ter"</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
 <span class="va">X</span>
 <span class="co">#&gt;      [,1]</span>
-<span class="co">#&gt; [1,]    2</span>
-<span class="co">#&gt; [2,]    0</span>
+<span class="co">#&gt; [1,]    0</span>
+<span class="co">#&gt; [2,]    2</span>
 <span class="co">#&gt; [3,]    1</span>
 <span class="co">#&gt; [4,]    1</span>
 <span class="co">#&gt; [5,]    1</span>
@@ -204,13 +204,13 @@
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/GenData.html">GenData</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6</span>, types <span class="op">=</span> <span class="st">"tru"</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
 <span class="va">X</span>
-<span class="co">#&gt;            [,1]</span>
-<span class="co">#&gt; [1,] 0.72926160</span>
-<span class="co">#&gt; [2,] 0.00000000</span>
-<span class="co">#&gt; [3,] 0.20697570</span>
-<span class="co">#&gt; [4,] 0.03211263</span>
-<span class="co">#&gt; [5,] 0.00000000</span>
-<span class="co">#&gt; [6,] 0.00000000</span></code></pre></div>
+<span class="co">#&gt;           [,1]</span>
+<span class="co">#&gt; [1,] 0.0000000</span>
+<span class="co">#&gt; [2,] 0.0000000</span>
+<span class="co">#&gt; [3,] 2.2271442</span>
+<span class="co">#&gt; [4,] 0.0000000</span>
+<span class="co">#&gt; [5,] 0.1892114</span>
+<span class="co">#&gt; [6,] 1.0106253</span></code></pre></div>
 <p><strong><em>Mixed latent Gaussian copula model</em></strong></p>
 <p>The mixed latent Gaussian copula model jointly models <span class="math inline">\(W=(W_{1}, W_{2}, W_{3}, W_{4})\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{1j}=W_{1j}\)</span>, <span class="math inline">\(X_{2j}=I(W_{2j}&gt;c_{2j})\)</span>, <span class="math inline">\(X_{3j}=I(W_{3j}&gt;c_{3j})+I(W_{3j}&gt;c'_{3j})\)</span> and <span class="math inline">\(X_{4j}=I(W_{4j}&gt;c_{4j})W_{4j}\)</span>.</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
@@ -234,7 +234,7 @@
 <p><span class="math display">\[
 \hat{\tau}_{jk}=\hat{\tau}(\mathbf{x}_{j}, \mathbf{x}_{k})=\frac{2}{n(n-1)}\sum_{1\le i&lt;i'\le n}sign(x_{ij}-x_{i'j})sign(x_{ik}-x_{i'k}),
 \]</span> where <span class="math inline">\(n\)</span> is the sample size.</p>
-<p><em>latentcor</em> calculates pairwise Kendall’s <span class="math inline">\(\widehat \tau\)</span> as part of the estimation process</p>
+<p><code>latentcor</code> calculates pairwise Kendall’s <span class="math inline">\(\widehat \tau\)</span> as part of the estimation process</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span> <span class="op">=</span> <span class="fu"><a href="../reference/estR.html">estR</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span><span class="op">)</span>
 <span class="va">K</span> <span class="op">=</span> <span class="va">estimate</span><span class="op">$</span><span class="va">K</span>
@@ -245,14 +245,21 @@
 <span class="co">#&gt; X3 0.2456566 0.1555556 1.0000000 0.2183838</span>
 <span class="co">#&gt; X4 0.3331313 0.2339394 0.2183838 1.0000000</span></code></pre></div>
 <p>Using <span class="math inline">\(F\)</span> and <span class="math inline">\(\widehat \tau_{jk}\)</span>, a moment-based estimator is <span class="math inline">\(\hat{\sigma}_{jk}=F^{-1}(\hat{\tau}_{jk})\)</span> with the corresponding <span class="math inline">\(\hat{\Sigma}\)</span> being consistent for <span class="math inline">\(\Sigma\)</span> <span class="citation">(Fan et al. 2017; Quan, Booth, and Wells 2018; Yoon, Carroll, and Gaynanova 2020)</span>.</p>
-<p>The explicit form of <strong>bridge function</strong> <span class="math inline">\(F\)</span> has been derived for all combinations of continuous(C)/binary(B)/ternary(N)/truncated(T) variable types, and we summarize the corresponding references. Each of this combinations is implemented in <em>latentcor</em>.</p>
+<p>The explicit form of <strong>bridge function</strong> <span class="math inline">\(F\)</span> has been derived for all combinations of continuous(C)/binary(B)/ternary(N)/truncated(T) variable types, and we summarize the corresponding references. Each of this combinations is implemented in <code>latentcor</code>.</p>
 <table class="table">
+<colgroup>
+<col width="11%">
+<col width="22%">
+<col width="22%">
+<col width="22%">
+<col width="22%">
+</colgroup>
 <thead><tr class="header">
 <th>Type</th>
 <th>continuous</th>
 <th>binary</th>
-<th>zero-inflated (truncated)</th>
 <th>ternary</th>
+<th>zero-inflated (truncated)</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
@@ -270,28 +277,29 @@
 <td>-</td>
 </tr>
 <tr class="odd">
+<td>ternary</td>
+<td><span class="citation">Quan, Booth, and Wells (2018)</span></td>
+<td><span class="citation">Quan, Booth, and Wells (2018)</span></td>
+<td><span class="citation">Quan, Booth, and Wells (2018)</span></td>
+<td>-</td>
+</tr>
+<tr class="even">
 <td>zero-inflated (truncated)</td>
 <td><span class="citation">Yoon, Carroll, and Gaynanova (2020)</span></td>
 <td><span class="citation">Yoon, Carroll, and Gaynanova (2020)</span></td>
 <td><span class="citation">Yoon, Carroll, and Gaynanova (2020)</span></td>
-<td>-</td>
-</tr>
-<tr class="even">
-<td>ternary</td>
-<td><span class="citation">Quan, Booth, and Wells (2018)</span></td>
-<td><span class="citation">Quan, Booth, and Wells (2018)</span></td>
 <td>This Appendix</td>
-<td><span class="citation">Quan, Booth, and Wells (2018)</span></td>
 </tr>
 </tbody>
 </table>
 <p>Below we provide an explicit form of <span class="math inline">\(F\)</span> for each combination.</p>
-<p><strong>Theorem (explicit form of bridge function)</strong> Let <span class="math inline">\(W_{1}\in\cal{R}^{p_{1}}\)</span>, <span class="math inline">\(W_{2}\in\cal{R}^{p_{2}}\)</span>, <span class="math inline">\(W_{3}\in\cal{R}^{p_{3}}\)</span>, <span class="math inline">\(W_{4}\in\cal{R}^{p_{4}}\)</span> be such that <span class="math inline">\(W=(W_{1}, W_{2}, W_{3}, W_{4})\sim NPN(0, \Sigma, f)\)</span> with <span class="math inline">\(p=p_{1}+p_{2}+p_{3}+p_{4}\)</span>. Let <span class="math inline">\(X=(X_{1}, X_{2}, X_{3}, X_{4})\in\cal{R}^{p}\)</span> satisfy <span class="math inline">\(X_{j}=W_{j}\)</span> for <span class="math inline">\(j=1,...,p_{1}\)</span>, <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})\)</span> for <span class="math inline">\(j=p_{1}+1, ..., p_{1}+p_{2}\)</span>, <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})W_{j}\)</span> for <span class="math inline">\(j=p_{1}+p_{2}+1, ..., p_{3}\)</span> and <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})+I(W_{j}&gt;c'_{j})\)</span> for <span class="math inline">\(j=p_{1}+p_{2}+p_{3}+1, ..., p\)</span> with <span class="math inline">\(\Delta_{j}=f(c_{j})\)</span>. The rank-based estimator of <span class="math inline">\(\Sigma\)</span> based on the observed <span class="math inline">\(n\)</span> realizations of <span class="math inline">\(X\)</span> is the matrix <span class="math inline">\(\mathbf{\hat{R}}\)</span> with <span class="math inline">\(\hat{r}_{jj}=1\)</span>, <span class="math inline">\(\hat{r}_{jk}=\hat{r}_{kj}=F^{-1}(\hat{\tau}_{jk})\)</span> with block structure</p>
+<p><strong>Theorem (explicit form of bridge function)</strong> Let <span class="math inline">\(W_{1}\in\cal{R}^{p_{1}}\)</span>, <span class="math inline">\(W_{2}\in\cal{R}^{p_{2}}\)</span>, <span class="math inline">\(W_{3}\in\cal{R}^{p_{3}}\)</span>, <span class="math inline">\(W_{4}\in\cal{R}^{p_{4}}\)</span> be such that <span class="math inline">\(W=(W_{1}, W_{2}, W_{3}, W_{4})\sim NPN(0, \Sigma, f)\)</span> with <span class="math inline">\(p=p_{1}+p_{2}+p_{3}+p_{4}\)</span>. Let <span class="math inline">\(X=(X_{1}, X_{2}, X_{3}, X_{4})\in\cal{R}^{p}\)</span> satisfy <span class="math inline">\(X_{j}=W_{j}\)</span> for <span class="math inline">\(j=1,...,p_{1}\)</span>, <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})\)</span> for <span class="math inline">\(j=p_{1}+1, ..., p_{1}+p_{2}\)</span>, <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})+I(W_{j}&gt;c'_{j})\)</span> for <span class="math inline">\(j=p_{1}+p_{2}+1, ..., p_{3}\)</span> and <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})W_{j}\)</span> for <span class="math inline">\(j=p_{1}+p_{2}+p_{3}+1, ..., p\)</span> with <span class="math inline">\(\Delta_{j}=f(c_{j})\)</span>. The rank-based estimator of <span class="math inline">\(\Sigma\)</span> based on the observed <span class="math inline">\(n\)</span> realizations of <span class="math inline">\(X\)</span> is the matrix <span class="math inline">\(\mathbf{\hat{R}}\)</span> with <span class="math inline">\(\hat{r}_{jj}=1\)</span>, <span class="math inline">\(\hat{r}_{jk}=\hat{r}_{kj}=F^{-1}(\hat{\tau}_{jk})\)</span> with block structure</p>
 <p><span class="math display">\[
 \mathbf{\hat{R}}=\begin{pmatrix}
-F_{CC}^{-1}(\hat{\tau}) &amp; F_{CB}^{-1}(\hat{\tau}) &amp; F_{CT}^{-1}(\hat{\tau})\\
-F_{BC}^{-1}(\hat{\tau}) &amp; F_{BB}^{-1}(\hat{\tau}) &amp; F_{BT}^{-1}(\hat{\tau})\\
-F_{TC}^{-1}(\hat{\tau}) &amp; F_{TB}^{-1}(\hat{\tau}) &amp; F_{TT}^{-1}(\hat{\tau})
+F_{CC}^{-1}(\hat{\tau}) &amp; F_{CB}^{-1}(\hat{\tau}) &amp; F_{CN}^{-1}(\hat{\tau}) &amp; F_{CT}^{-1}(\hat{\tau})\\
+F_{BC}^{-1}(\hat{\tau}) &amp; F_{BB}^{-1}(\hat{\tau}) &amp; F_{BN}^{-1}(\hat{\tau}) &amp; F_{BT}^{-1}(\hat{\tau})\\
+F_{NC}^{-1}(\hat{\tau}) &amp; F_{NB}^{-1}(\hat{\tau}) &amp; F_{NN}^{-1}(\hat{\tau}) &amp; F_{NT}^{-1}(\hat{\tau})\\
+F_{TC}^{-1}(\hat{\tau}) &amp; F_{TB}^{-1}(\hat{\tau}) &amp; F_{TN}^{-1}(\hat{\tau}) &amp; F_{TT}^{-1}(\hat{\tau})
 \end{pmatrix}
 \]</span> <span class="math display">\[
 F(\cdot)=\begin{cases}
@@ -301,30 +309,36 @@ BC: \ 4\Phi_{2}(\Delta_{j},0;r/\sqrt{2})-2\Phi(\Delta_{j}) \\
 \\
 BB: \ 2\{\Phi_{2}(\Delta_{j},\Delta_{k};r)-\Phi(\Delta_{j})\Phi(\Delta_{k})\}  \\
 \\
-TC: \ -2\Phi_{2}(-\Delta_{j},0;1/\sqrt{2})+4\Phi_{3}(-\Delta_{j},0,0;\Sigma_{3}(r)) \\
-\\
-TB: \ 2\{1-\Phi(\Delta_{j})\}\Phi(\Delta_{k})-2\Phi_{3}(-\Delta_{j},\Delta_{k},0;\Sigma_{3a}(r))-2\Phi_{3}(-\Delta_{j},\Delta_{k},0;\Sigma_{3b}(r))    \\
-\\
-TT: \ -2\Phi_{4}(-\Delta_{j},-\Delta_{k},0,0;\Sigma_{4a}(r))+2\Phi_{4}(-\Delta_{j},-\Delta_{k},0,0;\Sigma_{4b}(r)) \\
-\\
-NC: \ 4\Phi_{2}(\Delta_{j}^{2},0;r/\sqrt{2})-2\Phi(\Delta_{j}^{2})+4\Phi_{3}(\Delta_{j}^{1},\Delta_{j}^{2},0;\Sigma_{3c}(r))-2\Phi(\Delta_{j}^{1})\Phi(\Delta_{j}^{2})\\
+NC: \ 4\Phi_{2}(\Delta_{j}^{2},0;r/\sqrt{2})-2\Phi(\Delta_{j}^{2})+4\Phi_{3}(\Delta_{j}^{1},\Delta_{j}^{2},0;\Sigma_{3a}(r))-2\Phi(\Delta_{j}^{1})\Phi(\Delta_{j}^{2})\\
 \\
 NB: \ 2\Phi_{2}(\Delta_{j}^{2},\Delta_{k},r)\{1-\Phi(\Delta_{j}^{1})\}-2\Phi(\Delta_{j}^{2})\{\Phi(\Delta_{k})-\Phi_{2}(\Delta_{j}^{1},\Delta_{k},r)\} \\
 \\
-NT: \ -2\Phi(-\Delta_{j}^{1})\Phi(\Delta_{j}^{2}) + 2\Phi_{3}(-\Delta_{j}^{1},\Delta_{j}^{2},\Delta_{k};\Sigma_{3e}(r))+2\Phi_{4}(-\Delta_{j}^{1},\Delta_{j}^{2},-\Delta_{k},0;\Sigma_{4c}(r))+2\Phi_{4}(-\Delta_{j}^{1},\Delta_{j}^{2},-\Delta_{k},0;\Sigma_{4d}(r)) \\
+NN: \ 2\Phi_{2}(\Delta_{j}^{2},\Delta_{k}^{2};r)\Phi_{2}(-\Delta_{j}^{1},-\Delta_{k}^{1};r)-2\{\Phi(\Delta_{j}^{2})-\Phi_{2}(\Delta_{j}^{2},\Delta_{k}^{1};r)\}\{\Phi(\Delta_{k}^{2})-\Phi_{2}(\Delta_{j}^{1},\Delta_{k}^{2};r)\} \\
 \\
-NN: \ 2\Phi_{2}(\Delta_{j}^{2},\Delta_{k}^{2};r)\Phi_{2}(-\Delta_{j}^{1},-\Delta_{k}^{1};r)-2\{\Phi(\Delta_{j}^{2})-\Phi_{2}(\Delta_{j}^{2},\Delta_{k}^{1};r)\}\{\Phi(\Delta_{k}^{2})-\Phi_{2}(\Delta_{j}^{1},\Delta_{k}^{2};r)\}
+TC: \ -2\Phi_{2}(-\Delta_{j},0;1/\sqrt{2})+4\Phi_{3}(-\Delta_{j},0,0;\Sigma_{3b}(r)) \\
+\\
+TB: \ 2\{1-\Phi(\Delta_{j})\}\Phi(\Delta_{k})-2\Phi_{3}(-\Delta_{j},\Delta_{k},0;\Sigma_{3c}(r))-2\Phi_{3}(-\Delta_{j},\Delta_{k},0;\Sigma_{3d}(r))  \\
+\\
+TN: \ -2\Phi(-\Delta_{k}^{1})\Phi(\Delta_{k}^{2}) + 2\Phi_{3}(-\Delta_{k}^{1},\Delta_{k}^{2},\Delta_{j};\Sigma_{3e}(r))+2\Phi_{4}(-\Delta_{k}^{1},\Delta_{k}^{2},-\Delta_{j},0;\Sigma_{4a}(r))+2\Phi_{4}(-\Delta_{k}^{1},\Delta_{k}^{2},-\Delta_{j},0;\Sigma_{4b}(r)) \\
+\\
+TT: \ -2\Phi_{4}(-\Delta_{j},-\Delta_{k},0,0;\Sigma_{4c}(r))+2\Phi_{4}(-\Delta_{j},-\Delta_{k},0,0;\Sigma_{4d}(r)) \\
 \end{cases}
 \]</span></p>
 <p>where <span class="math inline">\(\Delta_{j}=\Phi^{-1}(\pi_{0j})\)</span>, <span class="math inline">\(\Delta_{k}=\Phi^{-1}(\pi_{0k})\)</span>, <span class="math inline">\(\Delta_{j}^{1}=\Phi^{-1}(\pi_{0j})\)</span>, <span class="math inline">\(\Delta_{j}^{2}=\Phi^{-1}(\pi_{0j}+\pi_{1j})\)</span>, <span class="math inline">\(\Delta_{k}^{1}=\Phi^{-1}(\pi_{0k})\)</span>, <span class="math inline">\(\Delta_{k}^{2}=\Phi^{-1}(\pi_{0k}+\pi_{1k})\)</span>,</p>
 <p><span class="math display">\[
-\Sigma_{3}(r)=
+\Sigma_{3a}(r)=
+\begin{pmatrix}
+1 &amp; 0 &amp; \frac{r}{\sqrt{2}} \\
+0 &amp; 1 &amp; -\frac{r}{\sqrt{2}} \\
+\frac{r}{\sqrt{2}} &amp; -\frac{r}{\sqrt{2}} &amp; 1
+\end{pmatrix}, \;\;\;
+\Sigma_{3b}(r)=
 \begin{pmatrix}
 1 &amp; \frac{1}{\sqrt{2}} &amp; \frac{r}{\sqrt{2}}\\
 \frac{1}{\sqrt{2}} &amp; 1 &amp; r \\
 \frac{r}{\sqrt{2}} &amp; r &amp; 1
 \end{pmatrix}, \;\;\;
-\Sigma_{3a}(r)=
+\Sigma_{3c}(r)=
 \begin{pmatrix}
 1 &amp; -r &amp; \frac{1}{\sqrt{2}} \\
 -r &amp; 1 &amp; -\frac{r}{\sqrt{2}} \\
@@ -332,60 +346,47 @@ NN: \ 2\Phi_{2}(\Delta_{j}^{2},\Delta_{k}^{2};r)\Phi_{2}(-\Delta_{j}^{1},-\Delta
 \end{pmatrix},
 \]</span></p>
 <p><span class="math display">\[
-\Sigma_{3b}(r)=
+\Sigma_{3d}(r)=
 \begin{pmatrix}
 1 &amp; 0 &amp; -\frac{1}{\sqrt{2}} \\
 0 &amp; 1 &amp; -\frac{r}{\sqrt{2}} \\
 -\frac{1}{\sqrt{2}} &amp; -\frac{r}{\sqrt{2}} &amp; 1
-\end{pmatrix}, \;\;\;
-\Sigma_{3c}(r)=
-\begin{pmatrix}
-1 &amp; 0 &amp; \frac{r}{\sqrt{2}} \\
-0 &amp; 1 &amp; -\frac{r}{\sqrt{2}} \\
-\frac{r}{\sqrt{2}} &amp; -\frac{r}{\sqrt{2}} &amp; 1
-\end{pmatrix},
-\]</span> <span class="math display">\[
-\Sigma_{3d}(r)=
-\begin{pmatrix}
-1 &amp; 0 &amp; -r \\
-0 &amp; 1 &amp; 0 \\
--r &amp; 0 &amp; 1
 \end{pmatrix}, \;\;\;
 \Sigma_{3e}(r)=
 \begin{pmatrix}
 1 &amp; 0 &amp; 0 \\
 0 &amp; 1 &amp; r \\
 0 &amp; r &amp; 1
-\end{pmatrix},
-\]</span> <span class="math display">\[
+\end{pmatrix},  \;\;\;
 \Sigma_{4a}(r)=
-\begin{pmatrix}
-1 &amp; 0 &amp; \frac{1}{\sqrt{2}} &amp; -\frac{r}{\sqrt{2}} \\
-0 &amp; 1 &amp; -\frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} \\
-\frac{1}{\sqrt{2}} &amp; -\frac{r}{\sqrt{2}} &amp; 1 &amp; -r \\
--\frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} &amp; -r &amp; 1
-\end{pmatrix}, \;\;\;
-\Sigma_{4b}(r)=
-\begin{pmatrix}
-1 &amp; r &amp; \frac{1}{\sqrt{2}} &amp; \frac{r}{\sqrt{2}} \\
-r &amp; 1 &amp; \frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} \\
-\frac{1}{\sqrt{2}} &amp; \frac{r}{\sqrt{2}} &amp; 1 &amp; r \\
-\frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} &amp; r &amp; 1
-\end{pmatrix},
-\]</span> <span class="math display">\[
-\Sigma_{4c}(r)=
 \begin{pmatrix}
 1 &amp; 0 &amp; 0 &amp; \frac{r}{\sqrt{2}} \\
 0 &amp; 1 &amp; -r &amp; \frac{r}{\sqrt{2}} \\
 0 &amp; -r &amp; 1 &amp; -\frac{1}{\sqrt{2}} \\
 \frac{r}{\sqrt{2}} &amp; \frac{r}{\sqrt{2}} &amp; -\frac{1}{\sqrt{2}} &amp; 1
-\end{pmatrix} \;\;\;\text{and}\;\;\;
-\Sigma_{4d}(r)=
+\end{pmatrix},
+\]</span></p>
+<p><span class="math display">\[
+\Sigma_{4b}(r)=
 \begin{pmatrix}
 1 &amp; 0 &amp; r &amp; \frac{r}{\sqrt{2}} \\
 0 &amp; 1 &amp; 0 &amp; \frac{r}{\sqrt{2}} \\
 r &amp; 0 &amp; 1 &amp; \frac{1}{\sqrt{2}} \\
 \frac{r}{\sqrt{2}} &amp; \frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} &amp; 1
+\end{pmatrix}, \;\;\;
+\Sigma_{4c}(r)=
+\begin{pmatrix}
+1 &amp; 0 &amp; \frac{1}{\sqrt{2}} &amp; -\frac{r}{\sqrt{2}} \\
+0 &amp; 1 &amp; -\frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} \\
+\frac{1}{\sqrt{2}} &amp; -\frac{r}{\sqrt{2}} &amp; 1 &amp; -r \\
+-\frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} &amp; -r &amp; 1
+\end{pmatrix}\;\;\text{and}\;\;
+\Sigma_{4d}(r)=
+\begin{pmatrix}
+1 &amp; r &amp; \frac{1}{\sqrt{2}} &amp; \frac{r}{\sqrt{2}} \\
+r &amp; 1 &amp; \frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} \\
+\frac{1}{\sqrt{2}} &amp; \frac{r}{\sqrt{2}} &amp; 1 &amp; r \\
+\frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} &amp; r &amp; 1
 \end{pmatrix}.
 \]</span></p>
 </div>
@@ -393,7 +394,7 @@ r &amp; 0 &amp; 1 &amp; \frac{1}{\sqrt{2}} \\
 <div id="estimation-methods" class="section level1">
 <h1 class="hasAnchor">
 <a href="#estimation-methods" class="anchor"></a>Estimation methods</h1>
-<p>Given the form of bridge function <span class="math inline">\(F\)</span>, obtaining a moment-based estimation <span class="math inline">\(\widehat \sigma_{jk}\)</span> requires inversion of <span class="math inline">\(F\)</span>. <em>latentcor</em> implements two methods for calcultation of the inversion.</p>
+<p>Given the form of bridge function <span class="math inline">\(F\)</span>, obtaining a moment-based estimation <span class="math inline">\(\widehat \sigma_{jk}\)</span> requires inversion of <span class="math inline">\(F\)</span>. <code>latentcor</code> implements two methods for calcultation of the inversion.</p>
 <div id="original-method-method-original" class="section level2">
 <h2 class="hasAnchor">
 <a href="#original-method-method-original" class="anchor"></a>Original method (<code>method = "original"</code>)</h2>
@@ -466,17 +467,17 @@ r &amp; 0 &amp; 1 &amp; \frac{1}{\sqrt{2}} \\
 \begin{cases}
 2\pi_{0j}(1-\pi_{0j})  &amp;   for \; BC \; case\\
 2\min(\pi_{0j},\pi_{0k})\{1-\max(\pi_{0j}, \pi_{0k})\}  &amp;   for \; BB \; case\\
-1-(\pi_{0j})^{2}  &amp;   for \; TC \; case\\
-2\max(\pi_{0k},1-\pi_{0k})\{1-\max(\pi_{0k},1-\pi_{0k},\pi_{0j})\}  &amp;   for \; TB \; case\\
-1-\{\max(\pi_{0j},\pi_{0k})\}^{2}  &amp;   for \; TT \; case\\
 2\{\pi_{0j}(1-\pi_{0j})+\pi_{1j}(1-\pi_{0j}-\pi_{1j})\}  &amp;   for \; NC \; case\\
 2\min(\pi_{0j}(1-\pi_{0j})+\pi_{1j}(1-\pi_{0j}-\pi_{1j}),\pi_{0k}(1-\pi_{0k}))  &amp;   for \; NB \; case\\
-1-\{\max(\pi_{0j},\pi_{1j},1-\pi_{0j}-\pi_{1j},\pi_{0k})\}^{2}  &amp;   for \; NT \; case\\
 2\min(\pi_{0j}(1-\pi_{0j})+\pi_{1j}(1-\pi_{0j}-\pi_{1j}), \\
-\;\;\;\;\;\;\;\;\;\;\pi_{0k}(1-\pi_{0k})+\pi_{1k}(1-\pi_{0k}-\pi_{1k}))  &amp;   for \; NN \; case
+\;\;\;\;\;\;\;\;\;\;\pi_{0k}(1-\pi_{0k})+\pi_{1k}(1-\pi_{0k}-\pi_{1k}))  &amp;   for \; NN \; case\\
+1-(\pi_{0j})^{2}  &amp;   for \; TC \; case\\
+2\max(\pi_{0k},1-\pi_{0k})\{1-\max(\pi_{0k},1-\pi_{0k},\pi_{0j})\}  &amp;   for \; TB \; case\\
+1-\{\max(\pi_{0j},\pi_{0k},\pi_{1k},1-\pi_{0k}-\pi_{1k})\}^{2}  &amp;   for \; TN \; case\\
+1-\{\max(\pi_{0j},\pi_{0k})\}^{2}  &amp;   for \; TT \; case\\
 \end{cases}
 \]</span></p>
-<p>By default, <code>latentcor</code> uses <span class="math inline">\(\mbox{ratio} = 0.9\)</span>, but this value can be modified by the user</p>
+<p>By default, <code>latentcor</code> uses <code>ratio = 0.9</code>, but this value can be modified by the user</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/estR.html">estR</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"approx"</span>, ratio <span class="op">=</span> <span class="fl">0.99</span><span class="op">)</span><span class="op">$</span><span class="va">R</span>
 <span class="co">#&gt;           X1        X2        X3        X4</span>
