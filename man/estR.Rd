@@ -8,7 +8,7 @@ estR(
   X,
   types = "con",
   method = c("approx", "original"),
-  nu = 0.01,
+  nu = 0.001,
   tol = 1e-08,
   ratio = 0.9,
   showplot = FALSE
@@ -21,7 +21,7 @@ estR(
 
 \item{method}{The calculation method for latent correlations. Either \code{"original"} or \code{"approx"}. If \code{method = "approx"}, multilinear approximation method is used, which is much faster than the original method. If \code{method = "original"}, optimization of the bridge inverse function is used. The default is \code{"approx"}.}
 
-\item{nu}{Shrinkage parameter for the correlation matrix, must be between 0 and 1, the default value is 0.01.}
+\item{nu}{Shrinkage parameter for the correlation matrix, must be between 0 and 1, the default value is 0.001.}
 
 \item{tol}{Desired accuracy when calculating the solution of bridge function. The default value is 1e-8.}
 
