@@ -14,6 +14,7 @@
 #'       \item{zratios: }{A list of of length p corresponding to each variable. Returns NA for continuous variable; proportion of zeros for binary/truncated variables; the cumulative proportions of zeros and ones (e.g. first value is proportion of zeros, second value is proportion of zeros and ones) for ternary variable. }
 #'       \item{K: }{(p x p) Kendall Tau (Tau-a) Matrix for \code{X} }
 #'       \item{R: }{(p x p) Estimated latent correlation matrix for \code{X} }
+#'       \item{Rpointwise: }{(p x p) Point-wise estimates of latent correlations for \code{X}. This matrix is not guaranteed to be semi-positive definite. If it is however, and if \code{nu=0}, then it will be the same as \code{R}.}
 #'       \item{plotR: }{Heatmap plot of latent correlation matrix \code{R}, NULL if \code{showplot = FALSE}}
 #' }
 #'
@@ -87,11 +88,15 @@ estR = function(X, types = "con", method = c("approx", "original"), nu = 0.01, t
   }
   K = matrix(0, p, p)
   K[lower.tri(K)] = K_a.lower; K = K + t(K) + diag(p); R[lower.tri(R)] = R.lower; R = R + t(R) + diag(p)
+  # Save values from pointwise estimation
+  Rpointwise = R
+  # Check if the matrix is semi-pos.definite
   R_min_eig = min(eigen(R)$values)
   if (R_min_eig < 0) {
-    message("Use Matrix::nearPD since Minimum eigenvalue of latent correlation matrix is ", R_min_eig, "smaller than 0.")
+    message("Using Matrix::nearPD since Minimum eigenvalue of latent correlation matrix is ", R_min_eig, "smaller than 0.")
     R = as.matrix(Matrix::nearPD(R, corr = TRUE, maxit = 1000)$mat)
   }
+  # Do adjustmnet by nu - makes it stricly positive definite like ridge
   R = (1 - nu) * R + nu * diag(nrow(R))
   colnames(K) = rownames(K) = colnames(R) = rownames(R) = make.names(c(name))
   plotR = NULL
@@ -99,5 +104,5 @@ estR = function(X, types = "con", method = c("approx", "original"), nu = 0.01, t
     plotR = heatmaply(R, dendrogram = "none", main = "Latent Correlation", margins = c(80,80,80,80),
                       grid_color = "white", grid_width = 0.00001, label_names = c("Horizontal axis:", "Vertical axis:", "Latent correlation:"))
   }
-  return(list(zratios = zratios, K = K, R = R, plotR = plotR))
+  return(list(zratios = zratios, K = K, R = R, Rpointwise = Rpointwise, plotR = plotR))
 }
