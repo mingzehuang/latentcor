@@ -47,13 +47,11 @@ The estimation of latent correlations consists of three steps: (i) computing Ken
 
 |--------------|---------------------|----------------|---------------------------|-------------|
 |Type          |continuous           |binary          |ternary                    |zero-inflated|
-                                                                                   (truncated)
 |--------------|---------------------|----------------|---------------------------|-------------|
 |continuous    |@liu2009nonparanormal|   -            |           -               |      -      |
 |binary        |@fan2017high         |@fan2017high    |           -               |      -      |
 |ternary       |@quan2018rank        |@quan2018rank   |@quan2018rank              |      -      |
 |zero-inflated |@yoon2020sparse      |@yoon2020sparse |@yoon2020sparse            |This work[^1]|
- (truncated)                                                                       
 
 [^1]: See the accompanying `latentcor` vignette for derivation details.
  
