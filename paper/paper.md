@@ -45,56 +45,6 @@ The popular `cor` function within R package `stats` [@team2013r] allows to compu
 
 The estimation of latent correlations consists of three steps: (i) computing Kendall's $\tau$ between each pair of variables; (ii) choosing the bridge function $F(\cdot)$ based on the types of variable pairs, the bridge function connects the Kendall's $\tau$ computed from the data, $\widehat \tau$, to the true underlying correlation $\rho$ via moment equation $\mathbb{E}(\widehat \tau) = F(\rho)$; (iii) calculating estimate of latent correlation by $F^{-1}(\widehat \tau)$. We summarize the references for the explicit form of $F(\cdot)$ for each variable combination as implemented in `latentcor` below.
 
-
-
-<table class="table">
-<colgroup>
-<col width="11%">
-<col width="22%">
-<col width="22%">
-<col width="22%">
-<col width="22%">
-</colgroup>
-<thead><tr class="header">
-<th>Type</th>
-<th>continuous</th>
-<th>binary</th>
-<th>ternary</th>
-<th>zero-inflated (truncated)</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td>continuous</td>
-<td><span class="citation">Liu, Lafferty, and Wasserman (2009)</span></td>
-<td>-</td>
-<td>-</td>
-<td>-</td>
-</tr>
-<tr class="even">
-<td>binary</td>
-<td><span class="citation">Fan et al. (2017)</span></td>
-<td><span class="citation">Fan et al. (2017)</span></td>
-<td>-</td>
-<td>-</td>
-</tr>
-<tr class="odd">
-<td>ternary</td>
-<td><span class="citation">Quan, Booth, and Wells (2018)</span></td>
-<td><span class="citation">Quan, Booth, and Wells (2018)</span></td>
-<td><span class="citation">Quan, Booth, and Wells (2018)</span></td>
-<td>-</td>
-</tr>
-<tr class="even">
-<td>zero-inflated (truncated)</td>
-<td><span class="citation">Yoon, Carroll, and Gaynanova (2020)</span></td>
-<td><span class="citation">Yoon, Carroll, and Gaynanova (2020)</span></td>
-<td><span class="citation">Yoon, Carroll, and Gaynanova (2020)</span></td>
-<td>This Appendix</td>
-</tr>
-</tbody>
-</table>
-
-
 |Type|continuous|binary|ternary|zero-inflated <br> (truncated)|
 |--------------|---------------------|----------------|---------------------------|-------------|
 |continuous|@liu2009nonparanormal| - | - | - |
