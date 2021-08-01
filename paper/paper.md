@@ -50,11 +50,8 @@ Type          |continuous           |binary          |ternary                   
                                                                                  |(truncated)
 --------------|---------------------|----------------|---------------------------|-------------
 continuous    |@liu2009nonparanormal|   -            |           -               |      - 
-                                                                                  
 binary        |@fan2017high         |@fan2017high    |           -               |      - 
-                                                                                  
 ternary       |@quan2018rank        |@quan2018rank   |@quan2018rank              |      - 
-                                                                                  
 zero-inflated |@yoon2020sparse      |@yoon2020sparse |@yoon2020sparse            |This work[^1] 
 (truncated)   |                                                                   
 
