@@ -50,10 +50,11 @@ The estimation of latent correlations consists of three steps: (i) computing Ken
 |continuous|@liu2009nonparanormal| - | - | - |
 |binary|@fan2017high|@fan2017high| - | - |
 |ternary|@quan2018rank|@quan2018rank|@quan2018rank| - |
-|zero-inflated[^1]|@yoon2020sparse|@yoon2020sparse|@yoon2020sparse|This work[^2]|
+|zero-inflated[^1]|@yoon2020sparse|@yoon2020sparse|@yoon2020sparse|This work[^bignote]|
 
 [^1]: Truncated.
-[^2]: See the accompanying `latentcor` vignette for derivation details.
+
+[^bignote]: See the accompanying `latentcor` vignette for derivation details.
  
 The inversion of the bridge function $F(\cdot)$ can be done in two ways. The original approach (`method = "original"`) relies on numerical inversion for each pair of variables based on uni-root optimization. Since optimization is done separately for each pair, the original approach is computationally expensive when the number of variables is large. Figure \ref{fig:R_nc_org} displays the estimated latent correlations using the original approach versus the true values of underlying latent correlation for ternary/continuous case, the alignment of points around $y=x$ line confirms that the estimation is empirically unbiased. The second approach to invert  $F(\cdot)$ is to use approximation via multi-linear interpolation on pre-calculated fixed grid of points (`method = "approx"`). This idea has been first proposed by [@yoon2021fast], and implemented for continuous/binary/truncated pairs in `mixedCCA`. However, the implementation lacks ternary case, and the specific grid choice creates a large memory footprint. In `latentcor`, we add ternary case and optimize the choice of grid by redefining the bridge functions on a rescaled version of Kendall's $\tau$, where the scaling adopts to the smoothness of underlying $F$. type of variables by simultaneously controlling the approximation error at the same or lower level. As a result, `latentcor` has significantly smaller memory footprint and smaller approximation error compared to `mixedCCA`, and has additional functionality.
 
