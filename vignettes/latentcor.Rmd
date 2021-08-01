@@ -77,19 +77,25 @@ names(estimate)
 estimate$zratios
 ```
 
-  - K: Kendall $\tau$ ($\tau_{a}$) correlation matrix for these 2 variables. 
+  - `K`: Kendall $\tau$ ($\tau_{a}$) correlation matrix for these 2 variables. 
   
 ```{r Kendall}
 estimate$K
 ```  
 
-  - R: estimated latent correlation matrix for these 2 variable.
+  - `Rpointwise`: matrix of pointwise estimated correlations. Due to pointwise estimation, `Rpointwise` is not guaranteed to be positive semi-definite
+
+```{r latent_correlation pointwise}
+estimate$Rpointwise
+``` 
+
+  - `R`: estimated final latent correlation matrix, this matrix is guaranteed to be strictly positive definite (through `nearPD` projection and parameter `nu`, see Mathematical framework for estimation)
 
 ```{r latent_correlation}
 estimate$R
 ``` 
 
-  - plotR: NULL by default as `showplot = FALSE` in `estR`. Otherwise displays a heatmap of latent correlation matrix.
+  - `plotR`: NULL by default as `showplot = FALSE` in `estR`. Otherwise displays a heatmap of latent correlation matrix.
 
 ```{r heatmap}
 estimate$plotR
@@ -392,6 +398,43 @@ $\check{\tau}_{jk}=\tau_{jk}/\bar{\tau}_{jk}\in[-1, 1]$, where $\bar{\tau}_{jk}$
 
 In addition, for ternary variable $j$, it always holds that $\Delta_{j}^{2}>\Delta_{j}^{1}$ since $\Delta_{j}^{1}=\Phi^{-1}(\pi_{0j})$ and $\Delta_{j}^{2}=\Phi^{-1}(\pi_{0j}+\pi_{1j})$. Thus, the grid should not cover the the area corresponding to $\Delta_{j}^{2}\ge\Delta_{j}^{1}$. We thus rescale as follows: $\check{\Delta}_{j}^{1}=\Delta_{j}^{1}/\Delta_{j}^{2}\in[0, 1]$; $\check{\Delta}_{j}^{2}=\Delta_{j}^{2}\in[0, 1]$.
 
+## Adjustment of pointwise-estimator for positive-definiteness
+
+Since the estimation is performed point-wise, the resulting matrix of estimated latent correlations is not guaranteed to be positive semi-definite. For example, this could be expected when the sample size is small (and so the estimation error for each pairwise correlation is larger)
+
+```{r, message = FALSE}
+set.seed("234820")
+X = GenData(n = 6, types = c("con", "bin", "ter", "tru"))$X
+X
+out = estR(X, types = c("con", "bin", "ter", "tru"))
+out$Rpointwise
+eigen(out$Rpointwise)$values
+```
+
+`latentcor` automatically corrects the pointwise estimator to be positive definite by making two adjustments. First, if `Rpointwise` has smallest eigenvalue less than zero, the `estR` projects this matrix to the nearest positive semi-definite matrix. The user is notified of this adjustment through the message (supressed in previous code chunk), e.g.
+```{r, message = TRUE}
+out = estR(X, types = c("con", "bin", "ter", "tru"))
+```
+
+Second, `latentcor` shrinks the adjusted matrix of correlations towards identity matrix using the parameter $\nu$ with default value of 0.001 (`nu = 0.001`), so that the resulting `R` is strictly positive definite with the minimal eigenvalue being greater or equal to $\nu$. That is
+$$
+R = (1 - \nu) \widetilde R + \nu I,
+$$
+where $\widetilde R$ is the nearest positive semi-definite matrix to `Rpointwise`. 
+```{r}
+out = estR(X, types = c("con", "bin", "ter", "tru"), nu = 0.001)
+out$Rpointwise
+out$R
+```
+As a result, `R` and `Rpointwise` could be quite different when sample size $n$ is small. When $n$ is large and $p$ is moderate, the difference is typically driven by parameter `nu`.
+
+```{r}
+set.seed("234820")
+X = GenData(n = 100, types = c("con", "bin", "ter", "tru"))$X
+out = estR(X, types = c("con", "bin", "ter", "tru"), nu = 0.001)
+out$Rpointwise
+out$R
+```
 
 # Appendix
 
