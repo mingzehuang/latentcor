@@ -188,7 +188,7 @@ The explicit form of **bridge function** $F$ has been derived for all combinatio
 |continuous | @liu2009nonparanormal |- | -| - |
 |binary | @fan2017high | @fan2017high | - | - |
 |ternary | @quan2018rank | @quan2018rank | @quan2018rank | - |
-|zero-inflated (truncated) | @yoon2020sparse | @yoon2020sparse | @yoon2020sparse | This Appendix |
+|zero-inflated (truncated) | @yoon2020sparse | @yoon2020sparse | See Appendix | @yoon2020sparse |
 
 Below we provide an explicit form of $F$ for each combination.
 
