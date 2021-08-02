@@ -45,20 +45,19 @@ The popular `cor` function within R package `stats` [@team2013r] allows to compu
 
 The estimation of latent correlations consists of three steps: (i) computing Kendall's $\tau$ between each pair of variables; (ii) choosing the bridge function $F(\cdot)$ based on the types of variable pairs, the bridge function connects the Kendall's $\tau$ computed from the data, $\widehat \tau$, to the true underlying correlation $\rho$ via moment equation $\mathbb{E}(\widehat \tau) = F(\rho)$; (iii) calculating estimate of latent correlation by $F^{-1}(\widehat \tau)$. We summarize the references for the explicit form of $F(\cdot)$ for each variable combination as implemented in `latentcor` below.
 
-+----------------+-----------------------+-----------------+-------------------------------+-----------------+
-| Type           | continuous            | binary          | ternary                       | zero-inflated\  |
-|                |                       |                 |                               | (truncated)     |
-+================+=======================+=================+===============================+=================+
-| continuous     | @liu2009nonparanormal | \-              | \-                            | \-              |
-+----------------+-----------------------+-----------------+-------------------------------+-----------------+
-| binary         | @fan2017high          | @fan2017high    | \-                            | \-              |
-+----------------+-----------------------+-----------------+-------------------------------+-----------------+
-| ternary        | @quan2018rank         | @quan2018rank   | @quan2018rank                 | \-              |
-+----------------+-----------------------+-----------------+-------------------------------+-----------------+
-| zero-inflated\ | @yoon2020sparse       | @yoon2020sparse | See accompanying `latentcor`\ | @yoon2020sparse |
-| (truncated)    |                       |                 | vignette for derivation\      |                 |
-|                |                       |                 | details.                      |                 |
-+----------------+-----------------------+-----------------+-------------------------------+-----------------+
++----------------+-----------------------+-----------------+--------------------------+-----------------+
+| Type           | continuous            | binary          | ternary                  | zero-inflated\  |
+|                |                       |                 |                          | (truncated)     |
++================+=======================+=================+==========================+=================+
+| continuous     | @liu2009nonparanormal | \-              | \-                       | \-              |
++----------------+-----------------------+-----------------+--------------------------+-----------------+
+| binary         | @fan2017high          | @fan2017high    | \-                       | \-              |
++----------------+-----------------------+-----------------+--------------------------+-----------------+
+| ternary        | @quan2018rank         | @quan2018rank   | @quan2018rank            | \-              |
++----------------+-----------------------+-----------------+--------------------------+-----------------+
+| zero-inflated\ | @yoon2020sparse       | @yoon2020sparse | See `latentcor`\         | @yoon2020sparse |
+| (truncated)    |                       |                 | vignette for derivation\ |                 |
++----------------+-----------------------+-----------------+--------------------------+-----------------+
 
                  
 
