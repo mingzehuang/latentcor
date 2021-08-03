@@ -119,7 +119,7 @@
   <span class='va'>X</span>,
   types <span class='op'>=</span> <span class='st'>"con"</span>,
   method <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"approx"</span>, <span class='st'>"original"</span><span class='op'>)</span>,
-  nu <span class='op'>=</span> <span class='fl'>0.01</span>,
+  nu <span class='op'>=</span> <span class='fl'>0.001</span>,
   tol <span class='op'>=</span> <span class='fl'>1e-08</span>,
   ratio <span class='op'>=</span> <span class='fl'>0.9</span>,
   showplot <span class='op'>=</span> <span class='cn'>FALSE</span>
@@ -142,7 +142,7 @@
     </tr>
     <tr>
       <th>nu</th>
-      <td><p>Shrinkage parameter for the correlation matrix, must be between 0 and 1, the default value is 0.01.</p></td>
+      <td><p>Shrinkage parameter for the correlation matrix, must be between 0 and 1, the default value is 0.001.</p></td>
     </tr>
     <tr>
       <th>tol</th>
@@ -164,6 +164,7 @@
 <li><p>zratios: A list of of length p corresponding to each variable. Returns NA for continuous variable; proportion of zeros for binary/truncated variables; the cumulative proportions of zeros and ones (e.g. first value is proportion of zeros, second value is proportion of zeros and ones) for ternary variable.</p></li>
 <li><p>K: (p x p) Kendall Tau (Tau-a) Matrix for <code>X</code></p></li>
 <li><p>R: (p x p) Estimated latent correlation matrix for <code>X</code></p></li>
+<li><p>Rpointwise: (p x p) Point-wise estimates of latent correlations for <code>X</code>. This matrix is not guaranteed to be semi-positive definite. If it is however, and if <code>nu=0</code>, then it will be the same as <code>R</code>.</p></li>
 <li><p>plotR: Heatmap plot of latent correlation matrix <code>R</code>, NULL if <code>showplot = FALSE</code></p></li>
 </ul>
 
