@@ -67,15 +67,15 @@ Memory footprints (in KB):
 
  | case | mixedCCA | latentcor |
  |-----|----------|----------|
-| binary/continuous | 10.23 | 3.13 |
-| binary/binary | 303.06 | 20.48 |
-| truncated/continuous | 21.62 | 3.16 |
-| truncated/binary | 902.32 | 28.61 | 
-| truncated/truncated | 689.78 | 16.16 |
-| ternary/continuous | - | 18.52 |
-| ternary/binary | - | 110.93 |
-| ternary/truncated | - | 191.78 |
-| ternary/ternary | - | 1023.13 |
+| binary/continuous | 10.08 | 4.22 |
+| binary/binary | 303.04 | 69.1 |
+| truncated/continuous | 20.99 | 6.16 |
+| truncated/binary | 907.95 | 92.25 | 
+| truncated/truncated | 687.68 | 84.33 |
+| ternary/continuous | - | 125.83 |
+| ternary/binary | - | 728.3 |
+| ternary/truncated | - | 860.9 |
+| ternary/ternary | - | 950.61 |
 
 Figure \ref{fig:R_nc_approx} displays the estimated latent correlations using the approximation approach (`method = "approx"`) versus true values of underlying latent correlation for ternary/continuous case. The results are almost indistinguishable from Figure~\ref{fig:R_nc_org} at a fraction of computational cost. For reference, Figure \ref{fig:R_nc_pearson} displays the values obtained by using standard Pearson correlation, which leads to significant estimation bias.
 
