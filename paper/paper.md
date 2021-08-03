@@ -17,7 +17,7 @@ authors:
   orcid: 0000-0002-3821-7083
   affiliation: 3, 4, 5
 - name: Irina Gaynanova
-  orcid: 0000-0000-0000-0000
+  orcid: 0000-0002-4116-0268
   affiliation: 1
 affiliations:
 - name: Department of Statistics, Texas A& M University, College Station, TX
