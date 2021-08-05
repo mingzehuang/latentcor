@@ -99,7 +99,8 @@ R_nc_org = estR(X = X, types = c("ter", "con"), method = "original")$R
 R_nc_approx = estR(X = X, types = c("ter", "con"), method = "approx")$R
 
 # Heatmap for latent correlation matrix.
-Heatmap_R_nc_approx = estR(X = X, types = c("ter", "con"), method = "approx", showplot = TRUE)$plotR
+Heatmap_R_nc_approx = estR(X = X, types = c("ter", "con"),
+                           method = "approx", showplot = TRUE)$plotR
 ```
 
 
