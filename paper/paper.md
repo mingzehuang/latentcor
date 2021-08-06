@@ -99,7 +99,7 @@ Memory footprints (in KB):
 | ternary/truncated | - | 860.9 |
 | ternary/ternary | - | 950.61 |
 
-Figure \ref{fig:R_nc_approx} displays the estimated latent correlations using the approximation approach (`method = "approx"`) versus true values of underlying latent correlation for ternary/continuous case. The results are almost indistinguishable from Figure~\ref{fig:R_nc_org} at a fraction of computational cost. For reference, Figure \ref{fig:R_nc_pearson} displays the values obtained by using standard Pearson correlation, which leads to significant estimation bias.
+Figure \ref{fig:R_all}B displays the estimated latent correlations using the approximation approach (`method = "approx"`) versus true values of underlying latent correlation for ternary/continuous case. The results are almost indistinguishable from Figure~\ref{fig:R_all}B at a fraction of computational cost. For reference, Figure \ref{fig:R_all}A displays the values obtained by using standard Pearson correlation, which leads to significant estimation bias.
 
 # Basic Usage
 
@@ -126,7 +126,7 @@ Heatmap_R_nc_approx = estR(X = X, types = c("ter", "con"),
 ```
 
 
-![Estimated Pearson's vs. latent correlations \label{fig:R_all}](./CombinedCorrelations.pdf)
+![Estimated Pearson's (A) and latent correlations (B,C) vs. ground truth correlation \label{fig:R_all}](./CombinedCorrelations.pdf)
 
 # Rendered R Figures
 Script see: [latentcor_evaluation](https://github.com/mingzehuang/latentcor_evaluation/blob/master/unbias_check.R)
