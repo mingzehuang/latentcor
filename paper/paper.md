@@ -99,7 +99,7 @@ Memory footprints (in KB):
 | ternary/truncated | - | 860.9 |
 | ternary/ternary | - | 950.61 |
 
-Figure \ref{fig:R_all}B displays the estimated latent correlations using the approximation approach (`method = "approx"`) versus true values of underlying latent correlation for ternary/continuous case. The results are almost indistinguishable from Figure~\ref{fig:R_all}B at a fraction of computational cost. For reference, Figure \ref{fig:R_all}A displays the values obtained by using standard Pearson correlation, which leads to significant estimation bias.
+Figure \ref{fig:R_all}C displays the estimated latent correlations using the approximation approach (`method = "approx"`) versus true values of underlying latent correlation for ternary/continuous case. The results are almost indistinguishable from Figure \ref{fig:R_all}B at a fraction of the computational cost. For reference, Figure \ref{fig:R_all}A displays the values obtained by using standard Pearson correlation, which leads to significant estimation bias.
 
 # Basic Usage
 
@@ -126,14 +126,17 @@ Heatmap_R_nc_approx = estR(X = X, types = c("ter", "con"),
 ```
 
 
-![Estimated Pearson's (A) and latent correlations (B,C) vs. ground truth correlation \label{fig:R_all}](./CombinedCorrelations.pdf)
+![Scatter plots of estimated Pearson correlation (panel A) and latent correlations (original in panel B, approximate in panel C) vs. ground truth correlation \label{fig:R_all}](./CombinedCorrelations.pdf)
 
 # Rendered R Figures
 Script see: [latentcor_evaluation](https://github.com/mingzehuang/latentcor_evaluation/blob/master/unbias_check.R)
 
 # Availability
 
-The R package 'latentcor' is available at...
+The R package 'latentcor' is available on [Github](https://github.com/mingzehuang/latentcor/). 
 
+# Acknowledgments
+
+We thank Dr. Grace Yoon...
 
 # References
