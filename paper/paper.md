@@ -56,8 +56,11 @@ and is computationally efficient, essentially making latent correlation estimati
 # Background on latent correlations
 
 The estimation of latent correlations consists of three steps: 
+
 * computing Kendall's $\tau$ between each pair of variables,
+
 * choosing the bridge function $F(\cdot)$ based on the types of variable pairs; the bridge function connects the Kendall's $\tau$ computed from the data, $\widehat \tau$, to the true underlying correlation $\rho$ via moment equation $\mathbb{E}(\widehat \tau) = F(\rho)$;
+
 * computing estimates of latent correlation by $F^{-1}(\widehat \tau)$. 
 
 We summarize the references for the explicit form of $F(\cdot)$ for each variable combination as implemented in `latentcor` below.
@@ -95,7 +98,7 @@ Memory footprints (in KB):
 
 Figure \ref{fig:R_nc_approx} displays the estimated latent correlations using the approximation approach (`method = "approx"`) versus true values of underlying latent correlation for ternary/continuous case. The results are almost indistinguishable from Figure~\ref{fig:R_nc_org} at a fraction of computational cost. For reference, Figure \ref{fig:R_nc_pearson} displays the values obtained by using standard Pearson correlation, which leads to significant estimation bias.
 
-# Usage
+# Basic Usage
 
 A simple example estimating latent correlation is shown below.
 
@@ -131,7 +134,7 @@ Script see: [latentcor_evaluation](https://github.com/mingzehuang/latentcor_eval
 
 ![Estimated correlations using `cor` function in `stats` package (Pearson correlation) versus true population latent correlation.\label{fig:R_nc_pearson}](nc_pearson.pdf)
 
-# Discussion
+# Availability
 
 
 # References
