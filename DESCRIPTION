@@ -6,19 +6,23 @@ Author: c(
     person(given = "Mingze",
            family = "Huang",
            role = c("aut", "cre"),
-           email = "mingzehuang@gmail.com"),
+           email = "mingzehuang@gmail.com",
+           comment = c(ORCID = "0000-0003-3919-1564")),
+    person(given = "Grace",
+           family = "Yoon",
+           role = c("aut"),
+           email = "gyoon6067@gmail.com",
+           comment = c(ORCID = "0000-0003-3263-1352")),
+    person(given = "Christian",
+           family = "Müller",
+           role = c("aut"),
+           email = "christian.mueller@stat.uni-muenchen.de",
+           comment = c(ORCID = "0000-0002-3821-7083")),
     person(given = "Irina",
            family = "Gaynanova",
            role = c("aut"),
-           email = "irinag@stat.tamu.edu")),
-    person(given = "Irina",
-           family = "Gaynanova",
-           role = c("aut"),
-           email = "irinag@stat.tamu.edu")),
-    person(given = "Irina",
-           family = "Gaynanova",
-           role = c("aut"),
-           email = "irinag@stat.tamu.edu"))
+           email = "irinag@stat.tamu.edu",
+           comment = c(ORCID = "0000-0002-4116-0268")))
 Maintainer: Mingze Huang <mingzehuang@gmail.com>
 Description: The R package *latentcor* provides estimation for latent correlation with mixed data types (continuous, binary, truncated and ternary).
 Depends: R (>= 3.0.0)
