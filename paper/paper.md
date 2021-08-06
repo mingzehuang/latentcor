@@ -123,6 +123,8 @@ Heatmap_R_nc_approx = estR(X = X, types = c("ter", "con"),
 ```
 
 
+![Estimated latent correlations by `latentcor` . \label{fig:R_all}](./CombinedCorrelations.pdf)
+
 # Rendered R Figures
 Script see: [latentcor_evaluation](https://github.com/mingzehuang/latentcor_evaluation/blob/master/unbias_check.R)
 
@@ -135,6 +137,8 @@ Script see: [latentcor_evaluation](https://github.com/mingzehuang/latentcor_eval
 ![Estimated correlations using `cor` function in `stats` package (Pearson correlation) versus true population latent correlation.\label{fig:R_nc_pearson}](nc_pearson.pdf)
 
 # Availability
+
+The R package 'latentcor' is available at...
 
 
 # References
