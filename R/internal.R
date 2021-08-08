@@ -271,7 +271,7 @@ r_sol = function(K, zratio1, zratio2, comb, tol, ratio) {
   )
   K.len = length(K); out = rep(NA, K.len);
   zratio1 = as.matrix(zratio1); zratio2 = as.matrix(zratio2)
-  for (i in K.len) {
+  for (i in 1:K.len) {
     f = function(r)(bridge_switch(r = r, zratio1 = zratio1[ , i], zratio2 = zratio2[ , i]) - K[i])^2
     op = tryCatch(optimize(f, lower = -0.999, upper = 0.999, tol = tol)[1], error = function(e) 100)
     if(op == 100) {
