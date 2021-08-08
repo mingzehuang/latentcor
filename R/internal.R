@@ -51,6 +51,7 @@ n_x = function(x, n) {
 }
 
 encodeX = function(X, types) {
+  X = matrix(unlist(X), nrow = nrow(X), ncol = ncol(X))
   colmin_mat = matrix(apply(X, 2, function(x) min(x, na.rm = TRUE)), nrow = nrow(X), ncol = ncol(X), byrow = TRUE)
   colmax_mat = matrix(apply(X, 2, function(x) max(x, na.rm = TRUE)), nrow = nrow(X), ncol = ncol(X), byrow = TRUE)
   if (sum(types == "bin") > 0) {
@@ -289,7 +290,7 @@ r_sol = function(K, zratio1, zratio2, comb, tol, ratio) {
   #  }
   )
   K.len = length(K); out = rep(NA, K.len);
-  zratio1 = as.matrix(zratio1); zratio2 = as.matrix(zratio2)
+  zratio1 = matrix(zratio1, ncol = K.len); zratio2 = matrix(zratio2, ncol = K.len)
   for (i in 1:K.len) {
     f = function(r)(bridge_switch(r = r, zratio1 = zratio1[ , i], zratio2 = zratio2[ , i]) - K[i])^2
     op = tryCatch(optimize(f, lower = -0.999, upper = 0.999, tol = tol)[1], error = function(e) 100)
@@ -306,8 +307,8 @@ r_sol = function(K, zratio1, zratio2, comb, tol, ratio) {
 r_ml = function(K, zratio1, zratio2, comb, tol, ratio) {
   ipol_switch = switch(comb, "10" = BCipol, "11" = BBipol, "20" = TCipol, "21" = TBipol, "22" = TTipol,
                        "30" = NCipol, "31" = NBipol, "32" = NTipol, "33" = NNipol)
-  zratio1 = as.matrix(zratio1); zratio1.row = nrow(zratio1)
-  zratio2 = as.matrix(zratio2); zratio2.row = nrow(zratio2)
+  zratio1 = matrix(zratio1, ncol = length(K)); zratio1.row = nrow(zratio1)
+  zratio2 = matrix(zratio2, ncol = length(K)); zratio2.row = nrow(zratio2)
   if (zratio1.row > 1) {zratio1[1:(zratio1.row - 1), ] = zratio1[1:(zratio1.row - 1), ] / zratio1[2:zratio1.row, ]}
   if (zratio2.row > 1) {zratio2[1:(zratio2.row - 1), ] = zratio2[1:(zratio2.row - 1), ] / zratio2[2:zratio2.row, ]}
   if (any(is.na(zratio2))) {zratio2 = NULL}
@@ -316,7 +317,7 @@ r_ml = function(K, zratio1, zratio2, comb, tol, ratio) {
 }
 
 r_switch = function(method, K, zratio1, zratio2, comb, tol, ratio){
-  out = switch(method, "original" = r_sol,
+  result = switch(method, "original" = r_sol,
                "approx" = function(K, zratio1, zratio2, comb, tol, ratio) {
                  bound = bound_switch(comb = comb, zratio1 = zratio1, zratio2 = zratio2); cutoff = abs(K) > ratio * bound
                  if (all(!(cutoff))) {
@@ -324,13 +325,13 @@ r_switch = function(method, K, zratio1, zratio2, comb, tol, ratio){
                  } else if (all(cutoff)) {
                    out = r_sol(K = K, zratio1 = zratio1, zratio2 = zratio2, comb = comb, tol = tol, ratio = ratio)
                  } else {
-                   out = length(K)
+                   out = rep(NA, length(K))
                    out[cutoff] = r_sol(K = K[cutoff], zratio1 = zratio1[ , cutoff], zratio2 = zratio2[ , cutoff], comb = comb, tol = tol, ratio = ratio)
                    out[!(cutoff)] = r_ml(K = K[!(cutoff)] / bound[!(cutoff)], zratio1 = zratio1[ , !(cutoff)], zratio2 = zratio2[ , !(cutoff)], comb = comb, tol = tol, ratio = ratio)
                  }
                  return(out)
                })
-  return(out(K, zratio1, zratio2, comb, tol, ratio))
+  return(result(K, zratio1, zratio2, comb, tol, ratio))
 }
 
 bound_switch = function(comb, zratio1, zratio2) {
@@ -339,11 +340,11 @@ bound_switch = function(comb, zratio1, zratio2) {
          "20" = function(zratio1, zratio2){1 - zratio1^2},
          "21" = function(zratio1, zratio2){2 * pmax(zratio2, 1 - zratio2) * (1 - pmax(zratio2, 1 - zratio2, zratio1))},
          "22" = function(zratio1, zratio2){1 - pmax(zratio1, zratio2)^2},
-         "30" = function(zratio1, zratio2){2 * (zratio1[1] * (1 - zratio1[1]) + (1 - zratio1[2]) * (zratio1[2] - zratio1[1]))},
-         "31" = function(zratio1, zratio2){2 * pmin(zratio1[1] * (1 - zratio1[1]) + (1 - zratio1[2]) * (zratio1[2] - zratio1[1]), zratio2 * (1 - zratio2))},
-         "32" = function(zratio1, zratio2){1 - pmax(zratio1[1], zratio1[2] - zratio1[1], 1 - zratio1[2], zratio2)^2},
-         "33" = function(zratio1, zratio2){2 * pmin(zratio1[1] * (1 - zratio1[1]) + (1 - zratio1[2]) * (zratio1[2] - zratio1[1]),
-                                                    zratio2[1] * (1 - zratio2[1]) + (1 - zratio2[2]) * (zratio2[2] - zratio2[1]))})
+         "30" = function(zratio1, zratio2){2 * (zratio1[1, ] * (1 - zratio1[1, ]) + (1 - zratio1[2, ]) * (zratio1[2, ] - zratio1[1, ]))},
+         "31" = function(zratio1, zratio2){2 * pmin(zratio1[1, ] * (1 - zratio1[1, ]) + (1 - zratio1[2, ]) * (zratio1[2, ] - zratio1[1, ]), zratio2 * (1 - zratio2))},
+         "32" = function(zratio1, zratio2){1 - pmax(zratio1[1, ], zratio1[2, ] - zratio1[1, ], 1 - zratio1[2, ], zratio2)^2},
+         "33" = function(zratio1, zratio2){2 * pmin(zratio1[1, ] * (1 - zratio1[1, ]) + (1 - zratio1[2, ]) * (zratio1[2, ] - zratio1[1, ]),
+                                                    zratio2[1, ] * (1 - zratio2[1, ]) + (1 - zratio2[2, ]) * (zratio2[2, ] - zratio2[1, ]))})
   return(out(zratio1, zratio2))
 }
 

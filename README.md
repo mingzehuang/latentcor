@@ -33,10 +33,10 @@ devtools::install_github("https://github.com/mingzehuang/latentcor", build_vigne
 # Data generation
 X = GenData(types = c("ter", "con"), XP = list(c(0.3, .5), NA))$X
 # Estimate latent correlation matrix with original method
-R_nc_org = estR(X = X, types = c("ter", "con"), method = "original")$R
-# Estimate latent correlation matrix with aprroximation method
-R_nc_approx = estR(X = X, types = c("ter", "con"), method = "approx")$R
+estR(X = X, types = c("ter", "con"), method = "original")$R
+# Estimate latent correlation matrix with approximation method
+estR(X = X, types = c("ter", "con"), method = "approx")$R
 
 # Heatmap for latent correlation matrix.
-Heatmap_R_nc_approx = estR(X = X, types = c("ter", "con"), method = "approx", showplot = TRUE)$plotR
+estR(X = X, types = c("ter", "con"), method = "approx", showplot = TRUE)$plotR
 ```

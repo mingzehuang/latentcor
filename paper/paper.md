@@ -115,20 +115,37 @@ library(latentcor)
 X = GenData(types = c("ter", "con"), XP = list(c(0.3, .5), NA))$X
 
 # Estimate latent correlation matrix with original method
-R_nc_org = estR(X = X, types = c("ter", "con"), method = "original")$R
+estR(X = X, types = c("ter", "con"), method = "original")$R
 
 # Estimate latent correlation matrix with aprroximation method
-R_nc_approx = estR(X = X, types = c("ter", "con"), method = "approx")$R
+estR(X = X, types = c("ter", "con"))$R
 
 # Heatmap for latent correlation matrix.
-Heatmap_R_nc_approx = estR(X = X, types = c("ter", "con"),
-                           method = "approx", showplot = TRUE)$plotR
+estR(X = X, types = c("ter", "con"), showplot = TRUE)$plotR
+```
+Another example with real data set.
+
+```r
+library(latentcor)
+# Use build-in dataset mtcars
+X = mtcars
+# Check variable types
+apply(mtcars, 2, table)
+# Estimate latent correlation matrix with original method
+estR(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin",
+                       "bin", "ter", "con"), method = "original")$R
+# Estimate latent correlation matrix with approximation method
+estR(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin",
+                       "bin", "ter", "con"))$R
+# Heatmap for latent correlation matrix.
+estR(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin",
+                       "bin", "ter", "con"))$plotR
 ```
 
+# Rendered R Figures
 
 ![Scatter plots of estimated Pearson correlation (panel A) and latent correlations (original in panel B, approximate in panel C) vs. ground truth correlation \label{fig:R_all}](./CombinedCorrelations.pdf)
 
-# Rendered R Figures
 Script see: [latentcor_evaluation](https://github.com/mingzehuang/latentcor_evaluation/blob/master/unbias_check.R)
 
 # Availability

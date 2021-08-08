@@ -118,8 +118,7 @@ apply(mtcars, 2, table)
 Then we can estimate the latent correlation matrix for all variables of `mtcars` by using `estR` function.
 
 ```{r mtcars_estimation}
-## estimate_mtcars = estR(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin", "bin", "ter", "con"))
-estimate_mtcars = estR(mtcars[ , 1:4], types = c("con", "ter", "con", "con"))
+estimate_mtcars = estR(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin", "bin", "ter", "con"))
 ```
 
 The output of `estR` for `mtcars`:
@@ -152,7 +151,7 @@ estimate_mtcars$Rpointwise
 estimate_mtcars$R
 ``` 
 
-  - `plotR`: A heatmap of latent correlation matrix `mtcars` when `showplot = TRUE`.
+  - `plotR`: NULL by default as `showplot = FALSE` in `estR`. Otherwise displays a heatmap of latent correlation matrix for `mtcars`.
 
 ```{r mtcars_heatmap}
 estimate_mtcars$plotR

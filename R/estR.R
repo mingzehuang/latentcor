@@ -52,14 +52,14 @@ estR = function(X, types = "con", method = c("approx", "original"), nu = 0.001, 
   } else if (length(types) != p) {
     stop("Length of types should be either 1 for all variables or the same as number of variables (columns of X).")
   }
-  # recoding binary, truncated and ternary values.
-  X = encodeX(X, types)
   method = match.arg(method, several.ok = FALSE)
   if (length(colnames(X)) == p) {
     name = colnames(X)
   } else {
     name = paste0("X", 1:p)
   }
+  # recoding binary, truncated and ternary values.
+  X = encodeX(X, types)
   R = matrix(0, p, p); cp = rbind(row(R)[lower.tri(R)], col(R)[lower.tri(R)]); cp.col = ncol(cp)
   if (any(is.na(X))) {
     K_a.lower = sapply(seq(p), function(i) Kendalltau(X[ , cp[ , i]]))
@@ -97,7 +97,7 @@ estR = function(X, types = "con", method = c("approx", "original"), nu = 0.001, 
   }
   # Do adjustmnet by nu - makes it strictly positive definite like ridge
   R = (1 - nu) * R + nu * diag(nrow(R))
-  colnames(K) = rownames(K) = colnames(R) = rownames(R) = make.names(c(name))
+  colnames(K) = rownames(K) = colnames(R) = rownames(R) = colnames(Rpointwise) = rownames(Rpointwise) = make.names(c(name))
   plotR = NULL
   if (showplot) {
     plotR = heatmaply(R, dendrogram = "none", main = "Latent Correlation", margins = c(80,80,80,80),
