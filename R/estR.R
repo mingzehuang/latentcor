@@ -50,12 +50,11 @@ estR = function(X, types = "con", method = c("approx", "original"), nu = 0.001, 
   if (length(types) == 1) {
     types = rep(types, p)
   } else if (length(types) != p) {
-    stop("Length of types should be either 1 or p which specifies types of p variables.")
+    stop("Length of types should be either 1 for all variables or the same as number of variables (columns of X).")
   }
+  # recoding binary, truncated and ternary values.
+  X = encodeX(X, types)
   method = match.arg(method, several.ok = FALSE)
-  if (length(types) != p) {
-    stop("types should have the same length as the number of variables (columns of X).")
-    }
   if (length(colnames(X)) == p) {
     name = colnames(X)
   } else {
@@ -93,10 +92,10 @@ estR = function(X, types = "con", method = c("approx", "original"), nu = 0.001, 
   # Check if the matrix is semi-pos.definite
   R_min_eig = min(eigen(R)$values)
   if (R_min_eig < 0) {
-    message("Using Matrix::nearPD since Minimum eigenvalue of latent correlation matrix is ", R_min_eig, "smaller than 0.")
-    R = as.matrix(Matrix::nearPD(R, corr = TRUE, maxit = 1000)$mat)
+    message("Using Matrix::nearPD since Minimum eigenvalue of latent correlation matrix is ", R_min_eig, " smaller than 0.")
+    R = as.matrix(Matrix::nearPD(R, corr = TRUE)$mat)
   }
-  # Do adjustmnet by nu - makes it stricly positive definite like ridge
+  # Do adjustmnet by nu - makes it strictly positive definite like ridge
   R = (1 - nu) * R + nu * diag(nrow(R))
   colnames(K) = rownames(K) = colnames(R) = rownames(R) = make.names(c(name))
   plotR = NULL

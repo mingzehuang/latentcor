@@ -85,7 +85,7 @@ estimate$K
 
   - `Rpointwise`: matrix of pointwise estimated correlations. Due to pointwise estimation, `Rpointwise` is not guaranteed to be positive semi-definite
 
-```{r latent_correlation pointwise}
+```{r latent_correlation_pointwise}
 estimate$Rpointwise
 ``` 
 
@@ -101,6 +101,62 @@ estimate$R
 estimate$plotR
 ``` 
 
+## Another example with real dataset
+
+We use the build-in dataset `mtcars`:
+
+```{r mtcars}
+head(mtcars, n = 6L)
+```
+
+Let's take a look at the unique values for each variable to determine the corresponding data type.
+
+```{r unique}
+apply(mtcars, 2, table)
+```
+
+Then we can estimate the latent correlation matrix for all variables of `mtcars` by using `estR` function.
+
+```{r mtcars_estimation}
+## estimate_mtcars = estR(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin", "bin", "ter", "con"))
+estimate_mtcars = estR(mtcars[ , 1:4], types = c("con", "ter", "con", "con"))
+```
+
+The output of `estR` for `mtcars`:
+
+```{r mtcars_estimation_output}
+names(estimate_mtcars)
+```
+
+  - `zratios`: zratios for corresponding variables in `mtcars`.
+
+```{r mtcars_zratios}
+estimate_mtcars$zratios
+```
+
+  - `K`: Kendall $\tau$ ($\tau_{a}$) correlation matrix for variables in `mtcars`. 
+  
+```{r mtcars_Kendall}
+estimate_mtcars$K
+```  
+
+  - `Rpointwise`: matrix of pointwise estimated correlations for `mtcars`.
+
+```{r mtcars_latent_correlation_pointwise}
+estimate_mtcars$Rpointwise
+``` 
+
+  - `R`: estimated final latent correlation matrix for `mtcars`.
+
+```{r mtcars_latent_correlation}
+estimate_mtcars$R
+``` 
+
+  - `plotR`: A heatmap of latent correlation matrix `mtcars` when `showplot = TRUE`.
+
+```{r mtcars_heatmap}
+estimate_mtcars$plotR
+``` 
 
 # Mathematical framework for estimation
 

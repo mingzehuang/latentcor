@@ -50,14 +50,33 @@ n_x = function(x, n) {
   return(n_x)
 }
 
+encodeX = function(X, types) {
+  colmin_mat = matrix(apply(X, 2, function(x) min(x, na.rm = TRUE)), nrow = nrow(X), ncol = ncol(X), byrow = TRUE)
+  colmax_mat = matrix(apply(X, 2, function(x) max(x, na.rm = TRUE)), nrow = nrow(X), ncol = ncol(X), byrow = TRUE)
+  if (sum(types == "bin") > 0) {
+  X_bin = X[ , types == "bin"]
+  X[ , types == "bin"][X_bin == colmin_mat[ , types == "bin"]] = 0; X[ , types == "bin"][X_bin == colmax_mat[ , types == "bin"]] = 1
+  }
+  if (sum(types == "tru") > 0) {
+  X_tru = X[ , types == "tru"]
+  X[ , types == "tru"] = X_tru - colmin_mat[ , types == "tru"]
+  }
+  if (sum(types == "ter") > 0) {
+  X_ter = X[ , types == "ter"]
+  X[ , types == "ter"][X_ter == colmin_mat[ , types == "ter"]] = 0; X[ , types == "ter"][X_ter == colmax_mat[ , types == "ter"]] = 2
+  X[ , types == "ter"][(!(is.na(X_ter))) & (X_ter != colmin_mat[ , types == "ter"]) & (X_ter != colmax_mat[ , types == "ter"])] = 1
+  }
+  return(as.matrix(X))
+}
+
 zratios = function(X, types) {
   X = as.matrix(X); out = vector(mode = "list", length = ncol(X))
   for (type in unique(types)) {
     zratios_switch = switch(type, "con" = function(X) zratios = rep(NA, ncol(as.matrix(X))),
-                            "bin" = function(X) zratios = colMeans(as.matrix(X == 0)),
-                            "tru" = function(X) zratios = colMeans(as.matrix(X == 0)),
+                            "bin" = function(X) zratios = colMeans(as.matrix(X == 0), na.rm = TRUE),
+                            "tru" = function(X) zratios = colMeans(as.matrix(X == 0), na.rm = TRUE),
                             "ter" = function(X) {X0 = X == 0; X1 = X == 1;
-                              zratios = rbind(colMeans(as.matrix(X0)), colMeans(as.matrix(X0 + X1)))
+                              zratios = rbind(colMeans(as.matrix(X0), na.rm = TRUE), colMeans(as.matrix(X0 + X1), na.rm = TRUE))
                             out = lapply(seq(ncol(zratios)), function(i) zratios[ , i])
                             return(out)}
                             #, "qua" = function(X) {X0 = X == 0; X1 = X == 1; X2 = X == 2;

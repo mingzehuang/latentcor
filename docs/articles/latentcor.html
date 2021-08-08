@@ -100,13 +100,13 @@
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="va">simdata</span><span class="op">$</span><span class="va">X</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">X</span>, n <span class="op">=</span> <span class="fl">6L</span><span class="op">)</span>
-<span class="co">#&gt;      [,1]        [,2]</span>
-<span class="co">#&gt; [1,]    1  0.65344315</span>
-<span class="co">#&gt; [2,]    1 -0.04259825</span>
-<span class="co">#&gt; [3,]    1  0.21452298</span>
-<span class="co">#&gt; [4,]    1  0.91744911</span>
-<span class="co">#&gt; [5,]    1 -1.60034870</span>
-<span class="co">#&gt; [6,]    1 -0.47466313</span></code></pre></div>
+<span class="co">#&gt;      [,1]       [,2]</span>
+<span class="co">#&gt; [1,]    0 -0.8217140</span>
+<span class="co">#&gt; [2,]    2  1.1681766</span>
+<span class="co">#&gt; [3,]    0  0.8997388</span>
+<span class="co">#&gt; [4,]    1 -0.1157759</span>
+<span class="co">#&gt; [5,]    0 -0.3140316</span>
+<span class="co">#&gt; [6,]    0 -2.5197799</span></code></pre></div>
 <ul>
 <li>
 <code>plotX</code>: NULL (<code>showplot = FALSE</code>, can be changed to display the plot of generated data in<code>GenData</code> input).</li>
@@ -139,8 +139,8 @@
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">K</span>
 <span class="co">#&gt;           X1        X2</span>
-<span class="co">#&gt; X1 1.0000000 0.2723232</span>
-<span class="co">#&gt; X2 0.2723232 1.0000000</span></code></pre></div>
+<span class="co">#&gt; X1 1.0000000 0.2965657</span>
+<span class="co">#&gt; X2 0.2965657 1.0000000</span></code></pre></div>
 <ul>
 <li>
 <code>Rpointwise</code>: matrix of pointwise estimated correlations. Due to pointwise estimation, <code>Rpointwise</code> is not guaranteed to be positive semi-definite</li>
@@ -148,8 +148,8 @@
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">Rpointwise</span>
 <span class="co">#&gt;           [,1]      [,2]</span>
-<span class="co">#&gt; [1,] 1.0000000 0.4936773</span>
-<span class="co">#&gt; [2,] 0.4936773 1.0000000</span></code></pre></div>
+<span class="co">#&gt; [1,] 1.0000000 0.5345036</span>
+<span class="co">#&gt; [2,] 0.5345036 1.0000000</span></code></pre></div>
 <ul>
 <li>
 <code>R</code>: estimated final latent correlation matrix, this matrix is guaranteed to be strictly positive definite (through <code>nearPD</code> projection and parameter <code>nu</code>, see Mathematical framework for estimation)</li>
@@ -157,14 +157,169 @@
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">R</span>
 <span class="co">#&gt;           X1        X2</span>
-<span class="co">#&gt; X1 1.0000000 0.4931837</span>
-<span class="co">#&gt; X2 0.4931837 1.0000000</span></code></pre></div>
+<span class="co">#&gt; X1 1.0000000 0.5339691</span>
+<span class="co">#&gt; X2 0.5339691 1.0000000</span></code></pre></div>
 <ul>
 <li>
 <code>plotR</code>: NULL by default as <code>showplot = FALSE</code> in <code>estR</code>. Otherwise displays a heatmap of latent correlation matrix.</li>
 </ul>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">plotR</span>
+<span class="co">#&gt; NULL</span></code></pre></div>
+</div>
+<div id="another-example-with-real-dataset" class="section level2">
+<h2 class="hasAnchor">
+<a href="#another-example-with-real-dataset" class="anchor"></a>Another example with real dataset</h2>
+<p>We use the build-in dataset <code>mtcars</code>:</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">mtcars</span>, n <span class="op">=</span> <span class="fl">6L</span><span class="op">)</span>
+<span class="co">#&gt;                    mpg cyl disp  hp drat    wt  qsec vs am gear carb</span>
+<span class="co">#&gt; Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4</span>
+<span class="co">#&gt; Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4</span>
+<span class="co">#&gt; Datsun 710        22.8   4  108  93 3.85 2.320 18.61  1  1    4    1</span>
+<span class="co">#&gt; Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1</span>
+<span class="co">#&gt; Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2</span>
+<span class="co">#&gt; Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</span></code></pre></div>
+<p>Let’s take a look at the unique values for each variable to determine the corresponding data type.</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fl">2</span>, <span class="va">table</span><span class="op">)</span>
+<span class="co">#&gt; $mpg</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; 10.4 13.3 14.3 14.7   15 15.2 15.5 15.8 16.4 17.3 17.8 18.1 18.7 19.2 19.7   21 </span>
+<span class="co">#&gt;    2    1    1    1    1    2    1    1    1    1    1    1    1    2    1    2 </span>
+<span class="co">#&gt; 21.4 21.5 22.8 24.4   26 27.3 30.4 32.4 33.9 </span>
+<span class="co">#&gt;    2    1    2    1    1    1    2    1    1 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $cyl</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  4  6  8 </span>
+<span class="co">#&gt; 11  7 14 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $disp</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  71.1  75.7  78.7    79  95.1   108 120.1 120.3   121 140.8   145 146.7   160 </span>
+<span class="co">#&gt;     1     1     1     1     1     1     1     1     1     1     1     1     2 </span>
+<span class="co">#&gt; 167.6   225   258 275.8   301   304   318   350   351   360   400   440   460 </span>
+<span class="co">#&gt;     2     1     1     3     1     1     1     1     1     2     1     1     1 </span>
+<span class="co">#&gt;   472 </span>
+<span class="co">#&gt;     1 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $hp</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  52  62  65  66  91  93  95  97 105 109 110 113 123 150 175 180 205 215 230 245 </span>
+<span class="co">#&gt;   1   1   1   2   1   1   1   1   1   1   3   1   2   2   3   3   1   1   1   2 </span>
+<span class="co">#&gt; 264 335 </span>
+<span class="co">#&gt;   1   1 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $drat</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; 2.76 2.93    3 3.07 3.08 3.15 3.21 3.23 3.54 3.62 3.69  3.7 3.73 3.77 3.85  3.9 </span>
+<span class="co">#&gt;    2    1    1    3    2    2    1    1    1    1    1    1    1    1    1    2 </span>
+<span class="co">#&gt; 3.92 4.08 4.11 4.22 4.43 4.93 </span>
+<span class="co">#&gt;    3    2    1    2    1    1 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $wt</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; 1.513 1.615 1.835 1.935  2.14   2.2  2.32 2.465  2.62  2.77  2.78 2.875  3.15 </span>
+<span class="co">#&gt;     1     1     1     1     1     1     1     1     1     1     1     1     1 </span>
+<span class="co">#&gt;  3.17  3.19 3.215 3.435  3.44  3.46  3.52  3.57  3.73  3.78  3.84 3.845  4.07 </span>
+<span class="co">#&gt;     1     1     1     1     3     1     1     2     1     1     1     1     1 </span>
+<span class="co">#&gt;  5.25 5.345 5.424 </span>
+<span class="co">#&gt;     1     1     1 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $qsec</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  14.5  14.6 15.41  15.5 15.84 16.46  16.7 16.87  16.9 17.02 17.05  17.3  17.4 </span>
+<span class="co">#&gt;     1     1     1     1     1     1     1     1     1     2     1     1     1 </span>
+<span class="co">#&gt; 17.42  17.6 17.82 17.98    18  18.3 18.52  18.6 18.61  18.9 19.44 19.47  19.9 </span>
+<span class="co">#&gt;     1     1     1     1     1     1     1     1     1     2     1     1     1 </span>
+<span class="co">#&gt;    20 20.01 20.22  22.9 </span>
+<span class="co">#&gt;     1     1     1     1 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $vs</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  0  1 </span>
+<span class="co">#&gt; 18 14 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $am</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  0  1 </span>
+<span class="co">#&gt; 19 13 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $gear</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  3  4  5 </span>
+<span class="co">#&gt; 15 12  5 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $carb</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt;  1  2  3  4  6  8 </span>
+<span class="co">#&gt;  7 10  3 10  1  1</span></code></pre></div>
+<p>Then we can estimate the latent correlation matrix for all variables of <code>mtcars</code> by using <code>estR</code> function.</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co">## estimate_mtcars = estR(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin", "bin", "ter", "con"))</span>
+<span class="va">estimate_mtcars</span> <span class="op">=</span> <span class="fu"><a href="../reference/estR.html">estR</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">[</span> , <span class="fl">1</span><span class="op">:</span><span class="fl">4</span><span class="op">]</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"ter"</span>, <span class="st">"con"</span>, <span class="st">"con"</span><span class="op">)</span><span class="op">)</span>
+<span class="co">#&gt; Using Matrix::nearPD since Minimum eigenvalue of latent correlation matrix is -0.0483860315345907 smaller than 0.</span></code></pre></div>
+<p>The output of <code>estR</code> for <code>mtcars</code>:</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">estimate_mtcars</span><span class="op">)</span>
+<span class="co">#&gt; [1] "zratios"    "K"          "R"          "Rpointwise" "plotR"</span></code></pre></div>
+<ul>
+<li>
+<code>zratios</code>: zratios for corresponding variables in <code>mtcars</code>.</li>
+</ul>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">estimate_mtcars</span><span class="op">$</span><span class="va">zratios</span>
+<span class="co">#&gt; [[1]]</span>
+<span class="co">#&gt; [1] NA</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; [[2]]</span>
+<span class="co">#&gt; [1] 0.34375 0.56250</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; [[3]]</span>
+<span class="co">#&gt; [1] NA</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; [[4]]</span>
+<span class="co">#&gt; [1] NA</span></code></pre></div>
+<ul>
+<li>
+<code>K</code>: Kendall <span class="math inline">\(\tau\)</span> (<span class="math inline">\(\tau_{a}\)</span>) correlation matrix for variables in <code>mtcars</code>.</li>
+</ul>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">estimate_mtcars</span><span class="op">$</span><span class="va">K</span>
+<span class="co">#&gt;             mpg        cyl       disp         hp</span>
+<span class="co">#&gt; mpg   1.0000000 -0.6431452 -0.7580645 -0.7278226</span>
+<span class="co">#&gt; cyl  -0.6431452  1.0000000  0.6592742  0.6310484</span>
+<span class="co">#&gt; disp -0.7580645  0.6592742  1.0000000  0.6532258</span>
+<span class="co">#&gt; hp   -0.7278226  0.6310484  0.6532258  1.0000000</span></code></pre></div>
+<ul>
+<li>
+<code>Rpointwise</code>: matrix of pointwise estimated correlations for <code>mtcars</code>.</li>
+</ul>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">estimate_mtcars</span><span class="op">$</span><span class="va">Rpointwise</span>
+<span class="co">#&gt;            [,1]       [,2]       [,3]       [,4]</span>
+<span class="co">#&gt; [1,]  1.0000000 -0.9990000 -0.9286530 -0.9099905</span>
+<span class="co">#&gt; [2,] -0.9990000  1.0000000  0.9990000  0.9900378</span>
+<span class="co">#&gt; [3,] -0.9286530  0.9990000  1.0000000  0.8552768</span>
+<span class="co">#&gt; [4,] -0.9099905  0.9900378  0.8552768  1.0000000</span></code></pre></div>
+<ul>
+<li>
+<code>R</code>: estimated final latent correlation matrix for <code>mtcars</code>.</li>
+</ul>
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">estimate_mtcars</span><span class="op">$</span><span class="va">R</span>
+<span class="co">#&gt;             mpg        cyl       disp         hp</span>
+<span class="co">#&gt; mpg   1.0000000 -0.9770083 -0.9360214 -0.9169862</span>
+<span class="co">#&gt; cyl  -0.9770083  1.0000000  0.9663305  0.9588709</span>
+<span class="co">#&gt; disp -0.9360214  0.9663305  1.0000000  0.8663485</span>
+<span class="co">#&gt; hp   -0.9169862  0.9588709  0.8663485  1.0000000</span></code></pre></div>
+<ul>
+<li>
+<code>plotR</code>: A heatmap of latent correlation matrix <code>mtcars</code> when <code>showplot = TRUE</code>.</li>
+</ul>
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">estimate_mtcars</span><span class="op">$</span><span class="va">plotR</span>
 <span class="co">#&gt; NULL</span></code></pre></div>
 </div>
 </div>
@@ -177,55 +332,55 @@
 <p><code>latentcor</code> utilizes the powerful semi-parametric latent Gaussian copula models to estimate latent correlations between mixed data types (continuous/binary/ternary/truncated or zero-inflated). Below we review the definitions for each type.</p>
 <p><strong><em>Definition of continuous model</em></strong> <span class="citation">(Fan et al. 2017)</span></p>
 <p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span> satisfies the Gaussian copula (or nonparanormal) model if there exist monotonically increasing <span class="math inline">\(f=(f_{j})_{j=1}^{p}\)</span> with <span class="math inline">\(Z_{j}=f_{j}(X_{j})\)</span> satisfying <span class="math inline">\(Z\sim N_{p}(0, \Sigma)\)</span>, <span class="math inline">\(\sigma_{jj}=1\)</span>; we denote <span class="math inline">\(X\sim NPN(0, \Sigma, f)\)</span>.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/GenData.html">GenData</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6</span>, types <span class="op">=</span> <span class="st">"con"</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
 <span class="va">X</span>
 <span class="co">#&gt;            [,1]</span>
-<span class="co">#&gt; [1,]  1.0523245</span>
-<span class="co">#&gt; [2,] -1.1919796</span>
-<span class="co">#&gt; [3,]  1.3801255</span>
-<span class="co">#&gt; [4,] -0.1531276</span>
-<span class="co">#&gt; [5,]  2.7158238</span>
-<span class="co">#&gt; [6,] -0.8446929</span></code></pre></div>
+<span class="co">#&gt; [1,] -0.4098140</span>
+<span class="co">#&gt; [2,]  0.7348817</span>
+<span class="co">#&gt; [3,]  0.2365006</span>
+<span class="co">#&gt; [4,] -1.0169168</span>
+<span class="co">#&gt; [5,] -0.1536849</span>
+<span class="co">#&gt; [6,]  1.2940580</span></code></pre></div>
 <p><strong><em>Definition of binary model</em></strong> <span class="citation">(Fan et al. 2017)</span></p>
 <p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span> satisfies the binary latent Gaussian copula model if there exists <span class="math inline">\(W\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})\)</span>, where <span class="math inline">\(I(\cdot)\)</span> is the indicator function and <span class="math inline">\(c_{j}\)</span> are constants.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/GenData.html">GenData</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6</span>, types <span class="op">=</span> <span class="st">"bin"</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
 <span class="va">X</span>
 <span class="co">#&gt;      [,1]</span>
 <span class="co">#&gt; [1,]    0</span>
-<span class="co">#&gt; [2,]    0</span>
-<span class="co">#&gt; [3,]    1</span>
+<span class="co">#&gt; [2,]    1</span>
+<span class="co">#&gt; [3,]    0</span>
 <span class="co">#&gt; [4,]    1</span>
-<span class="co">#&gt; [5,]    1</span>
-<span class="co">#&gt; [6,]    0</span></code></pre></div>
+<span class="co">#&gt; [5,]    0</span>
+<span class="co">#&gt; [6,]    1</span></code></pre></div>
 <p><strong><em>Definition of ternary model</em></strong> <span class="citation">(Quan, Booth, and Wells 2018)</span></p>
 <p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span> satisfies the ternary latent Gaussian copula model if there exists <span class="math inline">\(W\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})+I(W_{j}&gt;c'_{j})\)</span>, where <span class="math inline">\(I(\cdot)\)</span> is the indicator function and <span class="math inline">\(c_{j}&lt;c'_{j}\)</span> are constants.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/GenData.html">GenData</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6</span>, types <span class="op">=</span> <span class="st">"ter"</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
 <span class="va">X</span>
 <span class="co">#&gt;      [,1]</span>
 <span class="co">#&gt; [1,]    1</span>
-<span class="co">#&gt; [2,]    0</span>
+<span class="co">#&gt; [2,]    1</span>
 <span class="co">#&gt; [3,]    1</span>
 <span class="co">#&gt; [4,]    0</span>
 <span class="co">#&gt; [5,]    2</span>
-<span class="co">#&gt; [6,]    1</span></code></pre></div>
+<span class="co">#&gt; [6,]    0</span></code></pre></div>
 <p><strong><em>Definition of truncated or zero-inflated model</em></strong> <span class="citation">(Yoon, Carroll, and Gaynanova 2020)</span></p>
 <p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span> satisfies the truncated latent Gaussian copula model if there exists <span class="math inline">\(W\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})W_{j}\)</span>, where <span class="math inline">\(I(\cdot)\)</span> is the indicator function and <span class="math inline">\(c_{j}\)</span> are constants.</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/GenData.html">GenData</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6</span>, types <span class="op">=</span> <span class="st">"tru"</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
 <span class="va">X</span>
-<span class="co">#&gt;           [,1]</span>
-<span class="co">#&gt; [1,] 0.0000000</span>
-<span class="co">#&gt; [2,] 0.5323792</span>
-<span class="co">#&gt; [3,] 0.3803550</span>
-<span class="co">#&gt; [4,] 0.0000000</span>
-<span class="co">#&gt; [5,] 0.0000000</span>
-<span class="co">#&gt; [6,] 0.1798824</span></code></pre></div>
+<span class="co">#&gt;            [,1]</span>
+<span class="co">#&gt; [1,] 0.00000000</span>
+<span class="co">#&gt; [2,] 0.00000000</span>
+<span class="co">#&gt; [3,] 0.06518389</span>
+<span class="co">#&gt; [4,] 0.69095663</span>
+<span class="co">#&gt; [5,] 0.12104616</span>
+<span class="co">#&gt; [6,] 0.00000000</span></code></pre></div>
 <p><strong><em>Mixed latent Gaussian copula model</em></strong></p>
 <p>The mixed latent Gaussian copula model jointly models <span class="math inline">\(W=(W_{1}, W_{2}, W_{3}, W_{4})\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{1j}=W_{1j}\)</span>, <span class="math inline">\(X_{2j}=I(W_{2j}&gt;c_{2j})\)</span>, <span class="math inline">\(X_{3j}=I(W_{3j}&gt;c_{3j})+I(W_{3j}&gt;c'_{3j})\)</span> and <span class="math inline">\(X_{4j}=I(W_{4j}&gt;c_{4j})W_{4j}\)</span>.</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="st">"234820"</span><span class="op">)</span>
 <span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/GenData.html">GenData</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">100</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span>
@@ -247,7 +402,7 @@
 \hat{\tau}_{jk}=\hat{\tau}(\mathbf{x}_{j}, \mathbf{x}_{k})=\frac{2}{n(n-1)}\sum_{1\le i&lt;i'\le n}sign(x_{ij}-x_{i'j})sign(x_{ik}-x_{i'k}),
 \]</span> where <span class="math inline">\(n\)</span> is the sample size.</p>
 <p><code>latentcor</code> calculates pairwise Kendall’s <span class="math inline">\(\widehat \tau\)</span> as part of the estimation process</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span> <span class="op">=</span> <span class="fu"><a href="../reference/estR.html">estR</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span><span class="op">)</span>
 <span class="va">K</span> <span class="op">=</span> <span class="va">estimate</span><span class="op">$</span><span class="va">K</span>
 <span class="va">K</span>
@@ -411,14 +566,14 @@ r &amp; 1 &amp; \frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} \\
 <h2 class="hasAnchor">
 <a href="#original-method-method-original" class="anchor"></a>Original method (<code>method = "original"</code>)</h2>
 <p>Original estimation approach relies on numerical inversion of <span class="math inline">\(F\)</span> based on solving uni-root optimization problem.</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span> <span class="op">=</span> <span class="fu"><a href="../reference/estR.html">estR</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"original"</span><span class="op">)</span></code></pre></div>
 <p><strong><em>Algorithm for Original method</em></strong></p>
 <p><strong>Input</strong>: <span class="math inline">\(F(r)=F(r, \mathbf{\Delta})\)</span> - bridge function based on the type of variables <span class="math inline">\(j\)</span>, <span class="math inline">\(k\)</span></p>
 <ul>
 <li>Step 1. Calculate <span class="math inline">\(\hat{\tau}_{jk}\)</span> using (1).</li>
 </ul>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">K</span>
 <span class="co">#&gt;           X1        X2        X3        X4</span>
 <span class="co">#&gt; X1 1.0000000 0.2557576 0.2456566 0.3331313</span>
@@ -428,7 +583,7 @@ r &amp; 1 &amp; \frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} \\
 <ul>
 <li>Step 2. For binary/truncated variable <span class="math inline">\(j\)</span>, set <span class="math inline">\(\hat{\mathbf{\Delta}}_{j}=\hat{\Delta}_{j}=\Phi^{-1}(\pi_{0j})\)</span> with <span class="math inline">\(\pi_{0j}=\sum_{i=1}^{n}\frac{I(x_{ij}=0)}{n}\)</span>. For ternary variable <span class="math inline">\(j\)</span>, set <span class="math inline">\(\hat{\mathbf{\Delta}}_{j}=(\hat{\Delta}_{j}^{1}, \hat{\Delta}_{j}^{2})\)</span> where <span class="math inline">\(\hat{\Delta}_{j}^{1}=\Phi^{-1}(\pi_{0j})\)</span> and <span class="math inline">\(\hat{\Delta}_{j}^{2}=\Phi^{-1}(\pi_{0j}+\pi_{1j})\)</span> with <span class="math inline">\(\pi_{0j}=\sum_{i=1}^{n}\frac{I(x_{ij}=0)}{n}\)</span> and <span class="math inline">\(\pi_{1j}=\sum_{i=1}^{n}\frac{I(x_{ij}=1)}{n}\)</span>.</li>
 </ul>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">zratios</span>
 <span class="co">#&gt; [[1]]</span>
 <span class="co">#&gt; [1] NA</span>
@@ -444,7 +599,7 @@ r &amp; 1 &amp; \frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} \\
 <ul>
 <li>Compute <span class="math inline">\(F^{-1}(\hat{\tau}_{jk})\)</span> as <span class="math inline">\(\hat{r}_{jk}=argmin\{F(r)-\hat{\tau}_{jk}\}^{2}\)</span> solved via <code>optimize</code> function in <em>R</em>.</li>
 </ul>
-<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">R</span>
 <span class="co">#&gt;           X1        X2        X3        X4</span>
 <span class="co">#&gt; X1 1.0000000 0.5524373 0.4476503 0.5820345</span>
@@ -465,7 +620,7 @@ r &amp; 1 &amp; \frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} \\
 <li>(Possibly) proportion of zeros and ones in the 2nd variable</li>
 </ul>
 <p>In short, d-dimensional multi-linear interpolation uses a weighted average of <span class="math inline">\(2^{d}\)</span> neighbors to approximate the function values at the points within the d-dimensional cube of the neighbors, and to perform interpolation, <code>latentcor</code> takes advantage of the R package <code>chebpol</code> <span class="citation">(Gaure 2019)</span>. This approximation method has been first described in <span class="citation">(Yoon, Müller, and Gaynanova 2021)</span> for continuous/binary/truncated cases. In <code>latentcor</code>, we additionally implement ternary case, and optimize the choice of grid as well as interpolation boundary for faster computations with smaller memory footprint.</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span> <span class="op">=</span> <span class="fu"><a href="../reference/estR.html">estR</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"approx"</span><span class="op">)</span></code></pre></div>
 <p><strong><em>Algorithm for Approximation method </em></strong></p>
 <p><strong>Input</strong>: Let <span class="math inline">\(\check{g}=h(g)\)</span>, pre-computed values <span class="math inline">\(F^{-1}(h^{-1}(\check{g}))\)</span> on a fixed grid <span class="math inline">\(\check{g}\in\check{\cal{G}}\)</span> based on the type of variables <span class="math inline">\(j\)</span> and <span class="math inline">\(k\)</span>. For binary/continuous case, <span class="math inline">\(\check{g}=(\check{\tau}_{jk}, \check{\Delta}_{j})\)</span>; for binary/binary case, <span class="math inline">\(\check{g}=(\check{\tau}_{jk}, \check{\Delta}_{j}, \check{\Delta}_{k})\)</span>; for truncated/continuous case, <span class="math inline">\(\check{g}=(\check{\tau}_{jk}, \check{\Delta}_{j})\)</span>; for truncated/truncated case, <span class="math inline">\(\check{g}=(\check{\tau}_{jk}, \check{\Delta}_{j}, \check{\Delta}_{k})\)</span>; for ternary/continuous case, <span class="math inline">\(\check{g}=(\check{\tau}_{jk}, \check{\Delta}_{j}^{1}, \check{\Delta}_{j}^{2})\)</span>; for ternary/binary case, <span class="math inline">\(\check{g}=(\check{\tau}_{jk}, \check{\Delta}_{j}^{1}, \check{\Delta}_{j}^{2}, \check{\Delta}_{k})\)</span>; for ternary/truncated case, <span class="math inline">\(\check{g}=(\check{\tau}_{jk}, \check{\Delta}_{j}^{1}, \check{\Delta}_{j}^{2}, \check{\Delta}_{k})\)</span>; for ternay/ternary case, <span class="math inline">\(\check{g}=(\check{\tau}_{jk}, \check{\Delta}_{j}^{1}, \check{\Delta}_{j}^{2}, \check{\Delta}_{k}^{1}, \check{\Delta}_{k}^{2})\)</span>.</p>
@@ -490,7 +645,7 @@ r &amp; 1 &amp; \frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} \\
 \end{cases}
 \]</span></p>
 <p>By default, <code>latentcor</code> uses <span class="math inline">\(\mbox{ratio} = 0.9\)</span>, but this value can be modified by the user</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/estR.html">estR</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"approx"</span>, ratio <span class="op">=</span> <span class="fl">0.99</span><span class="op">)</span><span class="op">$</span><span class="va">R</span>
 <span class="co">#&gt;           X1        X2        X3        X4</span>
 <span class="co">#&gt; X1 1.0000000 0.5522684 0.4472343 0.5817297</span>
@@ -518,7 +673,7 @@ r &amp; 1 &amp; \frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} \\
 <h2 class="hasAnchor">
 <a href="#adjustment-of-pointwise-estimator-for-positive-definiteness" class="anchor"></a>Adjustment of pointwise-estimator for positive-definiteness</h2>
 <p>Since the estimation is performed point-wise, the resulting matrix of estimated latent correlations is not guaranteed to be positive semi-definite. For example, this could be expected when the sample size is small (and so the estimation error for each pairwise correlation is larger)</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="st">"234820"</span><span class="op">)</span>
 <span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/GenData.html">GenData</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
 <span class="va">X</span>
@@ -539,15 +694,15 @@ r &amp; 1 &amp; \frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} \\
 <span class="fu"><a href="https://rdrr.io/r/base/eigen.html">eigen</a></span><span class="op">(</span><span class="va">out</span><span class="op">$</span><span class="va">Rpointwise</span><span class="op">)</span><span class="op">$</span><span class="va">values</span>
 <span class="co">#&gt; [1]  2.85954426  1.29130854  0.09944545 -0.25029825</span></code></pre></div>
 <p><code>latentcor</code> automatically corrects the pointwise estimator to be positive definite by making two adjustments. First, if <code>Rpointwise</code> has smallest eigenvalue less than zero, the <code>estR</code> projects this matrix to the nearest positive semi-definite matrix. The user is notified of this adjustment through the message (supressed in previous code chunk), e.g.</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">out</span> <span class="op">=</span> <span class="fu"><a href="../reference/estR.html">estR</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; Using Matrix::nearPD since Minimum eigenvalue of latent correlation matrix is -0.250298253005179smaller than 0.</span></code></pre></div>
+<span class="co">#&gt; Using Matrix::nearPD since Minimum eigenvalue of latent correlation matrix is -0.250298253005179 smaller than 0.</span></code></pre></div>
 <p>Second, <code>latentcor</code> shrinks the adjusted matrix of correlations towards identity matrix using the parameter <span class="math inline">\(\nu\)</span> with default value of 0.001 (<code>nu = 0.001</code>), so that the resulting <code>R</code> is strictly positive definite with the minimal eigenvalue being greater or equal to <span class="math inline">\(\nu\)</span>. That is <span class="math display">\[
 R = (1 - \nu) \widetilde R + \nu I,
 \]</span> where <span class="math inline">\(\widetilde R\)</span> is the nearest positive semi-definite matrix to <code>Rpointwise</code>.</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">out</span> <span class="op">=</span> <span class="fu"><a href="../reference/estR.html">estR</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span>, nu <span class="op">=</span> <span class="fl">0.001</span><span class="op">)</span>
-<span class="co">#&gt; Using Matrix::nearPD since Minimum eigenvalue of latent correlation matrix is -0.250298253005179smaller than 0.</span>
+<span class="co">#&gt; Using Matrix::nearPD since Minimum eigenvalue of latent correlation matrix is -0.250298253005179 smaller than 0.</span>
 <span class="va">out</span><span class="op">$</span><span class="va">Rpointwise</span>
 <span class="co">#&gt;            [,1]       [,2]      [,3]       [,4]</span>
 <span class="co">#&gt; [1,]  1.0000000 -0.1477240 0.9990000  0.8548518</span>
@@ -561,7 +716,7 @@ R = (1 - \nu) \widetilde R + \nu I,
 <span class="co">#&gt; X3  0.9232992  0.2372115 1.0000000  0.7723678</span>
 <span class="co">#&gt; X4  0.9048072 -0.4244433 0.7723678  1.0000000</span></code></pre></div>
 <p>As a result, <code>R</code> and <code>Rpointwise</code> could be quite different when sample size <span class="math inline">\(n\)</span> is small. When <span class="math inline">\(n\)</span> is large and <span class="math inline">\(p\)</span> is moderate, the difference is typically driven by parameter <code>nu</code>.</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="st">"234820"</span><span class="op">)</span>
 <span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/GenData.html">GenData</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">100</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
 <span class="va">out</span> <span class="op">=</span> <span class="fu"><a href="../reference/estR.html">estR</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span>, nu <span class="op">=</span> <span class="fl">0.001</span><span class="op">)</span>
