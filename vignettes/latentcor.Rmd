@@ -151,7 +151,7 @@ estimate_mtcars$Rpointwise
 estimate_mtcars$R
 ``` 
 
-  - `plotR`: NULL by default as `showplot = FALSE` in `estR`. Otherwise displays a heatmap of latent correlation matrix for `mtcars`.
+  - `plotR`: NULL by default as `showplot = FALSE` in `estR`. Otherwise displays a heatmap of latent correlation matrix for `mtcars` (See [heatmap for latent correlation for mtcars](https://rpubs.com/mingzehuang/797668)).
 
 ```{r mtcars_heatmap}
 estimate_mtcars$plotR
