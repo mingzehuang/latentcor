@@ -139,7 +139,7 @@ estR(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin",
                        "bin", "ter", "con"))$R
 # Heatmap for latent correlation matrix.
 estR(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin",
-                       "bin", "ter", "con"))$plotR
+                       "bin", "ter", "con"), showplot = TRUE)$plotR
 ```
 
 # Rendered R Figures
