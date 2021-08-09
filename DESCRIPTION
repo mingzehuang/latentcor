@@ -14,7 +14,7 @@ Author: c(
            email = "gyoon6067@gmail.com",
            comment = c(ORCID = "0000-0003-3263-1352")),
     person(given = "Christian",
-           family = "Müller",
+           family = "M&uuml;ller",
            role = c("aut"),
            email = "christian.mueller@stat.uni-muenchen.de",
            comment = c(ORCID = "0000-0002-3821-7083")),
