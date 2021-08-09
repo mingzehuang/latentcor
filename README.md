@@ -29,14 +29,45 @@ devtools::install_github("https://github.com/mingzehuang/latentcor", build_vigne
 ```
 ## Example
 
+A simple example estimating latent correlation is shown below.
+
 ```r
-# Data generation
+library(latentcor)
+
+# Generate two variables of sample size 100
+# The first variable is ternary (pi0 = 0.3, pi1 = 0.5, pi2 = 1-0.3-0.5 = 0.2) 
+# The second variable is continuous. 
+# No copula transformation is applied.
 X = GenData(types = c("ter", "con"), XP = list(c(0.3, .5), NA))$X
+
 # Estimate latent correlation matrix with original method
 estR(X = X, types = c("ter", "con"), method = "original")$R
-# Estimate latent correlation matrix with approximation method
-estR(X = X, types = c("ter", "con"), method = "approx")$R
+
+# Estimate latent correlation matrix with aprroximation method
+estR(X = X, types = c("ter", "con"))$R
 
 # Heatmap for latent correlation matrix.
-estR(X = X, types = c("ter", "con"), method = "approx", showplot = TRUE)$plotR
+estR(X = X, types = c("ter", "con"), showplot = TRUE)$plotR
 ```
+Another example with real data set.
+
+```r
+library(latentcor)
+# Use build-in dataset mtcars
+X = mtcars
+# Check variable types
+apply(mtcars, 2, table)
+# Estimate latent correlation matrix with original method
+estR(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin",
+                       "bin", "ter", "con"), method = "original")$R
+# Estimate latent correlation matrix with approximation method
+estR(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin",
+                       "bin", "ter", "con"))$R
+# Heatmap for latent correlation matrix.
+estR(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin",
+                       "bin", "ter", "con"), showplot = TRUE)$plotR
+```
+
+![Heatmap of latent correlations (approx) for mtcars](./heatmap_mtcars.png)
+
+Interactive heatmap see: [interactive heatmap of latent correlations (approx) for mtcars](https://rpubs.com/mingzehuang/797668)
