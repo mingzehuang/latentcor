@@ -91,7 +91,7 @@ interpolation of pre-calculated $F^{-1}$ values at specific sets of interpolatio
 [@yoon2021fast] and is available for continuous/binary/truncated pairs in the current version of `mixedCCA`. However, that implementation lacks the ternary
 variable case and relies on an interpolation grid with a large memory footprint. `latentcor` includes the ternary case and provides an optimized interpolation 
 grid by redefining the bridge functions on a rescaled version of Kendall's $\tau$. Here, the scaling adapts to the smoothness of the underlying type of variables 
-by simultaneously controlling the approximation error at the same or lower level. As a result, `latentcor` has significantly smaller memory footprint (see in the
+by simultaneously controlling the approximation error at the same or lower level. As a result, `latentcor` has significantly smaller memory footprint (see
 Table below) and smaller approximation error compared to `mixedCCA`.
 
 \newpage
@@ -116,10 +116,13 @@ To illustrate the excellent performance of latent correlation estimation on mixe
 
 ![Scatter plots of estimated Pearson correlation (panel A) and latent correlations (original in panel B, approximate in panel C) vs. ground truth correlation \label{fig:R_all}](./CombinedCorrelations.pdf)
 
+The script to reproduce the displayed results is available at [latentcor_evaluation](https://github.com/mingzehuang/latentcor_evaluation/blob/master/unbias_check.R).
 
 # Basic Usage
 
-A simple example estimating latent correlation is shown below.
+We provide two basic code examples of how to use 'latentcor' in R. 
+
+The first example illustrates how to estimate latent correlation from pairs of ternary/continuous variables.
 
 ```r
 library(latentcor)
@@ -139,7 +142,7 @@ estR(X = X, types = c("ter", "con"))$R
 # Heatmap for latent correlation matrix.
 estR(X = X, types = c("ter", "con"), showplot = TRUE)$plotR
 ```
-Another example with real dataset.
+The second example considers the `mtcars` dataset, available in standard R. The `mtcars` dataset comprises continuous, binary, and ternary data types.
 
 ```r
 library(latentcor)
@@ -165,8 +168,6 @@ estR(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin",
 Script see: [latentcor_evaluation](https://github.com/mingzehuang/latentcor_evaluation/blob/master/all_heatmap.R)
 
 Interactive heatmaps see: [pearson correlation for mtcars](https://rpubs.com/mingzehuang/797945); [latent correlation (original) for mtcars](https://rpubs.com/mingzehuang/797939); [latent correlation (approx) for mtcars](https://rpubs.com/mingzehuang/797937)
-
-Script see: [latentcor_evaluation](https://github.com/mingzehuang/latentcor_evaluation/blob/master/unbias_check.R)
 
 # Availability
 
