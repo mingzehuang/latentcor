@@ -43,7 +43,7 @@ The popular `cor` function within R package `stats` [@team2013r], for instance, 
 $\rho$, and a faster algorithm for calculating Kendall's $\tau$ is implemented in the R package `pcaPP` [@croux2013robust]. Pearson's correlation is not
 appropriate for skewed or ordinal data, and its use leads to invalid inference in those cases. While the rank-based Kendall's $\tau$ and Spearman's $\rho$ are
 more robust measures of association, the resulting values do not have correlation interpretation and can not be used as direct substitutes in statistical methods
-that require correlation as input (e.g., graphical models estimation). The R package `polycor` [@fox2019poly] is designed for ordinal data and allows to computes
+that require correlation as input (e.g., graphical model estimation). The R package `polycor` [@fox2019poly] is designed for ordinal data and allows to computes
 polychoric (ordinal/ordinal) and polyserial (ordinal/continuous) correlations based on latent Gaussian model. However, the package does not have functionality
 for zero-inflated data, nor can it handle skewed continuous measurements as it does not allow for copula transformation. The R package `correlation`
 [@makowski2020methods] in the `easystats` collection provides 16 different correlation measures, including polychoric and polyserial correlations. However, 
@@ -112,9 +112,10 @@ Memory footprints (in KB):
 
 ## Illustrative example 
 
-To illustrate the excellent performance of latent correlation estimation on mixed data, we consider the simple example of estimating correlations between continuous and ternary variables. In this synthetic scenario, we have access to the true underlying correlation between the variables. Figure \ref{fig:R_all}A displays the values obtained by using standard Pearson correlation, leading to significant estimation bias compared to the true correlations. Figure \ref{fig:R_all}B displays the estimated latent correlations using the original approach versus the true values of underlying latent correlation for ternary/continuous case. The alignment of points around $y=x$ line confirms that the estimation is empirically unbiased. Figure \ref{fig:R_all}C displays the estimated latent correlations using the approximation approach (`method = "approx"`) versus true values of underlying latent correlation for ternary/continuous case. The results are almost indistinguishable from Figure \ref{fig:R_all}B at a fraction of the computational cost.
+To illustrate the excellent performance of latent correlation estimation on mixed data, we consider the simple example of estimating correlations between continuous and ternary variables. In this synthetic scenario, we have access to the true underlying correlation between the variables. Figure \ref{fig:R_all}A displays the values obtained by using standard Pearson correlation, revealing a significant estimation bias with respect to the true correlations. Figure \ref{fig:R_all}B displays the estimated latent correlations using the original approach versus the true values of underlying ternary/continuous correlations. 
+The alignment of points around $y=x$ line confirms that the estimation is empirically unbiased. Figure \ref{fig:R_all}C displays the estimated latent correlations using the approximation approach (`method = "approx"`) versus true values of underlying latent correlation. The results are almost indistinguishable from Figure \ref{fig:R_all}B at a fraction of the computational cost.
 
-![Scatter plots of estimated Pearson correlation (panel A) and latent correlations (original in panel B, approximate in panel C) vs. ground truth correlation \label{fig:R_all}](./CombinedCorrelations.pdf)
+![Scatter plots of estimated Pearson correlation (panel A) and latent correlations (original in panel B, approximate in panel C) vs. ground truth correlations \label{fig:R_all}](./CombinedCorrelations.pdf)
 
 The script to reproduce the displayed results is available at [latentcor_evaluation](https://github.com/mingzehuang/latentcor_evaluation/blob/master/unbias_check.R).
 
@@ -142,7 +143,8 @@ estR(X = X, types = c("ter", "con"))$R
 # Heatmap for latent correlation matrix.
 estR(X = X, types = c("ter", "con"), showplot = TRUE)$plotR
 ```
-The second example considers the `mtcars` dataset, available in standard R. The `mtcars` dataset comprises continuous, binary, and ternary data types.
+The second example considers the `mtcars` dataset, available in standard R. 
+The `mtcars` dataset comprises continuous, binary, and ternary data types.
 
 ```r
 library(latentcor)
@@ -161,13 +163,11 @@ estR(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin",
                        "bin", "ter", "con"), showplot = TRUE)$plotR
 ```
 
-# Rendered R Figures
+![Heatmap of pearson correlation, latent correlation (original) and latent correlations (approx) for mtcars \label{fig:R_cars}](./all_heatmap.pdf)
 
-![Heatmap of pearson correlation, latent correlation (original) and latent correlations (approx) for mtcars](./all_heatmap.pdf)
+The script to reproduce Figure \ref{fig:R_cars} is available at [latentcor_cars](https://github.com/mingzehuang/latentcor_evaluation/blob/master/all_heatmap.R)
 
-Script see: [latentcor_evaluation](https://github.com/mingzehuang/latentcor_evaluation/blob/master/all_heatmap.R)
-
-Interactive heatmaps see: [pearson correlation for mtcars](https://rpubs.com/mingzehuang/797945); [latent correlation (original) for mtcars](https://rpubs.com/mingzehuang/797939); [latent correlation (approx) for mtcars](https://rpubs.com/mingzehuang/797937)
+Interactive heatmaps are available at [pearson correlation for mtcars](https://rpubs.com/mingzehuang/797945); [latent correlation (original) for mtcars](https://rpubs.com/mingzehuang/797939); [latent correlation (approx) for mtcars](https://rpubs.com/mingzehuang/797937).
 
 # Availability
 
