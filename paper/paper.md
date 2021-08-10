@@ -167,8 +167,8 @@ Figure \ref{fig:R_cars} shows the $11 \times 11$ matrices with latent correlatio
 
 ![Heatmap of latent correlations (`approx`,left panel), Pearson correlation (middle panel), and difference between the two estimators (latent correlation - Pearson correlation) on the mtcars dataset \label{fig:R_cars}](./all_heatmap.pdf)
 
-The script to reproduce Figure \ref{fig:R_cars} is available at [latentcor_cars](https://github.com/mingzehuang/latentcor_evaluation/blob/master/all_heatmap.R).
-We also provide interactive heatmaps for [estimated latent correlation for mtcars](https://rpubs.com/mingzehuang/797937), [pearson correlation for mtcars](https://rpubs.com/mingzehuang/797945), and [difference (estimated latent correlation minus pearson correlation) for mtcars](https://rpubs.com/mingzehuang/798060)
+The script to reproduce Figure \ref{fig:R_cars} is available [here](https://github.com/mingzehuang/latentcor_evaluation/blob/master/all_heatmap.R).
+We also provide interactive heatmaps for [estimated latent correlations](https://rpubs.com/mingzehuang/797937), [Pearson correlations](https://rpubs.com/mingzehuang/797945), and [their differences (estimated latent correlations minus Pearson correlations)](https://rpubs.com/mingzehuang/798060) for the `mtcars` data set.
 
 # Availability
 
