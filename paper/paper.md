@@ -172,7 +172,7 @@ We also provide interactive heatmaps for [Pearson correlation for mtcars](https:
 
 # Availability
 
-The R package 'latentcor' is available on [Github](https://github.com/mingzehuang/latentcor/). A comprehensive vignette with additional mathematical and computational details is available [here](https://mingzehuang.github.io/latentcor/articles/latentcor.html).
+The R package `latentcor` is available on [Github](https://github.com/mingzehuang/latentcor/). A comprehensive vignette with additional mathematical and computational details is available [here](https://mingzehuang.github.io/latentcor/articles/latentcor.html).
 
 # Acknowledgments
 
