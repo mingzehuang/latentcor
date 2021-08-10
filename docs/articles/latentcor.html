@@ -60,7 +60,7 @@
 
       
 
-      </header><script src="latentcor_files/header-attrs-2.9/header-attrs.js"></script><div class="row">
+      </header><script src="latentcor_files/header-attrs-2.10/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>latentcor</h1>
@@ -101,12 +101,12 @@
 <code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="va">simdata</span><span class="op">$</span><span class="va">X</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">X</span>, n <span class="op">=</span> <span class="fl">6L</span><span class="op">)</span>
 <span class="co">#&gt;      [,1]        [,2]</span>
-<span class="co">#&gt; [1,]    1  1.13451089</span>
-<span class="co">#&gt; [2,]    0 -0.04013913</span>
-<span class="co">#&gt; [3,]    1  0.76537283</span>
-<span class="co">#&gt; [4,]    2  1.51583090</span>
-<span class="co">#&gt; [5,]    0  0.38077674</span>
-<span class="co">#&gt; [6,]    0  0.92814042</span></code></pre></div>
+<span class="co">#&gt; [1,]    0  0.02147578</span>
+<span class="co">#&gt; [2,]    1  0.86813841</span>
+<span class="co">#&gt; [3,]    1 -0.47025929</span>
+<span class="co">#&gt; [4,]    0  0.14003320</span>
+<span class="co">#&gt; [5,]    1 -1.29999765</span>
+<span class="co">#&gt; [6,]    0 -0.30282096</span></code></pre></div>
 <ul>
 <li>
 <code>plotX</code>: NULL (<code>showplot = FALSE</code>, can be changed to display the plot of generated data in<code>GenData</code> input).</li>
@@ -139,8 +139,8 @@
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">K</span>
 <span class="co">#&gt;           X1        X2</span>
-<span class="co">#&gt; X1 1.0000000 0.2743434</span>
-<span class="co">#&gt; X2 0.2743434 1.0000000</span></code></pre></div>
+<span class="co">#&gt; X1 1.0000000 0.2113131</span>
+<span class="co">#&gt; X2 0.2113131 1.0000000</span></code></pre></div>
 <ul>
 <li>
 <code>Rpointwise</code>: matrix of pointwise estimated correlations. Due to pointwise estimation, <code>Rpointwise</code> is not guaranteed to be positive semi-definite</li>
@@ -148,8 +148,8 @@
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">Rpointwise</span>
 <span class="co">#&gt;           X1        X2</span>
-<span class="co">#&gt; X1 1.0000000 0.4971618</span>
-<span class="co">#&gt; X2 0.4971618 1.0000000</span></code></pre></div>
+<span class="co">#&gt; X1 1.0000000 0.3875334</span>
+<span class="co">#&gt; X2 0.3875334 1.0000000</span></code></pre></div>
 <ul>
 <li>
 <code>R</code>: estimated final latent correlation matrix, this matrix is guaranteed to be strictly positive definite (through <code>nearPD</code> projection and parameter <code>nu</code>, see Mathematical framework for estimation)</li>
@@ -157,8 +157,8 @@
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">R</span>
 <span class="co">#&gt;           X1        X2</span>
-<span class="co">#&gt; X1 1.0000000 0.4966647</span>
-<span class="co">#&gt; X2 0.4966647 1.0000000</span></code></pre></div>
+<span class="co">#&gt; X1 1.0000000 0.3871459</span>
+<span class="co">#&gt; X2 0.3871459 1.0000000</span></code></pre></div>
 <ul>
 <li>
 <code>plotR</code>: NULL by default as <code>showplot = FALSE</code> in <code>estR</code>. Otherwise displays a heatmap of latent correlation matrix.</li>
@@ -413,12 +413,12 @@
 <code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/GenData.html">GenData</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6</span>, types <span class="op">=</span> <span class="st">"con"</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
 <span class="va">X</span>
 <span class="co">#&gt;            [,1]</span>
-<span class="co">#&gt; [1,]  1.2382651</span>
-<span class="co">#&gt; [2,] -0.3093452</span>
-<span class="co">#&gt; [3,] -2.2488888</span>
-<span class="co">#&gt; [4,]  0.7695786</span>
-<span class="co">#&gt; [5,]  1.3397389</span>
-<span class="co">#&gt; [6,]  1.6408850</span></code></pre></div>
+<span class="co">#&gt; [1,]  0.5182851</span>
+<span class="co">#&gt; [2,]  2.6362519</span>
+<span class="co">#&gt; [3,] -0.4895023</span>
+<span class="co">#&gt; [4,]  1.3231412</span>
+<span class="co">#&gt; [5,] -0.8447997</span>
+<span class="co">#&gt; [6,] -0.7642902</span></code></pre></div>
 <p><strong><em>Definition of binary model</em></strong> <span class="citation">(Fan et al. 2017)</span></p>
 <p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span> satisfies the binary latent Gaussian copula model if there exists <span class="math inline">\(W\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})\)</span>, where <span class="math inline">\(I(\cdot)\)</span> is the indicator function and <span class="math inline">\(c_{j}\)</span> are constants.</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
@@ -426,10 +426,10 @@
 <span class="va">X</span>
 <span class="co">#&gt;      [,1]</span>
 <span class="co">#&gt; [1,]    0</span>
-<span class="co">#&gt; [2,]    1</span>
-<span class="co">#&gt; [3,]    1</span>
-<span class="co">#&gt; [4,]    0</span>
-<span class="co">#&gt; [5,]    0</span>
+<span class="co">#&gt; [2,]    0</span>
+<span class="co">#&gt; [3,]    0</span>
+<span class="co">#&gt; [4,]    1</span>
+<span class="co">#&gt; [5,]    1</span>
 <span class="co">#&gt; [6,]    1</span></code></pre></div>
 <p><strong><em>Definition of ternary model</em></strong> <span class="citation">(Quan, Booth, and Wells 2018)</span></p>
 <p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span> satisfies the ternary latent Gaussian copula model if there exists <span class="math inline">\(W\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})+I(W_{j}&gt;c'_{j})\)</span>, where <span class="math inline">\(I(\cdot)\)</span> is the indicator function and <span class="math inline">\(c_{j}&lt;c'_{j}\)</span> are constants.</p>
@@ -448,13 +448,13 @@
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/GenData.html">GenData</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6</span>, types <span class="op">=</span> <span class="st">"tru"</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
 <span class="va">X</span>
-<span class="co">#&gt;           [,1]</span>
-<span class="co">#&gt; [1,] 0.8750458</span>
-<span class="co">#&gt; [2,] 0.0000000</span>
-<span class="co">#&gt; [3,] 0.0000000</span>
-<span class="co">#&gt; [4,] 0.9498028</span>
-<span class="co">#&gt; [5,] 0.0000000</span>
-<span class="co">#&gt; [6,] 0.6906756</span></code></pre></div>
+<span class="co">#&gt;            [,1]</span>
+<span class="co">#&gt; [1,] 0.00000000</span>
+<span class="co">#&gt; [2,] 1.44395045</span>
+<span class="co">#&gt; [3,] 3.12196021</span>
+<span class="co">#&gt; [4,] 0.00000000</span>
+<span class="co">#&gt; [5,] 0.00000000</span>
+<span class="co">#&gt; [6,] 0.05824089</span></code></pre></div>
 <p><strong><em>Mixed latent Gaussian copula model</em></strong></p>
 <p>The mixed latent Gaussian copula model jointly models <span class="math inline">\(W=(W_{1}, W_{2}, W_{3}, W_{4})\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{1j}=W_{1j}\)</span>, <span class="math inline">\(X_{2j}=I(W_{2j}&gt;c_{2j})\)</span>, <span class="math inline">\(X_{3j}=I(W_{3j}&gt;c_{3j})+I(W_{3j}&gt;c'_{3j})\)</span> and <span class="math inline">\(X_{4j}=I(W_{4j}&gt;c_{4j})W_{4j}\)</span>.</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
