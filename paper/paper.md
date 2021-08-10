@@ -121,7 +121,7 @@ The script to reproduce the displayed results is available at [latentcor_evaluat
 
 # Basic Usage
 
-We provide two basic code examples of how to use 'latentcor' in R. 
+We provide two basic code examples of how to use `latentcor` in R. 
 
 The first example illustrates how to estimate latent correlation from pairs of ternary/continuous variables.
 
