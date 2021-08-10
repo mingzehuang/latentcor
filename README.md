@@ -49,7 +49,7 @@ estR(X = X, types = c("ter", "con"))$R
 # Heatmap for latent correlation matrix.
 estR(X = X, types = c("ter", "con"), showplot = TRUE)$plotR
 ```
-Another example with real data set.
+Another example with real dataset.
 
 ```r
 library(latentcor)
@@ -67,7 +67,5 @@ estR(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin",
 estR(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin",
                        "bin", "ter", "con"), showplot = TRUE)$plotR
 ```
-
-![Heatmap of of latent correlations (approx) for mtcars](https://github.com/mingzehuang/latentcor/blob/master/paper/heatmap_approx_mtcars.png)
 
 Interactive heatmap see: [interactive heatmap of latent correlations (approx) for mtcars](https://rpubs.com/mingzehuang/797937)
