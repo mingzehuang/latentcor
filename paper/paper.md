@@ -164,11 +164,11 @@ estR(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin",
 ```
 
 
-![Heatmap of Pearson correlation, latent correlation (approx), and difference (approx - pearson) on the mtcars dataset \label{fig:R_cars}](./all_heatmap.pdf)
+![Heatmap of latent correlation (approx), pearson correlation, and difference (approx - pearson) on the mtcars dataset \label{fig:R_cars}](./all_heatmap.pdf)
 
 The script to reproduce Figure \ref{fig:R_cars} is available at [latentcor_cars](https://github.com/mingzehuang/latentcor_evaluation/blob/master/all_heatmap.R).
 
-We also provide interactive heatmaps for [pearson correlation for mtcars](https://rpubs.com/mingzehuang/797945), [estimated latent correlation for mtcars](https://rpubs.com/mingzehuang/797937), and [difference (estimated latent correlation minus pearson correlation) for mtcars](https://rpubs.com/mingzehuang/798060)
+We also provide interactive heatmaps for [estimated latent correlation for mtcars](https://rpubs.com/mingzehuang/797937), [pearson correlation for mtcars](https://rpubs.com/mingzehuang/797945), and [difference (estimated latent correlation minus pearson correlation) for mtcars](https://rpubs.com/mingzehuang/798060)
 
 # Availability
 
