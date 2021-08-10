@@ -68,6 +68,6 @@ estR(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin",
                        "bin", "ter", "con"), showplot = TRUE)$plotR
 ```
 
-![Heatmap of of latent correlations (approx) for mtcars](paper/heatmap_approx_mtcars.png)
+![Heatmap of of latent correlations (approx) for mtcars](https://github.com/mingzehuang/latentcor/blob/master/paper/heatmap_approx_mtcars.png)
 
 Interactive heatmap see: [interactive heatmap of latent correlations (approx) for mtcars](https://rpubs.com/mingzehuang/797937)
