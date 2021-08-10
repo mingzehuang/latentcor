@@ -123,7 +123,7 @@ estR(X = X, types = c("ter", "con"))$R
 # Heatmap for latent correlation matrix.
 estR(X = X, types = c("ter", "con"), showplot = TRUE)$plotR
 ```
-Another example with real data set.
+Another example with real dataset.
 
 ```r
 library(latentcor)

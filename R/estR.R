@@ -100,8 +100,8 @@ estR = function(X, types = "con", method = c("approx", "original"), nu = 0.001, 
   colnames(K) = rownames(K) = colnames(R) = rownames(R) = colnames(Rpointwise) = rownames(Rpointwise) = make.names(c(name))
   plotR = NULL
   if (showplot) {
-    plotR = heatmaply(R, dendrogram = "none", main = "Latent Correlation", margins = c(80,80,80,80),
-                      grid_color = "white", grid_width = 0.00001, label_names = c("Horizontal axis:", "Vertical axis:", "Latent correlation:"))
+    plotR = heatmaply(R, dendrogram = "none", main = paste0("Estimated latent correlation (", method, ")"), margins = c(80,80,80,80),
+                      grid_color = "white", grid_width = 0.00001, label_names = c("Horizontal axis:", "Vertical axis:", "Latent correlation:"), limits = c(-1, 1))
   }
   return(list(zratios = zratios, K = K, R = R, Rpointwise = Rpointwise, plotR = plotR))
 }
