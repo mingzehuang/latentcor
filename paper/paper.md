@@ -87,12 +87,12 @@ We summarize the references for the explicit form of $F(\cdot)$ for each variabl
 In `latentcor`, the inversion of the bridge function $F(\cdot)$ can be computed in two ways. The original approach (`method = "original"`) relies on numerical
 inversion for each pair of variables based on uni-root optimization [@yoon2020sparse]. Since each pair of variables requires a separate optimization run, the
 original approach is computationally expensive when the number of variables is large. The second approach to invert $F(\cdot)$ is through fast multi-linear
-interpolation of a finite set of $F^{-1}$ values, pre-calculated on a carefully designed set of grid points (`method = "approx"`). This idea has been proposed in
+interpolation of pre-calculated $F^{-1}$ values at specific sets of interpolation grid points (`method = "approx"`). This construction has been proposed in
 [@yoon2021fast] and is available for continuous/binary/truncated pairs in the current version of `mixedCCA`. However, that implementation lacks the ternary
 variable case and relies on an interpolation grid with a large memory footprint. `latentcor` includes the ternary case and provides an optimized interpolation 
 grid by redefining the bridge functions on a rescaled version of Kendall's $\tau$. Here, the scaling adapts to the smoothness of the underlying type of variables 
-by simultaneously controlling the approximation error at the same or lower level. As a result, `latentcor` has significantly smaller memory footprint and smaller
-approximation error compared to `mixedCCA`.
+by simultaneously controlling the approximation error at the same or lower level. As a result, `latentcor` has significantly smaller memory footprint (see in the
+Table below) and smaller approximation error compared to `mixedCCA`.
 
 \newpage
 
@@ -112,13 +112,10 @@ Memory footprints (in KB):
 
 ## Illustrative example 
 
-Figure \ref{fig:R_all}B displays the estimated latent correlations using the original
-approach versus the true values of underlying latent correlation for ternary/continuous case, the alignment of points around $y=x$ line confirms that the
-estimation is empirically unbiased.
-
-Figure \ref{fig:R_all}C displays the estimated latent correlations using the approximation approach (`method = "approx"`) versus true values of underlying latent correlation for ternary/continuous case. The results are almost indistinguishable from Figure \ref{fig:R_all}B at a fraction of the computational cost. For reference, Figure \ref{fig:R_all}A displays the values obtained by using standard Pearson correlation, which leads to significant estimation bias.
+To illustrate the excellent performance of latent correlation estimation on mixed data, we consider the simple example of estimating correlations between continuous and ternary variables. In this synthetic scenario, we have access to the true underlying correlation between the variables. Figure \ref{fig:R_all}A displays the values obtained by using standard Pearson correlation, leading to significant estimation bias compared to the true correlations. Figure \ref{fig:R_all}B displays the estimated latent correlations using the original approach versus the true values of underlying latent correlation for ternary/continuous case. The alignment of points around $y=x$ line confirms that the estimation is empirically unbiased. Figure \ref{fig:R_all}C displays the estimated latent correlations using the approximation approach (`method = "approx"`) versus true values of underlying latent correlation for ternary/continuous case. The results are almost indistinguishable from Figure \ref{fig:R_all}B at a fraction of the computational cost.
 
 ![Scatter plots of estimated Pearson correlation (panel A) and latent correlations (original in panel B, approximate in panel C) vs. ground truth correlation \label{fig:R_all}](./CombinedCorrelations.pdf)
+
 
 # Basic Usage
 
