@@ -84,16 +84,15 @@ We summarize the references for the explicit form of $F(\cdot)$ for each variabl
 
 ## Efficient inversion of the bridge function
 
-In 'latentcor', the inversion of the bridge function $F(\cdot)$ can be done in two ways. The original approach (`method = "original"`) relies on numerical
+In `latentcor`, the inversion of the bridge function $F(\cdot)$ can be computed in two ways. The original approach (`method = "original"`) relies on numerical
 inversion for each pair of variables based on uni-root optimization [@yoon2020sparse]. Since optimization is done separately for each pair, the original approach
-is computationally expensive when the number of variables is large. Figure \ref{fig:R_all}B displays the estimated latent correlations using the original
-approach versus the true values of underlying latent correlation for ternary/continuous case, the alignment of points around $y=x$ line confirms that the
-estimation is empirically unbiased. The second approach to invert $F(\cdot)$ is to use approximation via multi-linear interpolation on a pre-calculated fixed
-grid of points (`method = "approx"`). This idea has been proposed in [@yoon2021fast] and is available for continuous/binary/truncated pairs in the current
-version of `mixedCCA`. However, that implementation lacks the ternary variable case and relies on an interpolation grid with a large memory footprint.
-`latentcor` includes the ternary case and provides an optimized interpolation grid by redefining the bridge functions on a rescaled version of Kendall's $\tau$.
-Here, the scaling adapts to the smoothness of the underlying type of variables by simultaneously controlling the approximation error at the same or lower level.
-As a result, `latentcor` has significantly smaller memory footprint and smaller approximation error compared to `mixedCCA`.
+is computationally expensive when the number of variables is large. The second approach to invert $F(\cdot)$ is through fast multi-linear interpolation of a 
+finite set of $F^{-1}$ values, pre-calculated on a carefully designed set of grid points (`method = "approx"`). This idea has been proposed in [@yoon2021fast] 
+and is available for continuous/binary/truncated pairs in the current version of `mixedCCA`. However, that implementation lacks the ternary variable case and 
+relies on an interpolation grid with a large memory footprint. `latentcor` includes the ternary case and provides an optimized interpolation grid by redefining 
+the bridge functions on a rescaled version of Kendall's $\tau$. Here, the scaling adapts to the smoothness of the underlying type of variables by simultaneously 
+controlling the approximation error at the same or lower level. As a result, `latentcor` has significantly smaller memory footprint and smaller approximation 
+error compared to `mixedCCA`.
 
 Memory footprints (in KB):
 
@@ -109,7 +108,11 @@ Memory footprints (in KB):
 | ternary/truncated | - | 860.9 |
 | ternary/ternary | - | 950.61 |
 
-## An illustrative example 
+## Illustrative examples 
+
+Figure \ref{fig:R_all}B displays the estimated latent correlations using the original
+approach versus the true values of underlying latent correlation for ternary/continuous case, the alignment of points around $y=x$ line confirms that the
+estimation is empirically unbiased.
 
 Figure \ref{fig:R_all}C displays the estimated latent correlations using the approximation approach (`method = "approx"`) versus true values of underlying latent correlation for ternary/continuous case. The results are almost indistinguishable from Figure \ref{fig:R_all}B at a fraction of the computational cost. For reference, Figure \ref{fig:R_all}A displays the values obtained by using standard Pearson correlation, which leads to significant estimation bias.
 
