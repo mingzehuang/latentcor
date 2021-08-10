@@ -38,7 +38,7 @@ affiliations:
 We present `latentcor`, an R package for correlation estimation from data with mixed variable types. Mixed variables types, including continuous, binary, ordinal, zero-inflated, or truncated data are routinely collected in many areas of science. Accurate estimation of correlations among such variables is often the first critical step in statistical analysis workflows. Pearson correlation as the default choice is not well suited for mixed data types as the underlying normality assumption is violated. The concept of semi-parametric latent Gaussian copula models, on the other hand, provides a unifying way to estimate  correlations between mixed data types. The R package `latentcor` comprises a comprehensive list of these models, enabling the estimation of correlations between any of continuous/binary/ternary/zero-inflated (truncated) variable types. The underlying implementation takes advantage of a fast multi-linear interpolation scheme with an efficient choice of interpolation grid points, thus giving the package a small memory footprint without compromising estimation accuracy. This makes latent correlation estimation readily available for modern high-throughput data analysis.
 
 # Statement of need
-No software package is currently available that allows accurate and fast correlation estimation from mixed variable data in a unifying manner. 
+No R software package is currently available that allows accurate and fast correlation estimation from mixed variable data in a unifying manner. 
 The popular `cor` function within R package `stats` [@team2013r], for instance, allows to compute Pearson's correlation, Kendall's $\tau$ and Spearman's
 $\rho$, and a faster algorithm for calculating Kendall's $\tau$ is implemented in the R package `pcaPP` [@croux2013robust]. Pearson's correlation is not
 appropriate for skewed or ordinal data, and its use leads to invalid inference in those cases. While the rank-based Kendall's $\tau$ and Spearman's $\rho$ are
@@ -53,7 +53,9 @@ However, `mixedCCA` does not allow for ordinal data types. The R package `latent
 computation of latent correlation that takes into account all variable types (continuous/binary/ordinal/zero-inflated), comes with an optimized memory footprint, 
 and is computationally efficient, essentially making latent correlation estimation almost as fast as rank-based correlation estimation. 
 
-# Background on latent correlations
+# Estimation of latent correlations
+
+## The general workflow
 
 The estimation of latent correlations consists of three steps: 
 
@@ -79,9 +81,19 @@ We summarize the references for the explicit form of $F(\cdot)$ for each variabl
 | (truncated)    |                       |                 | vignette for derivation\ |                 |
 +----------------+-----------------------+-----------------+--------------------------+-----------------+
 
-                 
-The inversion of the bridge function $F(\cdot)$ can be done in two ways. The original approach (`method = "original"`) relies on numerical inversion for each pair of variables based on uni-root optimization [@yoon2020sparse]. Since optimization is done separately for each pair, the original approach is computationally expensive when the number of variables is large. Figure \ref{fig:R_all}B displays the estimated latent correlations using the original approach versus the true values of underlying latent correlation for ternary/continuous case, the alignment of points around $y=x$ line confirms that the estimation is empirically unbiased. The second approach to invert $F(\cdot)$ is to use approximation via multi-linear interpolation on a pre-calculated fixed grid of points (`method = "approx"`). This idea has been proposed in [@yoon2021fast] and is available for continuous/binary/truncated pairs in the current version of `mixedCCA`. However, that implementation lacks the ternary variable case and relies on an interpolation grid with a large memory footprint. `latentcor` includes the ternary case and provides an optimized interpolation grid by redefining the bridge functions on a rescaled version of Kendall's $\tau$. Here, the scaling adapts to the smoothness of the underlying type of variables by simultaneously controlling the approximation error at the same or lower level. As a result, `latentcor` has significantly smaller memory footprint and smaller approximation error compared to `mixedCCA`.
 
+## Efficient inversion of the bridge function
+
+In 'latentcor', the inversion of the bridge function $F(\cdot)$ can be done in two ways. The original approach (`method = "original"`) relies on numerical
+inversion for each pair of variables based on uni-root optimization [@yoon2020sparse]. Since optimization is done separately for each pair, the original approach
+is computationally expensive when the number of variables is large. Figure \ref{fig:R_all}B displays the estimated latent correlations using the original
+approach versus the true values of underlying latent correlation for ternary/continuous case, the alignment of points around $y=x$ line confirms that the
+estimation is empirically unbiased. The second approach to invert $F(\cdot)$ is to use approximation via multi-linear interpolation on a pre-calculated fixed
+grid of points (`method = "approx"`). This idea has been proposed in [@yoon2021fast] and is available for continuous/binary/truncated pairs in the current
+version of `mixedCCA`. However, that implementation lacks the ternary variable case and relies on an interpolation grid with a large memory footprint.
+`latentcor` includes the ternary case and provides an optimized interpolation grid by redefining the bridge functions on a rescaled version of Kendall's $\tau$.
+Here, the scaling adapts to the smoothness of the underlying type of variables by simultaneously controlling the approximation error at the same or lower level.
+As a result, `latentcor` has significantly smaller memory footprint and smaller approximation error compared to `mixedCCA`.
 
 \newpage
 
@@ -98,6 +110,8 @@ Memory footprints (in KB):
 | ternary/binary | - | 728.3 |
 | ternary/truncated | - | 860.9 |
 | ternary/ternary | - | 950.61 |
+
+## An illustrative example 
 
 Figure \ref{fig:R_all}C displays the estimated latent correlations using the approximation approach (`method = "approx"`) versus true values of underlying latent correlation for ternary/continuous case. The results are almost indistinguishable from Figure \ref{fig:R_all}B at a fraction of the computational cost. For reference, Figure \ref{fig:R_all}A displays the values obtained by using standard Pearson correlation, which leads to significant estimation bias.
 
