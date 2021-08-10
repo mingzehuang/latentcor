@@ -163,7 +163,8 @@ estR(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin",
                        "bin", "ter", "con"), showplot = TRUE)$plotR
 ```
 
-![Heatmap of pearson correlation, latent correlation (original) and latent correlations (approx) for mtcars \label{fig:R_cars}](./all_heatmap.pdf).
+
+![Heatmap of pearson correlation, latent correlation (original) and latent correlations (approx) for mtcars \label{fig:R_cars}](./all_heatmap.pdf)
 
 The script to reproduce Figure \ref{fig:R_cars} is available at [latentcor_cars](https://github.com/mingzehuang/latentcor_evaluation/blob/master/all_heatmap.R).
 
