@@ -165,7 +165,7 @@ estR(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin",
 
 Figure \ref{fig:R_cars} shows the $11 \times 11$ matrices with latent correlation estimates (with default `approx` method, left panel), Pearson correlation estimates (middle panel), and their difference in estimation (right panel). Even on this small dataset, we observe differences larger than $-0.2$.    
 
-![Heatmap of latent correlations (`approx`,left panel), Pearson correlation (middle panel), and difference between the two estimators (latent correlation - Pearson correlation) on the mtcars dataset \label{fig:R_cars}](./all_heatmap.pdf)
+![Heatmap of latent correlations (`approx`, left panel), Pearson correlation (middle panel), and difference between the two estimators (latent correlation - Pearson correlation) on the mtcars dataset \label{fig:R_cars}](./all_heatmap.pdf)
 
 The script to reproduce Figure \ref{fig:R_cars} is available [here](https://github.com/mingzehuang/latentcor_evaluation/blob/master/all_heatmap.R).
 We also provide interactive heatmaps for [estimated latent correlations](https://rpubs.com/mingzehuang/797937), [Pearson correlations](https://rpubs.com/mingzehuang/797945), and [their differences (estimated latent correlations minus Pearson correlations)](https://rpubs.com/mingzehuang/798060) for the `mtcars` data set.
