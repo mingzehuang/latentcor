@@ -43,7 +43,7 @@ The popular `cor` function within R package `stats` [@team2013r], for instance, 
 $\rho$, and a faster algorithm for calculating Kendall's $\tau$ is implemented in the R package `pcaPP` [@croux2013robust]. Pearson's correlation is not
 appropriate for skewed or ordinal data, and its use leads to invalid inference in those cases. While the rank-based Kendall's $\tau$ and Spearman's $\rho$ are
 more robust measures of association, the resulting values do not have correlation interpretation and can not be used as direct substitutes in statistical methods
-that require correlation as input (e.g., graphical model estimation). The R package `polycor` [@fox2019poly] is designed for ordinal data and allows to computes
+that require correlation as input (e.g., graphical model estimation [@yoon2019microbial]). The R package `polycor` [@fox2019poly] is designed for ordinal data and allows to computes
 polychoric (ordinal/ordinal) and polyserial (ordinal/continuous) correlations based on latent Gaussian model. However, the package does not have functionality
 for zero-inflated data, nor can it handle skewed continuous measurements as it does not allow for copula transformation. The R package `correlation`
 [@makowski2020methods] in the `easystats` collection provides 16 different correlation measures, including polychoric and polyserial correlations. However, 
@@ -163,11 +163,11 @@ estR(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin",
                        "bin", "ter", "con"), showplot = TRUE)$plotR
 ```
 
-![Heatmap of pearson correlation, latent correlation (original) and latent correlations (approx) for mtcars \label{fig:R_cars}](./all_heatmap.pdf)
+![Heatmap of pearson correlation, latent correlation (original) and latent correlations (approx) for mtcars \label{fig:R_cars}](./all_heatmap.pdf).
 
-The script to reproduce Figure \ref{fig:R_cars} is available at [latentcor_cars](https://github.com/mingzehuang/latentcor_evaluation/blob/master/all_heatmap.R)
+The script to reproduce Figure \ref{fig:R_cars} is available at [latentcor_cars](https://github.com/mingzehuang/latentcor_evaluation/blob/master/all_heatmap.R).
 
-Interactive heatmaps are available at [pearson correlation for mtcars](https://rpubs.com/mingzehuang/797945); [latent correlation (original) for mtcars](https://rpubs.com/mingzehuang/797939); [latent correlation (approx) for mtcars](https://rpubs.com/mingzehuang/797937).
+Interactive heatmaps are available for [Pearson correlation for mtcars](https://rpubs.com/mingzehuang/797945), [latent correlation (original) for mtcars](https://rpubs.com/mingzehuang/797939), and [latent correlation (approx) for mtcars](https://rpubs.com/mingzehuang/797937).
 
 # Availability
 
