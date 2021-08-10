@@ -63,11 +63,11 @@ estR(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin",
 # Estimate latent correlation matrix with approximation method
 estR(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin",
                        "bin", "ter", "con"))$R
-# Heatmap for latent correlation matrix.
+# Heatmap for latent correlation matrix with approximation method.
 estR(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin",
                        "bin", "ter", "con"), showplot = TRUE)$plotR
 ```
 
-![Heatmap of pearson correlation, latent correlation (original) and latent correlations (approx) for mtcars](./all_heatmap.pdf)
+![Heatmap of of latent correlations (approx) for mtcars](paper/heatmap_approx_mtcars.png)
 
-Interactive heatmap see: [interactive heatmap of latent correlations (approx) for mtcars](https://rpubs.com/mingzehuang/797668)
+Interactive heatmap see: [interactive heatmap of latent correlations (approx) for mtcars](https://rpubs.com/mingzehuang/797937)

@@ -146,7 +146,9 @@ estR(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin",
 
 ![Heatmap of pearson correlation, latent correlation (original) and latent correlations (approx) for mtcars](./all_heatmap.pdf)
 
-Interactive heatmap see: [interactive heatmap of latent correlations (approx) for mtcars](https://rpubs.com/mingzehuang/797668)
+Script see: [latentcor_evaluation](https://github.com/mingzehuang/latentcor_evaluation/blob/master/all_heatmap.R)
+
+Interactive heatmaps see: [pearson correlation for mtcars](https://rpubs.com/mingzehuang/797945); [latent correlation (original) for mtcars](https://rpubs.com/mingzehuang/797939); [latent correlation (approx) for mtcars](https://rpubs.com/mingzehuang/797937)
 
 ![Scatter plots of estimated Pearson correlation (panel A) and latent correlations (original in panel B, approximate in panel C) vs. ground truth correlation \label{fig:R_all}](./CombinedCorrelations.pdf)
 
