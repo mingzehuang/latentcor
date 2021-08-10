@@ -167,7 +167,7 @@ estR(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin",
 
 The script to reproduce Figure \ref{fig:R_cars} is available at [latentcor_cars](https://github.com/mingzehuang/latentcor_evaluation/blob/master/all_heatmap.R).
 
-Interactive heatmaps are available for [Pearson correlation for mtcars](https://rpubs.com/mingzehuang/797945), [latent correlation (original) for mtcars](https://rpubs.com/mingzehuang/797939), and [latent correlation (approx) for mtcars](https://rpubs.com/mingzehuang/797937).
+We also provide interactive heatmaps for [Pearson correlation for mtcars](https://rpubs.com/mingzehuang/797945), [latent correlation (original) for mtcars](https://rpubs.com/mingzehuang/797939), and [latent correlation (approx) for mtcars](https://rpubs.com/mingzehuang/797937).
 
 # Availability
 
