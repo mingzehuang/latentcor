@@ -29,7 +29,7 @@ affiliations:
 - name: Helmholtz Zentrum München, Germany
   index: 4
 - name: Flatiron Institute, New York
-- index: 5
+  index: 5
 ---
 
 
@@ -115,7 +115,7 @@ Memory footprints (in KB):
 To illustrate the excellent performance of latent correlation estimation on mixed data, we consider the simple example of estimating correlations between continuous and ternary variables. In this synthetic scenario, we have access to the true underlying correlation between the variables. Figure \ref{fig:R_all}A displays the values obtained by using standard Pearson correlation, revealing a significant estimation bias with respect to the true correlations. Figure \ref{fig:R_all}B displays the estimated latent correlations using the original approach versus the true values of underlying ternary/continuous correlations. 
 The alignment of points around $y=x$ line confirms that the estimation is empirically unbiased. Figure \ref{fig:R_all}C displays the estimated latent correlations using the approximation approach (`method = "approx"`) versus true values of underlying latent correlation. The results are almost indistinguishable from Figure \ref{fig:R_all}B at a fraction of the computational cost.
 
-![Scatter plots of estimated Pearson correlation (panel A) and latent correlations (original in panel B, approximate in panel C) vs. ground truth correlations \label{fig:R_all}](./CombinedCorrelations.pdf)
+![Scatter plots of estimated Pearson correlation (panel A) and latent correlations (`original` in panel B, `approx` in panel C) vs. ground truth correlations \label{fig:R_all}](./CombinedCorrelations.pdf)
 
 The script to reproduce the displayed results is available at [latentcor_evaluation](https://github.com/mingzehuang/latentcor_evaluation/blob/master/unbias_check.R).
 
@@ -163,8 +163,9 @@ estR(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin",
                        "bin", "ter", "con"), showplot = TRUE)$plotR
 ```
 
+Figure \ref{fig:R_cars} shows the $11 \times 11$ matrices with latent correlation estimates (with default `approx` method), Pearson correlation estimates, and their difference in estimation. Even on this small dataset, we observe differences as large as $-0.2$.    
 
-![Heatmap of latent correlation (approx), pearson correlation, and difference (approx - pearson) on the mtcars dataset \label{fig:R_cars}](./all_heatmap.pdf)
+![Heatmap of latent correlations (`approx`,left panel), Pearson correlation (middle panel), and difference between the two estimators (latent correlation - Pearson correlation) on the mtcars dataset \label{fig:R_cars}](./all_heatmap.pdf)
 
 The script to reproduce Figure \ref{fig:R_cars} is available at [latentcor_cars](https://github.com/mingzehuang/latentcor_evaluation/blob/master/all_heatmap.R).
 
