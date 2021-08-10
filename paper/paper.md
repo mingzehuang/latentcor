@@ -38,12 +38,12 @@ affiliations:
 We present `latentcor`, an R package for correlation estimation from data with mixed variable types. Mixed variables types, including continuous, binary, ordinal, zero-inflated, or truncated data are routinely collected in many areas of science. Accurate estimation of correlations among such variables is often the first critical step in statistical analysis workflows. Pearson correlation as the default choice is not well suited for mixed data types as the underlying normality assumption is violated. The concept of semi-parametric latent Gaussian copula models, on the other hand, provides a unifying way to estimate  correlations between mixed data types. The R package `latentcor` comprises a comprehensive list of these models, enabling the estimation of correlations between any of continuous/binary/ternary/zero-inflated (truncated) variable types. The underlying implementation takes advantage of a fast multi-linear interpolation scheme with an efficient choice of interpolation grid points, thus giving the package a small memory footprint without compromising estimation accuracy. This makes latent correlation estimation readily available for modern high-throughput data analysis.
 
 # Statement of need
-Currently, there is no software package available that allows accurate and fast correlation estimation from mixed variable data in a unifying manner. 
-For instance, the popular `cor` function within R package `stats` [@team2013r] only allows to compute Pearson's correlation, Kendall's $\tau$ and Spearman's
-$\rho$. A faster algorithm for calculating Kendall's $\tau$ is implemented in the R package `pcaPP` [@croux2013robust]. Pearson's correlation is not appropriate
-for skewed or ordinal data, and its use leads to invalid inference in those cases. While the rank-based Kendall's $\tau$ and Spearman's $\rho$ are more robust
-measures of association, the resulting values do not have correlation interpretation and can not be used as direct substitutes in statistical methods that
-require correlation as input (e.g., graphical models estimation). The R package `polycor` [@fox2019poly] is designed for ordinal data and allows to computes
+No software package is currently available that allows accurate and fast correlation estimation from mixed variable data in a unifying manner. 
+The popular `cor` function within R package `stats` [@team2013r], for instance, allows to compute Pearson's correlation, Kendall's $\tau$ and Spearman's
+$\rho$, and a faster algorithm for calculating Kendall's $\tau$ is implemented in the R package `pcaPP` [@croux2013robust]. Pearson's correlation is not
+appropriate for skewed or ordinal data, and its use leads to invalid inference in those cases. While the rank-based Kendall's $\tau$ and Spearman's $\rho$ are
+more robust measures of association, the resulting values do not have correlation interpretation and can not be used as direct substitutes in statistical methods
+that require correlation as input (e.g., graphical models estimation). The R package `polycor` [@fox2019poly] is designed for ordinal data and allows to computes
 polychoric (ordinal/ordinal) and polyserial (ordinal/continuous) correlations based on latent Gaussian model. However, the package does not have functionality
 for zero-inflated data, nor can it handle skewed continuous measurements as it does not allow for copula transformation. The R package `correlation`
 [@makowski2020methods] in the `easystats` collection provides 16 different correlation measures, including polychoric and polyserial correlations. However, 
@@ -156,10 +156,10 @@ Script see: [latentcor_evaluation](https://github.com/mingzehuang/latentcor_eval
 
 # Availability
 
-The R package 'latentcor' is available on [Github](https://github.com/mingzehuang/latentcor/). 
+The R package 'latentcor' is available on [Github](https://github.com/mingzehuang/latentcor/). A comprehensive vignette  
 
 # Acknowledgments
 
-We thank Dr. Grace Yoon for providing details on implementation of `mixedCCA` R package.
+We thank Dr. Grace Yoon for providing details about the implementation of `mixedCCA` R package.
 
 # References
