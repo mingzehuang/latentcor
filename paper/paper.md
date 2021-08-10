@@ -95,8 +95,6 @@ version of `mixedCCA`. However, that implementation lacks the ternary variable c
 Here, the scaling adapts to the smoothness of the underlying type of variables by simultaneously controlling the approximation error at the same or lower level.
 As a result, `latentcor` has significantly smaller memory footprint and smaller approximation error compared to `mixedCCA`.
 
-\newpage
-
 Memory footprints (in KB):
 
  | case | mixedCCA | latentcor |
