@@ -55,7 +55,7 @@ and is computationally efficient, essentially making latent correlation estimati
 
 # Estimation of latent correlations
 
-## The general workflow
+## The general estimation workflow
 
 The estimation of latent correlations consists of three steps: 
 
@@ -63,7 +63,7 @@ The estimation of latent correlations consists of three steps:
 
 * choosing the bridge function $F(\cdot)$ based on the types of variable pairs; the bridge function connects the Kendall's $\tau$ computed from the data, $\widehat \tau$, to the true underlying correlation $\rho$ via moment equation $\mathbb{E}(\widehat \tau) = F(\rho)$;
 
-* computing estimates of latent correlation by $F^{-1}(\widehat \tau)$. 
+* estimating latent correlation by calculating $F^{-1}(\widehat \tau)$. 
 
 We summarize the references for the explicit form of $F(\cdot)$ for each variable combination as implemented in `latentcor` below.
 
@@ -94,6 +94,8 @@ grid by redefining the bridge functions on a rescaled version of Kendall's $\tau
 by simultaneously controlling the approximation error at the same or lower level. As a result, `latentcor` has significantly smaller memory footprint and smaller
 approximation error compared to `mixedCCA`.
 
+\newpage
+
 Memory footprints (in KB):
 
  | case | mixedCCA | latentcor |
@@ -108,13 +110,15 @@ Memory footprints (in KB):
 | ternary/truncated | - | 860.9 |
 | ternary/ternary | - | 950.61 |
 
-## Illustrative examples 
+## Illustrative example 
 
 Figure \ref{fig:R_all}B displays the estimated latent correlations using the original
 approach versus the true values of underlying latent correlation for ternary/continuous case, the alignment of points around $y=x$ line confirms that the
 estimation is empirically unbiased.
 
 Figure \ref{fig:R_all}C displays the estimated latent correlations using the approximation approach (`method = "approx"`) versus true values of underlying latent correlation for ternary/continuous case. The results are almost indistinguishable from Figure \ref{fig:R_all}B at a fraction of the computational cost. For reference, Figure \ref{fig:R_all}A displays the values obtained by using standard Pearson correlation, which leads to significant estimation bias.
+
+![Scatter plots of estimated Pearson correlation (panel A) and latent correlations (original in panel B, approximate in panel C) vs. ground truth correlation \label{fig:R_all}](./CombinedCorrelations.pdf)
 
 # Basic Usage
 
@@ -165,16 +169,14 @@ Script see: [latentcor_evaluation](https://github.com/mingzehuang/latentcor_eval
 
 Interactive heatmaps see: [pearson correlation for mtcars](https://rpubs.com/mingzehuang/797945); [latent correlation (original) for mtcars](https://rpubs.com/mingzehuang/797939); [latent correlation (approx) for mtcars](https://rpubs.com/mingzehuang/797937)
 
-![Scatter plots of estimated Pearson correlation (panel A) and latent correlations (original in panel B, approximate in panel C) vs. ground truth correlation \label{fig:R_all}](./CombinedCorrelations.pdf)
-
 Script see: [latentcor_evaluation](https://github.com/mingzehuang/latentcor_evaluation/blob/master/unbias_check.R)
 
 # Availability
 
-The R package 'latentcor' is available on [Github](https://github.com/mingzehuang/latentcor/). A comprehensive vignette  
+The R package 'latentcor' is available on [Github](https://github.com/mingzehuang/latentcor/). A comprehensive vignette with additional mathematical and computational details is available [here](https://mingzehuang.github.io/latentcor/articles/latentcor.html).
 
 # Acknowledgments
 
-We thank Dr. Grace Yoon for providing details about the implementation of `mixedCCA` R package.
+We thank Dr. Grace Yoon for providing implementation details of the `mixedCCA` R package.
 
 # References
