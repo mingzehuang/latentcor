@@ -40,16 +40,16 @@ library(latentcor)
 # No copula transformation is applied.
 X = GenData(types = c("ter", "con"), XP = list(c(0.3, .5), NA))$X
 
-# Estimate latent correlation matrix with original method
+# Estimate latent correlation matrix with the original method
 estR(X = X, types = c("ter", "con"), method = "original")$R
 
-# Estimate latent correlation matrix with aprroximation method
+# Estimate latent correlation matrix with the approximation method
 estR(X = X, types = c("ter", "con"))$R
 
 # Heatmap for latent correlation matrix.
 estR(X = X, types = c("ter", "con"), showplot = TRUE)$plotR
 ```
-Another example with real dataset.
+Another example with the `mtcars` dataset.
 
 ```r
 library(latentcor)
