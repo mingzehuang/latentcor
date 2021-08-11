@@ -25,7 +25,7 @@ Authors@R: c(
            comment = c(ORCID = "0000-0002-4116-0268")))
 Maintainer: Mingze Huang <mingzehuang@gmail.com>
 Description: The R package *latentcor* provides estimation for latent correlation with mixed data types (continuous, binary, truncated and ternary).
-Depends: R (>= 3.0.0)
+Depends: R (>= 3.0.0), rmarkdown
 Imports: stats, pcaPP, fMultivar, mnormt, chebpol, Matrix, utils, MASS, heatmaply, ggplot2, plotly, graphics
 License: GPL-3 + file LICENSE
 Encoding: UTF-8
@@ -33,7 +33,6 @@ LazyData: true
 RoxygenNote: 7.1.1
 Suggests:
     markdown,
-    rmarkdown,
     knitr,
     testthat (>= 3.0.0),
     covr
