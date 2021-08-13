@@ -29,20 +29,20 @@ value = function(evalfun, grid_list, cores = detectCores(), ...) {
   return (array(as.integer(10^7 * value_vector), dim = dim_value))
 }
 
-evalfun = function(grid_input, comb) {
-  if (comb = "10" | comb = "20") {
+evalfun = function(grid_input, comb, tol, ratio) {
+  if (comb == "10" | comb == "20") {
     zratio1 = grid_input[2]; zratio2 = NA
-  } else if (comb = "11" | comb = "21" | comb = "22") {
+  } else if (comb == "11" | comb == "21" | comb == "22") {
     zratio1 = grid_input[2]; zratio2 = grid_input[3]
-  } else if (comb = "30") {
+  } else if (comb == "30") {
     zratio1 = c(grid_input[2] * grid_input[3], grid_input[3]); zratio2 = NA
-  } else if (comb = "31" | comb = "32") {
+  } else if (comb == "31" | comb == "32") {
     zratio1 = c(grid_input[2] * grid_input[3], grid_input[3]); zratio2 = grid_input[4]
-  } else if (comb = "33") {
+  } else if (comb == "33") {
     zratio1 = c(grid_input[2] * grid_input[3], grid_input[3]); zratio2 = grid_input[4:5]
   }
   K = grid_input[1] * bound_switch(comb = comb, zratio1 = zratio1, zratio2 = zratio2)
-  r_switch(method = "original", K = K, zratio1 = zratio1, zratio2 = zratio2, comb = comb, tol = 1e-8, ratio = 0.9)
+  r_switch(method = "original", K = K, zratio1 = zratio1, zratio2 = zratio2, comb = comb, tol = tol, ratio = ratio)
 }
 
 grid_list_10 = list(seq(-0.99, 0.99, by = 0.02), seq(0.02, 0.98, by = 0.02))
@@ -57,9 +57,8 @@ grid_list_33 = list(seq(-0.9, 0.9, by = 0.1), seq(0.1, 0.9, by = 0.1), seq(0.1, 
 
 
 combs = c("10", "11", "20", "21", "22", "30", "31", "32", "33")
-ipols = NULL
 for (comb in combs) {
-  assign(paste("ipol", comb, sep = "_"), chebpol::ipol(value(evalfun = evalfun, grid_list = paste("grid_list", comb, sep = "_"), comb = comb), grid = paste("grid_list", comb, sep = "_"), method = "multilin"))
+  assign(paste("ipol", comb, sep = "_"), chebpol::ipol(value(evalfun = evalfun, grid_list = get(paste("grid_list", comb, sep = "_")), comb = comb, tol = 1e-8, ratio = 0.9), grid = get(paste("grid_list", comb, sep = "_")), method = "multilin"))
 }
 save(list = c(paste("ipol", combs, sep = "_")), file = "interpolation.rda", compress = "xz")
 
