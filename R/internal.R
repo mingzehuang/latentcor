@@ -348,3 +348,35 @@ bound_switch = function(comb, zratio1, zratio2) {
   return(out(zratio1, zratio2))
 }
 
+evalfun = function(grid_input, comb, tol, ratio) {
+  if (comb == "10" | comb == "20") {
+    zratio1 = grid_input[2]; zratio2 = NA
+  } else if (comb == "11" | comb == "21" | comb == "22") {
+    zratio1 = grid_input[2]; zratio2 = grid_input[3]
+  } else if (comb == "30") {
+    zratio1 = c(grid_input[2] * grid_input[3], grid_input[3]); zratio2 = NA
+  } else if (comb == "31" | comb == "32") {
+    zratio1 = c(grid_input[2] * grid_input[3], grid_input[3]); zratio2 = grid_input[4]
+  } else if (comb == "33") {
+    zratio1 = c(grid_input[2] * grid_input[3], grid_input[3]); zratio2 = grid_input[4:5]
+  }
+  K = grid_input[1] * bound_switch(comb = comb, zratio1 = zratio1, zratio2 = zratio2)
+  r_switch(method = "original", K = K, zratio1 = zratio1, zratio2 = zratio2, comb = comb, tol = tol, ratio = ratio)
+}
+
+grid_list_10 = list(seq(-0.99, 0.99, by = 0.02), seq(0.02, 0.98, by = 0.02))
+grid_list_11 = list(seq(-0.99, 0.99, by = 0.03), seq(0.02, 0.98, by = 0.03), seq(0.02, 0.98, by = 0.03))
+grid_list_20 = list(seq(-0.99, 0.99, by = 0.02), seq(0.02, 0.98, by = 0.02))
+grid_list_21 = list(seq(-0.99, 0.99, by = 0.03), seq(0.02, 0.98, by = 0.03), seq(0.02, 0.98, by = 0.03))
+grid_list_22 = list(seq(-0.99, 0.99, by = 0.03), seq(0.02, 0.98, by = 0.03), seq(0.02, 0.98, by = 0.03))
+grid_list_30 = list(seq(-0.99, 0.99, by = 0.03), seq(0.02, 0.98, by = 0.03), seq(0.02, 0.98, by = 0.03))
+grid_list_31 = list(round(seq(-0.95, 0.95, by = 0.05)), round(seq(0.05, 0.95, by = 0.05)), round(seq(0.05, 0.95, by = 0.05)), round(seq(0.05, 0.95, by = 0.05)))
+grid_list_32 = list(round(seq(-0.95, 0.95, by = 0.05)), round(seq(0.05, 0.95, by = 0.05)), round(seq(0.05, 0.95, by = 0.05)), round(seq(0.05, 0.95, by = 0.05)))
+grid_list_33 = list(seq(-0.9, 0.9, by = 0.1), seq(0.1, 0.9, by = 0.1), seq(0.1, 0.9, by = 0.1), seq(0.1, 0.9, by = 0.1), seq(0.1, 0.9, by = 0.1))
+
+
+combs = c("10", "11", "20", "21", "22", "30", "31", "32", "33")
+for (comb in combs) {
+  assign(paste("ipol", comb, sep = "_"), interpolation(evalfun = evalfun, grid_list = get(paste("grid_list", comb, sep = "_"))))
+}
+save(list = c(paste("ipol", combs, sep = "_")), file = "interpolation.rda", compress = "xz")
