@@ -16,9 +16,12 @@
 #' @importFrom chebpol ipol
 #' @export
 #' @examples
-#' grid_list_10 = list(seq(-0.9, 0.9, by = 0.1), seq(0.1, 0.9, by = 0.1))
-#' interpolation(evalfun = latentcor:::evalfun, grid_list = grid_list_10,
-#'               comb = "10", tol = 1e-8, ratio = .9)
+#' grid_list = list(seq(-0.9, 0.9, by = 0.1), seq(0.1, 0.9, by = 0.1))
+#' objfun = function(x, y) {x^2 + sqrt(y)}
+#' evalfun = function(X) {objfun(X[1], X[2])}
+#' value = interpolation(evalfun = evalfun, grid_list = grid_list)$value
+#' interpolant = interpolation(evalfun = evalfun, grid_list = grid_list)$interpolant
+
 
 interpolation = function(evalfun, grid_list, cores = detectCores(), ...) {
   grid_all = expand.grid(grid_list)
@@ -28,7 +31,7 @@ interpolation = function(evalfun, grid_list, cores = detectCores(), ...) {
   value_vector =
     foreach (j = 1:nrow(grid_all), .combine = c) %dopar% {
       grid_input = as.numeric(grid_all[j, ])
-      value_list = evalfun(grid_input = grid_input, ...)
+      value_list = evalfun(grid_input, ...)
     }
   d_grid = length(grid_list)
   dim_value = NULL
