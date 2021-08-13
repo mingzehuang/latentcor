@@ -13,7 +13,9 @@
 #' @importFrom parallel detectCores
 #' @importFrom chebpol ipol
 #' @examples
+#' interpolation(evalfun = latentcor:::evalfun, grid_list = get(paste("grid_list", comb, sep = "_")), comb = "10", tol = 1e-8, ratio = .9)
 #'
+
 interpolation = function(evalfun, grid_list, cores = detectCores(), ...) {
   grid_all = expand.grid(grid_list)
   registerDoFuture()

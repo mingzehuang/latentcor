@@ -377,6 +377,6 @@ grid_list_33 = list(seq(-0.9, 0.9, by = 0.1), seq(0.1, 0.9, by = 0.1), seq(0.1, 
 
 combs = c("10", "11", "20", "21", "22", "30", "31", "32", "33")
 for (comb in combs) {
-  assign(paste("ipol", comb, sep = "_"), interpolation(evalfun = evalfun, grid_list = get(paste("grid_list", comb, sep = "_"))))
+  assign(paste("ipol", comb, sep = "_"), interpolation(evalfun = evalfun, grid_list = get(paste("grid_list", comb, sep = "_")), comb = comb, tol = 1e-8, ratio = .9))
 }
 save(list = c(paste("ipol", combs, sep = "_")), file = "interpolation.rda", compress = "xz")
