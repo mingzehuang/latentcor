@@ -12,14 +12,14 @@ PlotPair = function(datapair, namepair = c("X", "Y"), title = "Plot X vs Y") {
 
 
 # Data generation
-rhorep = rep(NA, 100); Rrep = matrix(NA, 100, 3)
-for (rep in 1:100) {
-  rho = runif(1, -1, 1)
-  X = GenData(n = 1000, types = c("ter", "con"), rhos = rho, XP = list(c(.3, .5), NA))$X
+rhos = seq(-1, 1, by = .01); rhorep = rep(NA, length(rhos)); Rrep = matrix(NA, length(rhos), 3)
+for (r in 1:length(rhos)) {
+  X = GenData(n = 1000, types = c("ter", "con"), rhos = rhos[r], XP = list(c(.3, .5), NA))$X
   R_nc_org = estR(X, types = c("ter", "con"), method = "original")$R
   R_nc_approx = estR(X, types = c("ter", "con"), method = "approx")$R
-  rhorep[rep] = rho; Rrep[rep, 1] = R_nc_org[2, 1]; Rrep[rep, 2] = R_nc_approx[2, 1]; Rrep[rep, 3] = cor(X)[2, 1]
+  rhorep[r] = rhos[r]; Rrep[r, 1] = R_nc_org[2, 1]; Rrep[r, 2] = R_nc_approx[2, 1]; Rrep[r, 3] = cor(X)[2, 1]
 }
+
 # Plot ternary/continuous case estimation via original method.
 R_nc_org = PlotPair(datapair = cbind(rhorep, Rrep[,1]), namepair = c("True latent correlation", "Estimated latent correlation (original)"),
                     title = "Ternary vs. continuous")
@@ -71,32 +71,32 @@ for (tp1 in c("con", "bin", "ter", "tru")) {
              title = paste(tp1, "vs.", tp2, "(conapprox)", sep = " "))
   }
 }
-
-cp1 = "cube"; cp2 = "cube"
-for (tp1 in c("con")) {
-  for (tp2 in c("con", "bin", "tru", "ter", "qua", "qui", "sen", "sep", "oct", "nov", "den", "dtr")) {
-    rhorep = rep(NA, 100); Rrep = matrix(NA, 100, 3)
-    for (rep in 1:100) {
-      rho = runif(1, -1, 1)
-      X = GenData(n = 1000, rhos = rho, types = c(tp1, tp2), copulas = c(cp1, cp2))$X
-      R_org = estR(X, types = c(tp1, tp2), method = "original")$R
-      R_conapprox = estR(X, types = c("con", "con"), method = "original")$R
-      rhorep[rep] = rho; Rrep[rep, 1] = R_org[2, 1]; Rrep[rep, 2] = R_conapprox[2, 1]; Rrep[rep, 3] =  cor(X)[2, 1]
-    }
-    assign(paste("R", cp1, cp2, tp1, tp2, "org", sep = "_"), Rrep[ , 1])
-    assign(paste("R", cp1, cp2, tp1, tp2, "conapprox", sep = "_"), Rrep[ , 2])
-    assign(paste("R", cp1, cp2, tp1, tp2, "pearson", sep = "_"), Rrep[ , 3])
-    PlotPair(datapair = cbind(rhorep, c(get(paste("R", cp1, cp2, tp1, tp2, "org", sep = "_")))),
-             namepair = c("rho", paste("R", cp1, cp2, tp1, tp2, "org", sep = "_")),
-             title = paste(tp1, "vs.", tp2, "(org)", sep = " "))
-    PlotPair(datapair = cbind(rhorep, c(get(paste("R", cp1, cp2, tp1, tp2, "conapprox", sep = "_")))),
-             namepair = c("rho", paste("R", cp1, cp2, tp1, tp2, "conapprox", sep = "_")),
-             title = paste(tp1, "vs.", tp2, "(conapprox)", sep = " "))
-    PlotPair(datapair = cbind(rhorep, c(get(paste("R", cp1, cp2, tp1, tp2, "pearson", sep = "_")))),
-             namepair = c("rho", paste("R", cp1, cp2, tp1, tp2, "pearson", sep = "_")),
-             title = paste(tp1, "vs.", tp2, "(pearson)", sep = " "))
-  }
-}
+#
+# cp1 = "cube"; cp2 = "cube"
+# for (tp1 in c("con")) {
+#   for (tp2 in c("con", "bin", "tru", "ter", "qua", "qui", "sen", "sep", "oct", "nov", "den", "dtr")) {
+#     rhorep = rep(NA, 100); Rrep = matrix(NA, 100, 3)
+#     for (rep in 1:100) {
+#       rho = runif(1, -1, 1)
+#       X = GenData(n = 1000, rhos = rho, types = c(tp1, tp2), copulas = c(cp1, cp2))$X
+#       R_org = estR(X, types = c(tp1, tp2), method = "original")$R
+#       R_conapprox = estR(X, types = c("con", "con"), method = "original")$R
+#       rhorep[rep] = rho; Rrep[rep, 1] = R_org[2, 1]; Rrep[rep, 2] = R_conapprox[2, 1]; Rrep[rep, 3] =  cor(X)[2, 1]
+#     }
+#     assign(paste("R", cp1, cp2, tp1, tp2, "org", sep = "_"), Rrep[ , 1])
+#     assign(paste("R", cp1, cp2, tp1, tp2, "conapprox", sep = "_"), Rrep[ , 2])
+#     assign(paste("R", cp1, cp2, tp1, tp2, "pearson", sep = "_"), Rrep[ , 3])
+#     PlotPair(datapair = cbind(rhorep, c(get(paste("R", cp1, cp2, tp1, tp2, "org", sep = "_")))),
+#              namepair = c("rho", paste("R", cp1, cp2, tp1, tp2, "org", sep = "_")),
+#              title = paste(tp1, "vs.", tp2, "(org)", sep = " "))
+#     PlotPair(datapair = cbind(rhorep, c(get(paste("R", cp1, cp2, tp1, tp2, "conapprox", sep = "_")))),
+#              namepair = c("rho", paste("R", cp1, cp2, tp1, tp2, "conapprox", sep = "_")),
+#              title = paste(tp1, "vs.", tp2, "(conapprox)", sep = " "))
+#     PlotPair(datapair = cbind(rhorep, c(get(paste("R", cp1, cp2, tp1, tp2, "pearson", sep = "_")))),
+#              namepair = c("rho", paste("R", cp1, cp2, tp1, tp2, "pearson", sep = "_")),
+#              title = paste(tp1, "vs.", tp2, "(pearson)", sep = " "))
+#   }
+# }
 
 pdf(file = "", width = , height = )
 dev.off()

@@ -2,6 +2,15 @@
 source("/scratch/user/sharkmanhmz/latentcor_git/latentcor/R/internal.R")
 source("/scratch/user/sharkmanhmz/latentcor_git/latentcor/supplement/interpolant.R")
 
+library(MASS)
+library(microbenchmark)
+library(foreach)
+library(Matrix)
+library(chebpol)
+library(pcaPP)
+library(doRNG)
+library(doFuture)
+
 evalfun = function(grid_input, comb, tol, ratio) {
   if (comb == "10" | comb == "20") {
     zratio1 = grid_input[2]; zratio2 = NA
@@ -31,7 +40,7 @@ grid_list_33 = list(round(pnorm(seq(-1.8, 1.8, by =.15), sd = .8), 6) * 2 - 1, r
 combs = c("10", "11", "20", "21", "22", "30", "31", "32", "33")
 
 for (comb in combs) {
-  assign(paste("ipol", comb, sep = "_"), interpolation(evalfun = evalfun, grid_list = get(paste("latentcor:::grid_list", comb, sep = "_")), cores = 80, comb = comb, tol = 1e-8, ratio = .9)$interpolant)
+  assign(paste("ipol", comb, sep = "_"), interpolation(evalfun = evalfun, grid_list = get(paste("grid_list", comb, sep = "_")), cores = 80, comb = comb, tol = 1e-8, ratio = .9)$interpolant)
 }
 save(list = c(paste("ipol", combs, sep = "_")), file = "interpolation.rda", compress = "xz")
 #usethis::use_data(ipol_10, ipol_11, ipol_20, ipol_21, ipol_22, ipol_30, ipol_31, ipol_32, ipol_33, internal = TRUE, compress = "xz")

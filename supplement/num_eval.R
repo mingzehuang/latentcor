@@ -1,3 +1,5 @@
+## The following script generate interpolant on my HPRC. Users should modify source directory and cores to replicate it.
+
 library(MASS)
 library(microbenchmark)
 library(foreach)
