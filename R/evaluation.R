@@ -1,6 +1,33 @@
+#' @title Numerical evaluation for different estimation methods.
+#' @description Speed and accuracy comparison of two different estimation methods.
+#' @param genfun A data generation function.
+#' @param estfun_1 A function for first estimation method.
+#' @param estfun_2 A function for second estimation method.
+#' @param grid_list A list for grid points to be evaluated (each element of list is a vector represents ticklabels on a dimension). The number of list elements are the dimension of function inputs.
+#' @param nrep Number of replications in simulation.
+#' @param cores The numbers of cores (threads) of your machine to conduct parallel computing.
+#' @param ... Other inputs for data generation or estimation functions to be passed through.
+#' @return \code{evaluation} returns
+#' \itemize{
+#'      \item{meanAE_1: }{An array for mean absolute error of first estimation method.}
+#'      \item{meanAE_2: }{An array for mean absolute error of second estimation method.}
+#'      \item{medianAE_1: }{An array for median absolute error of first estimation method.}
+#'      \item{medianAE_2: }{An array for median absolute error of second estimation method.}
+#'      \item{maxAE_1: }{An array for maximum absolute error of first estimation method.}
+#'      \item{maxAE_2: }{An array for maximum absolute error of second estimation method.}
+#'      \item{meanAE_diff: }{An array for mean absolute error of difference between two estimations.}
+#'      \item{medianAE_diff: }{An array for median absolute error of difference between two estimations.}
+#'      \item{maxAE_diff: }{An array for maximum absolute error of difference between two estimations.}
+#'      \item{mediantime_1: }{An array for median time of first estimation method.}
+#'      \item{mediantime_2: }{An array for median time of second estimation method.}
+#' }
+#' @importFrom stats median
+#' @importFrom microbenchmark microbenchmark
+#' @export
+#' @examples
+#' ## Some example here
 
-
-evaluation = function(genfun, estfun_1, estf_2, grid_list, nrep = 100, cores = detectCores(), ...) {
+evaluation = function(genfun, estfun_1, estfun_2, grid_list, nrep = 100, cores = detectCores(), ...) {
   grid_all = expand.grid(grid_list)
   registerDoFuture()
   plan(multicore, workers = cores)
@@ -8,15 +35,17 @@ evaluation = function(genfun, estfun_1, estf_2, grid_list, nrep = 100, cores = d
   value_vector =
     foreach (j = 1:nrow(grid_all), .combine = c) %dopar% {
       grid_input = as.numeric(grid_all[j, ])
-      time_reps_1 = rep(NA, nrep); time_reps_2 = rep(NA, nrep); error_reps_1 = rep(NA, nrep); error_reps_2 = rep(NA, nrep); diff_reps = rep(NA, nrep)
+      time_reps_1 = time_reps_2 = estimate_reps_1 = estimate_reps_2 = diff_reps = rep(NA, nrep)
       for (r in 1:nrep) {
+        estimate_1 = estimate_2 = NULL
         simdata = genfun(grid_input, ...)
-        time_reps_1[r] = median(microbenchmark::microbenchmark(estimate_reps_1[r] = estfun_1(simdata, ...), times = 5)$time)
-        time_reps_2[r] = median(microbenchmark::microbenchmark(estimate_reps_2[r] = estfun_2(simdata, ...), times = 5)$time)
-        diff_reps[r] = estimate_reps_1[r] - estimate_reps_2[r]
+        time_reps_1[r] = median(microbenchmark(estimate_1 = estfun_1(simdata, ...), times = 5)$time)
+        time_reps_2[r] = median(microbenchmark(estimate_2 = estfun_2(simdata, ...), times = 5)$time)
+        estimate_reps_1[r] = estimate_1; estimate_reps_2[r] = estimate_2
+        diff_reps[r] = estimate_1 - estimate_2
       }
-      mean_AE_1 = mean(abs(estimate_reps_1 - grid_input[1])); mean_AE_2 = mean(abs(estmate_reps_2 - grid_input[1]))
-      median_AE_1 = median(abs(estimate_reps_1 - grid_input[1])); median_AE_2 = median(abs(estmate_reps_2 - grid_input[1]))
+      mean_AE_1 = mean(abs(estimate_reps_1 - grid_input[1])); mean_AE_2 = mean(abs(estimate_reps_2 - grid_input[1]))
+      median_AE_1 = median(abs(estimate_reps_1 - grid_input[1])); median_AE_2 = median(abs(estimate_reps_2 - grid_input[1]))
       max_AE_1 = max(abs(estimate_reps_1 - grid_input[1])); max_AE_2 = max(abs(estimate_reps_2 - grid_input[1]))
       mean_AE_diff = mean(abs(diff_reps)); median_AE_diff = median(abs(diff_reps)); max_AE_diff = max(abs(diff_reps))
       median_time_1 = median(time_reps_1); median_time_2 = mean(time_reps_2)
@@ -27,19 +56,19 @@ evaluation = function(genfun, estfun_1, estf_2, grid_list, nrep = 100, cores = d
   for (i in 1:d_grid) {
     dim_value = c(dim_value, length(grid_list[[i]]))
   }
-  mean_AE_1_array = array(value_vector[ , 1], dim = dim_value)
-  mean_AE_2_array = array(value_vector[ , 2], dim = dim_value)
-  median_AE_1_array = array(value_vector[ , 3], dim = dim_value)
-  median_AE_2_array = array(value_vector[ , 4], dim = dim_value)
-  max_AE_1_array = array(value_vector[ , 5], dim = dim_value)
-  max_AE_2_array = array(value_vector[ , 6], dim = dim_value)
-  mean_AE_diff = array(value_vector[ , 7], dim = dim_value)
-  median_AE_diff = array(value_vector[ , 8], dim = dim_value)
-  max_AE_diff = array(value_vector[ , 9], dim = dim_value)
-  median_time_1 = array(value_vector[ , 10], dim = dim_value)
-  median_time_2 = array(value_vector[ , 11], dim = dim_value)
+  meanAE_1 = array(value_vector[ , 1], dim = dim_value)
+  meanAE_2 = array(value_vector[ , 2], dim = dim_value)
+  medianAE_1 = array(value_vector[ , 3], dim = dim_value)
+  medianAE_2 = array(value_vector[ , 4], dim = dim_value)
+  maxAE_1 = array(value_vector[ , 5], dim = dim_value)
+  maxAE_2 = array(value_vector[ , 6], dim = dim_value)
+  meanAE_diff = array(value_vector[ , 7], dim = dim_value)
+  medianAE_diff = array(value_vector[ , 8], dim = dim_value)
+  maxAE_diff = array(value_vector[ , 9], dim = dim_value)
+  mediantime_1 = array(value_vector[ , 10], dim = dim_value)
+  mediantime_2 = array(value_vector[ , 11], dim = dim_value)
 
-  return (list(mean_AE_1_array = mean_AE_1_array, mean_AE_2_array = mean_AE_2_array, median_AE_1_array = median_AE_1_array, median_AE_2_array = median_AE_2_array,
-               max_AE_1_array = max_AE_1_array, max_AE_2_array = max_AE_2_array, mean_AE_diff = mean_AE_diff, median_AE_diff = median_AE_diff, max_AE_diff = max_AE_diff,
-               median_time_1 = median_time_1, median_time_2 = median_time_2))
+  return (list(meanAE_1 = meanAE_1, meanAE_2 = meanAE_2, medianAE_1 = medianAE_1, medianAE_2 = medianAE_2,
+               maxAE_1 = maxAE_1, maxAE_2 = maxAE_2, meanAE_diff = meanAE_diff, medianAE_diff = medianAE_diff, maxAE_diff = maxAE_diff,
+               mediantime_1 = mediantime_1, mediantime_2 = mediantime_2))
 }
