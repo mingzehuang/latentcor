@@ -11,7 +11,7 @@ evaluation(
   grid_list,
   nrep = 100,
   cores = detectCores(),
-  ...
+  showplot = FALSE...
 )
 }
 \arguments{
@@ -43,6 +43,17 @@ evaluation(
      \item{maxAE_diff: }{An array for maximum absolute error of difference between two estimations.}
      \item{mediantime_1: }{An array for median time of first estimation method.}
      \item{mediantime_2: }{An array for median time of second estimation method.}
+     \item{plot_meanAE_1: }{A plot for mean absolute error of first estimation method.}
+     \item{plot_meanAE_2: }{A plot for mean absolute error of second estimation method.}
+     \item{plot_medianAE_1: }{A plot for median absolute error of first estimation method.}
+     \item{plot_medianAE_2: }{A plot for median absolute error of second estimation method.}
+     \item{plot_maxAE_1: }{A plot for maximum absolute error of first estimation method.}
+     \item{plot_maxAE_2: }{A plot for maximum absolute error of second estimation method.}
+     \item{plot_meanAE_diff: }{A plot for mean absolute error of difference between two estimations.}
+     \item{plot_medianAE_diff: }{A plot for median absolute error of difference between two estimations.}
+     \item{plot_maxAE_diff: }{A plot for maximum absolute error of difference between two estimations.}
+     \item{plot_mediantime_1: }{A plot for median time of first estimation method.}
+     \item{plot_mediantime_2: }{A plot for median time of second estimation method.}
 }
 }
 \description{

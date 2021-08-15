@@ -20,6 +20,17 @@
 #'      \item{maxAE_diff: }{An array for maximum absolute error of difference between two estimations.}
 #'      \item{mediantime_1: }{An array for median time of first estimation method.}
 #'      \item{mediantime_2: }{An array for median time of second estimation method.}
+#'      \item{plot_meanAE_1: }{A plot for mean absolute error of first estimation method.}
+#'      \item{plot_meanAE_2: }{A plot for mean absolute error of second estimation method.}
+#'      \item{plot_medianAE_1: }{A plot for median absolute error of first estimation method.}
+#'      \item{plot_medianAE_2: }{A plot for median absolute error of second estimation method.}
+#'      \item{plot_maxAE_1: }{A plot for maximum absolute error of first estimation method.}
+#'      \item{plot_maxAE_2: }{A plot for maximum absolute error of second estimation method.}
+#'      \item{plot_meanAE_diff: }{A plot for mean absolute error of difference between two estimations.}
+#'      \item{plot_medianAE_diff: }{A plot for median absolute error of difference between two estimations.}
+#'      \item{plot_maxAE_diff: }{A plot for maximum absolute error of difference between two estimations.}
+#'      \item{plot_mediantime_1: }{A plot for median time of first estimation method.}
+#'      \item{plot_mediantime_2: }{A plot for median time of second estimation method.}
 #' }
 #' @importFrom stats median
 #' @importFrom microbenchmark microbenchmark
@@ -27,7 +38,7 @@
 #' @examples
 #' ## Some example here
 
-evaluation = function(genfun, estfun_1, estfun_2, grid_list, nrep = 100, cores = detectCores(), ...) {
+evaluation = function(genfun, estfun_1, estfun_2, grid_list, nrep = 100, cores = detectCores(), showplot = FALSE...) {
   grid_all = expand.grid(grid_list)
   registerDoFuture()
   plan(multicore, workers = cores)
@@ -67,8 +78,20 @@ evaluation = function(genfun, estfun_1, estfun_2, grid_list, nrep = 100, cores =
   maxAE_diff = array(value_vector[ , 9], dim = dim_value)
   mediantime_1 = array(value_vector[ , 10], dim = dim_value)
   mediantime_2 = array(value_vector[ , 11], dim = dim_value)
-
+  plot_meanAE_1 = plot_meanAE_2 = plot_medianAE_1 = plot_medianAE_2 = plot_maxAE_1 = plot_maxAE_2 =
+  plot_meanAE_diff = plot_medianAE_diff = plot_maxAE_diff = plot_mediantime_1 = plot_mediantime_2 = NULL
+  if (showplot) {
+    for (i in c("meanAE_1", "meanAE_2", "medianAE_1", "medianAE_2", "maxAE_1", "maxAE_2", "meanAE_diff", "medianAE_diff", "maxAE_diff", "mediantime_1", "mediantime_2")) {
+      eval_data = data.frame(get(i))
+      rownames(eval_data) = as.character(grid_list[[1]]); colnames(eval_data) = as.character(grid_list[[2]])
+      assign(paste("plot", i, sep = "_"), heatmaply(eval_data, dendrogram = "none", main = i, margins = c(80,80,80,80),
+                                    grid_color = "white", grid_width = 0.00001, label_names = c("Horizontal axis:", "Vertical axis:", paste0(i, ":"))))
+    }
+  }
   return (list(meanAE_1 = meanAE_1, meanAE_2 = meanAE_2, medianAE_1 = medianAE_1, medianAE_2 = medianAE_2,
                maxAE_1 = maxAE_1, maxAE_2 = maxAE_2, meanAE_diff = meanAE_diff, medianAE_diff = medianAE_diff, maxAE_diff = maxAE_diff,
-               mediantime_1 = mediantime_1, mediantime_2 = mediantime_2))
+               mediantime_1 = mediantime_1, mediantime_2 = mediantime_2,
+               plot_meanAE_1 = plot_meanAE_1, plot_meanAE_2 = plot_meanAE_2, plot_medianAE_1 = plot_medianAE_1, plot_medianAE_2 = plot_medianAE_2,
+               plot_maxAE_1 = plot_maxAE_1, plot_maxAE_2 = plot_maxAE_2, plot_meanAE_diff = plot_meanAE_diff, plot_medianAE_diff = plot_medianAE_diff,
+               plot_maxAE_diff = plot_maxAE_diff, plot_mediantime_1 = plot_mediantime_1, plot_mediantime_2 = plot_mediantime_2))
 }
