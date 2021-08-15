@@ -10,8 +10,8 @@ evaluation(
   estfun_2,
   grid_list,
   nrep = 100,
-  cores = detectCores(),
   showplot = FALSE,
+  cores = detectCores(),
   ...
 )
 }
@@ -26,9 +26,9 @@ evaluation(
 
 \item{nrep}{Number of replications in simulation.}
 
-\item{cores}{The numbers of cores (threads) of your machine to conduct parallel computing.}
-
 \item{showplot}{Logical indicator. \code{showplot = TRUE} generates the heatmaps of output arrays. NULL if \code{showplot = FALSE}.}
+
+\item{cores}{The numbers of cores (threads) of your machine to conduct parallel computing.}
 
 \item{...}{Other inputs for data generation or estimation functions to be passed through.}
 }
