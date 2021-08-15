@@ -6,6 +6,7 @@
 #' @param grid_list A list for grid points to be evaluated (each element of list is a vector represents ticklabels on a dimension). The number of list elements are the dimension of function inputs.
 #' @param nrep Number of replications in simulation.
 #' @param cores The numbers of cores (threads) of your machine to conduct parallel computing.
+#' @param showplot Logical indicator. \code{showplot = TRUE} generates the heatmaps of output arrays. NULL if \code{showplot = FALSE}.
 #' @param ... Other inputs for data generation or estimation functions to be passed through.
 #' @return \code{evaluation} returns
 #' \itemize{
@@ -38,7 +39,7 @@
 #' @examples
 #' ## Some example here
 
-evaluation = function(genfun, estfun_1, estfun_2, grid_list, nrep = 100, cores = detectCores(), showplot = FALSE...) {
+evaluation = function(genfun, estfun_1, estfun_2, grid_list, nrep = 100, cores = detectCores(), showplot = FALSE, ...) {
   grid_all = expand.grid(grid_list)
   registerDoFuture()
   plan(multicore, workers = cores)
