@@ -39,7 +39,7 @@
 #' @examples
 #' ## Some example here
 
-evaluation = function(genfun, estfun_1, estfun_2, grid_list, nrep = 100, cores = detectCores(), showplot = FALSE, ...) {
+evaluation = function(genfun, estfun_1, estfun_2, grid_list, nrep = 100, showplot = FALSE, cores = detectCores(), ...) {
   grid_all = expand.grid(grid_list)
   registerDoFuture()
   plan(multicore, workers = cores)

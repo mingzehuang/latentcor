@@ -32,7 +32,7 @@ estfun_2 = function(X) {
   out = estR(X = X, types = c("bin", "con"))$R[1, 2]
   return(out)
 }
-evaluation_BC = evaluation (genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2, grid_list = grid_list)
+evaluation_BC = evaluation(genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2, grid_list = grid_list, showplot = TRUE)
 
 ## For BB case
 genfun = function (rho, zratio) {
@@ -47,7 +47,7 @@ estfun_2 = function(X) {
   out = estR(X = X, types = c("bin", "bin"))$R[1, 2]
   return(out)
 }
-evaluation_BB = evaluation (genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2, grid_list = grid_list)
+evaluation_BB = evaluation(genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2, grid_list = grid_list, showplot = TRUE)
 
 ## For TC case
 genfun = function (rho, zratio) {
@@ -62,7 +62,7 @@ estfun_2 = function(X) {
   out = estR(X = X, types = c("tru", "con"))$R[1, 2]
   return(out)
 }
-evaluation_TC = evaluation (genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2, grid_list = grid_list)
+evaluation_TC = evaluation(genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2, grid_list = grid_list, showplot = TRUE)
 
 ## For TB case
 genfun = function (rho, zratio) {
@@ -77,7 +77,7 @@ estfun_2 = function(X) {
   out = estR(X = X, types = c("tru", "bin"))$R[1, 2]
   return(out)
 }
-evaluation_TB = evaluation (genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2, grid_list = grid_list)
+evaluation_TB = evaluation(genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2, grid_list = grid_list, showplot = TRUE)
 
 ## For TT case
 genfun = function (rho, zratio) {
@@ -92,7 +92,7 @@ estfun_2 = function(X) {
   out = estR(X = X, types = c("tru", "tru"))$R[1, 2]
   return(out)
 }
-evaluation_TT = evaluation (genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2, grid_list = grid_list)
+evaluation_TT = evaluation(genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2, grid_list = grid_list, showplot = TRUE)
 
 ## For NC case
 genfun = function (rho, zratio) {
@@ -107,7 +107,7 @@ estfun_2 = function(X) {
   out = estR(X = X, types = c("ter", "con"))$R[1, 2]
   return(out)
 }
-evaluation_NC = evaluation (genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2, grid_list = grid_list)
+evaluation_NC = evaluation(genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2, grid_list = grid_list, showplot = TRUE)
 
 ## For NB case
 genfun = function (rho, zratio) {
@@ -122,7 +122,7 @@ estfun_2 = function(X) {
   out = estR(X = X, types = c("ter", "bin"))$R[1, 2]
   return(out)
 }
-evaluation_NB = evaluation (genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2, grid_list = grid_list)
+evaluation_NB = evaluation(genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2, grid_list = grid_list, showplot = TRUE)
 
 ## For NT case
 genfun = function (rho, zratio) {
@@ -137,7 +137,7 @@ estfun_2 = function(X) {
   out = estR(X = X, types = c("ter", "tru"))$R[1, 2]
   return(out)
 }
-evaluation_NT = evaluation (genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2, grid_list = grid_list)
+evaluation_NT = evaluation(genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2, grid_list = grid_list, showplot = TRUE)
 
 ## For NN case
 genfun = function (rho, zratio) {
@@ -152,4 +152,5 @@ estfun_2 = function(X) {
   out = estR(X = X, types = c("ter", "ter"))$R[1, 2]
   return(out)
 }
-evaluation_NN = evaluation (genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2, grid_list = grid_list)
+evaluation_NN = evaluation(genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2, grid_list = grid_list, showplot = TRUE)
+save(evaluation_BC, evaluation_BB, evaluation_TC, evaluation_TB, evaluation_TT, evaluation_NC, evaluation_NB, evaluation_NT, evaluation_NN, file = "all_evaluation.rda", compress = "xz")
