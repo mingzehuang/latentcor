@@ -4,4 +4,4 @@ Loading required package: fBasics
 Loading required package: rngtools
 > proc.time()
     user   system  elapsed 
- 403.835  118.426 1274.760 
+ 438.930  102.854 1316.639 
