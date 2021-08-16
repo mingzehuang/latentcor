@@ -4,7 +4,7 @@
 \alias{interpolation}
 \title{Parallel version of multilinear interpolation generator for function approximation}
 \usage{
-interpolation(evalfun, grid_list, cores = detectCores(), ...)
+interpolation(evalfun, grid_list, cores = detectCores(), int = FALSE, ...)
 }
 \arguments{
 \item{evalfun}{The objective function to be approximated.}
@@ -12,6 +12,8 @@ interpolation(evalfun, grid_list, cores = detectCores(), ...)
 \item{grid_list}{A list for grid points (each element of list is a vector represents ticklabels on a dimension). The number of list elements are the dimension of function inputs.}
 
 \item{cores}{The numbers of cores (threads) of your machine to conduct parallel computing.}
+
+\item{int}{Logical indicator. \code{int = TRUE} interpolant value multiplied by 10^7 then convert to interger to save memory. Original interpolant if \code{int = FALSE}.}
 
 \item{...}{Other inputs for objective functions to be passed through.}
 }

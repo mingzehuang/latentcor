@@ -3,6 +3,7 @@
 #' @param evalfun The objective function to be approximated.
 #' @param grid_list A list for grid points (each element of list is a vector represents ticklabels on a dimension). The number of list elements are the dimension of function inputs.
 #' @param cores The numbers of cores (threads) of your machine to conduct parallel computing.
+#' @param int Logical indicator. \code{int = TRUE} interpolant value multiplied by 10^7 then convert to interger to save memory. Original interpolant if \code{int = FALSE}.
 #' @param ... Other inputs for objective functions to be passed through.
 #' @return \code{interpolation} returns
 #' \itemize{
@@ -23,7 +24,7 @@
 #' interpolant = interpolation(evalfun = evalfun, grid_list = grid_list)$interpolant
 
 
-interpolation = function(evalfun, grid_list, cores = detectCores(), ...) {
+interpolation = function(evalfun, grid_list, cores = detectCores(), int = FALSE, ...) {
   grid_all = expand.grid(grid_list)
   registerDoFuture()
   plan(multicore, workers = cores)
@@ -38,7 +39,11 @@ interpolation = function(evalfun, grid_list, cores = detectCores(), ...) {
   for (i in 1:d_grid) {
     dim_value = c(dim_value, length(grid_list[[i]]))
   }
-  value = array(value_vector, dim = dim_value)
+  if (int) {
+    value = array(as.integer(value_vector * 10^7), dim = dim_value)
+  } else {
+    value = array(value_vector, dim = dim_value)
+  }
   interpolant = ipol(val = value, grid = grid_list, method = "multilin")
   return (list(value = value, interpolant = interpolant))
 }
