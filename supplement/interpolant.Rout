@@ -1,6 +1,5 @@
 Loading required package: rngtools
 Loading required package: future
-There were 50 or more warnings (use warnings() to see the first 50)
-> proc.time()
-   user  system elapsed 
-453.110 135.877 601.765 
+Error in paste("grid_list", comb, sep = "_") : object 'comb' not found
+Calls: interpolation -> expand.grid -> get -> paste
+Execution halted
