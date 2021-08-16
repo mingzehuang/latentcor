@@ -29,22 +29,24 @@ evalfun = function(grid_input, comb, tol, ratio) {
 }
 
 grid_list_10 = list(round(pnorm(seq(-1.2, 1.2, by =.06), sd = .5), 6) * 2 - 1, round(pnorm(seq(-1.2, 1.2, by =.06), sd = .5), 6))
-grid_list_11 = list(round(pnorm(seq(-1.2, 1.2, by =.06), sd = .5), 6) * 2 - 1, round(pnorm(seq(-1.2, 1.2, by =.06), sd = .5), 6), round(pnorm(seq(-1.2, 1.2, by =.06), sd = .5), 6))
-grid_list_20 = list(round(pnorm(seq(-1.2, 1.2, by =.06), sd = .5), 6) * 2 - 1, round(pnorm(seq(.1, 2.5, by = .05)), 6) * 2 - 1)
-grid_list_21 = list(round(pnorm(seq(-1.8, 1.8, by =.15), sd = .8), 6) * 2 - 1, round(pnorm(seq(-1.2, 1.2, by =.06), sd = .5), 6), round(pnorm(seq(-1.2, 1.2, by =.06), sd = .5), 6))
-grid_list_22 = list(round(pnorm(seq(-1.8, 1.8, by =.15), sd = .8), 6) * 2 - 1, round(pnorm(seq(.1, 2.5, by = .05)), 6) * 2 - 1, round(pnorm(seq(.1, 2.5, by = .05)), 6) * 2 - 1)
-grid_list_30 = list(round(pnorm(seq(-1.2, 1.2, by =.06), sd = .5), 6) * 2 - 1, round(pnorm(seq(-2.1, 2.1, by =.1)), 6), round(pnorm(seq(-2.1, 2.1, by =.1)), 6))
-grid_list_31 = list(round(pnorm(seq(-1.8, 1.8, by =.15), sd = .8), 6) * 2 - 1, round(pnorm(seq(-1.8, 1.8, by =.15), sd = .8), 6), round(pnorm(seq(-1.8, 1.8, by =.15), sd = .8), 6), round(pnorm(seq(-1.8, 1.8, by =.15), sd = .8), 6))
-grid_list_32 = list(round(pnorm(seq(-1.8, 1.8, by =.15), sd = .8), 6) * 2 - 1, round(pnorm(seq(-1.8, 1.8, by =.15), sd = .8), 6), round(pnorm(seq(-1.8, 1.8, by =.15), sd = .8), 6), round(pnorm(seq(.1, 2.5, by = .1)), 6) * 2 - 1)
-grid_list_33 = list(round(pnorm(seq(-1.8, 1.8, by =.15), sd = .8), 6) * 2 - 1, round(pnorm(seq(-1.8, 1.8, by =.3), sd = .8), 6), round(pnorm(seq(-1.8, 1.8, by =.3), sd = .8), 6), round(pnorm(seq(-1.8, 1.8, by =.3), sd = .8), 6), round(pnorm(seq(-1.8, 1.8, by =.3), sd = .8), 6))
+# grid_list_11 = list(round(pnorm(seq(-1.2, 1.2, by =.06), sd = .5), 6) * 2 - 1, round(pnorm(seq(-1.2, 1.2, by =.06), sd = .5), 6), round(pnorm(seq(-1.2, 1.2, by =.06), sd = .5), 6))
+# grid_list_20 = list(round(pnorm(seq(-1.2, 1.2, by =.06), sd = .5), 6) * 2 - 1, round(pnorm(seq(.1, 2.5, by = .05)), 6) * 2 - 1)
+# grid_list_21 = list(round(pnorm(seq(-1.8, 1.8, by =.15), sd = .8), 6) * 2 - 1, round(pnorm(seq(-1.2, 1.2, by =.06), sd = .5), 6), round(pnorm(seq(-1.2, 1.2, by =.06), sd = .5), 6))
+# grid_list_22 = list(round(pnorm(seq(-1.8, 1.8, by =.15), sd = .8), 6) * 2 - 1, round(pnorm(seq(.1, 2.5, by = .05)), 6) * 2 - 1, round(pnorm(seq(.1, 2.5, by = .05)), 6) * 2 - 1)
+# grid_list_30 = list(round(pnorm(seq(-1.2, 1.2, by =.06), sd = .5), 6) * 2 - 1, round(pnorm(seq(-2.1, 2.1, by =.1)), 6), round(pnorm(seq(-2.1, 2.1, by =.1)), 6))
+# grid_list_31 = list(round(pnorm(seq(-1.8, 1.8, by =.15), sd = .8), 6) * 2 - 1, round(pnorm(seq(-1.8, 1.8, by =.15), sd = .8), 6), round(pnorm(seq(-1.8, 1.8, by =.15), sd = .8), 6), round(pnorm(seq(-1.8, 1.8, by =.15), sd = .8), 6))
+# grid_list_32 = list(round(pnorm(seq(-1.8, 1.8, by =.15), sd = .8), 6) * 2 - 1, round(pnorm(seq(-1.8, 1.8, by =.15), sd = .8), 6), round(pnorm(seq(-1.8, 1.8, by =.15), sd = .8), 6), round(pnorm(seq(.1, 2.5, by = .1)), 6) * 2 - 1)
+# grid_list_33 = list(round(pnorm(seq(-1.8, 1.8, by =.15), sd = .8), 6) * 2 - 1, round(pnorm(seq(-1.8, 1.8, by =.3), sd = .8), 6), round(pnorm(seq(-1.8, 1.8, by =.3), sd = .8), 6), round(pnorm(seq(-1.8, 1.8, by =.3), sd = .8), 6), round(pnorm(seq(-1.8, 1.8, by =.3), sd = .8), 6))
 
-combs = c("10", "11", "20", "21", "22", "30", "31", "32", "33")
-
-for (comb in combs) {
-  output = interpolation(evalfun = evalfun, grid_list = get(paste("grid_list", comb, sep = "_")), cores = 80, comb = comb, tol = 1e-8, ratio = .9)
-  assign(paste("ipol", comb, sep = "_"), output$interpolant)
-  assign(paste("value", comb, sep = "_"), output$value)
-}
-save(list = c(paste("ipol", combs, sep = "_")), file = "interpolant.rda", compress = "xz")
-save(list = c(paste("value", combs, sep = "_")), file = "value.rda", compress = "xz")
+# combs = c("10", "11", "20", "21", "22", "30", "31", "32", "33")
+#
+# for (comb in combs) {
+#   output = interpolation(evalfun = evalfun, grid_list = get(paste("grid_list", comb, sep = "_")), cores = 80, comb = comb, tol = 1e-8, ratio = .9)
+#   assign(paste("ipol", comb, sep = "_"), output$interpolant)
+#   assign(paste("value", comb, sep = "_"), output$value)
+# }
+value_10 = interpolation(evalfun = evalfun, grid_list = get(paste("grid_list", comb, sep = "_")), cores = 80, comb = comb, tol = 1e-8, ratio = .9)$value
+save("value_10", file = "value_10.rda", compress = "xz")
+# save(list = c(paste("ipol", combs, sep = "_")), file = "interpolant.rda", compress = "xz")
+# save(list = c(paste("value", combs, sep = "_")), file = "value.rda", compress = "xz")
 #usethis::use_data(ipol_10, ipol_11, ipol_20, ipol_21, ipol_22, ipol_30, ipol_31, ipol_32, ipol_33, internal = TRUE, compress = "xz")
