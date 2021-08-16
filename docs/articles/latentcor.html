@@ -66,7 +66,7 @@
       <h1 data-toc-skip>latentcor</h1>
                         <h4 class="author">Mingze Huang, Christian L. Müller, Irina Gaynanova</h4>
             
-            <h4 class="date">2021-08-11</h4>
+            <h4 class="date">2021-08-16</h4>
       
       
       <div class="hidden name"><code>latentcor.Rmd</code></div>
@@ -101,12 +101,12 @@
 <code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="va">simdata</span><span class="op">$</span><span class="va">X</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">X</span>, n <span class="op">=</span> <span class="fl">6L</span><span class="op">)</span>
 <span class="co">#&gt;      [,1]       [,2]</span>
-<span class="co">#&gt; [1,]    1 -0.6943745</span>
-<span class="co">#&gt; [2,]    1 -1.3535077</span>
-<span class="co">#&gt; [3,]    1  0.8307585</span>
-<span class="co">#&gt; [4,]    0 -0.2191126</span>
-<span class="co">#&gt; [5,]    0 -0.6001597</span>
-<span class="co">#&gt; [6,]    2  1.5905262</span></code></pre></div>
+<span class="co">#&gt; [1,]    0  0.9214381</span>
+<span class="co">#&gt; [2,]    2  1.4041817</span>
+<span class="co">#&gt; [3,]    1  0.9451102</span>
+<span class="co">#&gt; [4,]    1  0.1098127</span>
+<span class="co">#&gt; [5,]    0  0.1116410</span>
+<span class="co">#&gt; [6,]    1 -0.1666845</span></code></pre></div>
 <ul>
 <li>
 <code>plotX</code>: NULL (<code>showplot = FALSE</code>, can be changed to display the plot of generated data in<code>GenData</code> input).</li>
@@ -139,8 +139,8 @@
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">K</span>
 <span class="co">#&gt;           X1        X2</span>
-<span class="co">#&gt; X1 1.0000000 0.2311111</span>
-<span class="co">#&gt; X2 0.2311111 1.0000000</span></code></pre></div>
+<span class="co">#&gt; X1 1.0000000 0.3208081</span>
+<span class="co">#&gt; X2 0.3208081 1.0000000</span></code></pre></div>
 <ul>
 <li>
 <code>Rpointwise</code>: matrix of pointwise estimated correlations. Due to pointwise estimation, <code>Rpointwise</code> is not guaranteed to be positive semi-definite</li>
@@ -148,17 +148,17 @@
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">Rpointwise</span>
 <span class="co">#&gt;           X1        X2</span>
-<span class="co">#&gt; X1 1.0000000 0.4225935</span>
-<span class="co">#&gt; X2 0.4225935 1.0000000</span></code></pre></div>
+<span class="co">#&gt; X1 1.0000000 0.5748786</span>
+<span class="co">#&gt; X2 0.5748786 1.0000000</span></code></pre></div>
 <ul>
 <li>
 <code>R</code>: estimated final latent correlation matrix, this matrix is guaranteed to be strictly positive definite (through <code>nearPD</code> projection and parameter <code>nu</code>, see Mathematical framework for estimation)</li>
 </ul>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">R</span>
-<span class="co">#&gt;          X1       X2</span>
-<span class="co">#&gt; X1 1.000000 0.422171</span>
-<span class="co">#&gt; X2 0.422171 1.000000</span></code></pre></div>
+<span class="co">#&gt;           X1        X2</span>
+<span class="co">#&gt; X1 1.0000000 0.5743037</span>
+<span class="co">#&gt; X2 0.5743037 1.0000000</span></code></pre></div>
 <ul>
 <li>
 <code>plotR</code>: NULL by default as <code>showplot = FALSE</code> in <code>estR</code>. Otherwise displays a heatmap of latent correlation matrix.</li>
@@ -258,7 +258,7 @@
 <p>Then we can estimate the latent correlation matrix for all variables of <code>mtcars</code> by using <code>estR</code> function.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate_mtcars</span> <span class="op">=</span> <span class="fu"><a href="../reference/estR.html">estR</a></span><span class="op">(</span><span class="va">mtcars</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"ter"</span>, <span class="st">"con"</span>, <span class="st">"con"</span>, <span class="st">"con"</span>, <span class="st">"con"</span>, <span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"con"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; Using Matrix::nearPD since Minimum eigenvalue of latent correlation matrix is -0.211285262361736 smaller than 0.</span></code></pre></div>
+<span class="co">#&gt; Using Matrix::nearPD since Minimum eigenvalue of latent correlation matrix is -0.203053866491842 smaller than 0.</span></code></pre></div>
 <p>The output of <code>estR</code> for <code>mtcars</code>:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">estimate_mtcars</span><span class="op">)</span>
@@ -339,27 +339,27 @@
 <code class="sourceCode R"><span class="va">estimate_mtcars</span><span class="op">$</span><span class="va">Rpointwise</span>
 <span class="co">#&gt;             mpg        cyl       disp         hp        drat         wt</span>
 <span class="co">#&gt; mpg   1.0000000 -0.9990000 -0.9286530 -0.9099905  0.65616525 -0.9046652</span>
-<span class="co">#&gt; cyl  -0.9990000  1.0000000  0.9990000  0.9900378 -0.77195779  0.9525997</span>
+<span class="co">#&gt; cyl  -0.9990000  1.0000000  0.9990000  0.9900378 -0.77195772  0.9525997</span>
 <span class="co">#&gt; disp -0.9286530  0.9990000  1.0000000  0.8552768 -0.69582182  0.9151697</span>
 <span class="co">#&gt; hp   -0.9099905  0.9900378  0.8552768  1.0000000 -0.55293425  0.8097609</span>
-<span class="co">#&gt; drat  0.6561652 -0.7719578 -0.6958218 -0.5529342  1.00000000 -0.7483492</span>
+<span class="co">#&gt; drat  0.6561652 -0.7719577 -0.6958218 -0.5529342  1.00000000 -0.7483492</span>
 <span class="co">#&gt; wt   -0.9046652  0.9525997  0.9151697  0.8097609 -0.74834918  1.0000000</span>
-<span class="co">#&gt; qsec  0.4713967 -0.6540432 -0.4517316 -0.6680316  0.05064917 -0.2198737</span>
+<span class="co">#&gt; qsec  0.4713967 -0.6540431 -0.4517316 -0.6680316  0.05064917 -0.2198737</span>
 <span class="co">#&gt; vs    0.8727316 -0.9623421 -0.8905658 -0.9188458  0.57685875 -0.7416377</span>
 <span class="co">#&gt; am    0.7178533 -0.7124468 -0.7888268 -0.4746999  0.85723711 -0.9121559</span>
-<span class="co">#&gt; gear  0.6234660 -0.7106596 -0.6786360 -0.4119443  0.80260421 -0.7617271</span>
-<span class="co">#&gt; carb -0.6368382  0.6025492  0.5370028  0.7247928 -0.12947951  0.4880685</span>
+<span class="co">#&gt; gear  0.6234660 -0.6441105 -0.6786359 -0.4119442  0.80260415 -0.7617271</span>
+<span class="co">#&gt; carb -0.6368382  0.6025491  0.5370028  0.7247928 -0.12947951  0.4880685</span>
 <span class="co">#&gt;             qsec         vs          am       gear        carb</span>
 <span class="co">#&gt; mpg   0.47139674  0.8727316  0.71785333  0.6234660 -0.63683817</span>
-<span class="co">#&gt; cyl  -0.65404318 -0.9623421 -0.71244685 -0.7106596  0.60254916</span>
-<span class="co">#&gt; disp -0.45173164 -0.8905658 -0.78882677 -0.6786360  0.53700280</span>
-<span class="co">#&gt; hp   -0.66803158 -0.9188458 -0.47469992 -0.4119443  0.72479279</span>
-<span class="co">#&gt; drat  0.05064917  0.5768588  0.85723711  0.8026042 -0.12947951</span>
+<span class="co">#&gt; cyl  -0.65404313 -0.9623421 -0.71244682 -0.6441105  0.60254911</span>
+<span class="co">#&gt; disp -0.45173164 -0.8905658 -0.78882677 -0.6786359  0.53700280</span>
+<span class="co">#&gt; hp   -0.66803158 -0.9188458 -0.47469992 -0.4119442  0.72479279</span>
+<span class="co">#&gt; drat  0.05064917  0.5768588  0.85723711  0.8026041 -0.12947951</span>
 <span class="co">#&gt; wt   -0.21987367 -0.7416377 -0.91215587 -0.7617271  0.48806852</span>
 <span class="co">#&gt; qsec  1.00000000  0.9599123 -0.27004807 -0.1385035 -0.64170875</span>
 <span class="co">#&gt; vs    0.95991229  1.0000000  0.27236999  0.4087924 -0.76863616</span>
-<span class="co">#&gt; am   -0.27004807  0.2723700  1.00000000  0.9941583 -0.08284094</span>
-<span class="co">#&gt; gear -0.13850351  0.4087924  0.99415835  1.0000000  0.13086291</span>
+<span class="co">#&gt; am   -0.27004807  0.2723700  1.00000000  0.9941469 -0.08284094</span>
+<span class="co">#&gt; gear -0.13850346  0.4087924  0.99414687  1.0000000  0.13086286</span>
 <span class="co">#&gt; carb -0.64170875 -0.7686362 -0.08284094  0.1308629  1.00000000</span></code></pre></div>
 <ul>
 <li>
@@ -368,29 +368,29 @@
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate_mtcars</span><span class="op">$</span><span class="va">R</span>
 <span class="co">#&gt;             mpg        cyl       disp         hp        drat         wt</span>
-<span class="co">#&gt; mpg   1.0000000 -0.9608749 -0.9404695 -0.9153219  0.66638283 -0.9179476</span>
-<span class="co">#&gt; cyl  -0.9608749  1.0000000  0.9650156  0.9346973 -0.74121243  0.9125874</span>
-<span class="co">#&gt; disp -0.9404695  0.9650156  1.0000000  0.8622172 -0.71261891  0.9339336</span>
-<span class="co">#&gt; hp   -0.9153219  0.9346973  0.8622172  1.0000000 -0.55835884  0.8154551</span>
-<span class="co">#&gt; drat  0.6663828 -0.7412124 -0.7126189 -0.5583588  1.00000000 -0.7640859</span>
-<span class="co">#&gt; wt   -0.9179476  0.9125874  0.9339336  0.8154551 -0.76408588  1.0000000</span>
-<span class="co">#&gt; qsec  0.4827478 -0.5741600 -0.4631657 -0.6785315  0.07261584 -0.2322193</span>
-<span class="co">#&gt; vs    0.8541286 -0.9212463 -0.8488590 -0.9228202  0.53220266 -0.7085704</span>
-<span class="co">#&gt; am    0.6957798 -0.6710066 -0.7387695 -0.4747351  0.82546004 -0.8694336</span>
-<span class="co">#&gt; gear  0.6378821 -0.6636071 -0.7061777 -0.4231995  0.82301637 -0.7835243</span>
-<span class="co">#&gt; carb -0.6403560  0.5944601  0.5464094  0.7269360 -0.13825503  0.4939057</span>
+<span class="co">#&gt; mpg   1.0000000 -0.9609031 -0.9415043 -0.9158428  0.66735827 -0.9184175</span>
+<span class="co">#&gt; cyl  -0.9609031  1.0000000  0.9642266  0.9413892 -0.73792461  0.9100566</span>
+<span class="co">#&gt; disp -0.9415043  0.9642266  1.0000000  0.8623242 -0.71394453  0.9357387</span>
+<span class="co">#&gt; hp   -0.9158428  0.9413892  0.8623242  1.0000000 -0.55916149  0.8168236</span>
+<span class="co">#&gt; drat  0.6673583 -0.7379246 -0.7139445 -0.5591615  1.00000000 -0.7655481</span>
+<span class="co">#&gt; wt   -0.9184175  0.9100566  0.9357387  0.8168236 -0.76554810  1.0000000</span>
+<span class="co">#&gt; qsec  0.4823428 -0.5822593 -0.4633043 -0.6776150  0.07314342 -0.2320168</span>
+<span class="co">#&gt; vs    0.8544713 -0.9256791 -0.8492790 -0.9218190  0.53281338 -0.7091408</span>
+<span class="co">#&gt; am    0.6969207 -0.6621142 -0.7398814 -0.4763248  0.82651611 -0.8702507</span>
+<span class="co">#&gt; gear  0.6335341 -0.6404076 -0.7007359 -0.4148761  0.81916584 -0.7795446</span>
+<span class="co">#&gt; carb -0.6389233  0.6083585  0.5440334  0.7239277 -0.13666971  0.4925960</span>
 <span class="co">#&gt;             qsec         vs          am       gear        carb</span>
-<span class="co">#&gt; mpg   0.48274782  0.8541286  0.69577977  0.6378821 -0.64035597</span>
-<span class="co">#&gt; cyl  -0.57415995 -0.9212463 -0.67100656 -0.6636071  0.59446008</span>
-<span class="co">#&gt; disp -0.46316568 -0.8488590 -0.73876948 -0.7061777  0.54640945</span>
-<span class="co">#&gt; hp   -0.67853152 -0.9228202 -0.47473509 -0.4231995  0.72693597</span>
-<span class="co">#&gt; drat  0.07261584  0.5322027  0.82546004  0.8230164 -0.13825503</span>
-<span class="co">#&gt; wt   -0.23221928 -0.7085704 -0.86943360 -0.7835243  0.49390574</span>
-<span class="co">#&gt; qsec  1.00000000  0.8398496 -0.21520264 -0.1246468 -0.66023667</span>
-<span class="co">#&gt; vs    0.83984962  1.0000000  0.33897317  0.3619248 -0.72932208</span>
-<span class="co">#&gt; am   -0.21520264  0.3389732  1.00000000  0.9336416 -0.06770133</span>
-<span class="co">#&gt; gear -0.12464679  0.3619248  0.93364156  1.0000000  0.11758998</span>
-<span class="co">#&gt; carb -0.66023667 -0.7293221 -0.06770133  0.1175900  1.00000000</span></code></pre></div>
+<span class="co">#&gt; mpg   0.48234281  0.8544713  0.69692066  0.6335341 -0.63892330</span>
+<span class="co">#&gt; cyl  -0.58225925 -0.9256791 -0.66211416 -0.6404076  0.60835846</span>
+<span class="co">#&gt; disp -0.46330426 -0.8492790 -0.73988144 -0.7007359  0.54403338</span>
+<span class="co">#&gt; hp   -0.67761499 -0.9218190 -0.47632483 -0.4148761  0.72392768</span>
+<span class="co">#&gt; drat  0.07314342  0.5328134  0.82651611  0.8191658 -0.13666971</span>
+<span class="co">#&gt; wt   -0.23201675 -0.7091408 -0.87025068 -0.7795446  0.49259599</span>
+<span class="co">#&gt; qsec  1.00000000  0.8394639 -0.21423820 -0.1320981 -0.65840975</span>
+<span class="co">#&gt; vs    0.83946385  1.0000000  0.34069073  0.3558147 -0.72748608</span>
+<span class="co">#&gt; am   -0.21423820  0.3406907  1.00000000  0.9329160 -0.06824438</span>
+<span class="co">#&gt; gear -0.13209815  0.3558147  0.93291605  1.0000000  0.12065393</span>
+<span class="co">#&gt; carb -0.65840975 -0.7274861 -0.06824438  0.1206539  1.00000000</span></code></pre></div>
 <ul>
 <li>
 <code>plotR</code>: NULL by default as <code>showplot = FALSE</code> in <code>estR</code>. Otherwise displays a heatmap of latent correlation matrix for <code>mtcars</code> (See <a href="https://rpubs.com/mingzehuang/797937">heatmap of latent correlation (approx) for mtcars</a>).</li>
@@ -413,48 +413,48 @@
 <code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/GenData.html">GenData</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6</span>, types <span class="op">=</span> <span class="st">"con"</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
 <span class="va">X</span>
 <span class="co">#&gt;            [,1]</span>
-<span class="co">#&gt; [1,] -0.6304375</span>
-<span class="co">#&gt; [2,]  1.3705034</span>
-<span class="co">#&gt; [3,] -0.4300924</span>
-<span class="co">#&gt; [4,] -0.9595418</span>
-<span class="co">#&gt; [5,]  0.4877600</span>
-<span class="co">#&gt; [6,]  0.9886951</span></code></pre></div>
+<span class="co">#&gt; [1,]  0.5061053</span>
+<span class="co">#&gt; [2,] -0.5229129</span>
+<span class="co">#&gt; [3,] -0.1634346</span>
+<span class="co">#&gt; [4,] -0.7155229</span>
+<span class="co">#&gt; [5,]  0.4028980</span>
+<span class="co">#&gt; [6,] -1.0006605</span></code></pre></div>
 <p><strong><em>Definition of binary model</em></strong> <span class="citation">(Fan et al. 2017)</span></p>
 <p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span> satisfies the binary latent Gaussian copula model if there exists <span class="math inline">\(W\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})\)</span>, where <span class="math inline">\(I(\cdot)\)</span> is the indicator function and <span class="math inline">\(c_{j}\)</span> are constants.</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/GenData.html">GenData</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6</span>, types <span class="op">=</span> <span class="st">"bin"</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
 <span class="va">X</span>
 <span class="co">#&gt;      [,1]</span>
-<span class="co">#&gt; [1,]    1</span>
-<span class="co">#&gt; [2,]    0</span>
-<span class="co">#&gt; [3,]    0</span>
+<span class="co">#&gt; [1,]    0</span>
+<span class="co">#&gt; [2,]    1</span>
+<span class="co">#&gt; [3,]    1</span>
 <span class="co">#&gt; [4,]    1</span>
 <span class="co">#&gt; [5,]    0</span>
-<span class="co">#&gt; [6,]    1</span></code></pre></div>
+<span class="co">#&gt; [6,]    0</span></code></pre></div>
 <p><strong><em>Definition of ternary model</em></strong> <span class="citation">(Quan, Booth, and Wells 2018)</span></p>
 <p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span> satisfies the ternary latent Gaussian copula model if there exists <span class="math inline">\(W\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})+I(W_{j}&gt;c'_{j})\)</span>, where <span class="math inline">\(I(\cdot)\)</span> is the indicator function and <span class="math inline">\(c_{j}&lt;c'_{j}\)</span> are constants.</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/GenData.html">GenData</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6</span>, types <span class="op">=</span> <span class="st">"ter"</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
 <span class="va">X</span>
 <span class="co">#&gt;      [,1]</span>
-<span class="co">#&gt; [1,]    2</span>
-<span class="co">#&gt; [2,]    1</span>
-<span class="co">#&gt; [3,]    0</span>
-<span class="co">#&gt; [4,]    0</span>
-<span class="co">#&gt; [5,]    1</span>
+<span class="co">#&gt; [1,]    1</span>
+<span class="co">#&gt; [2,]    0</span>
+<span class="co">#&gt; [3,]    2</span>
+<span class="co">#&gt; [4,]    1</span>
+<span class="co">#&gt; [5,]    0</span>
 <span class="co">#&gt; [6,]    1</span></code></pre></div>
 <p><strong><em>Definition of truncated or zero-inflated model</em></strong> <span class="citation">(Yoon, Carroll, and Gaynanova 2020)</span></p>
 <p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span> satisfies the truncated latent Gaussian copula model if there exists <span class="math inline">\(W\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})W_{j}\)</span>, where <span class="math inline">\(I(\cdot)\)</span> is the indicator function and <span class="math inline">\(c_{j}\)</span> are constants.</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/GenData.html">GenData</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6</span>, types <span class="op">=</span> <span class="st">"tru"</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
 <span class="va">X</span>
-<span class="co">#&gt;            [,1]</span>
-<span class="co">#&gt; [1,] 0.00000000</span>
-<span class="co">#&gt; [2,] 0.00000000</span>
-<span class="co">#&gt; [3,] 1.72255040</span>
-<span class="co">#&gt; [4,] 0.09651491</span>
-<span class="co">#&gt; [5,] 2.01512689</span>
-<span class="co">#&gt; [6,] 0.00000000</span></code></pre></div>
+<span class="co">#&gt;           [,1]</span>
+<span class="co">#&gt; [1,] 0.0000000</span>
+<span class="co">#&gt; [2,] 0.0000000</span>
+<span class="co">#&gt; [3,] 0.9538754</span>
+<span class="co">#&gt; [4,] 0.0000000</span>
+<span class="co">#&gt; [5,] 0.1173015</span>
+<span class="co">#&gt; [6,] 0.2450288</span></code></pre></div>
 <p><strong><em>Mixed latent Gaussian copula model</em></strong></p>
 <p>The mixed latent Gaussian copula model jointly models <span class="math inline">\(W=(W_{1}, W_{2}, W_{3}, W_{4})\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{1j}=W_{1j}\)</span>, <span class="math inline">\(X_{2j}=I(W_{2j}&gt;c_{2j})\)</span>, <span class="math inline">\(X_{3j}=I(W_{3j}&gt;c_{3j})+I(W_{3j}&gt;c'_{3j})\)</span> and <span class="math inline">\(X_{4j}=I(W_{4j}&gt;c_{4j})W_{4j}\)</span>.</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
@@ -725,16 +725,16 @@ r &amp; 1 &amp; \frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} \\
 <div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/estR.html">estR</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"approx"</span>, ratio <span class="op">=</span> <span class="fl">0.99</span><span class="op">)</span><span class="op">$</span><span class="va">R</span>
 <span class="co">#&gt;           X1        X2        X3        X4</span>
-<span class="co">#&gt; X1 1.0000000 0.5522684 0.4472343 0.5817297</span>
+<span class="co">#&gt; X1 1.0000000 0.5522684 0.4472342 0.5817297</span>
 <span class="co">#&gt; X2 0.5522684 1.0000000 0.4054908 0.5803080</span>
-<span class="co">#&gt; X3 0.4472343 0.4054908 1.0000000 0.4563204</span>
-<span class="co">#&gt; X4 0.5817297 0.5803080 0.4563204 1.0000000</span>
+<span class="co">#&gt; X3 0.4472342 0.4054908 1.0000000 0.4563203</span>
+<span class="co">#&gt; X4 0.5817297 0.5803080 0.4563203 1.0000000</span>
 <span class="fu"><a href="../reference/estR.html">estR</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"approx"</span>, ratio <span class="op">=</span> <span class="fl">0.4</span><span class="op">)</span><span class="op">$</span><span class="va">R</span>
 <span class="co">#&gt;           X1        X2        X3        X4</span>
-<span class="co">#&gt; X1 1.0000000 0.5524373 0.4472343 0.5820345</span>
+<span class="co">#&gt; X1 1.0000000 0.5524373 0.4472342 0.5820345</span>
 <span class="co">#&gt; X2 0.5524373 1.0000000 0.4054908 0.5815691</span>
-<span class="co">#&gt; X3 0.4472343 0.4054908 1.0000000 0.4563204</span>
-<span class="co">#&gt; X4 0.5820345 0.5815691 0.4563204 1.0000000</span>
+<span class="co">#&gt; X3 0.4472342 0.4054908 1.0000000 0.4563203</span>
+<span class="co">#&gt; X4 0.5820345 0.5815691 0.4563203 1.0000000</span>
 <span class="fu"><a href="../reference/estR.html">estR</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"original"</span><span class="op">)</span><span class="op">$</span><span class="va">R</span>
 <span class="co">#&gt;           X1        X2        X3        X4</span>
 <span class="co">#&gt; X1 1.0000000 0.5524373 0.4476503 0.5820345</span>
@@ -765,27 +765,27 @@ r &amp; 1 &amp; \frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} \\
 <span class="va">out</span><span class="op">$</span><span class="va">Rpointwise</span>
 <span class="co">#&gt;            X1         X2        X3         X4</span>
 <span class="co">#&gt; X1  1.0000000 -0.1477240 0.9990000  0.8548518</span>
-<span class="co">#&gt; X2 -0.1477240  1.0000000 0.3523667 -0.5030324</span>
-<span class="co">#&gt; X3  0.9990000  0.3523667 1.0000000  0.9114308</span>
-<span class="co">#&gt; X4  0.8548518 -0.5030324 0.9114308  1.0000000</span>
+<span class="co">#&gt; X2 -0.1477240  1.0000000 0.3523666 -0.5030324</span>
+<span class="co">#&gt; X3  0.9990000  0.3523666 1.0000000  0.9114307</span>
+<span class="co">#&gt; X4  0.8548518 -0.5030324 0.9114307  1.0000000</span>
 <span class="fu"><a href="https://rdrr.io/r/base/eigen.html">eigen</a></span><span class="op">(</span><span class="va">out</span><span class="op">$</span><span class="va">Rpointwise</span><span class="op">)</span><span class="op">$</span><span class="va">values</span>
-<span class="co">#&gt; [1]  2.85954426  1.29130854  0.09944545 -0.25029825</span></code></pre></div>
+<span class="co">#&gt; [1]  2.85954424  1.29130852  0.09944544 -0.25029820</span></code></pre></div>
 <p><code>latentcor</code> automatically corrects the pointwise estimator to be positive definite by making two adjustments. First, if <code>Rpointwise</code> has smallest eigenvalue less than zero, the <code>estR</code> projects this matrix to the nearest positive semi-definite matrix. The user is notified of this adjustment through the message (supressed in previous code chunk), e.g.</p>
 <div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">out</span> <span class="op">=</span> <span class="fu"><a href="../reference/estR.html">estR</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; Using Matrix::nearPD since Minimum eigenvalue of latent correlation matrix is -0.250298253005179 smaller than 0.</span></code></pre></div>
+<span class="co">#&gt; Using Matrix::nearPD since Minimum eigenvalue of latent correlation matrix is -0.25029819695076 smaller than 0.</span></code></pre></div>
 <p>Second, <code>latentcor</code> shrinks the adjusted matrix of correlations towards identity matrix using the parameter <span class="math inline">\(\nu\)</span> with default value of 0.001 (<code>nu = 0.001</code>), so that the resulting <code>R</code> is strictly positive definite with the minimal eigenvalue being greater or equal to <span class="math inline">\(\nu\)</span>. That is <span class="math display">\[
 R = (1 - \nu) \widetilde R + \nu I,
 \]</span> where <span class="math inline">\(\widetilde R\)</span> is the nearest positive semi-definite matrix to <code>Rpointwise</code>.</p>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">out</span> <span class="op">=</span> <span class="fu"><a href="../reference/estR.html">estR</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span>, nu <span class="op">=</span> <span class="fl">0.001</span><span class="op">)</span>
-<span class="co">#&gt; Using Matrix::nearPD since Minimum eigenvalue of latent correlation matrix is -0.250298253005179 smaller than 0.</span>
+<span class="co">#&gt; Using Matrix::nearPD since Minimum eigenvalue of latent correlation matrix is -0.25029819695076 smaller than 0.</span>
 <span class="va">out</span><span class="op">$</span><span class="va">Rpointwise</span>
 <span class="co">#&gt;            X1         X2        X3         X4</span>
 <span class="co">#&gt; X1  1.0000000 -0.1477240 0.9990000  0.8548518</span>
-<span class="co">#&gt; X2 -0.1477240  1.0000000 0.3523667 -0.5030324</span>
-<span class="co">#&gt; X3  0.9990000  0.3523667 1.0000000  0.9114308</span>
-<span class="co">#&gt; X4  0.8548518 -0.5030324 0.9114308  1.0000000</span>
+<span class="co">#&gt; X2 -0.1477240  1.0000000 0.3523666 -0.5030324</span>
+<span class="co">#&gt; X3  0.9990000  0.3523666 1.0000000  0.9114307</span>
+<span class="co">#&gt; X4  0.8548518 -0.5030324 0.9114307  1.0000000</span>
 <span class="va">out</span><span class="op">$</span><span class="va">R</span>
 <span class="co">#&gt;            X1         X2        X3         X4</span>
 <span class="co">#&gt; X1  1.0000000 -0.1053533 0.9232992  0.9048072</span>
@@ -805,10 +805,10 @@ R = (1 - \nu) \widetilde R + \nu I,
 <span class="co">#&gt; X4 0.5823120 0.5808889 0.4567771 1.0000000</span>
 <span class="va">out</span><span class="op">$</span><span class="va">R</span>
 <span class="co">#&gt;           X1        X2        X3        X4</span>
-<span class="co">#&gt; X1 1.0000000 0.5522684 0.4472343 0.5817297</span>
+<span class="co">#&gt; X1 1.0000000 0.5522684 0.4472342 0.5817297</span>
 <span class="co">#&gt; X2 0.5522684 1.0000000 0.4054908 0.5803080</span>
-<span class="co">#&gt; X3 0.4472343 0.4054908 1.0000000 0.4563204</span>
-<span class="co">#&gt; X4 0.5817297 0.5803080 0.4563204 1.0000000</span></code></pre></div>
+<span class="co">#&gt; X3 0.4472342 0.4054908 1.0000000 0.4563203</span>
+<span class="co">#&gt; X4 0.5817297 0.5803080 0.4563203 1.0000000</span></code></pre></div>
 </div>
 </div>
 <div id="appendix" class="section level1">
