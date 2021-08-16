@@ -1,6 +1,7 @@
+Loading required package: timeDate
+Loading required package: timeSeries
+Loading required package: fBasics
 Loading required package: rngtools
-Loading required package: future
-There were 50 or more warnings (use warnings() to see the first 50)
 > proc.time()
-   user  system elapsed 
-  2.512   1.079   3.612 
+    user   system  elapsed 
+ 403.835  118.426 1274.760 
