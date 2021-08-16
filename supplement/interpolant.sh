@@ -17,5 +17,6 @@
 
 #First Executable Line
 module load iccifort/2020.4.304  impi/2019.9.304 R/4.1.0
+rm interpolant.rda
 R CMD BATCH --no-save --no-restore --slave interpolant.R interpolant.Rout
 
