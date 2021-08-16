@@ -24,7 +24,8 @@ evalfun = function(grid_input, comb, tol, ratio) {
     zratio1 = matrix(c(grid_input[2] * grid_input[3], grid_input[3]), ncol = 1); zratio2 = matrix(c(grid_input[4:5]), ncol = 1)
   }
   K = grid_input[1] * bound_switch(comb = comb, zratio1 = zratio1, zratio2 = zratio2)
-  r_switch(method = "original", K = K, zratio1 = zratio1, zratio2 = zratio2, comb = comb, tol = tol, ratio = ratio)
+  out = r_switch(method = "original", K = K, zratio1 = zratio1, zratio2 = zratio2, comb = comb, tol = tol, ratio = ratio)
+  return(out)
 }
 
 grid_list_10 = list(round(pnorm(seq(-1.2, 1.2, by =.06), sd = .5), 6) * 2 - 1, round(pnorm(seq(-1.2, 1.2, by =.06), sd = .5), 6))
