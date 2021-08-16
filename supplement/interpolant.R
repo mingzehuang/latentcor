@@ -2,6 +2,8 @@
 source("/scratch/user/sharkmanhmz/latentcor_git/latentcor/R/internal.R")
 source("/scratch/user/sharkmanhmz/latentcor_git/latentcor/R/interpolation.R")
 
+library(devtools)
+library(usethis)
 library(stats)
 library(fMultivar)
 library(mnormt)
