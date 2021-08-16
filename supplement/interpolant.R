@@ -45,7 +45,7 @@ grid_list_10 = list(round(pnorm(seq(-1.2, 1.2, by =.06), sd = .5), 6) * 2 - 1, r
 #   assign(paste("ipol", comb, sep = "_"), output$interpolant)
 #   assign(paste("value", comb, sep = "_"), output$value)
 # }
-value_10 = interpolation(evalfun = evalfun, grid_list = get(paste("grid_list", comb, sep = "_")), cores = 80, comb = "10", tol = 1e-8, ratio = .9)$value
+value_10 = interpolation(evalfun = evalfun, grid_list = grid_list_10, cores = 80, comb = "10", tol = 1e-8, ratio = .9)$value
 save("value_10", file = "value_10.rda", compress = "xz")
 # save(list = c(paste("ipol", combs, sep = "_")), file = "interpolant.rda", compress = "xz")
 # save(list = c(paste("value", combs, sep = "_")), file = "value.rda", compress = "xz")

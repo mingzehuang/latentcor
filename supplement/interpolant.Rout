@@ -1,5 +1,6 @@
 Loading required package: rngtools
 Loading required package: future
-Error in paste("grid_list", comb, sep = "_") : object 'comb' not found
-Calls: interpolation -> expand.grid -> get -> paste
-Execution halted
+There were 50 or more warnings (use warnings() to see the first 50)
+> proc.time()
+   user  system elapsed 
+  2.293   0.948   3.252 
