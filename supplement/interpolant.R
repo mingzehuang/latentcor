@@ -17,11 +17,11 @@ evalfun = function(grid_input, comb, tol, ratio) {
   } else if (comb == "11" | comb == "21" | comb == "22") {
     zratio1 = grid_input[2]; zratio2 = grid_input[3]
   } else if (comb == "30") {
-    zratio1 = c(grid_input[2] * grid_input[3], grid_input[3]); zratio2 = NA
+    zratio1 = matrix(c(grid_input[2] * grid_input[3], grid_input[3]), ncol = 1); zratio2 = NA
   } else if (comb == "31" | comb == "32") {
-    zratio1 = c(grid_input[2] * grid_input[3], grid_input[3]); zratio2 = grid_input[4]
+    zratio1 = matrix(c(grid_input[2] * grid_input[3], grid_input[3]), ncol = 1); zratio2 = grid_input[4]
   } else if (comb == "33") {
-    zratio1 = c(grid_input[2] * grid_input[3], grid_input[3]); zratio2 = grid_input[4:5]
+    zratio1 = matrix(c(grid_input[2] * grid_input[3], grid_input[3]), ncol = 1); zratio2 = matrix(c(grid_input[4:5]), ncol = 1)
   }
   K = grid_input[1] * bound_switch(comb = comb, zratio1 = zratio1, zratio2 = zratio2)
   r_switch(method = "original", K = K, zratio1 = zratio1, zratio2 = zratio2, comb = comb, tol = tol, ratio = ratio)
