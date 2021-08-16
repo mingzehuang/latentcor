@@ -306,8 +306,7 @@ r_sol = function(K, zratio1, zratio2, comb, tol, ratio) {
 }
 
 r_ml = function(K, zratio1, zratio2, comb, tol, ratio) {
-  ipol_switch = switch(comb, "10" = BCipol, "11" = BBipol, "20" = TCipol, "21" = TBipol, "22" = TTipol,
-                       "30" = NCipol, "31" = NBipol, "32" = NTipol, "33" = NNipol)
+  ipol_switch = get(paste("ipol", comb, sep = "_"))
   zratio1 = matrix(zratio1, ncol = length(K)); zratio1.row = nrow(zratio1)
   zratio2 = matrix(zratio2, ncol = length(K)); zratio2.row = nrow(zratio2)
   if (zratio1.row > 1) {zratio1[1:(zratio1.row - 1), ] = zratio1[1:(zratio1.row - 1), ] / zratio1[2:zratio1.row, ]}

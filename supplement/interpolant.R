@@ -50,5 +50,4 @@ for (comb in combs) {
   assign(paste("ipol", comb, sep = "_"), output$interpolant)
 }
 
-save(list = c(paste("ipol", combs, sep = "_")), file = "interpolant.rda", compress = "xz")
-#usethis::use_data(ipol_10, ipol_11, ipol_20, ipol_21, ipol_22, ipol_30, ipol_31, ipol_32, ipol_33, internal = TRUE, compress = "xz")
+usethis::use_data(ipol_10, ipol_11, ipol_20, ipol_21, ipol_22, ipol_30, ipol_31, ipol_32, ipol_33, internal = TRUE, overwrite = TRUE, compress = "xz")
