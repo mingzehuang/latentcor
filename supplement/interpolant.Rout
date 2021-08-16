@@ -3,4 +3,4 @@ Loading required package: future
 There were 50 or more warnings (use warnings() to see the first 50)
 > proc.time()
    user  system elapsed 
-  2.293   0.948   3.252 
+  2.512   1.079   3.612 
