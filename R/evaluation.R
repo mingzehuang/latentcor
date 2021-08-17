@@ -86,8 +86,8 @@ evaluation = function(genfun, estfun_1, estfun_2, grid_list, nrep = 100, showplo
     for (i in c("meanAE_1", "meanAE_2", "medianAE_1", "medianAE_2", "maxAE_1", "maxAE_2", "meanAE_diff", "medianAE_diff", "maxAE_diff", "mediantime_1", "mediantime_2")) {
       eval_data = data.frame(get(i))
       rownames(eval_data) = as.character(grid_list[[1]]); colnames(eval_data) = as.character(grid_list[[2]])
-      assign(paste("plot", i, sep = "_"), heatmaply(eval_data, dendrogram = "none", main = i, margins = c(80,80,80,80),
-                                    grid_color = "white", grid_width = 0.00001, label_names = c("Horizontal axis:", "Vertical axis:", paste0(i, ":"))))
+      assign(paste("plot", i, sep = "_"), heatmaply(eval_data, dendrogram = "none", main = i, margins = c(80,80,80,80), ylab = names(grid_list[1]), xlab = names(grid_list[2]),
+                                    grid_color = "white", grid_width = 0.00001, label_names = c(paste0(names(grid_list[2]), ":"), paste0(names(grid_list[1]), ":"), paste0(i, ":"))))
     }
   }
   return (list(meanAE_1 = meanAE_1, meanAE_2 = meanAE_2, medianAE_1 = medianAE_1, medianAE_2 = medianAE_2,
