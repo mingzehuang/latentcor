@@ -42,15 +42,6 @@ Please submit your suggestions and bug-reports at: https://github.com/talgalili/
 Or contact: <tal.galili@gmail.com>
 ======================
 
-There were 50 or more warnings (use warnings() to see the first 50)
-There were 50 or more warnings (use warnings() to see the first 50)
-There were 50 or more warnings (use warnings() to see the first 50)
-There were 50 or more warnings (use warnings() to see the first 50)
-There were 50 or more warnings (use warnings() to see the first 50)
-There were 50 or more warnings (use warnings() to see the first 50)
-There were 50 or more warnings (use warnings() to see the first 50)
-There were 50 or more warnings (use warnings() to see the first 50)
-There were 50 or more warnings (use warnings() to see the first 50)
 > proc.time()
     user   system  elapsed 
-  24.018   34.351 2395.348 
+  24.014   39.494 2402.352 
