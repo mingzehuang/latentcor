@@ -63,5 +63,22 @@ evaluation(
 Speed and accuracy comparison of two different estimation methods.
 }
 \examples{
-## Some example here
+library(latentcor)
+grid_list = list(LatentR = seq(-0.9, 0.9, by = 0.3), TruncRate = seq(0.1, 0.9, by = 0.3))
+genfun = function (grid_input, ...) {
+  out = GenData(rhos = grid_input[1], XP = list(grid_input[2], NA), ...)$X
+  return(out)
+}
+estfun_1 = function(X, ...) {
+  out = estR(X = X, method = "original", ...)$R[1, 2]
+  return(out)
+}
+estfun_2 = function(X, ...) {
+  out = estR(X = X, ...)$R[1, 2]
+  return(out)
+}
+evaluation_BC = evaluation(genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2,
+grid_list = grid_list, nrep = 3, cores = 80, showplot = TRUE, types = c("bin", "con"))
+evaluation_BC$meanAE_diff
+evaluation_BC$plot_meanAE_diff
 }
