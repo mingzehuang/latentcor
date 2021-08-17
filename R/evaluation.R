@@ -51,8 +51,8 @@ evaluation = function(genfun, estfun_1, estfun_2, grid_list, nrep = 100, showplo
       for (r in 1:nrep) {
         estimate_1 = estimate_2 = NULL
         simdata = genfun(grid_input, ...)
-        time_reps_1[r] = median(microbenchmark(estimate_1 = estfun_1(simdata, ...), times = 5)$time)
-        time_reps_2[r] = median(microbenchmark(estimate_2 = estfun_2(simdata, ...), times = 5)$time)
+        time_reps_1[r] = median(microbenchmark::microbenchmark(estimate_1 <- estfun_1(simdata, ...), times = 5)$time)
+        time_reps_2[r] = median(microbenchmark::microbenchmark(estimate_2 <- estfun_2(simdata, ...), times = 5)$time)
         estimate_reps_1[r] = estimate_1; estimate_reps_2[r] = estimate_2
         diff_reps[r] = estimate_1 - estimate_2
       }

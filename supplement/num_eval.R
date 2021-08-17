@@ -27,141 +27,139 @@ source("/scratch/user/sharkmanhmz/latentcor_git/latentcor/R/GenData.R")
 source("/scratch/user/sharkmanhmz/latentcor_git/latentcor/R/estR.R")
 source("/scratch/user/sharkmanhmz/latentcor_git/latentcor/R/evaluation.R")
 
-
-latentR = seq(-0.9, 0.9, by = 0.1); zratios = seq(0.1, 0.9, by = 0.1)
-grid_list = list(latentR, zratios)
+grid_list = list(seq(-0.9, 0.9, by = 0.1), seq(0.1, 0.9, by = 0.1))
 
 ## For BC case
-genfun = function (grid_input) {
-  out = GenData(rhos = grid_input[1], XP = list(grid_input[2], NA))$X
+genfun = function (grid_input, ...) {
+  out = GenData(rhos = grid_input[1], XP = list(grid_input[2], NA), ...)$X
   return(out)
 }
-estfun_1 = function(X) {
-  out = estR(X = X, method = "original")$R[1, 2]
+estfun_1 = function(X, ...) {
+  out = estR(X = X, method = "original", ...)$R[1, 2]
   return(out)
 }
-estfun_2 = function(X) {
-  out = estR(X = X)$R[1, 2]
+estfun_2 = function(X, ...) {
+  out = estR(X = X, ...)$R[1, 2]
   return(out)
 }
 evaluation_BC = evaluation(genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2, grid_list = grid_list, showplot = TRUE, types = c("bin", "con"))
 
 ## For BB case
-genfun = function (grid_input) {
-  out = GenData(rhos = grid_input[1], XP = list(grid_input[2], .5))$X
+genfun = function (grid_input, ...) {
+  out = GenData(rhos = grid_input[1], XP = list(grid_input[2], .5), ...)$X
   return(out)
 }
-estfun_1 = function(X) {
-  out = estR(X = X, method = "original")$R[1, 2]
+estfun_1 = function(X, ...) {
+  out = estR(X = X, method = "original", ...)$R[1, 2]
   return(out)
 }
-estfun_2 = function(X) {
-  out = estR(X = X)$R[1, 2]
+estfun_2 = function(X, ...) {
+  out = estR(X = X, ...)$R[1, 2]
   return(out)
 }
 evaluation_BB = evaluation(genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2, grid_list = grid_list, showplot = TRUE, types = c("bin", "bin"))
 
 ## For TC case
-genfun = function (grid_input) {
-  out = GenData(rhos = grid_input[1], XP = list(grid_input[2], NA))$X
+genfun = function (grid_input, ...) {
+  out = GenData(rhos = grid_input[1], XP = list(grid_input[2], NA), ...)$X
   return(out)
 }
-estfun_1 = function(X) {
-  out = estR(X = X, method = "original")$R[1, 2]
+estfun_1 = function(X, ...) {
+  out = estR(X = X, method = "original", ...)$R[1, 2]
   return(out)
 }
-estfun_2 = function(X) {
-  out = estR(X = X)$R[1, 2]
+estfun_2 = function(X, ...) {
+  out = estR(X = X, ...)$R[1, 2]
   return(out)
 }
 evaluation_TC = evaluation(genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2, grid_list = grid_list, showplot = TRUE, types = c("tru", "con"))
 
 ## For TB case
-genfun = function (grid_input) {
-  out = GenData(rhos = grid_input[1], XP = list(grid_input[2], 0.5))$X
+genfun = function (grid_input, ...) {
+  out = GenData(rhos = grid_input[1], XP = list(grid_input[2], 0.5), ...)$X
   return(out)
 }
-estfun_1 = function(X) {
-  out = estR(X = X, method = "original")$R[1, 2]
+estfun_1 = function(X, ...) {
+  out = estR(X = X, method = "original", ...)$R[1, 2]
   return(out)
 }
-estfun_2 = function(X) {
-  out = estR(X = X)$R[1, 2]
+estfun_2 = function(X, ...) {
+  out = estR(X = X, ...)$R[1, 2]
   return(out)
 }
 evaluation_TB = evaluation(genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2, grid_list = grid_list, showplot = TRUE, types = c("tru", "bin"))
 
 ## For TT case
-genfun = function (grid_input) {
-  out = GenData(rhos = grid_input[1], XP = list(grid_input[2], 0.5))$X
+genfun = function (grid_input, ...) {
+  out = GenData(rhos = grid_input[1], XP = list(grid_input[2], 0.5), ...)$X
   return(out)
 }
-estfun_1 = function(X) {
-  out = estR(X = X, method = "original")$R[1, 2]
+estfun_1 = function(X, ...) {
+  out = estR(X = X, method = "original", ...)$R[1, 2]
   return(out)
 }
-estfun_2 = function(X) {
-  out = estR(X = X)$R[1, 2]
+estfun_2 = function(X, ...) {
+  out = estR(X = X, ...)$R[1, 2]
   return(out)
 }
 evaluation_TT = evaluation(genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2, grid_list = grid_list, showplot = TRUE, types = c("tru", "tru"))
 
 ## For NC case
-genfun = function (grid_input) {
-  out = GenData(rhos = grid_input[1], XP = list(c(grid_input[2], (1 - grid_input[2]) / 2), NA))$X
+genfun = function (grid_input, ...) {
+  out = GenData(rhos = grid_input[1], XP = list(c(grid_input[2], (1 - grid_input[2]) / 2), NA), ...)$X
   return(out)
 }
-estfun_1 = function(X) {
-  out = estR(X = X, method = "original")$R[1, 2]
+estfun_1 = function(X, ...) {
+  out = estR(X = X, method = "original", ...)$R[1, 2]
   return(out)
 }
-estfun_2 = function(X) {
-  out = estR(X = X)$R[1, 2]
+estfun_2 = function(X, ...) {
+  out = estR(X = X, ...)$R[1, 2]
   return(out)
 }
 evaluation_NC = evaluation(genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2, grid_list = grid_list, showplot = TRUE, types = c("ter", "con"))
 
 ## For NB case
-genfun = function (grid_input) {
-  out = GenData(rhos = grid_input[1], XP = list(c(grid_input[2], (1 - grid_input[2]) / 2), .5))$X
+genfun = function (grid_input, ...) {
+  out = GenData(rhos = grid_input[1], XP = list(c(grid_input[2], (1 - grid_input[2]) / 2), .5), ...)$X
   return(out)
 }
-estfun_1 = function(X) {
-  out = estR(X = X, method = "original")$R[1, 2]
+estfun_1 = function(X, ...) {
+  out = estR(X = X, method = "original", ...)$R[1, 2]
   return(out)
 }
-estfun_2 = function(X) {
-  out = estR(X = X)$R[1, 2]
+estfun_2 = function(X, ...) {
+  out = estR(X = X, ...)$R[1, 2]
   return(out)
 }
 evaluation_NB = evaluation(genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2, grid_list = grid_list, showplot = TRUE, types = c("ter", "bin"))
 
 ## For NT case
-genfun = function (grid_input) {
-  out = GenData(rhos = grid_input[1], XP = list(c(grid_input[2], (1 - grid_input[2]) / 2), .5))$X
+genfun = function (grid_input, ...) {
+  out = GenData(rhos = grid_input[1], XP = list(c(grid_input[2], (1 - grid_input[2]) / 2), .5), ...)$X
   return(out)
 }
-estfun_1 = function(X) {
-  out = estR(X = X, method = "original")$R[1, 2]
+estfun_1 = function(X, ...) {
+  out = estR(X = X, method = "original", ...)$R[1, 2]
   return(out)
 }
-estfun_2 = function(X) {
-  out = estR(X = X)$R[1, 2]
+estfun_2 = function(X, ...) {
+  out = estR(X = X, ...)$R[1, 2]
   return(out)
 }
 evaluation_NT = evaluation(genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2, grid_list = grid_list, showplot = TRUE, types = c("ter", "tru"))
 
 ## For NN case
-genfun = function (grid_input) {
-  out = GenData(rhos = grid_input[1], XP = list(c(grid_input[2], (1 - grid_input[2]) / 2), c(grid_input[2] / 2, (1 - grid_input[2]) / 4)))$X
+genfun = function (grid_input, ...) {
+  out = GenData(rhos = grid_input[1], XP = list(c(grid_input[2], (1 - grid_input[2]) / 2), c(grid_input[2] / 2, (1 - grid_input[2]) / 4)), ...)$X
   return(out)
 }
-estfun_1 = function(X) {
-  out = estR(X = X, method = "original")$R[1, 2]
+estfun_1 = function(X, ...) {
+  out = estR(X = X, method = "original", ...)$R[1, 2]
   return(out)
 }
-estfun_2 = function(X) {
-  out = estR(X = X)$R[1, 2]
+estfun_2 = function(X, ...) {
+  out = estR(X = X, ...)$R[1, 2]
   return(out)
 }
 evaluation_NN = evaluation(genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2, grid_list = grid_list, showplot = TRUE, types = c("ter", "ter"))
