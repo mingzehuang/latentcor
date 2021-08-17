@@ -43,8 +43,7 @@ estfun_2 = function(X, ...) {
   return(out)
 }
 evaluation_BC = evaluation(genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2, grid_list = grid_list, cores = 80, types = c("bin", "con"))
-heatmaply(evaluation_BC$meanAE_diff, dendrogram = "none", main = i, margins = c(80,80,80,80),
-          grid_color = "white", grid_width = 0.00001, label_names = c("Horizontal axis:", "Vertical axis:", paste0(i, ":")))
+
 ## For BB case
 genfun = function (grid_input, ...) {
   out = GenData(rhos = grid_input[1], XP = list(grid_input[2], .5), ...)$X
@@ -165,3 +164,4 @@ estfun_2 = function(X, ...) {
 }
 evaluation_NN = evaluation(genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2, grid_list = grid_list, cores = 80, types = c("ter", "ter"))
 save(evaluation_BC, evaluation_BB, evaluation_TC, evaluation_TB, evaluation_TT, evaluation_NC, evaluation_NB, evaluation_NT, evaluation_NN, file = "all_evaluation.rda", compress = "xz")
+
