@@ -1,0 +1,56 @@
+Loading required package: usethis
+Loading required package: timeDate
+Loading required package: timeSeries
+Loading required package: fBasics
+Loading required package: rngtools
+Loading required package: plotly
+Loading required package: ggplot2
+
+Attaching package: 'plotly'
+
+The following object is masked from 'package:ggplot2':
+
+    last_plot
+
+The following object is masked from 'package:MASS':
+
+    select
+
+The following object is masked from 'package:timeSeries':
+
+    filter
+
+The following object is masked from 'package:stats':
+
+    filter
+
+The following object is masked from 'package:graphics':
+
+    layout
+
+Loading required package: viridis
+Loading required package: viridisLite
+
+======================
+Welcome to heatmaply version 1.2.1
+
+Type citation('heatmaply') for how to cite the package.
+Type ?heatmaply for the main documentation.
+
+The github page is: https://github.com/talgalili/heatmaply/
+Please submit your suggestions and bug-reports at: https://github.com/talgalili/heatmaply/issues
+Or contact: <tal.galili@gmail.com>
+======================
+
+There were 50 or more warnings (use warnings() to see the first 50)
+There were 50 or more warnings (use warnings() to see the first 50)
+There were 50 or more warnings (use warnings() to see the first 50)
+There were 50 or more warnings (use warnings() to see the first 50)
+There were 50 or more warnings (use warnings() to see the first 50)
+There were 50 or more warnings (use warnings() to see the first 50)
+There were 50 or more warnings (use warnings() to see the first 50)
+There were 50 or more warnings (use warnings() to see the first 50)
+There were 50 or more warnings (use warnings() to see the first 50)
+> proc.time()
+    user   system  elapsed 
+  24.018   34.351 2395.348 
