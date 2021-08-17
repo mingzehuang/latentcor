@@ -33,6 +33,7 @@
 #'      \item{plot_mediantime_1: }{A plot for median time of first estimation method.}
 #'      \item{plot_mediantime_2: }{A plot for median time of second estimation method.}
 #' }
+#' @import doRNG
 #' @importFrom stats median
 #' @importFrom microbenchmark microbenchmark
 #' @export
@@ -45,7 +46,7 @@ evaluation = function(genfun, estfun_1, estfun_2, grid_list, nrep = 100, showplo
   plan(multicore, workers = cores)
   j = NULL
   value_vector =
-    foreach (j = 1:nrow(grid_all), .combine = rbind) %dopar% {
+    foreach (j = 1:nrow(grid_all), .combine = rbind) %dorng% {
       grid_input = as.numeric(grid_all[j, ])
       time_reps_1 = time_reps_2 = estimate_reps_1 = estimate_reps_2 = diff_reps = rep(NA, nrep)
       for (r in 1:nrep) {
