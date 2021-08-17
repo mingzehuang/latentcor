@@ -27,7 +27,7 @@ source("/scratch/user/sharkmanhmz/latentcor_git/latentcor/R/GenData.R")
 source("/scratch/user/sharkmanhmz/latentcor_git/latentcor/R/estR.R")
 source("/scratch/user/sharkmanhmz/latentcor_git/latentcor/R/evaluation.R")
 
-grid_list = list(seq(-0.9, 0.9, by = 0.1), seq(0.1, 0.9, by = 0.1))
+grid_list = list(LatentR = seq(-0.9, 0.9, by = 0.1), TruncRate = seq(0.1, 0.9, by = 0.1))
 
 ## For BC case
 genfun = function (grid_input, ...) {
@@ -43,7 +43,8 @@ estfun_2 = function(X, ...) {
   return(out)
 }
 evaluation_BC = evaluation(genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2, grid_list = grid_list, cores = 80, types = c("bin", "con"))
-
+heatmaply(evaluation_BC$meanAE_diff, dendrogram = "none", main = i, margins = c(80,80,80,80),
+          grid_color = "white", grid_width = 0.00001, label_names = c("Horizontal axis:", "Vertical axis:", paste0(i, ":")))
 ## For BB case
 genfun = function (grid_input, ...) {
   out = GenData(rhos = grid_input[1], XP = list(grid_input[2], .5), ...)$X
