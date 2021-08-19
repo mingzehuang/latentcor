@@ -101,12 +101,12 @@
 <code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="va">simdata</span><span class="op">$</span><span class="va">X</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">X</span>, n <span class="op">=</span> <span class="fl">6L</span><span class="op">)</span>
 <span class="co">#&gt;      [,1]       [,2]</span>
-<span class="co">#&gt; [1,]    2  0.7002007</span>
-<span class="co">#&gt; [2,]    2 -0.1254647</span>
-<span class="co">#&gt; [3,]    1 -0.3760143</span>
-<span class="co">#&gt; [4,]    2  0.8672718</span>
-<span class="co">#&gt; [5,]    1  0.4736575</span>
-<span class="co">#&gt; [6,]    1 -0.9305926</span></code></pre></div>
+<span class="co">#&gt; [1,]    0 -0.1774860</span>
+<span class="co">#&gt; [2,]    0 -1.3709214</span>
+<span class="co">#&gt; [3,]    1  0.8136431</span>
+<span class="co">#&gt; [4,]    1  1.0548047</span>
+<span class="co">#&gt; [5,]    1  0.5088504</span>
+<span class="co">#&gt; [6,]    0  0.3023451</span></code></pre></div>
 <ul>
 <li>
 <code>plotX</code>: NULL (<code>showplot = FALSE</code>, can be changed to display the plot of generated data in<code>GenData</code> input).</li>
@@ -139,8 +139,8 @@
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">K</span>
 <span class="co">#&gt;           X1        X2</span>
-<span class="co">#&gt; X1 1.0000000 0.2844444</span>
-<span class="co">#&gt; X2 0.2844444 1.0000000</span></code></pre></div>
+<span class="co">#&gt; X1 1.0000000 0.3175758</span>
+<span class="co">#&gt; X2 0.3175758 1.0000000</span></code></pre></div>
 <ul>
 <li>
 <code>Rpointwise</code>: matrix of pointwise estimated correlations. Due to pointwise estimation, <code>Rpointwise</code> is not guaranteed to be positive semi-definite</li>
@@ -148,8 +148,8 @@
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">Rpointwise</span>
 <span class="co">#&gt;           X1        X2</span>
-<span class="co">#&gt; X1 1.0000000 0.5143161</span>
-<span class="co">#&gt; X2 0.5143161 1.0000000</span></code></pre></div>
+<span class="co">#&gt; X1 1.0000000 0.5694952</span>
+<span class="co">#&gt; X2 0.5694952 1.0000000</span></code></pre></div>
 <ul>
 <li>
 <code>R</code>: estimated final latent correlation matrix, this matrix is guaranteed to be strictly positive definite (through <code>nearPD</code> projection and parameter <code>nu</code>, see Mathematical framework for estimation)</li>
@@ -157,8 +157,8 @@
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">R</span>
 <span class="co">#&gt;           X1        X2</span>
-<span class="co">#&gt; X1 1.0000000 0.5138018</span>
-<span class="co">#&gt; X2 0.5138018 1.0000000</span></code></pre></div>
+<span class="co">#&gt; X1 1.0000000 0.5689257</span>
+<span class="co">#&gt; X2 0.5689257 1.0000000</span></code></pre></div>
 <ul>
 <li>
 <code>plotR</code>: NULL by default as <code>showplot = FALSE</code> in <code>estR</code>. Otherwise displays a heatmap of latent correlation matrix.</li>
@@ -413,12 +413,12 @@
 <code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/GenData.html">GenData</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6</span>, types <span class="op">=</span> <span class="st">"con"</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
 <span class="va">X</span>
 <span class="co">#&gt;            [,1]</span>
-<span class="co">#&gt; [1,] -0.6943573</span>
-<span class="co">#&gt; [2,]  1.5476466</span>
-<span class="co">#&gt; [3,] -1.5787975</span>
-<span class="co">#&gt; [4,]  0.6804797</span>
-<span class="co">#&gt; [5,]  0.8349862</span>
-<span class="co">#&gt; [6,]  0.5158452</span></code></pre></div>
+<span class="co">#&gt; [1,]  1.5627592</span>
+<span class="co">#&gt; [2,] -0.3648480</span>
+<span class="co">#&gt; [3,]  0.5831269</span>
+<span class="co">#&gt; [4,]  3.3627227</span>
+<span class="co">#&gt; [5,] -2.6296312</span>
+<span class="co">#&gt; [6,] -0.1587540</span></code></pre></div>
 <p><strong><em>Definition of binary model</em></strong> <span class="citation">(Fan et al. 2017)</span></p>
 <p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span> satisfies the binary latent Gaussian copula model if there exists <span class="math inline">\(W\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})\)</span>, where <span class="math inline">\(I(\cdot)\)</span> is the indicator function and <span class="math inline">\(c_{j}\)</span> are constants.</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
@@ -426,8 +426,8 @@
 <span class="va">X</span>
 <span class="co">#&gt;      [,1]</span>
 <span class="co">#&gt; [1,]    0</span>
-<span class="co">#&gt; [2,]    0</span>
-<span class="co">#&gt; [3,]    1</span>
+<span class="co">#&gt; [2,]    1</span>
+<span class="co">#&gt; [3,]    0</span>
 <span class="co">#&gt; [4,]    1</span>
 <span class="co">#&gt; [5,]    0</span>
 <span class="co">#&gt; [6,]    1</span></code></pre></div>
@@ -437,12 +437,12 @@
 <code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/GenData.html">GenData</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6</span>, types <span class="op">=</span> <span class="st">"ter"</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
 <span class="va">X</span>
 <span class="co">#&gt;      [,1]</span>
-<span class="co">#&gt; [1,]    1</span>
-<span class="co">#&gt; [2,]    1</span>
-<span class="co">#&gt; [3,]    0</span>
-<span class="co">#&gt; [4,]    2</span>
+<span class="co">#&gt; [1,]    2</span>
+<span class="co">#&gt; [2,]    0</span>
+<span class="co">#&gt; [3,]    1</span>
+<span class="co">#&gt; [4,]    0</span>
 <span class="co">#&gt; [5,]    1</span>
-<span class="co">#&gt; [6,]    0</span></code></pre></div>
+<span class="co">#&gt; [6,]    1</span></code></pre></div>
 <p><strong><em>Definition of truncated or zero-inflated model</em></strong> <span class="citation">(Yoon, Carroll, and Gaynanova 2020)</span></p>
 <p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span> satisfies the truncated latent Gaussian copula model if there exists <span class="math inline">\(W\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})W_{j}\)</span>, where <span class="math inline">\(I(\cdot)\)</span> is the indicator function and <span class="math inline">\(c_{j}\)</span> are constants.</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
@@ -450,11 +450,11 @@
 <span class="va">X</span>
 <span class="co">#&gt;           [,1]</span>
 <span class="co">#&gt; [1,] 0.0000000</span>
-<span class="co">#&gt; [2,] 0.0000000</span>
-<span class="co">#&gt; [3,] 0.0000000</span>
-<span class="co">#&gt; [4,] 0.3416041</span>
-<span class="co">#&gt; [5,] 0.5063785</span>
-<span class="co">#&gt; [6,] 0.3200817</span></code></pre></div>
+<span class="co">#&gt; [2,] 0.3666187</span>
+<span class="co">#&gt; [3,] 0.5196340</span>
+<span class="co">#&gt; [4,] 0.0000000</span>
+<span class="co">#&gt; [5,] 0.0000000</span>
+<span class="co">#&gt; [6,] 0.5207948</span></code></pre></div>
 <p><strong><em>Mixed latent Gaussian copula model</em></strong></p>
 <p>The mixed latent Gaussian copula model jointly models <span class="math inline">\(W=(W_{1}, W_{2}, W_{3}, W_{4})\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{1j}=W_{1j}\)</span>, <span class="math inline">\(X_{2j}=I(W_{2j}&gt;c_{2j})\)</span>, <span class="math inline">\(X_{3j}=I(W_{3j}&gt;c_{3j})+I(W_{3j}&gt;c'_{3j})\)</span> and <span class="math inline">\(X_{4j}=I(W_{4j}&gt;c_{4j})W_{4j}\)</span>.</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
