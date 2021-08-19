@@ -36,7 +36,6 @@
 #' @import doRNG
 #' @importFrom stats median
 #' @importFrom microbenchmark microbenchmark
-#' @export
 #' @examples
 #' library(latentcor)
 #' grid_list = list(LatentR = seq(-0.9, 0.9, by = 0.3), TruncRate = seq(0.1, 0.9, by = 0.3))

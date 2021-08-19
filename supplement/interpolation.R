@@ -15,7 +15,6 @@
 #' @import future
 #' @importFrom parallel detectCores
 #' @importFrom chebpol ipol
-#' @export
 #' @examples
 #' grid_list = list(seq(-0.9, 0.9, by = 0.1), seq(0.1, 0.9, by = 0.1))
 #' objfun = function(x, y) {x^2 + sqrt(y)}
