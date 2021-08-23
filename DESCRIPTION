@@ -27,8 +27,8 @@ Maintainer: Mingze Huang <mingzehuang@gmail.com>
 Description: Estimation of latent correlations with mixed data types:continuous, binary, truncated (or zero-inflated) and ternary. The estimation is based on latent copula Gaussian models.
              For continuous/binary types, see Fan, J., Liu, H., Ning, Y., and Zou, H. (2017) <doi:10.1111/rssb.12168>.
              For ternary type, see Quan X., Booth J.G. and Wells M.T. (2018) <arXiv:1809.06255>.
-             For truncated type or zero-inflated type see Yoon G., Carroll R.J. and Gaynanova I. (2020) <doi:10.1093/biomet/asaa007>.
-             For approximation method of computation see Yoon G., M&uuml;ller C.L. and Gaynanova I. (2021) <doi:10.1080/10618600.2021.1882468>.
+             For truncated type or zero-inflated type, see Yoon G., Carroll R.J. and Gaynanova I. (2020) <doi:10.1093/biomet/asaa007>.
+             For approximation method of computation, see Yoon G., Müller C.L. and Gaynanova I. (2021) <doi:10.1080/10618600.2021.1882468>.
 Depends: R (>= 3.0.0)
 Imports: stats, rmarkdown, pcaPP, fMultivar, mnormt, chebpol, Matrix, utils, MASS, heatmaply, ggplot2, plotly, graphics, foreach, parallel, doFuture, future, microbenchmark, doRNG
 License: GPL-3
