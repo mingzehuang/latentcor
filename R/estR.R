@@ -4,10 +4,10 @@
 #' @aliases estR
 #' @param X A numeric data matrix (n by p), where n is number of samples, and p is number of variables. Missing values (NA) are allowed, in which case the estimation is based on pairwise complete observations.
 #' @param types A vector of length p indicating the type of each of the p variables in \code{X}. Each element must be one of \code{"con"} (continuous), \code{"bin"} (binary), \code{"tru"} (truncated) or \code{"ter"} (ternary). If the vector has length 1, then all p variables are assumed to be of the same type that is supplied. The default value is \code{"con"} which means all variables are continuous.
-#' @param method The calculation method for latent correlations. Either \code{"original"} or \code{"approx"}. If \code{method = "approx"}, multilinear approximation method is used, which is much faster than the original method. If \code{method = "original"}, optimization of the bridge inverse function is used. The default is \code{"approx"}.
-#' @param nu Shrinkage parameter for the correlation matrix, must be between 0 and 1, the default value is 0.001.
-#' @param tol Desired accuracy when calculating the solution of bridge function. The default value is 1e-8.
-#' @param ratio The boundary value for multilinear interpolation, must be between 0 and 1, the default value is 0.9. If \code{method = "original"}, this parameter is ignored.
+#' @param method The calculation method for latent correlations. Either \code{"original"} or \code{"approx"}. If \code{method = "approx"}, multilinear approximation method is used, which is much faster than the original method, see Yoon et al. (2021). If \code{method = "original"}, optimization of the bridge inverse function is used. The default is \code{"approx"}.
+#' @param nu Shrinkage parameter for the correlation matrix, must be between 0 and 1. Guarantees that the minimal eigenvalue of returned correlation matrix is greater or equal to \code{nu}. When \code{nu = 0}, no shrinkage is performed, the returned correlation matrix will be semi-positive definite but not necessarily strictly positive definite. When \code{nu = 1}, the identity matrix is returned (not recommended).  The default (recommended) value is 0.001.
+#' @param tol When \code{method = "original"}, specifies the desired accuracy of the bridge function inversion via uniroot optimization and is passed to \code{\link{optimize}}. The default value is 1e-8. When \code{method = "approx"}, this parameter is ignored.
+#' @param ratio When \code{method = "approx"}, specifies the boundary value for multilinear interpolation, must be between 0 and 1. When \code{ratio = 0}, no linear interpolation is performed (the slowest execution) which is equivalent to \code{method = "original"}. When \code{ratio = 1}, linear interpolation is always performed (the fastest execution) but may lead to high approximation errors. The default (recommended) value is 0.9 which controls the approximation error and has fast execution, see Yoon et al. (2021) for details. When \code{method = "original"}, this parameter is ignored.
 #' @param showplot Logical indicator. \code{showplot = TRUE} generates a ggplot object \code{plotR} with the heatmap of latent correlation matrix \code{R}. \code{plotR = NULL} if \code{showplot = FALSE}.
 #' @return \code{estR} returns
 #' \itemize{
@@ -23,7 +23,7 @@
 #'
 #' Yoon G., Carroll R.J. and Gaynanova I. (2020) "Sparse semiparametric canonical correlation analysis for data of mixed types" \doi{10.1093/biomet/asaa007}.
 #'
-#' Yoon G., Müller C.L., Gaynanova I. (2020) "Fast computation of latent correlations" \doi{10.1080/10618600.2021.1882468}.
+#' Yoon G., Müller C.L., Gaynanova I. (2021) "Fast computation of latent correlations" \doi{10.1080/10618600.2021.1882468}.
 #'
 #' @import ggplot2
 #' @importFrom stats quantile qnorm na.omit optimize
