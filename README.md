@@ -69,3 +69,19 @@ estR(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin",
 ```
 
 Interactive heatmap see: [interactive heatmap of latent correlations (approx) for mtcars](https://rpubs.com/mingzehuang/797937)
+
+Community Guidelines
+--------------------
+
+1.  Contributions and suggestions to the software are always welcome.
+    Please consult our [contribution guidelines](CONTRIBUTING.md) prior
+    to submitting a pull request.
+2.  Report issues or problems with the software using github’s [issue
+    tracker](https://github.com/mingzehuang/latentcor/issues).
+3.  Contributors must adhere to the [Code of
+    Conduct](CODE_OF_CONDUCT.md).
+
+Acknowledgments
+--------------
+
+We thank Dr. Grace Yoon for providing implementation details of the `mixedCCA` R package.
