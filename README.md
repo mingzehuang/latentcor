@@ -41,13 +41,13 @@ library(latentcor)
 X = GenData(types = c("ter", "con"), XP = list(c(0.3, .5), NA))$X
 
 # Estimate latent correlation matrix with the original method
-estR(X = X, types = c("ter", "con"), method = "original")$R
+latentcor(X = X, types = c("ter", "con"), method = "original")$R
 
 # Estimate latent correlation matrix with the approximation method
-estR(X = X, types = c("ter", "con"))$R
+latentcor(X = X, types = c("ter", "con"))$R
 
 # Heatmap for latent correlation matrix.
-estR(X = X, types = c("ter", "con"), showplot = TRUE)$plotR
+latentcor(X = X, types = c("ter", "con"), showplot = TRUE)$plotR
 ```
 Another example with the `mtcars` dataset.
 
@@ -58,14 +58,30 @@ X = mtcars
 # Check variable types
 apply(mtcars, 2, table)
 # Estimate latent correlation matrix with original method
-estR(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin",
+latentcor(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin",
                        "bin", "ter", "con"), method = "original")$R
 # Estimate latent correlation matrix with approximation method
-estR(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin",
+latentcor(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin",
                        "bin", "ter", "con"))$R
 # Heatmap for latent correlation matrix with approximation method.
-estR(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin",
+latentcor(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin",
                        "bin", "ter", "con"), showplot = TRUE)$plotR
 ```
 
 Interactive heatmap see: [interactive heatmap of latent correlations (approx) for mtcars](https://rpubs.com/mingzehuang/797937)
+
+Community Guidelines
+--------------------
+
+1.  Contributions and suggestions to the software are always welcome.
+    Please consult our [contribution guidelines](CONTRIBUTING.md) prior
+    to submitting a pull request.
+2.  Report issues or problems with the software using github’s [issue
+    tracker](https://github.com/mingzehuang/latentcor/issues).
+3.  Contributors must adhere to the [Code of
+    Conduct](CODE_OF_CONDUCT.md).
+
+Acknowledgments
+--------------
+
+We thank Dr. Grace Yoon for providing implementation details of the `mixedCCA` R package.

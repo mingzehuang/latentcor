@@ -59,13 +59,13 @@ head(X, n = 6L)
 simdata$plotX
 ```
 
-Then we can estimate the latent correlation matrix based on these 2 variables using `estR` function.
+Then we can estimate the latent correlation matrix based on these 2 variables using `latentcor` function.
 
 ```{r estimation}
-estimate = estR(X, types = c("ter", "con"))
+estimate = latentcor(X, types = c("ter", "con"))
 ```
 
-The output of `estR` is a list with several elements:
+The output of `latentcor` is a list with several elements:
 
 ```{r estimation_output}
 names(estimate)
@@ -95,7 +95,7 @@ estimate$Rpointwise
 estimate$R
 ``` 
 
-  - `plotR`: NULL by default as `showplot = FALSE` in `estR`. Otherwise displays a heatmap of latent correlation matrix.
+  - `plotR`: NULL by default as `showplot = FALSE` in `latentcor`. Otherwise displays a heatmap of latent correlation matrix.
 
 ```{r heatmap}
 estimate$plotR
@@ -115,13 +115,13 @@ Let's take a look at the unique values for each variable to determine the corres
 apply(mtcars, 2, table)
 ```
 
-Then we can estimate the latent correlation matrix for all variables of `mtcars` by using `estR` function.
+Then we can estimate the latent correlation matrix for all variables of `mtcars` by using `latentcor` function.
 
 ```{r mtcars_estimation}
-estimate_mtcars = estR(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin", "bin", "ter", "con"))
+estimate_mtcars = latentcor(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin", "bin", "ter", "con"))
 ```
 
-The output of `estR` for `mtcars`:
+The output of `latentcor` for `mtcars`:
 
 ```{r mtcars_estimation_output}
 names(estimate_mtcars)
@@ -151,7 +151,7 @@ estimate_mtcars$Rpointwise
 estimate_mtcars$R
 ``` 
 
-  - `plotR`: NULL by default as `showplot = FALSE` in `estR`. Otherwise displays a heatmap of latent correlation matrix for `mtcars` (See [heatmap of latent correlation (approx) for mtcars](https://rpubs.com/mingzehuang/797937)).
+  - `plotR`: NULL by default as `showplot = FALSE` in `latentcor`. Otherwise displays a heatmap of latent correlation matrix for `mtcars` (See [heatmap of latent correlation (approx) for mtcars](https://rpubs.com/mingzehuang/797937)).
 
 ```{r mtcars_heatmap}
 estimate_mtcars$plotR
@@ -228,7 +228,7 @@ where $n$ is the sample size.
 `latentcor` calculates pairwise Kendall's $\widehat \tau$ as part of the estimation process
 
 ```{r KendallTau}
-estimate = estR(X, types = c("con", "bin", "ter", "tru"))
+estimate = latentcor(X, types = c("con", "bin", "ter", "tru"))
 K = estimate$K
 K
 ```
@@ -365,7 +365,7 @@ $$
 The parameter `tol` controls the desired accuracy of the minimizer and is passed to `optimize`:
 
 ```{r callR, warning = FALSE, message = F}
-estimate = estR(X, types = c("con", "bin", "ter", "tru"), method = "original")
+estimate = latentcor(X, types = c("con", "bin", "ter", "tru"), method = "original")
 ```
 
 ***Algorithm for Original method***
@@ -408,7 +408,7 @@ In short, d-dimensional multi-linear interpolation uses a weighted average of $2
 
 
 ```{r callR2, warning = FALSE, message = F}
-estimate = estR(X, types = c("con", "bin", "ter", "tru"), method = "approx")
+estimate = latentcor(X, types = c("con", "bin", "ter", "tru"), method = "approx")
 ```
 
 
@@ -443,9 +443,9 @@ $$
 By default, `latentcor` uses $\mbox{ratio} = 0.9$, but this value can be modified by the user
 
 ```{r estimate3, warning = FALSE, message = F}
-estR(X, types = c("con", "bin", "ter", "tru"), method = "approx", ratio = 0.99)$R
-estR(X, types = c("con", "bin", "ter", "tru"), method = "approx", ratio = 0.4)$R
-estR(X, types = c("con", "bin", "ter", "tru"), method = "original")$R
+latentcor(X, types = c("con", "bin", "ter", "tru"), method = "approx", ratio = 0.99)$R
+latentcor(X, types = c("con", "bin", "ter", "tru"), method = "approx", ratio = 0.4)$R
+latentcor(X, types = c("con", "bin", "ter", "tru"), method = "original")$R
 ```
 
 The lower is the `ratio`, the closer is the approximation method to original method (with `ratio = 0` being equivalent to `method = "original"`), but also the higher is the cost of computations.
@@ -465,14 +465,14 @@ Since the estimation is performed point-wise, the resulting matrix of estimated 
 set.seed("234820")
 X = GenData(n = 6, types = c("con", "bin", "ter", "tru"))$X
 X
-out = estR(X, types = c("con", "bin", "ter", "tru"))
+out = latentcor(X, types = c("con", "bin", "ter", "tru"))
 out$Rpointwise
 eigen(out$Rpointwise)$values
 ```
 
-`latentcor` automatically corrects the pointwise estimator to be positive definite by making two adjustments. First, if `Rpointwise` has smallest eigenvalue less than zero, the `estR` projects this matrix to the nearest positive semi-definite matrix. The user is notified of this adjustment through the message (supressed in previous code chunk), e.g.
+`latentcor` automatically corrects the pointwise estimator to be positive definite by making two adjustments. First, if `Rpointwise` has smallest eigenvalue less than zero, the `latentcor` projects this matrix to the nearest positive semi-definite matrix. The user is notified of this adjustment through the message (supressed in previous code chunk), e.g.
 ```{r, message = TRUE}
-out = estR(X, types = c("con", "bin", "ter", "tru"))
+out = latentcor(X, types = c("con", "bin", "ter", "tru"))
 ```
 
 Second, `latentcor` shrinks the adjusted matrix of correlations towards identity matrix using the parameter $\nu$ with default value of 0.001 (`nu = 0.001`), so that the resulting `R` is strictly positive definite with the minimal eigenvalue being greater or equal to $\nu$. That is
@@ -481,7 +481,7 @@ R = (1 - \nu) \widetilde R + \nu I,
 $$
 where $\widetilde R$ is the nearest positive semi-definite matrix to `Rpointwise`. 
 ```{r}
-out = estR(X, types = c("con", "bin", "ter", "tru"), nu = 0.001)
+out = latentcor(X, types = c("con", "bin", "ter", "tru"), nu = 0.001)
 out$Rpointwise
 out$R
 ```
@@ -490,7 +490,7 @@ As a result, `R` and `Rpointwise` could be quite different when sample size $n$ 
 ```{r}
 set.seed("234820")
 X = GenData(n = 100, types = c("con", "bin", "ter", "tru"))$X
-out = estR(X, types = c("con", "bin", "ter", "tru"), nu = 0.001)
+out = latentcor(X, types = c("con", "bin", "ter", "tru"), nu = 0.001)
 out$Rpointwise
 out$R
 ```
