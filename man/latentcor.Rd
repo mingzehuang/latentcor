@@ -54,7 +54,7 @@ Heatmap_R_nc_approx = latentcor(X = X, types = c("ter", "con"), method = "approx
                                 showplot = TRUE)$plotR
 }
 \references{
-Fan J., Liu H., Ning Y. and Zou H. (2017) "High dimensional semiparametric latent graphicalmodel for mixed data" \doi{10.1111/rssb.12168}.
+Fan J., Liu H., Ning Y. and Zou H. (2017) "High dimensional semiparametric latent graphical model for mixed data" \doi{10.1111/rssb.12168}.
 
 Yoon G., Carroll R.J. and Gaynanova I. (2020) "Sparse semiparametric canonical correlation analysis for data of mixed types" \doi{10.1093/biomet/asaa007}.
 
