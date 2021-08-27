@@ -358,7 +358,11 @@ Given the form of bridge function $F$, obtaining a moment-based estimation $\wid
 
 ## Original method (`method = "original"`)
 
-Original estimation approach relies on numerical inversion of $F$ based on solving uni-root optimization problem.
+Original estimation approach relies on numerical inversion of $F$ based on solving uni-root optimization problem. Given the calculated $\widehat \tau_{jk}$ (sample Kendall's $\tau$ between variables $j$ and $k$), the estimate of latent correlation $\widehat \sigma_{jk}$ is obtained by calling `optimize` function to solve the following optimization problem:
+$$
+\widehat\sigma_{jk} = \arg\min_{\sigma} (F(\sigma) - \widehat \tau_{jk})^2.
+$$
+The parameter `tol` controls the desired accuracy of the minimizer and is passed to `optimize`:
 
 ```{r callR, warning = FALSE, message = F}
 estimate = estR(X, types = c("con", "bin", "ter", "tru"), method = "original")
@@ -380,7 +384,7 @@ estimate$K
 estimate$zratios
 ```
    
-   - Compute $F^{-1}(\hat{\tau}_{jk})$ as $\hat{r}_{jk}=argmin\{F(r)-\hat{\tau}_{jk}\}^{2}$ solved via `optimize` function in *R*.
+   - Compute $F^{-1}(\hat{\tau}_{jk})$ as $\hat{r}_{jk}=argmin\{F(r)-\hat{\tau}_{jk}\}^{2}$ solved via `optimize` function in *R* with accuracy `tol`.
 
 ```{r estimate2}
 estimate$R
