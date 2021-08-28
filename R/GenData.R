@@ -12,7 +12,7 @@
 #'
 #' @param showplot Logical indicator. If TRUE, generates the plot of the data when number of variables p is no more than 3. The default value is FALSE.
 #'
-#' @return \code{GenData} returns a list containing
+#' @return \code{gen_data} returns a list containing
 #' \itemize{
 #'       \item{X: }{Generated data matrix (n by p) of observed variables.}
 #'       \item{plotX: }{Visualization of the data matrix X.
@@ -31,11 +31,11 @@
 #' @examples
 #' # Generate single continuous variable with exponential transformation (always greater than 0)
 #' # and show histogram.
-#' simdata = GenData(n = 100, copulas = "expo", types = "con", showplot = FALSE)
+#' simdata = gen_data(n = 100, copulas = "expo", types = "con", showplot = FALSE)
 #' X = simdata$X; plotX = simdata$plotX
 #' # Generate a pair of variables (ternary and continuous) with default proportions
 #' # and without copula transformation.
-#' simdata = GenData()
+#' simdata = gen_data()
 #' X = simdata$X
 #' # Generate 3 variables (binary, ternary and truncated)
 #' # corresponding copulas for each variables are "no" (no transformation),
@@ -44,7 +44,7 @@
 #' # and 40% of ones, truncated variable has 50% of zeros.
 #' # Then show the 3D scatter plot (data points project on either 0 or 1 on Axis X1;
 #' # on 0, 1 or 2 on Axas X2; on positive domain on Axis X3)
-#' simdata = GenData(n = 100, rhos = c(.3, .4, .5), copulas = c("no", "cube", "cube"),
+#' simdata = gen_data(n = 100, rhos = c(.3, .4, .5), copulas = c("no", "cube", "cube"),
 #'           types = c("bin", "ter", "tru"), XP = list(.3, c(.2, .4), .5), showplot = TRUE)
 #' X = simdata$X; plotX = simdata$plotX
 #' # Check the proportion of zeros for the binary variable.
@@ -54,7 +54,7 @@
 #' # Check the proportion of zeros for the truncated variable.
 #' sum(simdata$X[ , 3] == 0)
 
-GenData = function(n = 100, types = c("ter", "con"), rhos = .5, copulas = "no", XP = NULL, showplot = FALSE) {
+gen_data = function(n = 100, types = c("ter", "con"), rhos = .5, copulas = "no", XP = NULL, showplot = FALSE) {
   if (length(n) != 1 | n <= 0) {stop("n should be a positive interger as sample size")}
 # types = match.arg(types, c("con", "bin", "tru", "ter", "qua", "qui", "sen", "sep", "oct", "nov", "den", "dtr"), several.ok = TRUE)
   types = match.arg(types, c("con", "bin", "tru", "ter"), several.ok = TRUE)

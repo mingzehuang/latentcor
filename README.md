@@ -1,6 +1,7 @@
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/mingzehuang/latentcor/workflows/R-CMD-check/badge.svg)](https://github.com/mingzehuang/latentcor/actions)
 [![codecov](https://codecov.io/gh/mingzehuang/latentcor/branch/master/graph/badge.svg)](https://codecov.io/gh/mingzehuang/latentcor)
+[![CRAN](https://www.r-pkg.org/badges/version/badger?color=green)](https://cran.r-project.org/package=badger)
 <!-- badges: end -->
 
 
@@ -38,7 +39,7 @@ library(latentcor)
 # The first variable is ternary (pi0 = 0.3, pi1 = 0.5, pi2 = 1-0.3-0.5 = 0.2) 
 # The second variable is continuous. 
 # No copula transformation is applied.
-X = GenData(types = c("ter", "con"), XP = list(c(0.3, .5), NA))$X
+X = gen_data(types = c("ter", "con"), XP = list(c(0.3, .5), NA))$X
 
 # Estimate latent correlation matrix with the original method
 latentcor(X = X, types = c("ter", "con"), method = "original")$R

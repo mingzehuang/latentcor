@@ -16,13 +16,13 @@ test_that("ternary data should be zero, one or two.", {
 })
 
 test_that("binary data have lower bound zero.", {
-  expect_equal(sort(unique(c(as.matrix(GenData(types = "bin", copulas = "cube", XP = list(.5))$X)))), c(0, 1))
+  expect_equal(sort(unique(c(as.matrix(gen_data(types = "bin", copulas = "cube", XP = list(.5))$X)))), c(0, 1))
 })
 
 test_that("truncated data have lower bound zero.", {
-  expect_equal(min(as.matrix(GenData(types = "tru", copulas = "cube", XP = list(.5))$X)), 0)
+  expect_equal(min(as.matrix(gen_data(types = "tru", copulas = "cube", XP = list(.5))$X)), 0)
 })
 
 test_that("ternary data should be zero, one or two.", {
-  expect_equal(sort(unique(c(as.matrix(GenData(types = "ter", copulas = "cube", XP = list(c(.3, .5)))$X)))), c(0, 1, 2))
+  expect_equal(sort(unique(c(as.matrix(gen_data(types = "ter", copulas = "cube", XP = list(c(.3, .5)))$X)))), c(0, 1, 2))
 })

@@ -28,6 +28,40 @@ fromZtoX = function(z, type, copula, xp) {
   return(x)
 }
 
+ord = function(x, ordinal) {
+  x_ord = x
+  for (i in 1:length(ordinal)) {
+    x_ord[x == ordinal[i]] = i - 1
+  }
+  return(x_ord)
+}
+
+get_types = function(X) {
+  n = nrow(X); p = ncol(X); types = rep(NA, p)
+  for (i in 1:p) {
+    level = unique(X[ , i])
+    if (length(level) <= 1) {
+      stop("No variation in ", i, "th variable (", i, "th column of input data).")
+    } else if (length(level) == 2) {
+      types[i] = "bin"
+    } else if (length(level) == 3) {
+      types[i] = "ter"
+    } else if (length(level) > 3 & length(level) <= 10) {
+      message("ordinal levels between 4 and 10 will be approximated by continuous type.")
+      types[i] = "con"
+    } else {
+      if (length(X[ , i] == min(X[ , i], rm.na = TRUE)) / length(X[ , i]) > 0.15) {
+        types[i] = "tru"
+      } else if (length(X[ , i] == max(X[ , i], rm.na = TRUE)) / length(X[ , i]) > 0.15) {
+        types[i] = "utr"
+      } else {
+        types[i] = "con"
+      }
+    }
+  }
+  return(list(X = X, types = types))
+}
+
 Kendalltau = function(X) {
   X = na.omit(X)
   n = nrow(X); n0 = n * (n - 1) / 2
@@ -53,22 +87,28 @@ n_x = function(x, n) {
 
 encodeX = function(X, types) {
   X = matrix(unlist(X), nrow = nrow(X), ncol = ncol(X))
+  negate = rep(1, length(types))
   colmin_mat = matrix(apply(X, 2, function(x) min(x, na.rm = TRUE)), nrow = nrow(X), ncol = ncol(X), byrow = TRUE)
   colmax_mat = matrix(apply(X, 2, function(x) max(x, na.rm = TRUE)), nrow = nrow(X), ncol = ncol(X), byrow = TRUE)
   if (sum(types == "bin") > 0) {
-  X_bin = X[ , types == "bin"]
-  X[ , types == "bin"][X_bin == colmin_mat[ , types == "bin"]] = 0; X[ , types == "bin"][X_bin == colmax_mat[ , types == "bin"]] = 1
+    X_bin = X[ , types == "bin"]
+    X[ , types == "bin"][X_bin == colmin_mat[ , types == "bin"]] = 0; X[ , types == "bin"][X_bin == colmax_mat[ , types == "bin"]] = 1
   }
   if (sum(types == "tru") > 0) {
-  X_tru = X[ , types == "tru"]
-  X[ , types == "tru"] = X_tru - colmin_mat[ , types == "tru"]
+    X_tru = X[ , types == "tru"]
+    X[ , types == "tru"] = X_tru - colmin_mat[ , types == "tru"]
+  }
+  if (sum(types == "utr") > 0) {
+    X_utr = X[ , types == "utr"]
+    X[ , types == "utr"] = colmax_mat[ , types == "utr"] - X_utr
+    negate[types == "utr"] = - 1; types[types == "utr"] = "tru"
   }
   if (sum(types == "ter") > 0) {
-  X_ter = X[ , types == "ter"]
-  X[ , types == "ter"][X_ter == colmin_mat[ , types == "ter"]] = 0; X[ , types == "ter"][X_ter == colmax_mat[ , types == "ter"]] = 2
-  X[ , types == "ter"][(!(is.na(X_ter))) & (X_ter != colmin_mat[ , types == "ter"]) & (X_ter != colmax_mat[ , types == "ter"])] = 1
+    X_ter = X[ , types == "ter"]
+    X[ , types == "ter"][X_ter == colmin_mat[ , types == "ter"]] = 0; X[ , types == "ter"][X_ter == colmax_mat[ , types == "ter"]] = 2
+    X[ , types == "ter"][(!(is.na(X_ter))) & (X_ter != colmin_mat[ , types == "ter"]) & (X_ter != colmax_mat[ , types == "ter"])] = 1
   }
-  return(as.matrix(X))
+  return(list(X = as.matrix(X), types = types, negate = negate))
 }
 
 zratios = function(X, types) {
