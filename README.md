@@ -1,7 +1,7 @@
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/mingzehuang/latentcor/workflows/R-CMD-check/badge.svg)](https://github.com/mingzehuang/latentcor/actions)
 [![codecov](https://codecov.io/gh/mingzehuang/latentcor/branch/master/graph/badge.svg)](https://codecov.io/gh/mingzehuang/latentcor)
-[![CRAN](https://www.r-pkg.org/badges/version/latentcor)](https://cran.r-project.org/package=latentcor)
+[![CRAN](https://www.r-pkg.org/badges/version-last-release/latentcor)](https://cran.r-project.org/package=latentcor)
 <!-- badges: end -->
 
 
