@@ -9,7 +9,7 @@
 
 # latentcor: Latent Correlation for Mixed Types of Data
 
-*latentcor* is an *R* package for estimation of latent correlations with mixed data types (continuous, binary, truncated, and ternary) under the latent Gaussian copula model. For references on the estimation framework, see
+`latentcor` is an `R` package for estimation of latent correlations with mixed data types (continuous, binary, truncated, and ternary) under the latent Gaussian copula model. For references on the estimation framework, see
 
   * [Fan, J., Liu, H., Ning, Y., and Zou, H. (2017), “High Dimensional Semiparametric Latent Graphical Model for Mixed Data.” *JRSS B*](https://doi.org/10.1111/rssb.12168). **Continuous/binary** types.
 
@@ -21,15 +21,20 @@
 
 ## Installation
 
-To use *latentcor*, you need to install [*R*](https://cran.r-project.org/). To enhance your user experience, you may use some IDE for it (e.g. [*RStudio*](https://www.rstudio.com/)).
+To use `latentcor`, you need to install [`R`](https://cran.r-project.org/). To enhance your user experience, you may use some IDE for it (e.g. [`RStudio`](https://www.rstudio.com/)).
 
-The development version of *latentcor* is available on GitHub. You can download it with the help of the *devtools* package in *R* as follow:
-
+The development version of [`latentcor`](https://github.com/mingzehuang/latentcor) is available on GitHub. You can download it with the help of the `devtools` package in `R` as follow:
 
 ```r
 install.packages("devtools")
 devtools::install_github("https://github.com/mingzehuang/latentcor", build_vignettes = TRUE)
 ```
+The stable release version [`latentcor`](https://CRAN.R-project.org/package=latentcor) is available on CRAN. You can download it in `R` as follow:
+
+```r
+install.packages("latentcor")
+```
+
 ## Example
 
 A simple example estimating latent correlation is shown below.
@@ -87,4 +92,4 @@ Community Guidelines
 Acknowledgments
 --------------
 
-We thank Dr. Grace Yoon for providing implementation details of the `mixedCCA` R package.
+We thank Dr. Grace Yoon for providing implementation details of the [`mixedCCA`](https://github.com/irinagain/mixedCCA) R package.
