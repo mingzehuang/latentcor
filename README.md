@@ -1,7 +1,12 @@
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/mingzehuang/latentcor/workflows/R-CMD-check/badge.svg)](https://github.com/mingzehuang/latentcor/actions)
 [![codecov](https://codecov.io/gh/mingzehuang/latentcor/branch/master/graph/badge.svg)](https://codecov.io/gh/mingzehuang/latentcor)
-[![CRAN](https://www.r-pkg.org/badges/version-last-release/latentcor)](https://cran.r-project.org/package=latentcor)
+[![CRAN status](https://www.r-pkg.org/badges/version-last-release/latentcor)](https://CRAN.R-project.org/package=latentcor)
+[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/mingzehuang/latentcor?branch=master&svg=true)](https://ci.appveyor.com/project/mingzehuang/latentcor)
+[![Launch binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/mingzehuang/latentcor/master)
+[![CircleCI build status](https://circleci.com/gh/mingzehuang/latentcor.svg?style=svg)](https://circleci.com/gh/mingzehuang/latentcor)
+[![BioC status](http://www.bioconductor.org/shields/build/release/bioc/latentcor.svg)](https://bioconductor.org/checkResults/release/bioc-LATEST/latentcor)
+[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 <!-- badges: end -->
 
 
