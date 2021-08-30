@@ -354,18 +354,23 @@ $$
 
 # Estimation methods
 
-Given the form of bridge function $F$, obtaining a moment-based estimation $\widehat \sigma_{jk}$ requires inversion of $F$. `latentcor` implements two methods for calcultation of the inversion.
+Given the form of bridge function $F$, obtaining a moment-based estimation $\widehat \sigma_{jk}$ requires inversion of $F$. `latentcor` implements two methods for calculation of the inversion:
 
-## Original method (`method = "original"`)
+  * `method = "original"` [Subsection describing original method](#original)
+  * `method = "approx"` [Subsection describing approximation method](#approx)
+  
+Both methods calculate inverse bridge function applied to each element of sample Kendall's $\tau$ matrix. Because the calculation is performed point-wise (separately for each pair of variables), the resulting point-wise estimator of correlation matrix may not be positive semi-definite. `latentcor` performs projection of the pointwise-estimator to the space of positive semi-definite matrices, and allows for shrinkage towards identity matrix using the parameter `nu` (see [Subsection describing adjustment of point-wise estimator](#shrinkage)).
+
+## Original method (`method = "original"`) {#original }
 
 Original estimation approach relies on numerical inversion of $F$ based on solving uni-root optimization problem. Given the calculated $\widehat \tau_{jk}$ (sample Kendall's $\tau$ between variables $j$ and $k$), the estimate of latent correlation $\widehat \sigma_{jk}$ is obtained by calling `optimize` function to solve the following optimization problem:
 $$
-\widehat\sigma_{jk} = \arg\min_{\sigma} (F(\sigma) - \widehat \tau_{jk})^2.
+\widehat r_{jk} = \arg\min_{r} \{F(r) - \widehat \tau_{jk}\}^2.
 $$
-The parameter `tol` controls the desired accuracy of the minimizer and is passed to `optimize`:
+The parameter `tol` controls the desired accuracy of the minimizer and is passed to `optimize`, with the default precision of 1e-8:
 
 ```{r callR, warning = FALSE, message = F}
-estimate = latentcor(X, types = c("con", "bin", "ter", "tru"), method = "original")
+estimate = latentcor(X, types = c("con", "bin", "ter", "tru"), method = "original", tol = 1e-8)
 ```
 
 ***Algorithm for Original method***
@@ -387,13 +392,13 @@ estimate$zratios
    - Compute $F^{-1}(\hat{\tau}_{jk})$ as $\hat{r}_{jk}=argmin\{F(r)-\hat{\tau}_{jk}\}^{2}$ solved via `optimize` function in *R* with accuracy `tol`.
 
 ```{r estimate2}
-estimate$R
+estimate$Rpointwise
 ```
 
 
-## Approximation method (`method = "approx"`)
+## Approximation method (`method = "approx"`) {#approx}
 
-A faster approximation method is based on multi-linear interpolation of pre-computed inverse bridge function on a fixed grid of points. This is possible as the inverse bridge function is an analytic function of at most 5 parameters:
+A faster approximation method is based on multi-linear interpolation of pre-computed inverse bridge function on a fixed grid of points [@yoon2021fast]. This is possible as the inverse bridge function is an analytic function of at most 5 parameters:
 
   - Kendall's $\tau$
   - Proportion of zeros in the 1st variable 
@@ -412,7 +417,7 @@ estimate = latentcor(X, types = c("con", "bin", "ter", "tru"), method = "approx"
 ```
 
 
-***Algorithm for Approximation method ***
+***Algorithm for Approximation method *** 
 
 **Input**: Let $\check{g}=h(g)$, pre-computed values $F^{-1}(h^{-1}(\check{g}))$ on a fixed grid $\check{g}\in\check{\cal{G}}$ based on the type of variables $j$ and $k$. For binary/continuous case, $\check{g}=(\check{\tau}_{jk}, \check{\Delta}_{j})$; for binary/binary case, $\check{g}=(\check{\tau}_{jk}, \check{\Delta}_{j}, \check{\Delta}_{k})$; for truncated/continuous case, $\check{g}=(\check{\tau}_{jk}, \check{\Delta}_{j})$; for truncated/truncated case, $\check{g}=(\check{\tau}_{jk}, \check{\Delta}_{j}, \check{\Delta}_{k})$; for ternary/continuous case, $\check{g}=(\check{\tau}_{jk}, \check{\Delta}_{j}^{1}, \check{\Delta}_{j}^{2})$; for ternary/binary case, $\check{g}=(\check{\tau}_{jk}, \check{\Delta}_{j}^{1}, \check{\Delta}_{j}^{2}, \check{\Delta}_{k})$; for ternary/truncated case, $\check{g}=(\check{\tau}_{jk}, \check{\Delta}_{j}^{1}, \check{\Delta}_{j}^{2}, \check{\Delta}_{k})$; for ternay/ternary case, $\check{g}=(\check{\tau}_{jk}, \check{\Delta}_{j}^{1}, \check{\Delta}_{j}^{2}, \check{\Delta}_{k}^{1}, \check{\Delta}_{k}^{2})$.
 
@@ -457,7 +462,7 @@ $\check{\tau}_{jk}=\tau_{jk}/\bar{\tau}_{jk}\in[-1, 1]$, where $\bar{\tau}_{jk}$
 
 In addition, for ternary variable $j$, it always holds that $\Delta_{j}^{2}>\Delta_{j}^{1}$ since $\Delta_{j}^{1}=\Phi^{-1}(\pi_{0j})$ and $\Delta_{j}^{2}=\Phi^{-1}(\pi_{0j}+\pi_{1j})$. Thus, the grid should not cover the the area corresponding to $\Delta_{j}^{2}\ge\Delta_{j}^{1}$. We thus rescale as follows: $\check{\Delta}_{j}^{1}=\Delta_{j}^{1}/\Delta_{j}^{2}\in[0, 1]$; $\check{\Delta}_{j}^{2}=\Delta_{j}^{2}\in[0, 1]$.
 
-## Adjustment of pointwise-estimator for positive-definiteness
+## Adjustment of pointwise-estimator for positive-definiteness {#shrinkage}
 
 Since the estimation is performed point-wise, the resulting matrix of estimated latent correlations is not guaranteed to be positive semi-definite. For example, this could be expected when the sample size is small (and so the estimation error for each pairwise correlation is larger)
 
