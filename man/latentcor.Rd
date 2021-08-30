@@ -6,17 +6,19 @@
 \usage{
 latentcor(
   X,
+  types = NULL,
   method = c("approx", "original"),
   nu = 0.001,
   tol = 1e-08,
   ratio = 0.9,
   showplot = FALSE,
-  types = NULL,
   ordinals = NULL
 )
 }
 \arguments{
 \item{X}{A numeric data matrix (n by p), where n is number of samples, and p is number of variables. Missing values (NA) are allowed, in which case the estimation is based on pairwise complete observations.}
+
+\item{types}{A vector of length p indicating the type of each of the p variables in \code{X}. Each element must be one of \code{"con"} (continuous), \code{"bin"} (binary), \code{"tru"} (truncated) or \code{"ter"} (ternary). If the vector has length 1, then all p variables are assumed to be of the same type that is supplied. The default value is \code{"con"} which means all variables are continuous.}
 
 \item{method}{The calculation method for latent correlations. Either \code{"original"} or \code{"approx"}. If \code{method = "approx"}, multilinear approximation method is used, which is much faster than the original method, see Yoon et al. (2021). If \code{method = "original"}, optimization of the bridge inverse function is used. The default is \code{"approx"}.}
 
@@ -27,8 +29,6 @@ latentcor(
 \item{ratio}{When \code{method = "approx"}, specifies the boundary value for multilinear interpolation, must be between 0 and 1. When \code{ratio = 0}, no linear interpolation is performed (the slowest execution) which is equivalent to \code{method = "original"}. When \code{ratio = 1}, linear interpolation is always performed (the fastest execution) but may lead to high approximation errors. The default (recommended) value is 0.9 which controls the approximation error and has fast execution, see Yoon et al. (2021) for details. When \code{method = "original"}, this parameter is ignored.}
 
 \item{showplot}{Logical indicator. \code{showplot = TRUE} generates a ggplot object \code{plotR} with the heatmap of latent correlation matrix \code{R}. \code{plotR = NULL} if \code{showplot = FALSE}.}
-
-\item{types}{A vector of length p indicating the type of each of the p variables in \code{X}. Each element must be one of \code{"con"} (continuous), \code{"bin"} (binary), \code{"tru"} (truncated) or \code{"ter"} (ternary). If the vector has length 1, then all p variables are assumed to be of the same type that is supplied. The default value is \code{"con"} which means all variables are continuous.}
 
 \item{ordinals}{A list to convert characters into ordinal numbers.}
 }
