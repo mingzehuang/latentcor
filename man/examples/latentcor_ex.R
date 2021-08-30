@@ -1,5 +1,5 @@
 # Data generation
-X = GenData()$X
+X = gen_data()$X
 # Estimate latent correlation matrix with original method
 R_nc_org = latentcor(X = X, types = c("ter", "con"), method = "original")$R
 # Estimate latent correlation matrix with aprroximation method

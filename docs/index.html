@@ -35,7 +35,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">latentcor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.0</span>
       </span>
     </div>
 
@@ -52,6 +52,9 @@
 </li>
 <li>
   <a href="reference/index.html">Reference</a>
+</li>
+<li>
+  <a href="news/index.html">Changelog</a>
 </li>
       </ul>
 <ul class="nav navbar-nav navbar-right"></ul>
@@ -71,7 +74,7 @@
 <div id="latentcor-latent-correlation-for-mixed-types-of-data" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#latentcor-latent-correlation-for-mixed-types-of-data" class="anchor"></a>latentcor: Latent Correlation for Mixed Types of Data</h1></div>
-<p><em>latentcor</em> is an <em>R</em> package for estimation of latent correlations with mixed data types (continuous, binary, truncated, and ternary) under the latent Gaussian copula model. For references on the estimation framework, see</p>
+<p><code>latentcor</code> is an <code>R</code> package for estimation of latent correlations with mixed data types (continuous, binary, truncated, and ternary) under the latent Gaussian copula model. For references on the estimation framework, see</p>
 <ul>
 <li><p><a href="https://doi.org/10.1111/rssb.12168">Fan, J., Liu, H., Ning, Y., and Zou, H. (2017), “High Dimensional Semiparametric Latent Graphical Model for Mixed Data.” <em>JRSS B</em></a>. <strong>Continuous/binary</strong> types.</p></li>
 <li><p><a href="https://arxiv.org/abs/1809.06255">Quan X., Booth J.G. and Wells M.T.“Rank-based approach for estimating correlations in mixed ordinal data.” <em>arXiv</em></a> <strong>Ternary</strong> type.</p></li>
@@ -81,24 +84,27 @@
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>To use <em>latentcor</em>, you need to install <a href="https://cran.r-project.org/"><em>R</em></a>. To enhance your user experience, you may use some IDE for it (e.g. <a href="https://www.rstudio.com/"><em>RStudio</em></a>).</p>
-<p>The development version of <em>latentcor</em> is available on GitHub. You can download it with the help of the <em>devtools</em> package in <em>R</em> as follow:</p>
+<p>To use <code>latentcor</code>, you need to install <a href="https://cran.r-project.org/"><code>R</code></a>. To enhance your user experience, you may use some IDE for it (e.g. <a href="https://www.rstudio.com/"><code>RStudio</code></a>).</p>
+<p>The development version of <a href="https://github.com/mingzehuang/latentcor"><code>latentcor</code></a> is available on GitHub. You can download it with the help of the <code>devtools</code> package in <code>R</code> as follow:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>
 <span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"https://github.com/mingzehuang/latentcor"</span>, build_vignettes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<p>The stable release version <a href="https://CRAN.R-project.org/package=latentcor"><code>latentcor</code></a> is available on CRAN. You can download it in <code>R</code> as follow:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"latentcor"</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="example" class="section level2">
 <h2 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example</h2>
 <p>A simple example estimating latent correlation is shown below.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">latentcor</span><span class="op">)</span>
 
 <span class="co"># Generate two variables of sample size 100</span>
 <span class="co"># The first variable is ternary (pi0 = 0.3, pi1 = 0.5, pi2 = 1-0.3-0.5 = 0.2) </span>
 <span class="co"># The second variable is continuous. </span>
 <span class="co"># No copula transformation is applied.</span>
-<span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="reference/GenData.html">GenData</a></span><span class="op">(</span>types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ter"</span>, <span class="st">"con"</span><span class="op">)</span>, XP <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.3</span>, <span class="fl">.5</span><span class="op">)</span>, <span class="cn">NA</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
+<span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="reference/gen_data.html">gen_data</a></span><span class="op">(</span>types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ter"</span>, <span class="st">"con"</span><span class="op">)</span>, XP <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">0.3</span>, <span class="fl">.5</span><span class="op">)</span>, <span class="cn">NA</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
 
 <span class="co"># Estimate latent correlation matrix with the original method</span>
 <span class="fu"><a href="reference/latentcor.html">latentcor</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ter"</span>, <span class="st">"con"</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"original"</span><span class="op">)</span><span class="op">$</span><span class="va">R</span>
@@ -109,7 +115,7 @@
 <span class="co"># Heatmap for latent correlation matrix.</span>
 <span class="fu"><a href="reference/latentcor.html">latentcor</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ter"</span>, <span class="st">"con"</span><span class="op">)</span>, showplot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">$</span><span class="va">plotR</span></code></pre></div>
 <p>Another example with the <code>mtcars</code> dataset.</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">latentcor</span><span class="op">)</span>
 <span class="co"># Use build-in dataset mtcars</span>
 <span class="va">X</span> <span class="op">=</span> <span class="va">mtcars</span>
@@ -138,7 +144,7 @@
 <div id="acknowledgments" class="section level2">
 <h2 class="hasAnchor">
 <a href="#acknowledgments" class="anchor"></a>Acknowledgments</h2>
-<p>We thank Dr. Grace Yoon for providing implementation details of the <code>mixedCCA</code> R package.</p>
+<p>We thank Dr. Grace Yoon for providing implementation details of the <a href="https://github.com/irinagain/mixedCCA"><code>mixedCCA</code></a> R package.</p>
 </div>
 </div>
 
@@ -180,6 +186,9 @@
 <ul class="list-unstyled">
 <li><a href="https://github.com/mingzehuang/latentcor/actions"><img src="https://github.com/mingzehuang/latentcor/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
 <li><a href="https://codecov.io/gh/mingzehuang/latentcor"><img src="https://codecov.io/gh/mingzehuang/latentcor/branch/master/graph/badge.svg" alt="codecov"></a></li>
+<li><a href="https://CRAN.R-project.org/package=latentcor"><img src="https://www.r-pkg.org/badges/version-last-release/latentcor" alt="CRAN status"></a></li>
+<li><a href="https://mybinder.org/v2/gh/mingzehuang/latentcor/master"><img src="https://mybinder.org/badge_logo.svg" alt="Launch binder"></a></li>
+<li><a href="https://lifecycle.r-lib.org/articles/stages.html#stable"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="Lifecycle: stable"></a></li>
 </ul>
 </div>
 </div>

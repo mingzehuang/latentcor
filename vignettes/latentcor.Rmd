@@ -37,10 +37,10 @@ R package `latentcor` utilizes the powerful semi-parametric latent Gaussian copu
 First, we will generate a pair of variables with different types using a sample size $n=100$ which will serve as example data. Here first variable will be ternary, and second variable will be continuous.
 
 ```{r data_generation}
-simdata = GenData(n = 100, types = c("ter", "con"))
+simdata = gen_data(n = 100, types = c("ter", "con"))
 ```
 
-The output of `GenData` is a list with 2 elements:
+The output of `gen_data` is a list with 2 elements:
 
 ```{r data_output}
 names(simdata)
@@ -53,7 +53,7 @@ X = simdata$X
 head(X, n = 6L)
 ```
 
-  - `plotX`: NULL (`showplot = FALSE`, can be changed to display the plot of generated data in`GenData` input).
+  - `plotX`: NULL (`showplot = FALSE`, can be changed to display the plot of generated data in`gen_data` input).
 
 ```{r data_plot}
 simdata$plotX
@@ -168,7 +168,7 @@ estimate_mtcars$plotR
 A random $X\in\cal{R}^{p}$ satisfies the Gaussian copula (or nonparanormal) model if there exist monotonically increasing $f=(f_{j})_{j=1}^{p}$ with $Z_{j}=f_{j}(X_{j})$ satisfying $Z\sim N_{p}(0, \Sigma)$, $\sigma_{jj}=1$; we denote $X\sim NPN(0, \Sigma, f)$.
 
 ```{r continuous}
-X = GenData(n = 6, types = "con")$X
+X = gen_data(n = 6, types = "con")$X
 X
 ```
 
@@ -177,7 +177,7 @@ X
 A random $X\in\cal{R}^{p}$ satisfies the binary latent Gaussian copula model if there exists $W\sim NPN(0, \Sigma, f)$ such that $X_{j}=I(W_{j}>c_{j})$, where $I(\cdot)$ is the indicator function and $c_{j}$ are constants.
 
 ```{r binary}
-X = GenData(n = 6, types = "bin")$X
+X = gen_data(n = 6, types = "bin")$X
 X
 ```
 
@@ -186,7 +186,7 @@ X
 A random $X\in\cal{R}^{p}$ satisfies the ternary latent Gaussian copula model if there exists $W\sim NPN(0, \Sigma, f)$ such that $X_{j}=I(W_{j}>c_{j})+I(W_{j}>c'_{j})$, where $I(\cdot)$ is the indicator function and $c_{j}<c'_{j}$ are constants.
 
 ```{r ternary}
-X = GenData(n = 6, types = "ter")$X
+X = gen_data(n = 6, types = "ter")$X
 X
 ```
 
@@ -195,7 +195,7 @@ X
 A random $X\in\cal{R}^{p}$ satisfies the truncated latent Gaussian copula model if there exists $W\sim NPN(0, \Sigma, f)$ such that $X_{j}=I(W_{j}>c_{j})W_{j}$, where $I(\cdot)$ is the indicator function and $c_{j}$ are constants.
 
 ```{r truncated}
-X = GenData(n = 6, types = "tru")$X
+X = gen_data(n = 6, types = "tru")$X
 X
 ```
 
@@ -206,7 +206,7 @@ The mixed latent Gaussian copula model jointly models $W=(W_{1}, W_{2}, W_{3}, W
 
 ```{r mixed}
 set.seed("234820")
-X = GenData(n = 100, types = c("con", "bin", "ter", "tru"))$X
+X = gen_data(n = 100, types = c("con", "bin", "ter", "tru"))$X
 head(X)
 ```
 
@@ -468,7 +468,7 @@ Since the estimation is performed point-wise, the resulting matrix of estimated 
 
 ```{r, message = FALSE}
 set.seed("234820")
-X = GenData(n = 6, types = c("con", "bin", "ter", "tru"))$X
+X = gen_data(n = 6, types = c("con", "bin", "ter", "tru"))$X
 X
 out = latentcor(X, types = c("con", "bin", "ter", "tru"))
 out$Rpointwise
@@ -494,7 +494,7 @@ As a result, `R` and `Rpointwise` could be quite different when sample size $n$ 
 
 ```{r}
 set.seed("234820")
-X = GenData(n = 100, types = c("con", "bin", "ter", "tru"))$X
+X = gen_data(n = 100, types = c("con", "bin", "ter", "tru"))$X
 out = latentcor(X, types = c("con", "bin", "ter", "tru"), nu = 0.001)
 out$Rpointwise
 out$R

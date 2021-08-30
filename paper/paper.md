@@ -132,16 +132,16 @@ library(latentcor)
 # The first variable is ternary (pi0 = 0.3, pi1 = 0.5, pi2 = 1-0.3-0.5 = 0.2) 
 # The second variable is continuous. 
 # No copula transformation is applied.
-X = GenData(types = c("ter", "con"), XP = list(c(0.3, .5), NA))$X
+X = gen_data(types = c("ter", "con"), XP = list(c(0.3, .5), NA))$X
 
 # Estimate latent correlation matrix with original method
-estR(X = X, types = c("ter", "con"), method = "original")$R
+latentcor(X = X, types = c("ter", "con"), method = "original")$R
 
 # Estimate latent correlation matrix with approximation method
-estR(X = X, types = c("ter", "con"))$R
+latentcor(X = X, types = c("ter", "con"))$R
 
 # Heatmap for latent correlation matrix.
-estR(X = X, types = c("ter", "con"), showplot = TRUE)$plotR
+latentcor(X = X, types = c("ter", "con"), showplot = TRUE)$plotR
 ```
 The second example considers the `mtcars` dataset, available in standard R. 
 The `mtcars` dataset comprises eleven variables of continuous, binary, and ternary data type.
@@ -153,13 +153,13 @@ X = mtcars
 # Check variable types
 apply(mtcars, 2, table)
 # Estimate latent correlation matrix with original method
-estR(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin",
+latentcor(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin",
                        "bin", "ter", "con"), method = "original")$R
 # Estimate latent correlation matrix with approximation method
-estR(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin",
+latentcor(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin",
                        "bin", "ter", "con"))$R
 # Heatmap for latent correlation matrix.
-estR(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin",
+latentcor(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin",
                        "bin", "ter", "con"), showplot = TRUE)$plotR
 ```
 
