@@ -37,7 +37,7 @@
 #' @export
 #' @example man/examples/latentcor_ex.R
 
-latentcor = function(X, method = c("approx", "original"), nu = 0.001, tol = 1e-8, ratio = 0.9, showplot = FALSE, types = NULL, ordinals = NULL){
+latentcor = function(X, types = NULL, method = c("approx", "original"), nu = 0.001, tol = 1e-8, ratio = 0.9, showplot = FALSE, ordinals = NULL){
   if(nu < 0 | nu > 1){
     stop("nu must be be between 0 and 1.")
   } else if(tol <= 0) {
