@@ -8,8 +8,7 @@
 #' @param tol When \code{method = "original"}, specifies the desired accuracy of the bridge function inversion via uniroot optimization and is passed to \code{\link{optimize}}. The default value is 1e-8. When \code{method = "approx"}, this parameter is ignored.
 #' @param ratio When \code{method = "approx"}, specifies the boundary value for multilinear interpolation, must be between 0 and 1. When \code{ratio = 0}, no linear interpolation is performed (the slowest execution) which is equivalent to \code{method = "original"}. When \code{ratio = 1}, linear interpolation is always performed (the fastest execution) but may lead to high approximation errors. The default (recommended) value is 0.9 which controls the approximation error and has fast execution, see Yoon et al. (2021) for details. When \code{method = "original"}, this parameter is ignored.
 #' @param showplot Logical indicator. \code{showplot = TRUE} generates a ggplot object \code{plotR} with the heatmap of latent correlation matrix \code{R}. \code{plotR = NULL} if \code{showplot = FALSE}.
-#' @param types A vector of length p indicating the type of each of the p variables in \code{X}. Each element must be one of \code{"con"} (continuous), \code{"bin"} (binary), \code{"tru"} (truncated) or \code{"ter"} (ternary). If the vector has length 1, then all p variables are assumed to be of the same type that is supplied. The default value is \code{"con"} which means all variables are continuous.
-#' @param ordinals A list to convert characters into ordinal numbers.
+#' @param types A vector of length p indicating the type of each of the p variables in \code{X}. Each element must be one of \code{"con"} (continuous), \code{"bin"} (binary), \code{"ter"} (ternary), \code{"tru"} (truncated) or \code{"utr"}(upper truncated). If the vector has length 1, then all p variables are assumed to be of the same type that is supplied. The default value is \code{"con"} which means all variables are continuous.
 #' @return \code{latentcor} returns
 #' \itemize{
 #'       \item{zratios: }{A list of of length p corresponding to each variable. Returns NA for continuous variable; proportion of zeros for binary/truncated variables; the cumulative proportions of zeros and ones (e.g. first value is proportion of zeros, second value is proportion of zeros and ones) for ternary variable. }
@@ -47,16 +46,11 @@ latentcor = function(X, types = NULL, method = c("approx", "original"), nu = 0.0
   }
   types = match.arg(types, c("con", "bin", "tru", "utr", "ter"), several.ok = TRUE)
 # types = match.arg(types, c("con", "bin", "tru", "ter", "qua", "qui", "sen", "sep", "oct", "nov", "den", "dtr"), several.ok = TRUE)
-  X = as.data.frame(X); p = ncol(X); name = colnames(X)
-    for (i in 1:p) {
-      if (!(is.numeric(X[ , i]))) {
-        X[ , i] = ord(X[ , i], ordinals[[i]])
-      }
-    }
-  if (is.null(types)) {
-    get_types = get_types(X)
-    X = get_types$X; types = get_types$types
-  } else if (length(types) == 1) {
+  X = data.frame(X); p = ncol(X); name = colnames(X)
+  if (is.null(types) | !(is.numeric(X))) {
+    pre_process = pre_process(X); X = pre_process$X; types = pre_process$types
+  }
+  if (length(types) == 1) {
     types = rep(types, p)
   } else if (length(types) != p) {
     stop("Length of types should be either 1 for all variables or the same as number of variables (columns of X).")

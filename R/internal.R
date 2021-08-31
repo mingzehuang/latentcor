@@ -36,32 +36,6 @@ ord = function(x, ordinal) {
   return(x_ord)
 }
 
-get_types = function(X) {
-  n = nrow(X); p = ncol(X); types = rep(NA, p)
-  for (i in 1:p) {
-    level = unique(X[ , i])
-    if (length(level) <= 1) {
-      stop("No variation in ", i, "th variable (", i, "th column of input data).")
-    } else if (length(level) == 2) {
-      types[i] = "bin"
-    } else if (length(level) == 3) {
-      types[i] = "ter"
-    } else if (length(level) > 3 & length(level) <= 10) {
-      message("ordinal levels between 4 and 10 will be approximated by continuous type.")
-      types[i] = "con"
-    } else {
-      if (length(X[ , i] == min(X[ , i], rm.na = TRUE)) / length(X[ , i]) > 0.15) {
-        types[i] = "tru"
-      } else if (length(X[ , i] == max(X[ , i], rm.na = TRUE)) / length(X[ , i]) > 0.15) {
-        types[i] = "utr"
-      } else {
-        types[i] = "con"
-      }
-    }
-  }
-  return(list(X = X, types = types))
-}
-
 Kendalltau = function(X) {
   X = na.omit(X)
   n = nrow(X); n0 = n * (n - 1) / 2
