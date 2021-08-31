@@ -29,7 +29,7 @@ fromZtoX = function(z, type, copula, xp) {
 }
 
 ord = function(x, ordinal) {
-  x_ord = x
+  x_ord = length(x)
   for (i in 1:length(ordinal)) {
     x_ord[x == ordinal[i]] = i - 1
   }
