@@ -28,14 +28,6 @@ fromZtoX = function(z, type, copula, xp) {
   return(x)
 }
 
-ord = function(x, ordinal) {
-  x_ord = length(x)
-  for (i in 1:length(ordinal)) {
-    x_ord[x == ordinal[i]] = i - 1
-  }
-  return(x_ord)
-}
-
 Kendalltau = function(X) {
   X = na.omit(X)
   n = nrow(X); n0 = n * (n - 1) / 2
