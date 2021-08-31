@@ -103,13 +103,13 @@
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="va">simdata</span><span class="op">$</span><span class="va">X</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">X</span>, n <span class="op">=</span> <span class="fl">6L</span><span class="op">)</span>
-<span class="co">#&gt;      [,1]        [,2]</span>
-<span class="co">#&gt; [1,]    0 -0.09919135</span>
-<span class="co">#&gt; [2,]    2  1.07395482</span>
-<span class="co">#&gt; [3,]    1  0.03444072</span>
-<span class="co">#&gt; [4,]    0 -1.87232030</span>
-<span class="co">#&gt; [5,]    2  1.34990064</span>
-<span class="co">#&gt; [6,]    2  1.15457889</span></code></pre></div>
+<span class="co">#&gt;      [,1]       [,2]</span>
+<span class="co">#&gt; [1,]    0 -1.1492483</span>
+<span class="co">#&gt; [2,]    1 -0.6343163</span>
+<span class="co">#&gt; [3,]    2  1.0062629</span>
+<span class="co">#&gt; [4,]    0 -0.5413344</span>
+<span class="co">#&gt; [5,]    2 -0.5857927</span>
+<span class="co">#&gt; [6,]    0 -0.6180916</span></code></pre></div>
 <ul>
 <li>
 <code>plotX</code>: NULL (<code>showplot = FALSE</code>, can be changed to display the plot of generated data in<code>gen_data</code> input).</li>
@@ -142,8 +142,8 @@
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">K</span>
 <span class="co">#&gt;           [,1]      [,2]</span>
-<span class="co">#&gt; [1,] 1.0000000 0.3458586</span>
-<span class="co">#&gt; [2,] 0.3458586 1.0000000</span></code></pre></div>
+<span class="co">#&gt; [1,] 1.0000000 0.3373737</span>
+<span class="co">#&gt; [2,] 0.3373737 1.0000000</span></code></pre></div>
 <ul>
 <li>
 <code>Rpointwise</code>: matrix of pointwise estimated correlations. Due to pointwise estimation, <code>Rpointwise</code> is not guaranteed to be positive semi-definite</li>
@@ -151,8 +151,8 @@
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">Rpointwise</span>
 <span class="co">#&gt;           [,1]      [,2]</span>
-<span class="co">#&gt; [1,] 1.0000000 0.6154569</span>
-<span class="co">#&gt; [2,] 0.6154569 1.0000000</span></code></pre></div>
+<span class="co">#&gt; [1,] 1.0000000 0.6018582</span>
+<span class="co">#&gt; [2,] 0.6018582 1.0000000</span></code></pre></div>
 <ul>
 <li>
 <code>R</code>: estimated final latent correlation matrix, this matrix is guaranteed to be strictly positive definite (through <code>nearPD</code> projection and parameter <code>nu</code>, see Mathematical framework for estimation)</li>
@@ -160,8 +160,8 @@
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">R</span>
 <span class="co">#&gt;           [,1]      [,2]</span>
-<span class="co">#&gt; [1,] 1.0000000 0.6148414</span>
-<span class="co">#&gt; [2,] 0.6148414 1.0000000</span></code></pre></div>
+<span class="co">#&gt; [1,] 1.0000000 0.6012563</span>
+<span class="co">#&gt; [2,] 0.6012563 1.0000000</span></code></pre></div>
 <ul>
 <li>
 <code>plotR</code>: NULL by default as <code>showplot = FALSE</code> in <code>latentcor</code>. Otherwise displays a heatmap of latent correlation matrix.</li>
@@ -415,24 +415,24 @@
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/gen_data.html">gen_data</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6</span>, types <span class="op">=</span> <span class="st">"con"</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
 <span class="va">X</span>
-<span class="co">#&gt;            [,1]</span>
-<span class="co">#&gt; [1,]  1.2874560</span>
-<span class="co">#&gt; [2,]  1.2507764</span>
-<span class="co">#&gt; [3,] -0.9254704</span>
-<span class="co">#&gt; [4,] -1.7339888</span>
-<span class="co">#&gt; [5,] -0.5289683</span>
-<span class="co">#&gt; [6,]  0.5972308</span></code></pre></div>
+<span class="co">#&gt;             [,1]</span>
+<span class="co">#&gt; [1,] -0.50212397</span>
+<span class="co">#&gt; [2,]  0.60157290</span>
+<span class="co">#&gt; [3,] -1.60647832</span>
+<span class="co">#&gt; [4,]  0.05449983</span>
+<span class="co">#&gt; [5,]  1.27123124</span>
+<span class="co">#&gt; [6,]  0.63542556</span></code></pre></div>
 <p><strong><em>Definition of binary model</em></strong> <span class="citation">(Fan et al. 2017)</span></p>
 <p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span> satisfies the binary latent Gaussian copula model if there exists <span class="math inline">\(W\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})\)</span>, where <span class="math inline">\(I(\cdot)\)</span> is the indicator function and <span class="math inline">\(c_{j}\)</span> are constants.</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/gen_data.html">gen_data</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6</span>, types <span class="op">=</span> <span class="st">"bin"</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
 <span class="va">X</span>
 <span class="co">#&gt;      [,1]</span>
-<span class="co">#&gt; [1,]    1</span>
+<span class="co">#&gt; [1,]    0</span>
 <span class="co">#&gt; [2,]    0</span>
-<span class="co">#&gt; [3,]    1</span>
-<span class="co">#&gt; [4,]    0</span>
-<span class="co">#&gt; [5,]    0</span>
+<span class="co">#&gt; [3,]    0</span>
+<span class="co">#&gt; [4,]    1</span>
+<span class="co">#&gt; [5,]    1</span>
 <span class="co">#&gt; [6,]    1</span></code></pre></div>
 <p><strong><em>Definition of ternary model</em></strong> <span class="citation">(Quan, Booth, and Wells 2018)</span></p>
 <p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span> satisfies the ternary latent Gaussian copula model if there exists <span class="math inline">\(W\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})+I(W_{j}&gt;c'_{j})\)</span>, where <span class="math inline">\(I(\cdot)\)</span> is the indicator function and <span class="math inline">\(c_{j}&lt;c'_{j}\)</span> are constants.</p>
@@ -440,12 +440,12 @@
 <code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/gen_data.html">gen_data</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6</span>, types <span class="op">=</span> <span class="st">"ter"</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
 <span class="va">X</span>
 <span class="co">#&gt;      [,1]</span>
-<span class="co">#&gt; [1,]    1</span>
+<span class="co">#&gt; [1,]    2</span>
 <span class="co">#&gt; [2,]    1</span>
 <span class="co">#&gt; [3,]    0</span>
-<span class="co">#&gt; [4,]    0</span>
-<span class="co">#&gt; [5,]    2</span>
-<span class="co">#&gt; [6,]    1</span></code></pre></div>
+<span class="co">#&gt; [4,]    1</span>
+<span class="co">#&gt; [5,]    1</span>
+<span class="co">#&gt; [6,]    0</span></code></pre></div>
 <p><strong><em>Definition of truncated or zero-inflated model</em></strong> <span class="citation">(Yoon, Carroll, and Gaynanova 2020)</span></p>
 <p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span> satisfies the truncated latent Gaussian copula model if there exists <span class="math inline">\(W\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})W_{j}\)</span>, where <span class="math inline">\(I(\cdot)\)</span> is the indicator function and <span class="math inline">\(c_{j}\)</span> are constants.</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
@@ -453,10 +453,10 @@
 <span class="va">X</span>
 <span class="co">#&gt;           [,1]</span>
 <span class="co">#&gt; [1,] 0.0000000</span>
-<span class="co">#&gt; [2,] 0.0000000</span>
-<span class="co">#&gt; [3,] 0.5462063</span>
-<span class="co">#&gt; [4,] 0.4682800</span>
-<span class="co">#&gt; [5,] 0.5963595</span>
+<span class="co">#&gt; [2,] 0.1027170</span>
+<span class="co">#&gt; [3,] 0.0000000</span>
+<span class="co">#&gt; [4,] 0.8262446</span>
+<span class="co">#&gt; [5,] 1.5891012</span>
 <span class="co">#&gt; [6,] 0.0000000</span></code></pre></div>
 <p><strong><em>Mixed latent Gaussian copula model</em></strong></p>
 <p>The mixed latent Gaussian copula model jointly models <span class="math inline">\(W=(W_{1}, W_{2}, W_{3}, W_{4})\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{1j}=W_{1j}\)</span>, <span class="math inline">\(X_{2j}=I(W_{2j}&gt;c_{2j})\)</span>, <span class="math inline">\(X_{3j}=I(W_{3j}&gt;c_{3j})+I(W_{3j}&gt;c'_{3j})\)</span> and <span class="math inline">\(X_{4j}=I(W_{4j}&gt;c_{4j})W_{4j}\)</span>.</p>
