@@ -18,7 +18,7 @@ latentcor(
 \arguments{
 \item{X}{A numeric data matrix (n by p), where n is number of samples, and p is number of variables. Missing values (NA) are allowed, in which case the estimation is based on pairwise complete observations.}
 
-\item{types}{A vector of length p indicating the type of each of the p variables in \code{X}. Each element must be one of \code{"con"} (continuous), \code{"bin"} (binary), \code{"tru"} (truncated) or \code{"ter"} (ternary). If the vector has length 1, then all p variables are assumed to be of the same type that is supplied. The default value is \code{"con"} which means all variables are continuous.}
+\item{types}{A vector of length p indicating the type of each of the p variables in \code{X}. Each element must be one of \code{"con"} (continuous), \code{"bin"} (binary), \code{"ter"} (ternary), \code{"tru"} (truncated) or \code{"utr"}(upper truncated). If the vector has length 1, then all p variables are assumed to be of the same type that is supplied. The default value is \code{"con"} which means all variables are continuous.}
 
 \item{method}{The calculation method for latent correlations. Either \code{"original"} or \code{"approx"}. If \code{method = "approx"}, multilinear approximation method is used, which is much faster than the original method, see Yoon et al. (2021). If \code{method = "original"}, optimization of the bridge inverse function is used. The default is \code{"approx"}.}
 
@@ -30,7 +30,7 @@ latentcor(
 
 \item{showplot}{Logical indicator. \code{showplot = TRUE} generates a ggplot object \code{plotR} with the heatmap of latent correlation matrix \code{R}. \code{plotR = NULL} if \code{showplot = FALSE}.}
 
-\item{ordinals}{A list to convert characters into ordinal numbers.}
+\item{ordinals}{A list to convert characters into ordinal numbers. Each element of the list is corresponding to each variable. For the numeric variable, please put NA; for the non-numeric variable, please put the character in ascending order to be converted to ordinal variable. The default value is NULL for the case that all variables are numeric. See vignette for detail.}
 }
 \value{
 \code{latentcor} returns

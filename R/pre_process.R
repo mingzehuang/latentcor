@@ -16,7 +16,6 @@
 #' pre_process = pre_process(raw_data = raw_data, ordinals = list(NA, c("small", "medium", "large")))
 #' pre_process$X
 #' pre_process$types
-#'
 
 pre_process = function(raw_data, ordinals = NULL) {
   X = data.frame(raw_data); n = nrow(X); p = ncol(X); types = rep(NA, p)
@@ -44,5 +43,5 @@ pre_process = function(raw_data, ordinals = NULL) {
       }
     }
   }
-  return(list(X = as.matrix(X), types = types))
+  return(list(X = data.matrix(X), types = types))
 }
