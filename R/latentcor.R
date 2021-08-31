@@ -10,6 +10,16 @@
 #' @param ratio When \code{method = "approx"}, specifies the boundary value for multilinear interpolation, must be between 0 and 1. When \code{ratio = 0}, no linear interpolation is performed (the slowest execution) which is equivalent to \code{method = "original"}. When \code{ratio = 1}, linear interpolation is always performed (the fastest execution) but may lead to high approximation errors. The default (recommended) value is 0.9 which controls the approximation error and has fast execution, see Yoon et al. (2021) for details. When \code{method = "original"}, this parameter is ignored.
 #' @param showplot Logical indicator. \code{showplot = TRUE} generates a ggplot object \code{plotR} with the heatmap of latent correlation matrix \code{R}. \code{plotR = NULL} if \code{showplot = FALSE}.
 #' @param ordinals A list to convert characters into ordinal numbers. Each element of the list is corresponding to each variable. For the numeric variable, please put NA; for the non-numeric variable, please put the character in ascending order to be converted to ordinal variable. The default value is NULL for the case that all variables are numeric. See vignette for detail.
+#' @details
+#' The function estimates latent correlation by calculating inverse bridge function (Fan et al., 2017) evaluated at the value of sample Kendall's tau (\eqn{\hat \tau}). The bridge function F connects Kendall's tau to latent correlation r so that \eqn{F(r) = E(\hat \tau)}. The form of function F depends on the variable types (continuous/binary/truncated/ternary), but is exact. The exact form of inverse is not available, so has to be evaluated numerically for each pair of variables leading to \code{Rpointwise}.
+#'
+#' When \code{method = "original"}, the inversion is done numerically by solving \deqn{minimize_r (F(r) - \hat \tau)^2} using \code{\link{optimize}}. The parameter \code{tol} is used to control the accuracy of the solution.
+#'
+#' When \code{method = "approx"}, the inversion is done approximately by interpolating previously calculated and stored values of \eqn{F^{-1}(\hat \tau)}. This is significantly faster than the original method (Yoon et al., 2021) for binary/ternary/truncated cases, however the approximation errors may be non-negligible on some regions of the space. The parameter \code{ratio} controls the region where the interpolation is performed, with original inversion method applied outside of that region, see Yoon et al. 2021 and vignette for more details.
+#'
+#'  The pointwise estimator \code{Rpointwise} is projected onto the space of positive semi-definite matrices using \code{\link{nearPD}} to form \eqn{\tilde R}. The parameter \code{nu} further allows to perform additional shrinkage towards identity matrix (desirable in cases where the number of variables p is very large) as
+#'  \deqn{R = (1 - \nu) \tilde R + \nu I.}
+#'
 #' @return \code{latentcor} returns
 #' \itemize{
 #'       \item{zratios: }{A list of of length p corresponding to each variable. Returns NA for continuous variable; proportion of zeros for binary/truncated variables; the cumulative proportions of zeros and ones (e.g. first value is proportion of zeros, second value is proportion of zeros and ones) for ternary variable. }
