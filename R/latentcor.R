@@ -14,10 +14,11 @@
 #'
 #' When \code{method = "original"}, the inversion is done numerically by solving \deqn{minimize_r (F(r) - \hat \tau)^2} using \code{\link{optimize}}. The parameter \code{tol} is used to control the accuracy of the solution.
 #'
-#' When \code{method = "approx"}, the inversion is done approximately by interpolating previously calculated and stored values of \eqn{F^{-1}(\hat \tau)}. This is significantly faster than the original method (Yoon et al., 2021) for binary/ternary/truncated cases, however the approximation errors may be non-negligible on some regions of the space. The parameter \code{ratio} controls the region where the interpolation is performed, with original inversion method applied outside of that region, see Yoon et al. 2021 and vignette for more details.
+#' When \code{method = "approx"}, the inversion is done approximately by interpolating previously calculated and stored values of \eqn{F^{-1}(\hat \tau)}. This is significantly faster than the original method (Yoon et al., 2021) for binary/ternary/truncated cases, however the approximation errors may be non-negligible on some regions of the space. The parameter \code{ratio} controls the region where the interpolation is performed with default recommended value of 0.9 giving a good balance of accuracy and computational speed . Increasing the value of ratio may improve speed (but possibly sacrifice the accuracy), whereas decreasing the value of ratio my improve accuracy (but possibly sacrifice the speed). See Yoon et al. 2021 and vignette for more details.
 #'
-#'  The pointwise estimator \code{Rpointwise} is projected onto the space of positive semi-definite matrices using \code{\link{nearPD}} to form \eqn{\tilde R}. The parameter \code{nu} further allows to perform additional shrinkage towards identity matrix (desirable in cases where the number of variables p is very large) as
-#'  \deqn{R = (1 - \nu) \tilde R + \nu I.}
+#'  In case the pointwise estimator \code{Rpointwise} is has negative eigenvalues, it is projected onto the space of positive semi-definite matrices using \code{\link{nearPD}}. The parameter \code{nu} further allows to perform additional shrinkage towards identity matrix (desirable in cases where the number of variables p is very large) as
+#'  \deqn{R = (1 - \nu) \tilde R + \nu I,}
+#'  where \eqn{\tilde R} is \code{Rpointwise} after projection by \code{\link{nearPD}}.
 #'
 #' @return \code{latentcor} returns
 #' \itemize{
