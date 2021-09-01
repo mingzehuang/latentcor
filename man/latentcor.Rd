@@ -19,7 +19,7 @@ latentcor(
 
 \item{types}{A vector of length p indicating the type of each of the p variables in \code{X}. Each element must be one of \code{"con"} (continuous), \code{"bin"} (binary), \code{"ter"} (ternary) or \code{"tru"} (truncated). If the vector has length 1, then all p variables are assumed to be of the same type that is supplied. The default value is \code{NULL}, and the variable types are determined automatically using function \code{\link{get_types}}. As automatic determination of variable types takes extra time, it is recommended to supply the types explicitly when they are known in advance.}
 
-\item{method}{The calculation method for latent correlations. Either \code{"original"} or \code{"approx"}. If \code{method = "approx"}, multilinear approximation method is used, which is much faster than the original method, see Yoon et al. (2021). If \code{method = "original"}, optimization of the bridge inverse function is used. The default is \code{"approx"}.}
+\item{method}{The calculation method for latent correlations. Either \code{"original"} or \code{"approx"}. If \code{method = "approx"}, multilinear approximation method is used, which is much faster than the original method, see Yoon et al. (2021) for timing comparisons for various variable types. If \code{method = "original"}, optimization of the bridge inverse function is used. The default is \code{"approx"}.}
 
 \item{nu}{Shrinkage parameter for the correlation matrix, must be between 0 and 1. Guarantees that the minimal eigenvalue of returned correlation matrix is greater or equal to \code{nu}. When \code{nu = 0}, no shrinkage is performed, the returned correlation matrix will be semi-positive definite but not necessarily strictly positive definite. When \code{nu = 1}, the identity matrix is returned (not recommended).  The default (recommended) value is 0.001.}
 
@@ -54,15 +54,27 @@ When \code{method = "approx"}, the inversion is done approximately by interpolat
  where \eqn{\tilde R} is \code{Rpointwise} after projection by \code{\link{nearPD}}.
 }
 \examples{
-# Data generation
+# Example 1 - truncated data type, same type for all variables
+# Generate data
+X = gen_data(n = 300, types = rep("tru", 5))$X
+# Estimate latent correlation matrix with original method and check the timing
+start_time = proc.time()
+R_nc_org = latentcor(X = X, types = "tru", method = "original")$R
+proc.time() - start_time
+# Estimate latent correlation matrix with approximation method and check the timing
+start_time = proc.time()
+R_nc_approx = latentcor(X = X, types = "tru", method = "approx")$R
+proc.time() - start_time
+# Heatmap for latent correlation matrix.
+Heatmap_R_nc_approx = latentcor(X = X, types = "tru", method = "approx",
+                                showplot = TRUE)$plotR
+
+# Example 2 - ternary/continuous case
 X = gen_data()$X
 # Estimate latent correlation matrix with original method
 R_nc_org = latentcor(X = X, types = c("ter", "con"), method = "original")$R
 # Estimate latent correlation matrix with aprroximation method
 R_nc_approx = latentcor(X = X, types = c("ter", "con"), method = "approx")$R
-# Heatmap for latent correlation matrix.
-Heatmap_R_nc_approx = latentcor(X = X, types = c("ter", "con"), method = "approx",
-                                showplot = TRUE)$plotR
 }
 \references{
 Fan J., Liu H., Ning Y. and Zou H. (2017) "High dimensional semiparametric latent graphical model for mixed data" \doi{10.1111/rssb.12168}.
