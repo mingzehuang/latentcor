@@ -4,15 +4,17 @@
 \alias{get_types}
 \title{Automatically determine types of each variable (continuous/binary/ternary/truncated) in a data matrix.}
 \usage{
-get_types(X)
+get_types(X, tru_prop = 0.05)
 }
 \arguments{
 \item{X}{A numeric data matrix (n by p), where n is number of samples, and p is number of variables. Missing values (NA) are allowed.}
+
+\item{tru_prop}{A scalar between 0 and 1 indicating the minimal proportion of zeros that should be present in a variable to be treated as \code{"tru"} (truncated type or zero-inflated) rather than as \code{"con"} (continuous type). The default value is 0.05 (any variable with more than 5\% of zero values among n samples is treated as truncated or zero-inflated)}
 }
 \value{
 \code{get_types} returns
 \itemize{
-      \item{types: }{A vector of length p indicating the type of each of the p variables in \code{X}. Each element must be one of \code{"con"} (continuous), \code{"bin"} (binary), \code{"ter"} (ternary) or \code{"tru"} (truncated).}
+      \item{types: }{A vector of length p indicating the type of each of the p variables in \code{X}. Each element is one of \code{"con"} (continuous), \code{"bin"} (binary), \code{"ter"} (ternary) or \code{"tru"} (truncated).}
 }
 }
 \description{
@@ -20,5 +22,6 @@ Automatically determine types of each variable (continuous/binary/ternary/trunca
 }
 \examples{
 X = gen_data(types = c("ter", "con"))$X
-get_types(X = X)
+get_types(X)
+
 }
