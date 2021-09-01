@@ -356,10 +356,10 @@ $$
 
 Given the form of bridge function $F$, obtaining a moment-based estimation $\widehat \sigma_{jk}$ requires inversion of $F$. `latentcor` implements two methods for calculation of the inversion:
 
-  * `method = "original"` [Subsection describing original method](#original)
-  * `method = "approx"` [Subsection describing approximation method](#approx)
+  * `method = "original"` [Subsection describing original method and relevant parameter `tau`](#original)
+  * `method = "approx"` [Subsection describing approximation method and relevant parameter `ratio`](#approx)
   
-Both methods calculate inverse bridge function applied to each element of sample Kendall's $\tau$ matrix. Because the calculation is performed point-wise (separately for each pair of variables), the resulting point-wise estimator of correlation matrix may not be positive semi-definite. `latentcor` performs projection of the pointwise-estimator to the space of positive semi-definite matrices, and allows for shrinkage towards identity matrix using the parameter `nu` (see [Subsection describing adjustment of point-wise estimator](#shrinkage)).
+Both methods calculate inverse bridge function applied to each element of sample Kendall's $\tau$ matrix. Because the calculation is performed point-wise (separately for each pair of variables), the resulting point-wise estimator of correlation matrix may not be positive semi-definite. `latentcor` performs projection of the pointwise-estimator to the space of positive semi-definite matrices, and allows for shrinkage towards identity matrix using the parameter `nu` (see [Subsection describing adjustment of point-wise estimator and relevant parameter `nu`](#shrinkage)).
 
 ## Original method (`method = "original"`) {#original }
 
@@ -427,7 +427,7 @@ estimate = latentcor(X, types = c("con", "bin", "ter", "tru"), method = "approx"
 
 
 
-To avoid interpolation in areas with high approximation errors close to the boundary, we use hybrid scheme in Step 3. For the derivation of approximate bound for BC, BB, TC, TB, TT cases see @yoon2021fast. The derivation of approximate bound for NC, NB, NN, NT case is in the Appendix.
+To avoid interpolation in areas with high approximation errors close to the boundary, we use hybrid scheme in Step 3. The parameter `ratio` controls the size of the region where the interpolation is performed (`ratio = 0` means no interpolation, `ratio = 1` means interpolation is always performed). For the derivation of approximate bound for BC, BB, TC, TB, TT cases see @yoon2021fast. The derivation of approximate bound for NC, NB, NN, NT case is in the Appendix.
 
 $$
 \bar{\tau}_{jk}(\cdot)=
@@ -445,7 +445,7 @@ $$
 \end{cases}
 $$
 
-By default, `latentcor` uses $\mbox{ratio} = 0.9$, but this value can be modified by the user
+By default, `latentcor` uses `ratio = 0.9` as this value was recommended in @yoon2021fast having a good balance of accuracy and computational speed. This value, however, can be modified by the user.
 
 ```{r estimate3, warning = FALSE, message = F}
 latentcor(X, types = c("con", "bin", "ter", "tru"), method = "approx", ratio = 0.99)$R
