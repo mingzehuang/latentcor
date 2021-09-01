@@ -15,16 +15,23 @@ get_types = function(X) {
   if (!(is.numeric(X))) {
     stop("Input data matrix should be numeric.")
   }
-  n = nrow(X); p = ncol(X); types = rep(NA, p)
+  # Get the number of variables
+  p = ncol(X); types = rep(NA, p)
+  # Determine the type of each variable
   for (i in 1:p) {
+    # Extract the number of unique levels
     level = unique(X[ , i])
     if (length(level) <= 1) {
+      # Only one level means no variation
       stop("No variation in ", i, "th variable (", i, "th column of input data).")
     } else if (length(level) == 2) {
+      # Two levels means binary
       types[i] = "bin"
     } else if (length(level) == 3) {
+      # Three levels means ternary
       types[i] = "ter"
     } else if (length(level) > 3 & length(level) <= 10) {
+      # Since ordinals of more than 3 levels are not supported, alert the user those are treated as continuous
       message("ordinal levels between 4 and 10 will be approximated by continuous type.")
       types[i] = "con"
     } else {
@@ -35,5 +42,5 @@ get_types = function(X) {
       }
     }
   }
-  return(types = types)
+  return(types)
 }
