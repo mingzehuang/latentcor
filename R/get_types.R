@@ -1,6 +1,6 @@
-#' Get types of each variable in data matrix.
+#' Automatically determine types of each variable (continuous/binary/ternary/truncated) in a data matrix.
 #'
-#' @param X A numeric data matrix (n by p), where n is number of samples, and p is number of variables. Missing values (NA) are allowed, in which case the estimation is based on pairwise complete observations.
+#' @param X A numeric data matrix (n by p), where n is number of samples, and p is number of variables. Missing values (NA) are allowed.
 #' @return \code{get_types} returns
 #' \itemize{
 #'       \item{types: }{A vector of length p indicating the type of each of the p variables in \code{X}. Each element must be one of \code{"con"} (continuous), \code{"bin"} (binary), \code{"ter"} (ternary) or \code{"tru"} (truncated).}
@@ -13,7 +13,7 @@
 get_types = function(X) {
   X = data.matrix(X)
   if (!(is.numeric(X))) {
-    stop("Input data matrix should be numerical.")
+    stop("Input data matrix should be numeric.")
   }
   n = nrow(X); p = ncol(X); types = rep(NA, p)
   for (i in 1:p) {

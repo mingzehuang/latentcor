@@ -2,12 +2,12 @@
 % Please edit documentation in R/get_types.R
 \name{get_types}
 \alias{get_types}
-\title{Get types of each variable in data matrix.}
+\title{Automatically determine types of each variable (continuous/binary/ternary/truncated) in a data matrix.}
 \usage{
 get_types(X)
 }
 \arguments{
-\item{X}{A numeric data matrix (n by p), where n is number of samples, and p is number of variables. Missing values (NA) are allowed, in which case the estimation is based on pairwise complete observations.}
+\item{X}{A numeric data matrix (n by p), where n is number of samples, and p is number of variables. Missing values (NA) are allowed.}
 }
 \value{
 \code{get_types} returns
@@ -16,7 +16,7 @@ get_types(X)
 }
 }
 \description{
-Get types of each variable in data matrix.
+Automatically determine types of each variable (continuous/binary/ternary/truncated) in a data matrix.
 }
 \examples{
 X = gen_data(types = c("ter", "con"))$X
