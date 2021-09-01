@@ -63,8 +63,10 @@ Another example with the `mtcars` dataset.
 library(latentcor)
 # Use build-in dataset mtcars
 X = mtcars
-# Check variable types
+# Check variable types for manual determination
 apply(mtcars, 2, table)
+# Or use built-in get_types function to get types suggestions
+get_types(mtcars)
 # Estimate latent correlation matrix with original method
 latentcor(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin",
                        "bin", "ter", "con"), method = "original")$R
