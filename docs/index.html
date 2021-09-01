@@ -119,8 +119,10 @@
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">latentcor</span><span class="op">)</span>
 <span class="co"># Use build-in dataset mtcars</span>
 <span class="va">X</span> <span class="op">=</span> <span class="va">mtcars</span>
-<span class="co"># Check variable types</span>
+<span class="co"># Check variable types for manual determination</span>
 <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fl">2</span>, <span class="va">table</span><span class="op">)</span>
+<span class="co"># Or use built-in get_types function to get types suggestions</span>
+<span class="fu"><a href="reference/get_types.html">get_types</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>
 <span class="co"># Estimate latent correlation matrix with original method</span>
 <span class="fu"><a href="reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">mtcars</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"ter"</span>, <span class="st">"con"</span>, <span class="st">"con"</span>, <span class="st">"con"</span>, <span class="st">"con"</span>, <span class="st">"con"</span>, <span class="st">"bin"</span>,
                        <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"con"</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"original"</span><span class="op">)</span><span class="op">$</span><span class="va">R</span>

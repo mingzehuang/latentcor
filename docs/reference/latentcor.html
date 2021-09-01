@@ -137,7 +137,7 @@
     </tr>
     <tr>
       <th>types</th>
-      <td><p>A vector of length p indicating the type of each of the p variables in <code>X</code>. Each element must be one of <code>"con"</code> (continuous), <code>"bin"</code> (binary), <code>"ter"</code> (ternary) or <code>"tru"</code> (truncated). If the vector has length 1, then all p variables are assumed to be of the same type that is supplied. The default value is <code>"con"</code> which means all variables are continuous.</p></td>
+      <td><p>A vector of length p indicating the type of each of the p variables in <code>X</code>. Each element must be one of <code>"con"</code> (continuous), <code>"bin"</code> (binary), <code>"ter"</code> (ternary) or <code>"tru"</code> (truncated). If the vector has length 1, then all p variables are assumed to be of the same type that is supplied. The default value is <code>NULL</code>, and the variable types are determined automatically using function <code><a href='get_types.html'>get_types</a></code>. As automatic determination of variable types takes extra time, it is recommended to supply the types explicitly when they are known in advance.</p></td>
     </tr>
     <tr>
       <th>method</th>
