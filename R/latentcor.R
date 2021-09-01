@@ -3,7 +3,7 @@
 #' @rdname latentcor
 #' @aliases latentcor
 #' @param X A numeric data matrix (n by p), where n is number of samples, and p is number of variables. Missing values (NA) are allowed, in which case the estimation is based on pairwise complete observations.
-#' @param types A vector of length p indicating the type of each of the p variables in \code{X}. Each element must be one of \code{"con"} (continuous), \code{"bin"} (binary), \code{"ter"} (ternary) or \code{"tru"} (truncated). If the vector has length 1, then all p variables are assumed to be of the same type that is supplied. The default value is \code{"con"} which means all variables are continuous.
+#' @param types A vector of length p indicating the type of each of the p variables in \code{X}. Each element must be one of \code{"con"} (continuous), \code{"bin"} (binary), \code{"ter"} (ternary) or \code{"tru"} (truncated). If the vector has length 1, then all p variables are assumed to be of the same type that is supplied. The default value is \code{NULL}, and the variable types are determined automatically using function \code{\link{get_types}}. As automatic determination of variable types takes extra time, it is recommended to supply the types explicitly when they are known in advance.
 #' @param method The calculation method for latent correlations. Either \code{"original"} or \code{"approx"}. If \code{method = "approx"}, multilinear approximation method is used, which is much faster than the original method, see Yoon et al. (2021). If \code{method = "original"}, optimization of the bridge inverse function is used. The default is \code{"approx"}.
 #' @param nu Shrinkage parameter for the correlation matrix, must be between 0 and 1. Guarantees that the minimal eigenvalue of returned correlation matrix is greater or equal to \code{nu}. When \code{nu = 0}, no shrinkage is performed, the returned correlation matrix will be semi-positive definite but not necessarily strictly positive definite. When \code{nu = 1}, the identity matrix is returned (not recommended).  The default (recommended) value is 0.001.
 #' @param tol When \code{method = "original"}, specifies the desired accuracy of the bridge function inversion via uniroot optimization and is passed to \code{\link{optimize}}. The default value is 1e-8. When \code{method = "approx"}, this parameter is ignored.
@@ -48,28 +48,37 @@
 #' @example man/examples/latentcor_ex.R
 
 latentcor = function(X, types = NULL, method = c("approx", "original"), nu = 0.001, tol = 1e-8, ratio = 0.9, showplot = FALSE){
+  # Check the supplied parameters are compatible with what is expected
   if(nu < 0 | nu > 1){
-    stop("nu must be be between 0 and 1.")
+    stop("nu must be between 0 and 1.")
   } else if(tol <= 0) {
-    stop("tol for optimization should be positive value.")
+    stop("tol for optimization should be a positive value.")
   } else if (ratio < 0 | ratio > 1) {
-    stop("ratio for approximation should be between 0 and 1.")
+    stop("ratio must be between 0 and 1.")
   }
-  types = match.arg(types, c("con", "bin", "tru", "ter"), several.ok = TRUE)
-# types = match.arg(types, c("con", "bin", "tru", "ter", "qua", "qui", "sen", "sep", "oct", "nov", "den", "dtr"), several.ok = TRUE)
+
   X = data.matrix(X)
   if (!(is.numeric(X))) {
-    stop("Input data matrix should be numerical.")
+    stop("Input data matrix should be numeric.")
   }
   p = ncol(X); name = colnames(X)
+
+
   if (is.null(types)) {
-    get_types = get_types(X)
+    # if variable types are not supplied, get the types by applying get_types
+    types = get_types(X)
+  }else{
+    # if variable types are supplied, check the correct format
+    types = match.arg(types, c("con", "bin", "tru", "ter"), several.ok = TRUE)
   }
+
+  # If only one value is supplied, treat all variables as coming from the same type
   if (length(types) == 1) {
     types = rep(types, p)
   } else if (length(types) != p) {
     stop("Length of types should be either 1 for all variables or the same as number of variables (columns of X).")
   }
+
   method = match.arg(method, several.ok = FALSE)
   X = as.matrix(X)
   # recoding binary, truncated and ternary values.
