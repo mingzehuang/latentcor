@@ -46,13 +46,22 @@ library(latentcor)
 # The first variable is ternary (pi0 = 0.3, pi1 = 0.5, pi2 = 1-0.3-0.5 = 0.2) 
 # The second variable is continuous. 
 # No copula transformation is applied.
-X = gen_data(types = c("ter", "con"), XP = list(c(0.3, .5), NA))$X
+X = gen_data(n = 1000, types = c("ter", "con"), XP = list(c(0.3, .5), NA))$X
 
 # Estimate latent correlation matrix with the original method
 latentcor(X = X, types = c("ter", "con"), method = "original")$R
 
 # Estimate latent correlation matrix with the approximation method
 latentcor(X = X, types = c("ter", "con"))$R
+
+# Speed improvement by approximation method compared with original method
+library(microbenchmark)
+microbenchmark(latentcor(X, types = c("ter", "con"), method = "original"), latentcor(X, types = c("ter", "con")))
+# Unit: milliseconds
+# min     lq     mean    median     uq     max     neval
+# 5.3444 5.8301 7.033555 6.06740 6.74975 20.8878   100
+# 1.5049 1.6245 2.009371 1.73805 1.99820  5.0027   100
+# This is run on Windows 10 with Intel(R) Core(TM) i5-4570 CPU @ 3.20GHz   3.20 GHz
 
 # Heatmap for latent correlation matrix.
 latentcor(X = X, types = c("ter", "con"), showplot = TRUE)$plotR
@@ -67,12 +76,24 @@ X = mtcars
 apply(mtcars, 2, table)
 # Or use built-in get_types function to get types suggestions
 get_types(mtcars)
+
 # Estimate latent correlation matrix with original method
 latentcor(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin",
                        "bin", "ter", "con"), method = "original")$R
 # Estimate latent correlation matrix with approximation method
 latentcor(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin",
                        "bin", "ter", "con"))$R
+
+# Speed improvement by approximation method compared with original method
+library(microbenchmark)
+microbenchmark(latentcor(mtcars, types = types, method = "original"),
+               latentcor(mtcars, types = types, method = "approx"))
+# Unit: milliseconds
+#  min       lq        mean      median        uq      max    neval
+#  201.9872 215.6438   225.30385 221.5364 226.58330 411.4940   100
+#   71.8457  75.1681   82.42531  80.1688  84.77845 238.3793    100
+# This is run on Windows 10 with Intel(R) Core(TM) i5-4570 CPU @ 3.20GHz   3.20 GHz
+
 # Heatmap for latent correlation matrix with approximation method.
 latentcor(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin",
                        "bin", "ter", "con"), showplot = TRUE)$plotR
