@@ -101,7 +101,7 @@ estimate$R
 estimate$plotR
 ``` 
 
-## Another example with real dataset
+## Example with mtcars dataset
 
 We use the build-in dataset `mtcars`:
 
@@ -163,6 +163,45 @@ estimate_mtcars$R
 ```{r mtcars_heatmap}
 estimate_mtcars$plotR
 ``` 
+
+## Example using latentcor with subsampling
+
+While `latentcor` can determine the types of each variable automatically, it is recommended to call `get_types` first and then supply `types` explicitly to save the computation time, especially when using latentcor with sub-sampling (which we illustrate below).
+
+First, we will generate variables with different types using a sample size $n=100$ which will serve as an example data for subsampling. 
+
+```{r data_generation 2}
+simdata2 = gen_data(n = 100, types = c(rep("ter", 3), "con", rep("bin", 3)))
+```
+
+To use the data with subsampling, we recommend to first run `get_types` on the full data
+```{r types subsampling}
+types = get_types(simdata2$X)
+types
+```
+
+Then, when doing subsampling, we recommend to explicitly supply identified types to `latentcor`. We illustrate using 10 subsamples, each of size 80.
+```{r subsampling}
+start_time = proc.time()
+for (s in 1:10){
+  # Select a random subsample of size 80
+  subsample = sample(1:100, 80)
+  # Estimate latent correlation on subsample specifying the types
+  Rs = latentcor(simdata2$X[subsample, ], types = types)
+}
+proc.time() - start_time
+```
+Compared with
+```{r subsampling 2}
+start_time = proc.time()
+for (s in 1:10){
+  # Select a random subsample of size 80
+  subsample = sample(1:100, 80)
+  # Estimate latent correlation on subsample specifying the types
+  Rs = latentcor(simdata2$X[subsample, ], types = NULL)
+}
+proc.time() - start_time
+```
 
 # Mathematical framework for estimation
 
@@ -363,7 +402,7 @@ $$
 
 Given the form of bridge function $F$, obtaining a moment-based estimation $\widehat \sigma_{jk}$ requires inversion of $F$. `latentcor` implements two methods for calculation of the inversion:
 
-  * `method = "original"` [Subsection describing original method and relevant parameter `tau`](#original)
+  * `method = "original"` [Subsection describing original method and relevant parameter `tol`](#original)
   * `method = "approx"` [Subsection describing approximation method and relevant parameter `ratio`](#approx)
   
 Both methods calculate inverse bridge function applied to each element of sample Kendall's $\tau$ matrix. Because the calculation is performed point-wise (separately for each pair of variables), the resulting point-wise estimator of correlation matrix may not be positive semi-definite. `latentcor` performs projection of the pointwise-estimator to the space of positive semi-definite matrices, and allows for shrinkage towards identity matrix using the parameter `nu` (see [Subsection describing adjustment of point-wise estimator and relevant parameter `nu`](#shrinkage)).
