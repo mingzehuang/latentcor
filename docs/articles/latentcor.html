@@ -103,13 +103,13 @@
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="va">simdata</span><span class="op">$</span><span class="va">X</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">X</span>, n <span class="op">=</span> <span class="fl">6L</span><span class="op">)</span>
-<span class="co">#&gt;      [,1]        [,2]</span>
-<span class="co">#&gt; [1,]    0 -0.69876643</span>
-<span class="co">#&gt; [2,]    1  0.82075897</span>
-<span class="co">#&gt; [3,]    1  1.02523591</span>
-<span class="co">#&gt; [4,]    1  0.13417769</span>
-<span class="co">#&gt; [5,]    1  0.05490984</span>
-<span class="co">#&gt; [6,]    1 -0.34595849</span></code></pre></div>
+<span class="co">#&gt;      [,1]       [,2]</span>
+<span class="co">#&gt; [1,]    2  0.6065283</span>
+<span class="co">#&gt; [2,]    1 -0.7091773</span>
+<span class="co">#&gt; [3,]    0  0.3051297</span>
+<span class="co">#&gt; [4,]    0  0.2672778</span>
+<span class="co">#&gt; [5,]    1  0.4017762</span>
+<span class="co">#&gt; [6,]    1  1.1963789</span></code></pre></div>
 <ul>
 <li>
 <code>plotX</code>: NULL (<code>showplot = FALSE</code>, can be changed to display the plot of generated data in<code>gen_data</code> input).</li>
@@ -142,8 +142,8 @@
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">K</span>
 <span class="co">#&gt;           [,1]      [,2]</span>
-<span class="co">#&gt; [1,] 1.0000000 0.2024242</span>
-<span class="co">#&gt; [2,] 0.2024242 1.0000000</span></code></pre></div>
+<span class="co">#&gt; [1,] 1.0000000 0.2989899</span>
+<span class="co">#&gt; [2,] 0.2989899 1.0000000</span></code></pre></div>
 <ul>
 <li>
 <code>Rpointwise</code>: matrix of pointwise estimated correlations. Due to pointwise estimation, <code>Rpointwise</code> is not guaranteed to be positive semi-definite</li>
@@ -151,8 +151,8 @@
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">Rpointwise</span>
 <span class="co">#&gt;           [,1]      [,2]</span>
-<span class="co">#&gt; [1,] 1.0000000 0.3717336</span>
-<span class="co">#&gt; [2,] 0.3717336 1.0000000</span></code></pre></div>
+<span class="co">#&gt; [1,] 1.0000000 0.5385411</span>
+<span class="co">#&gt; [2,] 0.5385411 1.0000000</span></code></pre></div>
 <ul>
 <li>
 <code>R</code>: estimated final latent correlation matrix, this matrix is guaranteed to be strictly positive definite (through <code>nearPD</code> projection and parameter <code>nu</code>, see Mathematical framework for estimation)</li>
@@ -160,8 +160,8 @@
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">R</span>
 <span class="co">#&gt;           [,1]      [,2]</span>
-<span class="co">#&gt; [1,] 1.0000000 0.3713619</span>
-<span class="co">#&gt; [2,] 0.3713619 1.0000000</span></code></pre></div>
+<span class="co">#&gt; [1,] 1.0000000 0.5380025</span>
+<span class="co">#&gt; [2,] 0.5380025 1.0000000</span></code></pre></div>
 <ul>
 <li>
 <code>plotR</code>: NULL by default as <code>showplot = FALSE</code> in <code>latentcor</code>. Otherwise displays a heatmap of latent correlation matrix.</li>
@@ -170,9 +170,9 @@
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">plotR</span>
 <span class="co">#&gt; NULL</span></code></pre></div>
 </div>
-<div id="another-example-with-real-dataset" class="section level2">
+<div id="example-with-mtcars-dataset" class="section level2">
 <h2 class="hasAnchor">
-<a href="#another-example-with-real-dataset" class="anchor"></a>Another example with real dataset</h2>
+<a href="#example-with-mtcars-dataset" class="anchor"></a>Example with mtcars dataset</h2>
 <p>We use the build-in dataset <code>mtcars</code>:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">mtcars</span>, n <span class="op">=</span> <span class="fl">6L</span><span class="op">)</span>
@@ -407,6 +407,43 @@
 <code class="sourceCode R"><span class="va">estimate_mtcars</span><span class="op">$</span><span class="va">plotR</span>
 <span class="co">#&gt; NULL</span></code></pre></div>
 </div>
+<div id="example-using-latentcor-with-subsampling" class="section level2">
+<h2 class="hasAnchor">
+<a href="#example-using-latentcor-with-subsampling" class="anchor"></a>Example using latentcor with subsampling</h2>
+<p>While <code>latentcor</code> can determine the types of each variable automatically, it is recommended to call <code>get_types</code> first and then supply <code>types</code> explicitly to save the computation time, especially when using latentcor with sub-sampling (which we illustrate below).</p>
+<p>First, we will generate variables with different types using a sample size <span class="math inline">\(n=100\)</span> which will serve as an example data for subsampling.</p>
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">simdata2</span> <span class="op">=</span> <span class="fu"><a href="../reference/gen_data.html">gen_data</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">100</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"ter"</span>, <span class="fl">3</span><span class="op">)</span>, <span class="st">"con"</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"bin"</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p>To use the data with subsampling, we recommend to first run <code>get_types</code> on the full data</p>
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">types</span> <span class="op">=</span> <span class="fu"><a href="../reference/get_types.html">get_types</a></span><span class="op">(</span><span class="va">simdata2</span><span class="op">$</span><span class="va">X</span><span class="op">)</span>
+<span class="va">types</span>
+<span class="co">#&gt; [1] "ter" "ter" "ter" "con" "bin" "bin" "bin"</span></code></pre></div>
+<p>Then, when doing subsampling, we recommend to explicitly supply identified types to <code>latentcor</code>. We illustrate using 10 subsamples, each of size 80.</p>
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">start_time</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/proc.time.html">proc.time</a></span><span class="op">(</span><span class="op">)</span>
+<span class="kw">for</span> <span class="op">(</span><span class="va">s</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span><span class="op">{</span>
+  <span class="co"># Select a random subsample of size 80</span>
+  <span class="va">subsample</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span>, <span class="fl">80</span><span class="op">)</span>
+  <span class="co"># Estimate latent correlation on subsample specifying the types</span>
+  <span class="va">Rs</span> <span class="op">=</span> <span class="fu"><a href="../reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">simdata2</span><span class="op">$</span><span class="va">X</span><span class="op">[</span><span class="va">subsample</span>, <span class="op">]</span>, types <span class="op">=</span> <span class="va">types</span><span class="op">)</span>
+<span class="op">}</span>
+<span class="fu"><a href="https://rdrr.io/r/base/proc.time.html">proc.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">start_time</span>
+<span class="co">#&gt;    user  system elapsed </span>
+<span class="co">#&gt;    0.02    0.00    0.02</span></code></pre></div>
+<p>Compared with</p>
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">start_time</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/proc.time.html">proc.time</a></span><span class="op">(</span><span class="op">)</span>
+<span class="kw">for</span> <span class="op">(</span><span class="va">s</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span><span class="op">{</span>
+  <span class="co"># Select a random subsample of size 80</span>
+  <span class="va">subsample</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span>, <span class="fl">80</span><span class="op">)</span>
+  <span class="co"># Estimate latent correlation on subsample specifying the types</span>
+  <span class="va">Rs</span> <span class="op">=</span> <span class="fu"><a href="../reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">simdata2</span><span class="op">$</span><span class="va">X</span><span class="op">[</span><span class="va">subsample</span>, <span class="op">]</span>, types <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
+<span class="op">}</span>
+<span class="fu"><a href="https://rdrr.io/r/base/proc.time.html">proc.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">start_time</span>
+<span class="co">#&gt;    user  system elapsed </span>
+<span class="co">#&gt;    0.03    0.00    0.03</span></code></pre></div>
+</div>
 </div>
 <div id="mathematical-framework-for-estimation" class="section level1">
 <h1 class="hasAnchor">
@@ -417,55 +454,55 @@
 <p><code>latentcor</code> utilizes the powerful semi-parametric latent Gaussian copula models to estimate latent correlations between mixed data types (continuous/binary/ternary/truncated or zero-inflated). Below we review the definitions for each type.</p>
 <p><strong><em>Definition of continuous model</em></strong> <span class="citation">(Fan et al. 2017)</span></p>
 <p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span> satisfies the Gaussian copula (or nonparanormal) model if there exist monotonically increasing <span class="math inline">\(f=(f_{j})_{j=1}^{p}\)</span> with <span class="math inline">\(Z_{j}=f_{j}(X_{j})\)</span> satisfying <span class="math inline">\(Z\sim N_{p}(0, \Sigma)\)</span>, <span class="math inline">\(\sigma_{jj}=1\)</span>; we denote <span class="math inline">\(X\sim NPN(0, \Sigma, f)\)</span>.</p>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/gen_data.html">gen_data</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6</span>, types <span class="op">=</span> <span class="st">"con"</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
 <span class="va">X</span>
-<span class="co">#&gt;             [,1]</span>
-<span class="co">#&gt; [1,] -0.85692220</span>
-<span class="co">#&gt; [2,] -0.76276179</span>
-<span class="co">#&gt; [3,]  0.21833866</span>
-<span class="co">#&gt; [4,]  2.08508295</span>
-<span class="co">#&gt; [5,]  1.22561910</span>
-<span class="co">#&gt; [6,]  0.01598327</span></code></pre></div>
+<span class="co">#&gt;            [,1]</span>
+<span class="co">#&gt; [1,]  0.2996034</span>
+<span class="co">#&gt; [2,]  1.6962253</span>
+<span class="co">#&gt; [3,]  0.8780168</span>
+<span class="co">#&gt; [4,] -0.5423903</span>
+<span class="co">#&gt; [5,] -0.9002589</span>
+<span class="co">#&gt; [6,]  0.7175532</span></code></pre></div>
 <p><strong><em>Definition of binary model</em></strong> <span class="citation">(Fan et al. 2017)</span></p>
 <p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span> satisfies the binary latent Gaussian copula model if there exists <span class="math inline">\(W\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})\)</span>, where <span class="math inline">\(I(\cdot)\)</span> is the indicator function and <span class="math inline">\(c_{j}\)</span> are constants.</p>
-<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/gen_data.html">gen_data</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6</span>, types <span class="op">=</span> <span class="st">"bin"</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
+<span class="va">X</span>
+<span class="co">#&gt;      [,1]</span>
+<span class="co">#&gt; [1,]    1</span>
+<span class="co">#&gt; [2,]    0</span>
+<span class="co">#&gt; [3,]    1</span>
+<span class="co">#&gt; [4,]    0</span>
+<span class="co">#&gt; [5,]    1</span>
+<span class="co">#&gt; [6,]    0</span></code></pre></div>
+<p><strong><em>Definition of ternary model</em></strong> <span class="citation">(Quan, Booth, and Wells 2018)</span></p>
+<p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span> satisfies the ternary latent Gaussian copula model if there exists <span class="math inline">\(W\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})+I(W_{j}&gt;c'_{j})\)</span>, where <span class="math inline">\(I(\cdot)\)</span> is the indicator function and <span class="math inline">\(c_{j}&lt;c'_{j}\)</span> are constants.</p>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/gen_data.html">gen_data</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6</span>, types <span class="op">=</span> <span class="st">"ter"</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
 <span class="va">X</span>
 <span class="co">#&gt;      [,1]</span>
 <span class="co">#&gt; [1,]    0</span>
 <span class="co">#&gt; [2,]    1</span>
 <span class="co">#&gt; [3,]    1</span>
 <span class="co">#&gt; [4,]    0</span>
-<span class="co">#&gt; [5,]    0</span>
-<span class="co">#&gt; [6,]    1</span></code></pre></div>
-<p><strong><em>Definition of ternary model</em></strong> <span class="citation">(Quan, Booth, and Wells 2018)</span></p>
-<p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span> satisfies the ternary latent Gaussian copula model if there exists <span class="math inline">\(W\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})+I(W_{j}&gt;c'_{j})\)</span>, where <span class="math inline">\(I(\cdot)\)</span> is the indicator function and <span class="math inline">\(c_{j}&lt;c'_{j}\)</span> are constants.</p>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/gen_data.html">gen_data</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6</span>, types <span class="op">=</span> <span class="st">"ter"</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
-<span class="va">X</span>
-<span class="co">#&gt;      [,1]</span>
-<span class="co">#&gt; [1,]    1</span>
-<span class="co">#&gt; [2,]    0</span>
-<span class="co">#&gt; [3,]    2</span>
-<span class="co">#&gt; [4,]    0</span>
-<span class="co">#&gt; [5,]    1</span>
+<span class="co">#&gt; [5,]    2</span>
 <span class="co">#&gt; [6,]    1</span></code></pre></div>
 <p><strong><em>Definition of truncated or zero-inflated model</em></strong> <span class="citation">(Yoon, Carroll, and Gaynanova 2020)</span></p>
 <p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span> satisfies the truncated latent Gaussian copula model if there exists <span class="math inline">\(W\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})W_{j}\)</span>, where <span class="math inline">\(I(\cdot)\)</span> is the indicator function and <span class="math inline">\(c_{j}\)</span> are constants.</p>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/gen_data.html">gen_data</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6</span>, types <span class="op">=</span> <span class="st">"tru"</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
 <span class="va">X</span>
 <span class="co">#&gt;            [,1]</span>
-<span class="co">#&gt; [1,] 0.02675425</span>
+<span class="co">#&gt; [1,] 0.48626593</span>
 <span class="co">#&gt; [2,] 0.00000000</span>
-<span class="co">#&gt; [3,] 0.96496636</span>
-<span class="co">#&gt; [4,] 0.04561479</span>
+<span class="co">#&gt; [3,] 0.04940265</span>
+<span class="co">#&gt; [4,] 0.45534533</span>
 <span class="co">#&gt; [5,] 0.00000000</span>
 <span class="co">#&gt; [6,] 0.00000000</span></code></pre></div>
 <p><strong><em>Mixed latent Gaussian copula model</em></strong></p>
 <p>The mixed latent Gaussian copula model jointly models <span class="math inline">\(W=(W_{1}, W_{2}, W_{3}, W_{4})\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{1j}=W_{1j}\)</span>, <span class="math inline">\(X_{2j}=I(W_{2j}&gt;c_{2j})\)</span>, <span class="math inline">\(X_{3j}=I(W_{3j}&gt;c_{3j})+I(W_{3j}&gt;c'_{3j})\)</span> and <span class="math inline">\(X_{4j}=I(W_{4j}&gt;c_{4j})W_{4j}\)</span>.</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="st">"234820"</span><span class="op">)</span>
 <span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/gen_data.html">gen_data</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">100</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span>
@@ -487,7 +524,7 @@
 \hat{\tau}_{jk}=\hat{\tau}(\mathbf{x}_{j}, \mathbf{x}_{k})=\frac{2}{n(n-1)}\sum_{1\le i&lt;i'\le n}sign(x_{ij}-x_{i'j})sign(x_{ik}-x_{i'k}),
 \]</span> where <span class="math inline">\(n\)</span> is the sample size.</p>
 <p><code>latentcor</code> calculates pairwise Kendall’s <span class="math inline">\(\widehat \tau\)</span> as part of the estimation process</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span> <span class="op">=</span> <span class="fu"><a href="../reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span><span class="op">)</span>
 <span class="va">K</span> <span class="op">=</span> <span class="va">estimate</span><span class="op">$</span><span class="va">K</span>
 <span class="va">K</span>
@@ -649,7 +686,7 @@ r &amp; 1 &amp; \frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} \\
 <p>Given the form of bridge function <span class="math inline">\(F\)</span>, obtaining a moment-based estimation <span class="math inline">\(\widehat \sigma_{jk}\)</span> requires inversion of <span class="math inline">\(F\)</span>. <code>latentcor</code> implements two methods for calculation of the inversion:</p>
 <ul>
 <li>
-<code>method = "original"</code> <a href="#original">Subsection describing original method and relevant parameter <code>tau</code></a>
+<code>method = "original"</code> <a href="#original">Subsection describing original method and relevant parameter <code>tol</code></a>
 </li>
 <li>
 <code>method = "approx"</code> <a href="#approx">Subsection describing approximation method and relevant parameter <code>ratio</code></a>
@@ -662,14 +699,14 @@ r &amp; 1 &amp; \frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} \\
 <p>Original estimation approach relies on numerical inversion of <span class="math inline">\(F\)</span> based on solving uni-root optimization problem. Given the calculated <span class="math inline">\(\widehat \tau_{jk}\)</span> (sample Kendall’s <span class="math inline">\(\tau\)</span> between variables <span class="math inline">\(j\)</span> and <span class="math inline">\(k\)</span>), the estimate of latent correlation <span class="math inline">\(\widehat \sigma_{jk}\)</span> is obtained by calling <code>optimize</code> function to solve the following optimization problem: <span class="math display">\[
 \widehat r_{jk} = \arg\min_{r} \{F(r) - \widehat \tau_{jk}\}^2.
 \]</span> The parameter <code>tol</code> controls the desired accuracy of the minimizer and is passed to <code>optimize</code>, with the default precision of 1e-8:</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span> <span class="op">=</span> <span class="fu"><a href="../reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"original"</span>, tol <span class="op">=</span> <span class="fl">1e-8</span><span class="op">)</span></code></pre></div>
 <p><strong><em>Algorithm for Original method</em></strong></p>
 <p><strong>Input</strong>: <span class="math inline">\(F(r)=F(r, \mathbf{\Delta})\)</span> - bridge function based on the type of variables <span class="math inline">\(j\)</span>, <span class="math inline">\(k\)</span></p>
 <ul>
 <li>Step 1. Calculate <span class="math inline">\(\hat{\tau}_{jk}\)</span> using (1).</li>
 </ul>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">K</span>
 <span class="co">#&gt;           [,1]      [,2]      [,3]      [,4]</span>
 <span class="co">#&gt; [1,] 1.0000000 0.2557576 0.2456566 0.3331313</span>
@@ -679,7 +716,7 @@ r &amp; 1 &amp; \frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} \\
 <ul>
 <li>Step 2. For binary/truncated variable <span class="math inline">\(j\)</span>, set <span class="math inline">\(\hat{\mathbf{\Delta}}_{j}=\hat{\Delta}_{j}=\Phi^{-1}(\pi_{0j})\)</span> with <span class="math inline">\(\pi_{0j}=\sum_{i=1}^{n}\frac{I(x_{ij}=0)}{n}\)</span>. For ternary variable <span class="math inline">\(j\)</span>, set <span class="math inline">\(\hat{\mathbf{\Delta}}_{j}=(\hat{\Delta}_{j}^{1}, \hat{\Delta}_{j}^{2})\)</span> where <span class="math inline">\(\hat{\Delta}_{j}^{1}=\Phi^{-1}(\pi_{0j})\)</span> and <span class="math inline">\(\hat{\Delta}_{j}^{2}=\Phi^{-1}(\pi_{0j}+\pi_{1j})\)</span> with <span class="math inline">\(\pi_{0j}=\sum_{i=1}^{n}\frac{I(x_{ij}=0)}{n}\)</span> and <span class="math inline">\(\pi_{1j}=\sum_{i=1}^{n}\frac{I(x_{ij}=1)}{n}\)</span>.</li>
 </ul>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">zratios</span>
 <span class="co">#&gt; [[1]]</span>
 <span class="co">#&gt; [1] NA</span>
@@ -695,7 +732,7 @@ r &amp; 1 &amp; \frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} \\
 <ul>
 <li>Compute <span class="math inline">\(F^{-1}(\hat{\tau}_{jk})\)</span> as <span class="math inline">\(\hat{r}_{jk}=argmin\{F(r)-\hat{\tau}_{jk}\}^{2}\)</span> solved via <code>optimize</code> function in <em>R</em> with accuracy <code>tol</code>.</li>
 </ul>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">Rpointwise</span>
 <span class="co">#&gt;           [,1]      [,2]      [,3]      [,4]</span>
 <span class="co">#&gt; [1,] 1.0000000 0.5529903 0.4480984 0.5826171</span>
@@ -716,7 +753,7 @@ r &amp; 1 &amp; \frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} \\
 <li>(Possibly) proportion of zeros and ones in the 2nd variable</li>
 </ul>
 <p>In short, d-dimensional multi-linear interpolation uses a weighted average of <span class="math inline">\(2^{d}\)</span> neighbors to approximate the function values at the points within the d-dimensional cube of the neighbors, and to perform interpolation, <code>latentcor</code> takes advantage of the R package <code>chebpol</code> <span class="citation">(Gaure 2019)</span>. This approximation method has been first described in <span class="citation">(Yoon, Müller, and Gaynanova 2021)</span> for continuous/binary/truncated cases. In <code>latentcor</code>, we additionally implement ternary case, and optimize the choice of grid as well as interpolation boundary for faster computations with smaller memory footprint.</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span> <span class="op">=</span> <span class="fu"><a href="../reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"approx"</span><span class="op">)</span></code></pre></div>
 <p><strong><em>Algorithm for Approximation method </em></strong></p>
 <p><strong>Input</strong>: Let <span class="math inline">\(\check{g}=h(g)\)</span>, pre-computed values <span class="math inline">\(F^{-1}(h^{-1}(\check{g}))\)</span> on a fixed grid <span class="math inline">\(\check{g}\in\check{\cal{G}}\)</span> based on the type of variables <span class="math inline">\(j\)</span> and <span class="math inline">\(k\)</span>. For binary/continuous case, <span class="math inline">\(\check{g}=(\check{\tau}_{jk}, \check{\Delta}_{j})\)</span>; for binary/binary case, <span class="math inline">\(\check{g}=(\check{\tau}_{jk}, \check{\Delta}_{j}, \check{\Delta}_{k})\)</span>; for truncated/continuous case, <span class="math inline">\(\check{g}=(\check{\tau}_{jk}, \check{\Delta}_{j})\)</span>; for truncated/truncated case, <span class="math inline">\(\check{g}=(\check{\tau}_{jk}, \check{\Delta}_{j}, \check{\Delta}_{k})\)</span>; for ternary/continuous case, <span class="math inline">\(\check{g}=(\check{\tau}_{jk}, \check{\Delta}_{j}^{1}, \check{\Delta}_{j}^{2})\)</span>; for ternary/binary case, <span class="math inline">\(\check{g}=(\check{\tau}_{jk}, \check{\Delta}_{j}^{1}, \check{\Delta}_{j}^{2}, \check{\Delta}_{k})\)</span>; for ternary/truncated case, <span class="math inline">\(\check{g}=(\check{\tau}_{jk}, \check{\Delta}_{j}^{1}, \check{\Delta}_{j}^{2}, \check{\Delta}_{k})\)</span>; for ternay/ternary case, <span class="math inline">\(\check{g}=(\check{\tau}_{jk}, \check{\Delta}_{j}^{1}, \check{\Delta}_{j}^{2}, \check{\Delta}_{k}^{1}, \check{\Delta}_{k}^{2})\)</span>.</p>
@@ -741,7 +778,7 @@ r &amp; 1 &amp; \frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} \\
 \end{cases}
 \]</span></p>
 <p>By default, <code>latentcor</code> uses <code>ratio = 0.9</code> as this value was recommended in <span class="citation">Yoon, Müller, and Gaynanova (2021)</span> having a good balance of accuracy and computational speed. This value, however, can be modified by the user.</p>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"approx"</span>, ratio <span class="op">=</span> <span class="fl">0.99</span><span class="op">)</span><span class="op">$</span><span class="va">R</span>
 <span class="co">#&gt;           [,1]      [,2]      [,3]      [,4]</span>
 <span class="co">#&gt; [1,] 1.0000000 0.5522684 0.4472342 0.5817297</span>
@@ -761,26 +798,26 @@ r &amp; 1 &amp; \frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} \\
 <span class="co">#&gt; [3,] 0.4476503 0.4046173 1.0000000 0.4649222</span>
 <span class="co">#&gt; [4,] 0.5820345 0.5815691 0.4649222 1.0000000</span></code></pre></div>
 <p>The lower is the <code>ratio</code>, the closer is the approximation method to original method (with <code>ratio = 0</code> being equivalent to <code>method = "original"</code>), but also the higher is the cost of computations.</p>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/joshuaulrich/microbenchmark/">microbenchmark</a></span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html">microbenchmark</a></span><span class="op">(</span><span class="fu"><a href="../reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"approx"</span>, ratio <span class="op">=</span> <span class="fl">0.99</span><span class="op">)</span><span class="op">$</span><span class="va">R</span><span class="op">)</span>
 <span class="co">#&gt; Unit: milliseconds</span>
 <span class="co">#&gt;                                                                                         expr</span>
 <span class="co">#&gt;  latentcor(X, types = c("con", "bin", "ter", "tru"), method = "approx",      ratio = 0.99)$R</span>
-<span class="co">#&gt;     min      lq     mean median      uq    max neval</span>
-<span class="co">#&gt;  1.1822 1.29725 1.489473 1.5001 1.58755 2.3534   100</span>
+<span class="co">#&gt;     min      lq     mean  median      uq    max neval</span>
+<span class="co">#&gt;  1.1688 1.23265 1.416511 1.42795 1.51085 2.3892   100</span>
 <span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html">microbenchmark</a></span><span class="op">(</span><span class="fu"><a href="../reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"approx"</span>, ratio <span class="op">=</span> <span class="fl">0.4</span><span class="op">)</span><span class="op">$</span><span class="va">R</span><span class="op">)</span>
 <span class="co">#&gt; Unit: milliseconds</span>
 <span class="co">#&gt;                                                                                        expr</span>
 <span class="co">#&gt;  latentcor(X, types = c("con", "bin", "ter", "tru"), method = "approx",      ratio = 0.4)$R</span>
-<span class="co">#&gt;     min     lq    mean  median      uq    max neval</span>
-<span class="co">#&gt;  3.0475 3.1652 3.43999 3.27895 3.59595 8.0447   100</span>
+<span class="co">#&gt;     min     lq     mean median      uq    max neval</span>
+<span class="co">#&gt;  2.7747 2.9181 3.222283  3.022 3.35035 7.3074   100</span>
 <span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html">microbenchmark</a></span><span class="op">(</span><span class="fu"><a href="../reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"original"</span><span class="op">)</span><span class="op">$</span><span class="va">R</span><span class="op">)</span>
 <span class="co">#&gt; Unit: milliseconds</span>
 <span class="co">#&gt;                                                                        expr</span>
 <span class="co">#&gt;  latentcor(X, types = c("con", "bin", "ter", "tru"), method = "original")$R</span>
-<span class="co">#&gt;      min      lq     mean   median      uq     max neval</span>
-<span class="co">#&gt;  32.8003 33.6707 34.05506 33.84835 34.0747 38.3354   100</span></code></pre></div>
+<span class="co">#&gt;      min       lq     mean  median      uq     max neval</span>
+<span class="co">#&gt;  28.7153 29.31085 29.81979 29.5971 30.0193 34.1907   100</span></code></pre></div>
 <p><strong>Rescaled Grid for Interpolation</strong></p>
 <p>Since <span class="math inline">\(|\hat{\tau}|\le \bar{\tau}\)</span>, the grid does not need to cover the whole domain <span class="math inline">\(\tau\in[-1, 1]\)</span>. To optimize memory associated with storing the grid, we rescale <span class="math inline">\(\tau\)</span> as follows: <span class="math inline">\(\check{\tau}_{jk}=\tau_{jk}/\bar{\tau}_{jk}\in[-1, 1]\)</span>, where <span class="math inline">\(\bar{\tau}_{jk}\)</span> is as defined above.</p>
 <p>In addition, for ternary variable <span class="math inline">\(j\)</span>, it always holds that <span class="math inline">\(\Delta_{j}^{2}&gt;\Delta_{j}^{1}\)</span> since <span class="math inline">\(\Delta_{j}^{1}=\Phi^{-1}(\pi_{0j})\)</span> and <span class="math inline">\(\Delta_{j}^{2}=\Phi^{-1}(\pi_{0j}+\pi_{1j})\)</span>. Thus, the grid should not cover the the area corresponding to <span class="math inline">\(\Delta_{j}^{2}\ge\Delta_{j}^{1}\)</span>. We thus rescale as follows: <span class="math inline">\(\check{\Delta}_{j}^{1}=\Delta_{j}^{1}/\Delta_{j}^{2}\in[0, 1]\)</span>; <span class="math inline">\(\check{\Delta}_{j}^{2}=\Delta_{j}^{2}\in[0, 1]\)</span>.</p>
@@ -789,7 +826,7 @@ r &amp; 1 &amp; \frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} \\
 <h2 class="hasAnchor">
 <a href="#shrinkage" class="anchor"></a>Adjustment of pointwise-estimator for positive-definiteness</h2>
 <p>Since the estimation is performed point-wise, the resulting matrix of estimated latent correlations is not guaranteed to be positive semi-definite. For example, this could be expected when the sample size is small (and so the estimation error for each pairwise correlation is larger)</p>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="st">"234820"</span><span class="op">)</span>
 <span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/gen_data.html">gen_data</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
 <span class="va">X</span>
@@ -810,13 +847,13 @@ r &amp; 1 &amp; \frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} \\
 <span class="fu"><a href="https://rdrr.io/r/base/eigen.html">eigen</a></span><span class="op">(</span><span class="va">out</span><span class="op">$</span><span class="va">Rpointwise</span><span class="op">)</span><span class="op">$</span><span class="va">values</span>
 <span class="co">#&gt; [1]  2.85954424  1.29130852  0.09944544 -0.25029820</span></code></pre></div>
 <p><code>latentcor</code> automatically corrects the pointwise estimator to be positive definite by making two adjustments. First, if <code>Rpointwise</code> has smallest eigenvalue less than zero, the <code>latentcor</code> projects this matrix to the nearest positive semi-definite matrix. The user is notified of this adjustment through the message (supressed in previous code chunk), e.g.</p>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">out</span> <span class="op">=</span> <span class="fu"><a href="../reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; Using Matrix::nearPD since Minimum eigenvalue of latent correlation matrix is -0.25029819695076 smaller than 0.</span></code></pre></div>
 <p>Second, <code>latentcor</code> shrinks the adjusted matrix of correlations towards identity matrix using the parameter <span class="math inline">\(\nu\)</span> with default value of 0.001 (<code>nu = 0.001</code>), so that the resulting <code>R</code> is strictly positive definite with the minimal eigenvalue being greater or equal to <span class="math inline">\(\nu\)</span>. That is <span class="math display">\[
 R = (1 - \nu) \widetilde R + \nu I,
 \]</span> where <span class="math inline">\(\widetilde R\)</span> is the nearest positive semi-definite matrix to <code>Rpointwise</code>.</p>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">out</span> <span class="op">=</span> <span class="fu"><a href="../reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span>, nu <span class="op">=</span> <span class="fl">0.001</span><span class="op">)</span>
 <span class="co">#&gt; Using Matrix::nearPD since Minimum eigenvalue of latent correlation matrix is -0.25029819695076 smaller than 0.</span>
 <span class="va">out</span><span class="op">$</span><span class="va">Rpointwise</span>
@@ -832,7 +869,7 @@ R = (1 - \nu) \widetilde R + \nu I,
 <span class="co">#&gt; [3,]  0.9232992  0.2372115 1.0000000  0.7723678</span>
 <span class="co">#&gt; [4,]  0.9048072 -0.4244433 0.7723678  1.0000000</span></code></pre></div>
 <p>As a result, <code>R</code> and <code>Rpointwise</code> could be quite different when sample size <span class="math inline">\(n\)</span> is small. When <span class="math inline">\(n\)</span> is large and <span class="math inline">\(p\)</span> is moderate, the difference is typically driven by parameter <code>nu</code>.</p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="st">"234820"</span><span class="op">)</span>
 <span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/gen_data.html">gen_data</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">100</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
 <span class="va">out</span> <span class="op">=</span> <span class="fu"><a href="../reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span>, nu <span class="op">=</span> <span class="fl">0.001</span><span class="op">)</span>

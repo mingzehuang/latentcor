@@ -141,7 +141,7 @@
     </tr>
     <tr>
       <th>method</th>
-      <td><p>The calculation method for latent correlations. Either <code>"original"</code> or <code>"approx"</code>. If <code>method = "approx"</code>, multilinear approximation method is used, which is much faster than the original method, see Yoon et al. (2021). If <code>method = "original"</code>, optimization of the bridge inverse function is used. The default is <code>"approx"</code>.</p></td>
+      <td><p>The calculation method for latent correlations. Either <code>"original"</code> or <code>"approx"</code>. If <code>method = "approx"</code>, multilinear approximation method is used, which is much faster than the original method, see Yoon et al. (2021) for timing comparisons for various variable types. If <code>method = "original"</code>, optimization of the bridge inverse function is used. The default is <code>"approx"</code>.</p></td>
     </tr>
     <tr>
       <th>nu</th>
@@ -189,15 +189,29 @@
 .</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Data generation</span>
+    <pre class="examples"><div class='input'><span class='co'># Example 1 - truncated data type, same type for all variables</span>
+<span class='co'># Generate data</span>
+<span class='va'>X</span> <span class='op'>=</span> <span class='fu'><a href='gen_data.html'>gen_data</a></span><span class='op'>(</span>n <span class='op'>=</span> <span class='fl'>300</span>, types <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='st'>"tru"</span>, <span class='fl'>5</span><span class='op'>)</span><span class='op'>)</span><span class='op'>$</span><span class='va'>X</span>
+<span class='co'># Estimate latent correlation matrix with original method and check the timing</span>
+<span class='va'>start_time</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/proc.time.html'>proc.time</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>R_nc_org</span> <span class='op'>=</span> <span class='fu'>latentcor</span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>X</span>, types <span class='op'>=</span> <span class='st'>"tru"</span>, method <span class='op'>=</span> <span class='st'>"original"</span><span class='op'>)</span><span class='op'>$</span><span class='va'>R</span>
+<span class='fu'><a href='https://rdrr.io/r/base/proc.time.html'>proc.time</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>-</span> <span class='va'>start_time</span>
+</div><div class='output co'>#&gt;    user  system elapsed 
+#&gt;    0.51    0.00    0.55 </div><div class='input'><span class='co'># Estimate latent correlation matrix with approximation method and check the timing</span>
+<span class='va'>start_time</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/proc.time.html'>proc.time</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>R_nc_approx</span> <span class='op'>=</span> <span class='fu'>latentcor</span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>X</span>, types <span class='op'>=</span> <span class='st'>"tru"</span>, method <span class='op'>=</span> <span class='st'>"approx"</span><span class='op'>)</span><span class='op'>$</span><span class='va'>R</span>
+<span class='fu'><a href='https://rdrr.io/r/base/proc.time.html'>proc.time</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>-</span> <span class='va'>start_time</span>
+</div><div class='output co'>#&gt;    user  system elapsed 
+#&gt;    0.02    0.00    0.02 </div><div class='input'><span class='co'># Heatmap for latent correlation matrix.</span>
+<span class='va'>Heatmap_R_nc_approx</span> <span class='op'>=</span> <span class='fu'>latentcor</span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>X</span>, types <span class='op'>=</span> <span class='st'>"tru"</span>, method <span class='op'>=</span> <span class='st'>"approx"</span>,
+                                showplot <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>$</span><span class='va'>plotR</span>
+
+<span class='co'># Example 2 - ternary/continuous case</span>
 <span class='va'>X</span> <span class='op'>=</span> <span class='fu'><a href='gen_data.html'>gen_data</a></span><span class='op'>(</span><span class='op'>)</span><span class='op'>$</span><span class='va'>X</span>
 <span class='co'># Estimate latent correlation matrix with original method</span>
 <span class='va'>R_nc_org</span> <span class='op'>=</span> <span class='fu'>latentcor</span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>X</span>, types <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"ter"</span>, <span class='st'>"con"</span><span class='op'>)</span>, method <span class='op'>=</span> <span class='st'>"original"</span><span class='op'>)</span><span class='op'>$</span><span class='va'>R</span>
 <span class='co'># Estimate latent correlation matrix with aprroximation method</span>
 <span class='va'>R_nc_approx</span> <span class='op'>=</span> <span class='fu'>latentcor</span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>X</span>, types <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"ter"</span>, <span class='st'>"con"</span><span class='op'>)</span>, method <span class='op'>=</span> <span class='st'>"approx"</span><span class='op'>)</span><span class='op'>$</span><span class='va'>R</span>
-<span class='co'># Heatmap for latent correlation matrix.</span>
-<span class='va'>Heatmap_R_nc_approx</span> <span class='op'>=</span> <span class='fu'>latentcor</span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>X</span>, types <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"ter"</span>, <span class='st'>"con"</span><span class='op'>)</span>, method <span class='op'>=</span> <span class='st'>"approx"</span>,
-                                showplot <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span><span class='op'>$</span><span class='va'>plotR</span>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
