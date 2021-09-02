@@ -462,6 +462,13 @@ latentcor(X, types = c("con", "bin", "ter", "tru"), method = "original")$R
 
 The lower is the `ratio`, the closer is the approximation method to original method (with `ratio = 0` being equivalent to `method = "original"`), but also the higher is the cost of computations.
 
+```{r speed, warning = FALSE, message = F}
+library(microbenchmark)
+microbenchmark(latentcor(X, types = c("con", "bin", "ter", "tru"), method = "approx", ratio = 0.99)$R)
+microbenchmark(latentcor(X, types = c("con", "bin", "ter", "tru"), method = "approx", ratio = 0.4)$R)
+microbenchmark(latentcor(X, types = c("con", "bin", "ter", "tru"), method = "original")$R)
+```
+
 **Rescaled Grid for Interpolation**
 
 Since $|\hat{\tau}|\le \bar{\tau}$, the grid does not need to cover the whole domain $\tau\in[-1, 1]$. To optimize memory associated with storing the grid, we rescale $\tau$ as follows:
