@@ -56,7 +56,8 @@ latentcor(X = X, types = c("ter", "con"))$R
 
 # Speed improvement by approximation method compared with original method
 library(microbenchmark)
-microbenchmark(latentcor(X, types = c("ter", "con"), method = "original"),                        latentcor(X, types = c("ter", "con")))
+microbenchmark(latentcor(X, types = c("ter", "con"), method = "original"),
+               latentcor(X, types = c("ter", "con")))
 # Unit: milliseconds
 # min     lq     mean    median     uq     max     neval
 # 5.3444 5.8301 7.033555 6.06740 6.74975 20.8878   100
