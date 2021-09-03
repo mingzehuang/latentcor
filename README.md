@@ -20,6 +20,7 @@
   * [Yoon G., Müller C.L. and Gaynanova I. (2021). “Fast computation of latent correlations” *JCGS*](https://doi.org/10.1080/10618600.2021.1882468). **Approximation method of computation**, see [vignette](https://mingzehuang.github.io/latentcor/articles/latentcor.html) for details.
 
 ## Statement of need
+
 No R software package is currently available that allows accurate and fast correlation estimation from mixed variable data in a unifying manner. 
 The popular [`cor`](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/cor) function within R package [`stats`](https://rdrr.io/r/stats/stats-package.html), for instance, allows to compute Pearson's correlation, Kendall's $\tau$ and Spearman's
 $\rho$, and a faster algorithm for calculating Kendall's $\tau$ is implemented in the R package [`pcaPP`](https://cran.r-project.org/web/packages/pcaPP/index.html). Pearson's correlation is not
