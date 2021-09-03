@@ -86,7 +86,7 @@
 <div id="statement-of-need" class="section level1">
 <h1 class="hasAnchor">
 <a href="#statement-of-need" class="anchor"></a>Statement of need</h1>
-<p>No R software package is currently available that allows accurate and fast correlation estimation from mixed variable data in a unifying manner. The popular <code>cor</code> function within R package <code>stats</code> <span class="citation">(Team and others 2013)</span>, for instance, allows to compute Pearson’s correlation, Kendall’s <span class="math inline">\(\tau\)</span> and Spearman’s <span class="math inline">\(\rho\)</span>, and a faster algorithm for calculating Kendall’s <span class="math inline">\(\tau\)</span> is implemented in the R package <code>pcaPP</code> <span class="citation">(Croux, Filzmoser, and Fritz 2013)</span>. Pearson’s correlation is not appropriate for skewed or ordinal data, and its use leads to invalid inference in those cases. While the rank-based Kendall’s <span class="math inline">\(\tau\)</span> and Spearman’s <span class="math inline">\(\rho\)</span> are more robust measures of association, they cannot directly be used as subsitutes for statistical methods that require Pearson correlation as input (e.g., graphical model estimation <span class="citation">(Yoon, Gaynanova, and Müller 2019)</span>). The R package <code>polycor</code> <span class="citation">(Fox 2019)</span> is designed for ordinal data and allows to computes polychoric (ordinal/ordinal) and polyserial (ordinal/continuous) correlations based on latent Gaussian model. However, the package does not have functionality for zero-inflated data, nor can it handle skewed continuous measurements as it does not allow for copula transformation. The R package <code>correlation</code> <span class="citation">(Makowski et al. 2020)</span> in the <code>easystats</code> collection provides 16 different correlation measures, including polychoric and polyserial correlations. However, functionality for correlation estimation from zero-inflated data is lacking. The R package <code>mixedCCA</code> <span class="citation">(Yoon, Carroll, and Gaynanova 2020)</span> is based on the latent Gaussian copula model and can compute latent correlations between continuous/binary/zero-inflated variable types as an intermediate step for canonical correlation analysis. However, <code>mixedCCA</code> does not allow for ordinal data types. The R package <code>latentcor</code>, introduced here, thus represents the first stand-alone R package for computation of latent correlation that takes into account all variable types (continuous/binary/ordinal/zero-inflated), comes with an optimized memory footprint, and is computationally efficient, essentially making latent correlation estimation almost as fast as rank-based correlation estimation.</p>
+<p>No R software package is currently available that allows accurate and fast correlation estimation from mixed variable data in a unifying manner. The R package <code>latentcor</code>, introduced here, thus represents the first stand-alone R package for computation of latent correlation that takes into account all variable types (continuous/binary/ordinal/zero-inflated), comes with an optimized memory footprint, and is computationally efficient, essentially making latent correlation estimation almost as fast as rank-based correlation estimation.</p>
 </div>
 <div id="getting-started" class="section level1">
 <h1 class="hasAnchor">
@@ -108,13 +108,13 @@
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="va">simdata</span><span class="op">$</span><span class="va">X</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">X</span>, n <span class="op">=</span> <span class="fl">6L</span><span class="op">)</span>
-<span class="co">#&gt;      [,1]        [,2]</span>
-<span class="co">#&gt; [1,]    1  0.02030808</span>
-<span class="co">#&gt; [2,]    0 -1.08653237</span>
-<span class="co">#&gt; [3,]    2  1.07625674</span>
-<span class="co">#&gt; [4,]    2  0.30972375</span>
-<span class="co">#&gt; [5,]    1  1.80114933</span>
-<span class="co">#&gt; [6,]    2  2.18114512</span></code></pre></div>
+<span class="co">#&gt;      [,1]       [,2]</span>
+<span class="co">#&gt; [1,]    2  1.0247637</span>
+<span class="co">#&gt; [2,]    1  0.5401675</span>
+<span class="co">#&gt; [3,]    1 -1.3566220</span>
+<span class="co">#&gt; [4,]    0 -0.2849871</span>
+<span class="co">#&gt; [5,]    1  0.8793625</span>
+<span class="co">#&gt; [6,]    1 -0.9698109</span></code></pre></div>
 <ul>
 <li>
 <code>plotX</code>: NULL (<code>showplot = FALSE</code>, can be changed to display the plot of generated data in<code>gen_data</code> input).</li>
@@ -147,8 +147,8 @@
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">K</span>
 <span class="co">#&gt;           [,1]      [,2]</span>
-<span class="co">#&gt; [1,] 1.0000000 0.3325253</span>
-<span class="co">#&gt; [2,] 0.3325253 1.0000000</span></code></pre></div>
+<span class="co">#&gt; [1,] 1.0000000 0.2537374</span>
+<span class="co">#&gt; [2,] 0.2537374 1.0000000</span></code></pre></div>
 <ul>
 <li>
 <code>Rpointwise</code>: matrix of pointwise estimated correlations. Due to pointwise estimation, <code>Rpointwise</code> is not guaranteed to be positive semi-definite</li>
@@ -156,8 +156,8 @@
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">Rpointwise</span>
 <span class="co">#&gt;           [,1]      [,2]</span>
-<span class="co">#&gt; [1,] 1.0000000 0.5940875</span>
-<span class="co">#&gt; [2,] 0.5940875 1.0000000</span></code></pre></div>
+<span class="co">#&gt; [1,] 1.0000000 0.4616199</span>
+<span class="co">#&gt; [2,] 0.4616199 1.0000000</span></code></pre></div>
 <ul>
 <li>
 <code>R</code>: estimated final latent correlation matrix, this matrix is guaranteed to be strictly positive definite (through <code>nearPD</code> projection and parameter <code>nu</code>, see Mathematical framework for estimation)</li>
@@ -165,8 +165,8 @@
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">R</span>
 <span class="co">#&gt;           [,1]      [,2]</span>
-<span class="co">#&gt; [1,] 1.0000000 0.5934934</span>
-<span class="co">#&gt; [2,] 0.5934934 1.0000000</span></code></pre></div>
+<span class="co">#&gt; [1,] 1.0000000 0.4611583</span>
+<span class="co">#&gt; [2,] 0.4611583 1.0000000</span></code></pre></div>
 <ul>
 <li>
 <code>plotR</code>: NULL by default as <code>showplot = FALSE</code> in <code>latentcor</code>. Otherwise displays a heatmap of latent correlation matrix.</li>
@@ -435,7 +435,7 @@
 <span class="op">}</span>
 <span class="fu"><a href="https://rdrr.io/r/base/proc.time.html">proc.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">start_time</span>
 <span class="co">#&gt;    user  system elapsed </span>
-<span class="co">#&gt;    0.02    0.00    0.02</span></code></pre></div>
+<span class="co">#&gt;    0.03    0.00    0.03</span></code></pre></div>
 <p>Compared with</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">start_time</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/proc.time.html">proc.time</a></span><span class="op">(</span><span class="op">)</span>
@@ -462,13 +462,13 @@
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/gen_data.html">gen_data</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6</span>, types <span class="op">=</span> <span class="st">"con"</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
 <span class="va">X</span>
-<span class="co">#&gt;             [,1]</span>
-<span class="co">#&gt; [1,]  0.93251411</span>
-<span class="co">#&gt; [2,] -0.04675013</span>
-<span class="co">#&gt; [3,]  0.93517088</span>
-<span class="co">#&gt; [4,]  0.94505646</span>
-<span class="co">#&gt; [5,] -1.42176335</span>
-<span class="co">#&gt; [6,] -0.11784872</span></code></pre></div>
+<span class="co">#&gt;            [,1]</span>
+<span class="co">#&gt; [1,] -0.9829755</span>
+<span class="co">#&gt; [2,]  0.9983696</span>
+<span class="co">#&gt; [3,]  0.7555956</span>
+<span class="co">#&gt; [4,] -0.0164682</span>
+<span class="co">#&gt; [5,] -0.1646806</span>
+<span class="co">#&gt; [6,]  0.3955089</span></code></pre></div>
 <p><strong><em>Definition of binary model</em></strong> <span class="citation">(Fan et al. 2017)</span></p>
 <p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span> satisfies the binary latent Gaussian copula model if there exists <span class="math inline">\(W\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})\)</span>, where <span class="math inline">\(I(\cdot)\)</span> is the indicator function and <span class="math inline">\(c_{j}\)</span> are constants.</p>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
@@ -477,9 +477,9 @@
 <span class="co">#&gt;      [,1]</span>
 <span class="co">#&gt; [1,]    0</span>
 <span class="co">#&gt; [2,]    0</span>
-<span class="co">#&gt; [3,]    1</span>
+<span class="co">#&gt; [3,]    0</span>
 <span class="co">#&gt; [4,]    1</span>
-<span class="co">#&gt; [5,]    0</span>
+<span class="co">#&gt; [5,]    1</span>
 <span class="co">#&gt; [6,]    1</span></code></pre></div>
 <p><strong><em>Definition of ternary model</em></strong> <span class="citation">(Quan, Booth, and Wells 2018)</span></p>
 <p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span> satisfies the ternary latent Gaussian copula model if there exists <span class="math inline">\(W\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})+I(W_{j}&gt;c'_{j})\)</span>, where <span class="math inline">\(I(\cdot)\)</span> is the indicator function and <span class="math inline">\(c_{j}&lt;c'_{j}\)</span> are constants.</p>
@@ -487,22 +487,22 @@
 <code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/gen_data.html">gen_data</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6</span>, types <span class="op">=</span> <span class="st">"ter"</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
 <span class="va">X</span>
 <span class="co">#&gt;      [,1]</span>
-<span class="co">#&gt; [1,]    1</span>
+<span class="co">#&gt; [1,]    0</span>
 <span class="co">#&gt; [2,]    1</span>
-<span class="co">#&gt; [3,]    0</span>
-<span class="co">#&gt; [4,]    0</span>
-<span class="co">#&gt; [5,]    2</span>
-<span class="co">#&gt; [6,]    1</span></code></pre></div>
+<span class="co">#&gt; [3,]    1</span>
+<span class="co">#&gt; [4,]    2</span>
+<span class="co">#&gt; [5,]    1</span>
+<span class="co">#&gt; [6,]    0</span></code></pre></div>
 <p><strong><em>Definition of truncated or zero-inflated model</em></strong> <span class="citation">(Yoon, Carroll, and Gaynanova 2020)</span></p>
 <p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span> satisfies the truncated latent Gaussian copula model if there exists <span class="math inline">\(W\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})W_{j}\)</span>, where <span class="math inline">\(I(\cdot)\)</span> is the indicator function and <span class="math inline">\(c_{j}\)</span> are constants.</p>
 <div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/gen_data.html">gen_data</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6</span>, types <span class="op">=</span> <span class="st">"tru"</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
 <span class="va">X</span>
 <span class="co">#&gt;           [,1]</span>
-<span class="co">#&gt; [1,] 0.0000000</span>
-<span class="co">#&gt; [2,] 0.7554953</span>
-<span class="co">#&gt; [3,] 0.3202847</span>
-<span class="co">#&gt; [4,] 0.7633765</span>
+<span class="co">#&gt; [1,] 1.5302611</span>
+<span class="co">#&gt; [2,] 0.0000000</span>
+<span class="co">#&gt; [3,] 2.2791989</span>
+<span class="co">#&gt; [4,] 0.1137255</span>
 <span class="co">#&gt; [5,] 0.0000000</span>
 <span class="co">#&gt; [6,] 0.0000000</span></code></pre></div>
 <p><strong><em>Mixed latent Gaussian copula model</em></strong></p>
@@ -809,20 +809,20 @@ r &amp; 1 &amp; \frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} \\
 <span class="co">#&gt; Unit: milliseconds</span>
 <span class="co">#&gt;                                                                                         expr</span>
 <span class="co">#&gt;  latentcor(X, types = c("con", "bin", "ter", "tru"), method = "approx",      ratio = 0.99)$R</span>
-<span class="co">#&gt;     min      lq     mean median      uq    max neval</span>
-<span class="co">#&gt;  1.1961 1.26835 1.419578 1.4412 1.49055 2.3372   100</span>
+<span class="co">#&gt;     min      lq     mean  median     uq   max neval</span>
+<span class="co">#&gt;  1.1499 1.20365 1.406271 1.36665 1.4623 2.377   100</span>
 <span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html">microbenchmark</a></span><span class="op">(</span><span class="fu"><a href="../reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"approx"</span>, ratio <span class="op">=</span> <span class="fl">0.4</span><span class="op">)</span><span class="op">$</span><span class="va">R</span><span class="op">)</span>
 <span class="co">#&gt; Unit: milliseconds</span>
 <span class="co">#&gt;                                                                                        expr</span>
 <span class="co">#&gt;  latentcor(X, types = c("con", "bin", "ter", "tru"), method = "approx",      ratio = 0.4)$R</span>
-<span class="co">#&gt;     min     lq    mean  median      uq    max neval</span>
-<span class="co">#&gt;  2.8056 2.9408 3.28772 3.08585 3.43865 7.0808   100</span>
+<span class="co">#&gt;     min      lq     mean median     uq   max neval</span>
+<span class="co">#&gt;  2.8295 2.95235 3.265417 3.0797 3.4733 7.756   100</span>
 <span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html">microbenchmark</a></span><span class="op">(</span><span class="fu"><a href="../reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"original"</span><span class="op">)</span><span class="op">$</span><span class="va">R</span><span class="op">)</span>
 <span class="co">#&gt; Unit: milliseconds</span>
 <span class="co">#&gt;                                                                        expr</span>
 <span class="co">#&gt;  latentcor(X, types = c("con", "bin", "ter", "tru"), method = "original")$R</span>
-<span class="co">#&gt;      min      lq     mean   median       uq     max neval</span>
-<span class="co">#&gt;  28.8054 29.4276 32.69997 30.80355 34.90355 43.7375   100</span></code></pre></div>
+<span class="co">#&gt;     min      lq     mean  median      uq     max neval</span>
+<span class="co">#&gt;  28.777 29.4699 30.10761 29.8696 30.4457 34.3389   100</span></code></pre></div>
 <p><strong>Rescaled Grid for Interpolation</strong></p>
 <p>Since <span class="math inline">\(|\hat{\tau}|\le \bar{\tau}\)</span>, the grid does not need to cover the whole domain <span class="math inline">\(\tau\in[-1, 1]\)</span>. To optimize memory associated with storing the grid, we rescale <span class="math inline">\(\tau\)</span> as follows: <span class="math inline">\(\check{\tau}_{jk}=\tau_{jk}/\bar{\tau}_{jk}\in[-1, 1]\)</span>, where <span class="math inline">\(\bar{\tau}_{jk}\)</span> is as defined above.</p>
 <p>In addition, for ternary variable <span class="math inline">\(j\)</span>, it always holds that <span class="math inline">\(\Delta_{j}^{2}&gt;\Delta_{j}^{1}\)</span> since <span class="math inline">\(\Delta_{j}^{1}=\Phi^{-1}(\pi_{0j})\)</span> and <span class="math inline">\(\Delta_{j}^{2}=\Phi^{-1}(\pi_{0j}+\pi_{1j})\)</span>. Thus, the grid should not cover the the area corresponding to <span class="math inline">\(\Delta_{j}^{2}\ge\Delta_{j}^{1}\)</span>. We thus rescale as follows: <span class="math inline">\(\check{\Delta}_{j}^{1}=\Delta_{j}^{1}/\Delta_{j}^{2}\in[0, 1]\)</span>; <span class="math inline">\(\check{\Delta}_{j}^{2}=\Delta_{j}^{2}\in[0, 1]\)</span>.</p>
@@ -1058,20 +1058,11 @@ Gaure, Simen. 2019. <em>Chebpol: Multivariate Interpolation</em>. <a href="https
 <div id="ref-liu2009nonparanormal" class="csl-entry">
 Liu, Han, John Lafferty, and Larry Wasserman. 2009. <span>“The Nonparanormal: Semiparametric Estimation of High Dimensional Undirected Graphs.”</span> <em>Journal of Machine Learning Research</em> 10 (10).
 </div>
-<div id="ref-makowski2020methods" class="csl-entry">
-Makowski, Dominique, Mattan S Ben-Shachar, Indrajeet Patil, and Daniel Lüdecke. 2020. <span>“Methods and Algorithms for Correlation Analysis in r.”</span> <em>Journal of Open Source Software</em> 5 (51): 2306. <a href="https://doi.org/10.21105/joss.02306">https://doi.org/10.21105/joss.02306</a>.
-</div>
 <div id="ref-quan2018rank" class="csl-entry">
 Quan, Xiaoyun, James G Booth, and Martin T Wells. 2018. <span>“Rank-Based Approach for Estimating Correlations in Mixed Ordinal Data.”</span> <em>arXiv Preprint arXiv:1809.06255</em>.
 </div>
-<div id="ref-team2013r" class="csl-entry">
-Team, R Core, and others. 2013. <span>“R: A Language and Environment for Statistical Computing.”</span>
-</div>
 <div id="ref-yoon2020sparse" class="csl-entry">
 Yoon, Grace, Raymond J Carroll, and Irina Gaynanova. 2020. <span>“Sparse Semiparametric Canonical Correlation Analysis for Data of Mixed Types.”</span> <em>Biometrika</em> 107 (3): 609–25.
-</div>
-<div id="ref-yoon2019microbial" class="csl-entry">
-Yoon, Grace, Irina Gaynanova, and Christian L Müller. 2019. <span>“Microbial Networks in SPRING-Semi-Parametric Rank-Based Correlation and Partial Correlation Estimation for Quantitative Microbiome Data.”</span> <em>Frontiers in Genetics</em> 10: 516. <a href="https://doi.org/10.3389/fgene.2019.00516">https://doi.org/10.3389/fgene.2019.00516</a>.
 </div>
 <div id="ref-yoon2021fast" class="csl-entry">
 Yoon, Grace, Christian L Müller, and Irina Gaynanova. 2021. <span>“Fast Computation of Latent Correlations.”</span> <em>Journal of Computational and Graphical Statistics</em>, 1–8.

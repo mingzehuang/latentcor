@@ -57,11 +57,11 @@ latentcor = function(X, types = NULL, method = c("approx", "original"), nu = 0.0
     stop("ratio must be between 0 and 1.")
   }
 
+  X = as.matrix(X)
   if (!(is.numeric(X))) {
     stop("Input data matrix should be numeric.")
   }
-  X = data.matrix(X); p = ncol(X); name = colnames(X)
-
+  p = ncol(X); name = colnames(X)
 
   if (is.null(types)) {
     # if variable types are not supplied, get the types by applying get_types
