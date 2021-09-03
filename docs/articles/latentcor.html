@@ -49,6 +49,18 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+<li>
+      <a href="../articles/latentcor_math.html">Mathematical Framework for latentcor</a>
+    </li>
+  </ul>
+</li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
@@ -108,13 +120,13 @@
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="va">simdata</span><span class="op">$</span><span class="va">X</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">X</span>, n <span class="op">=</span> <span class="fl">6L</span><span class="op">)</span>
-<span class="co">#&gt;      [,1]       [,2]</span>
-<span class="co">#&gt; [1,]    2  1.0247637</span>
-<span class="co">#&gt; [2,]    1  0.5401675</span>
-<span class="co">#&gt; [3,]    1 -1.3566220</span>
-<span class="co">#&gt; [4,]    0 -0.2849871</span>
-<span class="co">#&gt; [5,]    1  0.8793625</span>
-<span class="co">#&gt; [6,]    1 -0.9698109</span></code></pre></div>
+<span class="co">#&gt;      [,1]         [,2]</span>
+<span class="co">#&gt; [1,]    0 -0.281575650</span>
+<span class="co">#&gt; [2,]    1  0.590722624</span>
+<span class="co">#&gt; [3,]    1  1.125827061</span>
+<span class="co">#&gt; [4,]    0 -0.940046350</span>
+<span class="co">#&gt; [5,]    1 -2.153150641</span>
+<span class="co">#&gt; [6,]    0  0.001546052</span></code></pre></div>
 <ul>
 <li>
 <code>plotX</code>: NULL (<code>showplot = FALSE</code>, can be changed to display the plot of generated data in<code>gen_data</code> input).</li>
@@ -147,17 +159,17 @@
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">K</span>
 <span class="co">#&gt;           [,1]      [,2]</span>
-<span class="co">#&gt; [1,] 1.0000000 0.2537374</span>
-<span class="co">#&gt; [2,] 0.2537374 1.0000000</span></code></pre></div>
+<span class="co">#&gt; [1,] 1.0000000 0.3292929</span>
+<span class="co">#&gt; [2,] 0.3292929 1.0000000</span></code></pre></div>
 <ul>
 <li>
 <code>Rpointwise</code>: matrix of pointwise estimated correlations. Due to pointwise estimation, <code>Rpointwise</code> is not guaranteed to be positive semi-definite</li>
 </ul>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">Rpointwise</span>
-<span class="co">#&gt;           [,1]      [,2]</span>
-<span class="co">#&gt; [1,] 1.0000000 0.4616199</span>
-<span class="co">#&gt; [2,] 0.4616199 1.0000000</span></code></pre></div>
+<span class="co">#&gt;          [,1]     [,2]</span>
+<span class="co">#&gt; [1,] 1.000000 0.588907</span>
+<span class="co">#&gt; [2,] 0.588907 1.000000</span></code></pre></div>
 <ul>
 <li>
 <code>R</code>: estimated final latent correlation matrix, this matrix is guaranteed to be strictly positive definite (through <code>nearPD</code> projection and parameter <code>nu</code>, see Mathematical framework for estimation)</li>
@@ -165,8 +177,8 @@
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">R</span>
 <span class="co">#&gt;           [,1]      [,2]</span>
-<span class="co">#&gt; [1,] 1.0000000 0.4611583</span>
-<span class="co">#&gt; [2,] 0.4611583 1.0000000</span></code></pre></div>
+<span class="co">#&gt; [1,] 1.0000000 0.5883181</span>
+<span class="co">#&gt; [2,] 0.5883181 1.0000000</span></code></pre></div>
 <ul>
 <li>
 <code>plotR</code>: NULL by default as <code>showplot = FALSE</code> in <code>latentcor</code>. Otherwise displays a heatmap of latent correlation matrix.</li>
@@ -435,7 +447,7 @@
 <span class="op">}</span>
 <span class="fu"><a href="https://rdrr.io/r/base/proc.time.html">proc.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">start_time</span>
 <span class="co">#&gt;    user  system elapsed </span>
-<span class="co">#&gt;    0.03    0.00    0.03</span></code></pre></div>
+<span class="co">#&gt;    0.02    0.00    0.02</span></code></pre></div>
 <p>Compared with</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">start_time</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/proc.time.html">proc.time</a></span><span class="op">(</span><span class="op">)</span>
@@ -447,593 +459,7 @@
 <span class="op">}</span>
 <span class="fu"><a href="https://rdrr.io/r/base/proc.time.html">proc.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">start_time</span>
 <span class="co">#&gt;    user  system elapsed </span>
-<span class="co">#&gt;    0.03    0.00    0.03</span></code></pre></div>
-</div>
-</div>
-<div id="mathematical-framework-for-estimation" class="section level1">
-<h1 class="hasAnchor">
-<a href="#mathematical-framework-for-estimation" class="anchor"></a>Mathematical framework for estimation</h1>
-<div id="latent-gaussian-copula-model-for-mixed-data" class="section level2">
-<h2 class="hasAnchor">
-<a href="#latent-gaussian-copula-model-for-mixed-data" class="anchor"></a>Latent Gaussian Copula Model for Mixed Data</h2>
-<p><code>latentcor</code> utilizes the powerful semi-parametric latent Gaussian copula models to estimate latent correlations between mixed data types (continuous/binary/ternary/truncated or zero-inflated). Below we review the definitions for each type.</p>
-<p><strong><em>Definition of continuous model</em></strong> <span class="citation">(Fan et al. 2017)</span></p>
-<p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span> satisfies the Gaussian copula (or nonparanormal) model if there exist monotonically increasing <span class="math inline">\(f=(f_{j})_{j=1}^{p}\)</span> with <span class="math inline">\(Z_{j}=f_{j}(X_{j})\)</span> satisfying <span class="math inline">\(Z\sim N_{p}(0, \Sigma)\)</span>, <span class="math inline">\(\sigma_{jj}=1\)</span>; we denote <span class="math inline">\(X\sim NPN(0, \Sigma, f)\)</span>.</p>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/gen_data.html">gen_data</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6</span>, types <span class="op">=</span> <span class="st">"con"</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
-<span class="va">X</span>
-<span class="co">#&gt;            [,1]</span>
-<span class="co">#&gt; [1,] -0.9829755</span>
-<span class="co">#&gt; [2,]  0.9983696</span>
-<span class="co">#&gt; [3,]  0.7555956</span>
-<span class="co">#&gt; [4,] -0.0164682</span>
-<span class="co">#&gt; [5,] -0.1646806</span>
-<span class="co">#&gt; [6,]  0.3955089</span></code></pre></div>
-<p><strong><em>Definition of binary model</em></strong> <span class="citation">(Fan et al. 2017)</span></p>
-<p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span> satisfies the binary latent Gaussian copula model if there exists <span class="math inline">\(W\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})\)</span>, where <span class="math inline">\(I(\cdot)\)</span> is the indicator function and <span class="math inline">\(c_{j}\)</span> are constants.</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/gen_data.html">gen_data</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6</span>, types <span class="op">=</span> <span class="st">"bin"</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
-<span class="va">X</span>
-<span class="co">#&gt;      [,1]</span>
-<span class="co">#&gt; [1,]    0</span>
-<span class="co">#&gt; [2,]    0</span>
-<span class="co">#&gt; [3,]    0</span>
-<span class="co">#&gt; [4,]    1</span>
-<span class="co">#&gt; [5,]    1</span>
-<span class="co">#&gt; [6,]    1</span></code></pre></div>
-<p><strong><em>Definition of ternary model</em></strong> <span class="citation">(Quan, Booth, and Wells 2018)</span></p>
-<p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span> satisfies the ternary latent Gaussian copula model if there exists <span class="math inline">\(W\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})+I(W_{j}&gt;c'_{j})\)</span>, where <span class="math inline">\(I(\cdot)\)</span> is the indicator function and <span class="math inline">\(c_{j}&lt;c'_{j}\)</span> are constants.</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/gen_data.html">gen_data</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6</span>, types <span class="op">=</span> <span class="st">"ter"</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
-<span class="va">X</span>
-<span class="co">#&gt;      [,1]</span>
-<span class="co">#&gt; [1,]    0</span>
-<span class="co">#&gt; [2,]    1</span>
-<span class="co">#&gt; [3,]    1</span>
-<span class="co">#&gt; [4,]    2</span>
-<span class="co">#&gt; [5,]    1</span>
-<span class="co">#&gt; [6,]    0</span></code></pre></div>
-<p><strong><em>Definition of truncated or zero-inflated model</em></strong> <span class="citation">(Yoon, Carroll, and Gaynanova 2020)</span></p>
-<p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span> satisfies the truncated latent Gaussian copula model if there exists <span class="math inline">\(W\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})W_{j}\)</span>, where <span class="math inline">\(I(\cdot)\)</span> is the indicator function and <span class="math inline">\(c_{j}\)</span> are constants.</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/gen_data.html">gen_data</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6</span>, types <span class="op">=</span> <span class="st">"tru"</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
-<span class="va">X</span>
-<span class="co">#&gt;           [,1]</span>
-<span class="co">#&gt; [1,] 1.5302611</span>
-<span class="co">#&gt; [2,] 0.0000000</span>
-<span class="co">#&gt; [3,] 2.2791989</span>
-<span class="co">#&gt; [4,] 0.1137255</span>
-<span class="co">#&gt; [5,] 0.0000000</span>
-<span class="co">#&gt; [6,] 0.0000000</span></code></pre></div>
-<p><strong><em>Mixed latent Gaussian copula model</em></strong></p>
-<p>The mixed latent Gaussian copula model jointly models <span class="math inline">\(W=(W_{1}, W_{2}, W_{3}, W_{4})\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{1j}=W_{1j}\)</span>, <span class="math inline">\(X_{2j}=I(W_{2j}&gt;c_{2j})\)</span>, <span class="math inline">\(X_{3j}=I(W_{3j}&gt;c_{3j})+I(W_{3j}&gt;c'_{3j})\)</span> and <span class="math inline">\(X_{4j}=I(W_{4j}&gt;c_{4j})W_{4j}\)</span>.</p>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="st">"234820"</span><span class="op">)</span>
-<span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/gen_data.html">gen_data</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">100</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span>
-<span class="co">#&gt;            [,1] [,2] [,3]      [,4]</span>
-<span class="co">#&gt; [1,] -0.5728663    0    1 0.0000000</span>
-<span class="co">#&gt; [2,] -1.5632883    0    0 0.0000000</span>
-<span class="co">#&gt; [3,]  0.4600555    1    1 0.2634213</span>
-<span class="co">#&gt; [4,] -1.5186510    1    1 0.0000000</span>
-<span class="co">#&gt; [5,] -1.5438165    0    1 0.0000000</span>
-<span class="co">#&gt; [6,] -0.5656219    0    0 0.0000000</span></code></pre></div>
-</div>
-<div id="moment-based-estimation-of-sigma-based-on-bridge-functions" class="section level2">
-<h2 class="hasAnchor">
-<a href="#moment-based-estimation-of-sigma-based-on-bridge-functions" class="anchor"></a>Moment-based estimation of <span class="math inline">\(\Sigma\)</span> based on bridge functions</h2>
-<p>The estimation of latent correlation matrix <span class="math inline">\(\Sigma\)</span> is achieved via the <strong>bridge function</strong> <span class="math inline">\(F\)</span> which is defined such that <span class="math inline">\(E(\hat{\tau}_{jk})=F(\sigma_{jk})\)</span>, where <span class="math inline">\(\sigma_{jk}\)</span> is the latent correlation between variables <span class="math inline">\(j\)</span> and <span class="math inline">\(k\)</span>, and <span class="math inline">\(\hat{\tau}_{jk}\)</span> is the corresponding sample Kendall’s <span class="math inline">\(\tau\)</span>.</p>
-<p><strong><em>Kendall’s <span class="math inline">\(\tau\)</span> (<span class="math inline">\(\tau_{a}\)</span>)</em></strong></p>
-<p>Given observed <span class="math inline">\(\mathbf{x}_{j}, \mathbf{x}_{k}\in\cal{R}^{n}\)</span>,</p>
-<p><span class="math display">\[
-\hat{\tau}_{jk}=\hat{\tau}(\mathbf{x}_{j}, \mathbf{x}_{k})=\frac{2}{n(n-1)}\sum_{1\le i&lt;i'\le n}sign(x_{ij}-x_{i'j})sign(x_{ik}-x_{i'k}),
-\]</span> where <span class="math inline">\(n\)</span> is the sample size.</p>
-<p><code>latentcor</code> calculates pairwise Kendall’s <span class="math inline">\(\widehat \tau\)</span> as part of the estimation process</p>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">estimate</span> <span class="op">=</span> <span class="fu"><a href="../reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span><span class="op">)</span>
-<span class="va">K</span> <span class="op">=</span> <span class="va">estimate</span><span class="op">$</span><span class="va">K</span>
-<span class="va">K</span>
-<span class="co">#&gt;           [,1]      [,2]      [,3]      [,4]</span>
-<span class="co">#&gt; [1,] 1.0000000 0.2557576 0.2456566 0.3331313</span>
-<span class="co">#&gt; [2,] 0.2557576 1.0000000 0.1555556 0.2339394</span>
-<span class="co">#&gt; [3,] 0.2456566 0.1555556 1.0000000 0.2183838</span>
-<span class="co">#&gt; [4,] 0.3331313 0.2339394 0.2183838 1.0000000</span></code></pre></div>
-<p>Using <span class="math inline">\(F\)</span> and <span class="math inline">\(\widehat \tau_{jk}\)</span>, a moment-based estimator is <span class="math inline">\(\hat{\sigma}_{jk}=F^{-1}(\hat{\tau}_{jk})\)</span> with the corresponding <span class="math inline">\(\hat{\Sigma}\)</span> being consistent for <span class="math inline">\(\Sigma\)</span> <span class="citation">(Fan et al. 2017; Quan, Booth, and Wells 2018; Yoon, Carroll, and Gaynanova 2020)</span>.</p>
-<p>The explicit form of <strong>bridge function</strong> <span class="math inline">\(F\)</span> has been derived for all combinations of continuous(C)/binary(B)/ternary(N)/truncated(T) variable types, and we summarize the corresponding references. Each of this combinations is implemented in <code>latentcor</code>.</p>
-<table class="table">
-<colgroup>
-<col width="11%">
-<col width="22%">
-<col width="22%">
-<col width="22%">
-<col width="22%">
-</colgroup>
-<thead><tr class="header">
-<th>Type</th>
-<th>continuous</th>
-<th>binary</th>
-<th>ternary</th>
-<th>zero-inflated (truncated)</th>
-</tr></thead>
-<tbody>
-<tr class="odd">
-<td>continuous</td>
-<td><span class="citation">Liu, Lafferty, and Wasserman (2009)</span></td>
-<td>-</td>
-<td>-</td>
-<td>-</td>
-</tr>
-<tr class="even">
-<td>binary</td>
-<td><span class="citation">Fan et al. (2017)</span></td>
-<td><span class="citation">Fan et al. (2017)</span></td>
-<td>-</td>
-<td>-</td>
-</tr>
-<tr class="odd">
-<td>ternary</td>
-<td><span class="citation">Quan, Booth, and Wells (2018)</span></td>
-<td><span class="citation">Quan, Booth, and Wells (2018)</span></td>
-<td><span class="citation">Quan, Booth, and Wells (2018)</span></td>
-<td>-</td>
-</tr>
-<tr class="even">
-<td>zero-inflated (truncated)</td>
-<td><span class="citation">Yoon, Carroll, and Gaynanova (2020)</span></td>
-<td><span class="citation">Yoon, Carroll, and Gaynanova (2020)</span></td>
-<td>See Appendix</td>
-<td><span class="citation">Yoon, Carroll, and Gaynanova (2020)</span></td>
-</tr>
-</tbody>
-</table>
-<p>Below we provide an explicit form of <span class="math inline">\(F\)</span> for each combination.</p>
-<p><strong>Theorem (explicit form of bridge function)</strong> Let <span class="math inline">\(W_{1}\in\cal{R}^{p_{1}}\)</span>, <span class="math inline">\(W_{2}\in\cal{R}^{p_{2}}\)</span>, <span class="math inline">\(W_{3}\in\cal{R}^{p_{3}}\)</span>, <span class="math inline">\(W_{4}\in\cal{R}^{p_{4}}\)</span> be such that <span class="math inline">\(W=(W_{1}, W_{2}, W_{3}, W_{4})\sim NPN(0, \Sigma, f)\)</span> with <span class="math inline">\(p=p_{1}+p_{2}+p_{3}+p_{4}\)</span>. Let <span class="math inline">\(X=(X_{1}, X_{2}, X_{3}, X_{4})\in\cal{R}^{p}\)</span> satisfy <span class="math inline">\(X_{j}=W_{j}\)</span> for <span class="math inline">\(j=1,...,p_{1}\)</span>, <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})\)</span> for <span class="math inline">\(j=p_{1}+1, ..., p_{1}+p_{2}\)</span>, <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})+I(W_{j}&gt;c'_{j})\)</span> for <span class="math inline">\(j=p_{1}+p_{2}+1, ..., p_{3}\)</span> and <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})W_{j}\)</span> for <span class="math inline">\(j=p_{1}+p_{2}+p_{3}+1, ..., p\)</span> with <span class="math inline">\(\Delta_{j}=f(c_{j})\)</span>. The rank-based estimator of <span class="math inline">\(\Sigma\)</span> based on the observed <span class="math inline">\(n\)</span> realizations of <span class="math inline">\(X\)</span> is the matrix <span class="math inline">\(\mathbf{\hat{R}}\)</span> with <span class="math inline">\(\hat{r}_{jj}=1\)</span>, <span class="math inline">\(\hat{r}_{jk}=\hat{r}_{kj}=F^{-1}(\hat{\tau}_{jk})\)</span> with block structure</p>
-<p><span class="math display">\[
-\mathbf{\hat{R}}=\begin{pmatrix}
-F_{CC}^{-1}(\hat{\tau}) &amp; F_{CB}^{-1}(\hat{\tau}) &amp; F_{CN}^{-1}(\hat{\tau}) &amp; F_{CT}^{-1}(\hat{\tau})\\
-F_{BC}^{-1}(\hat{\tau}) &amp; F_{BB}^{-1}(\hat{\tau}) &amp; F_{BN}^{-1}(\hat{\tau}) &amp; F_{BT}^{-1}(\hat{\tau})\\
-F_{NC}^{-1}(\hat{\tau}) &amp; F_{NB}^{-1}(\hat{\tau}) &amp; F_{NN}^{-1}(\hat{\tau}) &amp; F_{NT}^{-1}(\hat{\tau})\\
-F_{TC}^{-1}(\hat{\tau}) &amp; F_{TB}^{-1}(\hat{\tau}) &amp; F_{TN}^{-1}(\hat{\tau}) &amp; F_{TT}^{-1}(\hat{\tau})
-\end{pmatrix}
-\]</span> <span class="math display">\[
-F(\cdot)=\begin{cases}
-CC:\ 2\sin^{-1}(r)/\pi \\
-\\
-BC: \ 4\Phi_{2}(\Delta_{j},0;r/\sqrt{2})-2\Phi(\Delta_{j}) \\
-\\
-BB: \ 2\{\Phi_{2}(\Delta_{j},\Delta_{k};r)-\Phi(\Delta_{j})\Phi(\Delta_{k})\}  \\
-\\
-NC: \ 4\Phi_{2}(\Delta_{j}^{2},0;r/\sqrt{2})-2\Phi(\Delta_{j}^{2})+4\Phi_{3}(\Delta_{j}^{1},\Delta_{j}^{2},0;\Sigma_{3a}(r))-2\Phi(\Delta_{j}^{1})\Phi(\Delta_{j}^{2})\\
-\\
-NB: \ 2\Phi_{2}(\Delta_{j}^{2},\Delta_{k},r)\{1-\Phi(\Delta_{j}^{1})\}-2\Phi(\Delta_{j}^{2})\{\Phi(\Delta_{k})-\Phi_{2}(\Delta_{j}^{1},\Delta_{k},r)\} \\
-\\
-NN: \ 2\Phi_{2}(\Delta_{j}^{2},\Delta_{k}^{2};r)\Phi_{2}(-\Delta_{j}^{1},-\Delta_{k}^{1};r)-2\{\Phi(\Delta_{j}^{2})-\Phi_{2}(\Delta_{j}^{2},\Delta_{k}^{1};r)\}\{\Phi(\Delta_{k}^{2})-\Phi_{2}(\Delta_{j}^{1},\Delta_{k}^{2};r)\} \\
-\\
-TC: \ -2\Phi_{2}(-\Delta_{j},0;1/\sqrt{2})+4\Phi_{3}(-\Delta_{j},0,0;\Sigma_{3b}(r)) \\
-\\
-TB: \ 2\{1-\Phi(\Delta_{j})\}\Phi(\Delta_{k})-2\Phi_{3}(-\Delta_{j},\Delta_{k},0;\Sigma_{3c}(r))-2\Phi_{3}(-\Delta_{j},\Delta_{k},0;\Sigma_{3d}(r))  \\
-\\
-TN: \ -2\Phi(-\Delta_{k}^{1})\Phi(\Delta_{k}^{2}) + 2\Phi_{3}(-\Delta_{k}^{1},\Delta_{k}^{2},\Delta_{j};\Sigma_{3e}(r))+2\Phi_{4}(-\Delta_{k}^{1},\Delta_{k}^{2},-\Delta_{j},0;\Sigma_{4a}(r))+2\Phi_{4}(-\Delta_{k}^{1},\Delta_{k}^{2},-\Delta_{j},0;\Sigma_{4b}(r)) \\
-\\
-TT: \ -2\Phi_{4}(-\Delta_{j},-\Delta_{k},0,0;\Sigma_{4c}(r))+2\Phi_{4}(-\Delta_{j},-\Delta_{k},0,0;\Sigma_{4d}(r)) \\
-\end{cases}
-\]</span></p>
-<p>where <span class="math inline">\(\Delta_{j}=\Phi^{-1}(\pi_{0j})\)</span>, <span class="math inline">\(\Delta_{k}=\Phi^{-1}(\pi_{0k})\)</span>, <span class="math inline">\(\Delta_{j}^{1}=\Phi^{-1}(\pi_{0j})\)</span>, <span class="math inline">\(\Delta_{j}^{2}=\Phi^{-1}(\pi_{0j}+\pi_{1j})\)</span>, <span class="math inline">\(\Delta_{k}^{1}=\Phi^{-1}(\pi_{0k})\)</span>, <span class="math inline">\(\Delta_{k}^{2}=\Phi^{-1}(\pi_{0k}+\pi_{1k})\)</span>,</p>
-<p><span class="math display">\[
-\Sigma_{3a}(r)=
-\begin{pmatrix}
-1 &amp; 0 &amp; \frac{r}{\sqrt{2}} \\
-0 &amp; 1 &amp; -\frac{r}{\sqrt{2}} \\
-\frac{r}{\sqrt{2}} &amp; -\frac{r}{\sqrt{2}} &amp; 1
-\end{pmatrix}, \;\;\;
-\Sigma_{3b}(r)=
-\begin{pmatrix}
-1 &amp; \frac{1}{\sqrt{2}} &amp; \frac{r}{\sqrt{2}}\\
-\frac{1}{\sqrt{2}} &amp; 1 &amp; r \\
-\frac{r}{\sqrt{2}} &amp; r &amp; 1
-\end{pmatrix}, \;\;\;
-\Sigma_{3c}(r)=
-\begin{pmatrix}
-1 &amp; -r &amp; \frac{1}{\sqrt{2}} \\
--r &amp; 1 &amp; -\frac{r}{\sqrt{2}} \\
-\frac{1}{\sqrt{2}} &amp; -\frac{r}{\sqrt{2}} &amp; 1
-\end{pmatrix},
-\]</span></p>
-<p><span class="math display">\[
-\Sigma_{3d}(r)=
-\begin{pmatrix}
-1 &amp; 0 &amp; -\frac{1}{\sqrt{2}} \\
-0 &amp; 1 &amp; -\frac{r}{\sqrt{2}} \\
--\frac{1}{\sqrt{2}} &amp; -\frac{r}{\sqrt{2}} &amp; 1
-\end{pmatrix}, \;\;\;
-\Sigma_{3e}(r)=
-\begin{pmatrix}
-1 &amp; 0 &amp; 0 \\
-0 &amp; 1 &amp; r \\
-0 &amp; r &amp; 1
-\end{pmatrix},  \;\;\;
-\Sigma_{4a}(r)=
-\begin{pmatrix}
-1 &amp; 0 &amp; 0 &amp; \frac{r}{\sqrt{2}} \\
-0 &amp; 1 &amp; -r &amp; \frac{r}{\sqrt{2}} \\
-0 &amp; -r &amp; 1 &amp; -\frac{1}{\sqrt{2}} \\
-\frac{r}{\sqrt{2}} &amp; \frac{r}{\sqrt{2}} &amp; -\frac{1}{\sqrt{2}} &amp; 1
-\end{pmatrix},
-\]</span></p>
-<p><span class="math display">\[
-\Sigma_{4b}(r)=
-\begin{pmatrix}
-1 &amp; 0 &amp; r &amp; \frac{r}{\sqrt{2}} \\
-0 &amp; 1 &amp; 0 &amp; \frac{r}{\sqrt{2}} \\
-r &amp; 0 &amp; 1 &amp; \frac{1}{\sqrt{2}} \\
-\frac{r}{\sqrt{2}} &amp; \frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} &amp; 1
-\end{pmatrix}, \;\;\;
-\Sigma_{4c}(r)=
-\begin{pmatrix}
-1 &amp; 0 &amp; \frac{1}{\sqrt{2}} &amp; -\frac{r}{\sqrt{2}} \\
-0 &amp; 1 &amp; -\frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} \\
-\frac{1}{\sqrt{2}} &amp; -\frac{r}{\sqrt{2}} &amp; 1 &amp; -r \\
--\frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} &amp; -r &amp; 1
-\end{pmatrix}\;\;\text{and}\;\;
-\Sigma_{4d}(r)=
-\begin{pmatrix}
-1 &amp; r &amp; \frac{1}{\sqrt{2}} &amp; \frac{r}{\sqrt{2}} \\
-r &amp; 1 &amp; \frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} \\
-\frac{1}{\sqrt{2}} &amp; \frac{r}{\sqrt{2}} &amp; 1 &amp; r \\
-\frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} &amp; r &amp; 1
-\end{pmatrix}.
-\]</span></p>
-</div>
-</div>
-<div id="estimation-methods" class="section level1">
-<h1 class="hasAnchor">
-<a href="#estimation-methods" class="anchor"></a>Estimation methods</h1>
-<p>Given the form of bridge function <span class="math inline">\(F\)</span>, obtaining a moment-based estimation <span class="math inline">\(\widehat \sigma_{jk}\)</span> requires inversion of <span class="math inline">\(F\)</span>. <code>latentcor</code> implements two methods for calculation of the inversion:</p>
-<ul>
-<li>
-<code>method = "original"</code> <a href="#original">Subsection describing original method and relevant parameter <code>tol</code></a>
-</li>
-<li>
-<code>method = "approx"</code> <a href="#approx">Subsection describing approximation method and relevant parameter <code>ratio</code></a>
-</li>
-</ul>
-<p>Both methods calculate inverse bridge function applied to each element of sample Kendall’s <span class="math inline">\(\tau\)</span> matrix. Because the calculation is performed point-wise (separately for each pair of variables), the resulting point-wise estimator of correlation matrix may not be positive semi-definite. <code>latentcor</code> performs projection of the pointwise-estimator to the space of positive semi-definite matrices, and allows for shrinkage towards identity matrix using the parameter <code>nu</code> (see <a href="#shrinkage">Subsection describing adjustment of point-wise estimator and relevant parameter <code>nu</code></a>).</p>
-<div id="original" class="section level2">
-<h2 class="hasAnchor">
-<a href="#original" class="anchor"></a>Original method (<code>method = "original"</code>)</h2>
-<p>Original estimation approach relies on numerical inversion of <span class="math inline">\(F\)</span> based on solving uni-root optimization problem. Given the calculated <span class="math inline">\(\widehat \tau_{jk}\)</span> (sample Kendall’s <span class="math inline">\(\tau\)</span> between variables <span class="math inline">\(j\)</span> and <span class="math inline">\(k\)</span>), the estimate of latent correlation <span class="math inline">\(\widehat \sigma_{jk}\)</span> is obtained by calling <code>optimize</code> function to solve the following optimization problem: <span class="math display">\[
-\widehat r_{jk} = \arg\min_{r} \{F(r) - \widehat \tau_{jk}\}^2.
-\]</span> The parameter <code>tol</code> controls the desired accuracy of the minimizer and is passed to <code>optimize</code>, with the default precision of 1e-8:</p>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">estimate</span> <span class="op">=</span> <span class="fu"><a href="../reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"original"</span>, tol <span class="op">=</span> <span class="fl">1e-8</span><span class="op">)</span></code></pre></div>
-<p><strong><em>Algorithm for Original method</em></strong></p>
-<p><strong>Input</strong>: <span class="math inline">\(F(r)=F(r, \mathbf{\Delta})\)</span> - bridge function based on the type of variables <span class="math inline">\(j\)</span>, <span class="math inline">\(k\)</span></p>
-<ul>
-<li>Step 1. Calculate <span class="math inline">\(\hat{\tau}_{jk}\)</span> using (1).</li>
-</ul>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">K</span>
-<span class="co">#&gt;           [,1]      [,2]      [,3]      [,4]</span>
-<span class="co">#&gt; [1,] 1.0000000 0.2557576 0.2456566 0.3331313</span>
-<span class="co">#&gt; [2,] 0.2557576 1.0000000 0.1555556 0.2339394</span>
-<span class="co">#&gt; [3,] 0.2456566 0.1555556 1.0000000 0.2183838</span>
-<span class="co">#&gt; [4,] 0.3331313 0.2339394 0.2183838 1.0000000</span></code></pre></div>
-<ul>
-<li>Step 2. For binary/truncated variable <span class="math inline">\(j\)</span>, set <span class="math inline">\(\hat{\mathbf{\Delta}}_{j}=\hat{\Delta}_{j}=\Phi^{-1}(\pi_{0j})\)</span> with <span class="math inline">\(\pi_{0j}=\sum_{i=1}^{n}\frac{I(x_{ij}=0)}{n}\)</span>. For ternary variable <span class="math inline">\(j\)</span>, set <span class="math inline">\(\hat{\mathbf{\Delta}}_{j}=(\hat{\Delta}_{j}^{1}, \hat{\Delta}_{j}^{2})\)</span> where <span class="math inline">\(\hat{\Delta}_{j}^{1}=\Phi^{-1}(\pi_{0j})\)</span> and <span class="math inline">\(\hat{\Delta}_{j}^{2}=\Phi^{-1}(\pi_{0j}+\pi_{1j})\)</span> with <span class="math inline">\(\pi_{0j}=\sum_{i=1}^{n}\frac{I(x_{ij}=0)}{n}\)</span> and <span class="math inline">\(\pi_{1j}=\sum_{i=1}^{n}\frac{I(x_{ij}=1)}{n}\)</span>.</li>
-</ul>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">zratios</span>
-<span class="co">#&gt; [[1]]</span>
-<span class="co">#&gt; [1] NA</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[2]]</span>
-<span class="co">#&gt; [1] 0.5</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[3]]</span>
-<span class="co">#&gt; [1] 0.3 0.8</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; [[4]]</span>
-<span class="co">#&gt; [1] 0.5</span></code></pre></div>
-<ul>
-<li>Compute <span class="math inline">\(F^{-1}(\hat{\tau}_{jk})\)</span> as <span class="math inline">\(\hat{r}_{jk}=argmin\{F(r)-\hat{\tau}_{jk}\}^{2}\)</span> solved via <code>optimize</code> function in <em>R</em> with accuracy <code>tol</code>.</li>
-</ul>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">Rpointwise</span>
-<span class="co">#&gt;           [,1]      [,2]      [,3]      [,4]</span>
-<span class="co">#&gt; [1,] 1.0000000 0.5529903 0.4480984 0.5826171</span>
-<span class="co">#&gt; [2,] 0.5529903 1.0000000 0.4050223 0.5821513</span>
-<span class="co">#&gt; [3,] 0.4480984 0.4050223 1.0000000 0.4653875</span>
-<span class="co">#&gt; [4,] 0.5826171 0.5821513 0.4653875 1.0000000</span></code></pre></div>
-</div>
-<div id="approx" class="section level2">
-<h2 class="hasAnchor">
-<a href="#approx" class="anchor"></a>Approximation method (<code>method = "approx"</code>)</h2>
-<p>A faster approximation method is based on multi-linear interpolation of pre-computed inverse bridge function on a fixed grid of points <span class="citation">(Yoon, Müller, and Gaynanova 2021)</span>. This is possible as the inverse bridge function is an analytic function of at most 5 parameters:</p>
-<ul>
-<li>Kendall’s <span class="math inline">\(\tau\)</span>
-</li>
-<li>Proportion of zeros in the 1st variable</li>
-<li>(Possibly) proportion of zeros and ones in the 1st variable</li>
-<li>(Possibly) proportion of zeros in the 2nd variable</li>
-<li>(Possibly) proportion of zeros and ones in the 2nd variable</li>
-</ul>
-<p>In short, d-dimensional multi-linear interpolation uses a weighted average of <span class="math inline">\(2^{d}\)</span> neighbors to approximate the function values at the points within the d-dimensional cube of the neighbors, and to perform interpolation, <code>latentcor</code> takes advantage of the R package <code>chebpol</code> <span class="citation">(Gaure 2019)</span>. This approximation method has been first described in <span class="citation">(Yoon, Müller, and Gaynanova 2021)</span> for continuous/binary/truncated cases. In <code>latentcor</code>, we additionally implement ternary case, and optimize the choice of grid as well as interpolation boundary for faster computations with smaller memory footprint.</p>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">estimate</span> <span class="op">=</span> <span class="fu"><a href="../reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"approx"</span><span class="op">)</span></code></pre></div>
-<p><strong><em>Algorithm for Approximation method </em></strong></p>
-<p><strong>Input</strong>: Let <span class="math inline">\(\check{g}=h(g)\)</span>, pre-computed values <span class="math inline">\(F^{-1}(h^{-1}(\check{g}))\)</span> on a fixed grid <span class="math inline">\(\check{g}\in\check{\cal{G}}\)</span> based on the type of variables <span class="math inline">\(j\)</span> and <span class="math inline">\(k\)</span>. For binary/continuous case, <span class="math inline">\(\check{g}=(\check{\tau}_{jk}, \check{\Delta}_{j})\)</span>; for binary/binary case, <span class="math inline">\(\check{g}=(\check{\tau}_{jk}, \check{\Delta}_{j}, \check{\Delta}_{k})\)</span>; for truncated/continuous case, <span class="math inline">\(\check{g}=(\check{\tau}_{jk}, \check{\Delta}_{j})\)</span>; for truncated/truncated case, <span class="math inline">\(\check{g}=(\check{\tau}_{jk}, \check{\Delta}_{j}, \check{\Delta}_{k})\)</span>; for ternary/continuous case, <span class="math inline">\(\check{g}=(\check{\tau}_{jk}, \check{\Delta}_{j}^{1}, \check{\Delta}_{j}^{2})\)</span>; for ternary/binary case, <span class="math inline">\(\check{g}=(\check{\tau}_{jk}, \check{\Delta}_{j}^{1}, \check{\Delta}_{j}^{2}, \check{\Delta}_{k})\)</span>; for ternary/truncated case, <span class="math inline">\(\check{g}=(\check{\tau}_{jk}, \check{\Delta}_{j}^{1}, \check{\Delta}_{j}^{2}, \check{\Delta}_{k})\)</span>; for ternay/ternary case, <span class="math inline">\(\check{g}=(\check{\tau}_{jk}, \check{\Delta}_{j}^{1}, \check{\Delta}_{j}^{2}, \check{\Delta}_{k}^{1}, \check{\Delta}_{k}^{2})\)</span>.</p>
-<ul>
-<li><p>Step 1 and Step 2 same as Original method.</p></li>
-<li><p>Step 3. If <span class="math inline">\(|\hat{\tau}_{jk}|\le \mbox{ratio}\times \bar{\tau}_{jk}(\cdot)\)</span>, apply interpolation; otherwise apply Original method.</p></li>
-</ul>
-<p>To avoid interpolation in areas with high approximation errors close to the boundary, we use hybrid scheme in Step 3. The parameter <code>ratio</code> controls the size of the region where the interpolation is performed (<code>ratio = 0</code> means no interpolation, <code>ratio = 1</code> means interpolation is always performed). For the derivation of approximate bound for BC, BB, TC, TB, TT cases see <span class="citation">Yoon, Müller, and Gaynanova (2021)</span>. The derivation of approximate bound for NC, NB, NN, NT case is in the Appendix.</p>
-<p><span class="math display">\[
-\bar{\tau}_{jk}(\cdot)=
-\begin{cases}
-2\pi_{0j}(1-\pi_{0j})  &amp;   for \; BC \; case\\
-2\min(\pi_{0j},\pi_{0k})\{1-\max(\pi_{0j}, \pi_{0k})\}  &amp;   for \; BB \; case\\
-2\{\pi_{0j}(1-\pi_{0j})+\pi_{1j}(1-\pi_{0j}-\pi_{1j})\}  &amp;   for \; NC \; case\\
-2\min(\pi_{0j}(1-\pi_{0j})+\pi_{1j}(1-\pi_{0j}-\pi_{1j}),\pi_{0k}(1-\pi_{0k}))  &amp;   for \; NB \; case\\
-2\min(\pi_{0j}(1-\pi_{0j})+\pi_{1j}(1-\pi_{0j}-\pi_{1j}), \\
-\;\;\;\;\;\;\;\;\;\;\pi_{0k}(1-\pi_{0k})+\pi_{1k}(1-\pi_{0k}-\pi_{1k}))  &amp;   for \; NN \; case\\
-1-(\pi_{0j})^{2}  &amp;   for \; TC \; case\\
-2\max(\pi_{0k},1-\pi_{0k})\{1-\max(\pi_{0k},1-\pi_{0k},\pi_{0j})\}  &amp;   for \; TB \; case\\
-1-\{\max(\pi_{0j},\pi_{0k},\pi_{1k},1-\pi_{0k}-\pi_{1k})\}^{2}  &amp;   for \; TN \; case\\
-1-\{\max(\pi_{0j},\pi_{0k})\}^{2}  &amp;   for \; TT \; case\\
-\end{cases}
-\]</span></p>
-<p>By default, <code>latentcor</code> uses <code>ratio = 0.9</code> as this value was recommended in <span class="citation">Yoon, Müller, and Gaynanova (2021)</span> having a good balance of accuracy and computational speed. This value, however, can be modified by the user.</p>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"approx"</span>, ratio <span class="op">=</span> <span class="fl">0.99</span><span class="op">)</span><span class="op">$</span><span class="va">R</span>
-<span class="co">#&gt;           [,1]      [,2]      [,3]      [,4]</span>
-<span class="co">#&gt; [1,] 1.0000000 0.5522684 0.4472342 0.5817297</span>
-<span class="co">#&gt; [2,] 0.5522684 1.0000000 0.4054908 0.5803080</span>
-<span class="co">#&gt; [3,] 0.4472342 0.4054908 1.0000000 0.4563203</span>
-<span class="co">#&gt; [4,] 0.5817297 0.5803080 0.4563203 1.0000000</span>
-<span class="fu"><a href="../reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"approx"</span>, ratio <span class="op">=</span> <span class="fl">0.4</span><span class="op">)</span><span class="op">$</span><span class="va">R</span>
-<span class="co">#&gt;           [,1]      [,2]      [,3]      [,4]</span>
-<span class="co">#&gt; [1,] 1.0000000 0.5524373 0.4472342 0.5820345</span>
-<span class="co">#&gt; [2,] 0.5524373 1.0000000 0.4054908 0.5815691</span>
-<span class="co">#&gt; [3,] 0.4472342 0.4054908 1.0000000 0.4563203</span>
-<span class="co">#&gt; [4,] 0.5820345 0.5815691 0.4563203 1.0000000</span>
-<span class="fu"><a href="../reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"original"</span><span class="op">)</span><span class="op">$</span><span class="va">R</span>
-<span class="co">#&gt;           [,1]      [,2]      [,3]      [,4]</span>
-<span class="co">#&gt; [1,] 1.0000000 0.5524373 0.4476503 0.5820345</span>
-<span class="co">#&gt; [2,] 0.5524373 1.0000000 0.4046173 0.5815691</span>
-<span class="co">#&gt; [3,] 0.4476503 0.4046173 1.0000000 0.4649222</span>
-<span class="co">#&gt; [4,] 0.5820345 0.5815691 0.4649222 1.0000000</span></code></pre></div>
-<p>The lower is the <code>ratio</code>, the closer is the approximation method to original method (with <code>ratio = 0</code> being equivalent to <code>method = "original"</code>), but also the higher is the cost of computations.</p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/joshuaulrich/microbenchmark/">microbenchmark</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html">microbenchmark</a></span><span class="op">(</span><span class="fu"><a href="../reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"approx"</span>, ratio <span class="op">=</span> <span class="fl">0.99</span><span class="op">)</span><span class="op">$</span><span class="va">R</span><span class="op">)</span>
-<span class="co">#&gt; Unit: milliseconds</span>
-<span class="co">#&gt;                                                                                         expr</span>
-<span class="co">#&gt;  latentcor(X, types = c("con", "bin", "ter", "tru"), method = "approx",      ratio = 0.99)$R</span>
-<span class="co">#&gt;     min      lq     mean  median     uq   max neval</span>
-<span class="co">#&gt;  1.1499 1.20365 1.406271 1.36665 1.4623 2.377   100</span>
-<span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html">microbenchmark</a></span><span class="op">(</span><span class="fu"><a href="../reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"approx"</span>, ratio <span class="op">=</span> <span class="fl">0.4</span><span class="op">)</span><span class="op">$</span><span class="va">R</span><span class="op">)</span>
-<span class="co">#&gt; Unit: milliseconds</span>
-<span class="co">#&gt;                                                                                        expr</span>
-<span class="co">#&gt;  latentcor(X, types = c("con", "bin", "ter", "tru"), method = "approx",      ratio = 0.4)$R</span>
-<span class="co">#&gt;     min      lq     mean median     uq   max neval</span>
-<span class="co">#&gt;  2.8295 2.95235 3.265417 3.0797 3.4733 7.756   100</span>
-<span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html">microbenchmark</a></span><span class="op">(</span><span class="fu"><a href="../reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"original"</span><span class="op">)</span><span class="op">$</span><span class="va">R</span><span class="op">)</span>
-<span class="co">#&gt; Unit: milliseconds</span>
-<span class="co">#&gt;                                                                        expr</span>
-<span class="co">#&gt;  latentcor(X, types = c("con", "bin", "ter", "tru"), method = "original")$R</span>
-<span class="co">#&gt;     min      lq     mean  median      uq     max neval</span>
-<span class="co">#&gt;  28.777 29.4699 30.10761 29.8696 30.4457 34.3389   100</span></code></pre></div>
-<p><strong>Rescaled Grid for Interpolation</strong></p>
-<p>Since <span class="math inline">\(|\hat{\tau}|\le \bar{\tau}\)</span>, the grid does not need to cover the whole domain <span class="math inline">\(\tau\in[-1, 1]\)</span>. To optimize memory associated with storing the grid, we rescale <span class="math inline">\(\tau\)</span> as follows: <span class="math inline">\(\check{\tau}_{jk}=\tau_{jk}/\bar{\tau}_{jk}\in[-1, 1]\)</span>, where <span class="math inline">\(\bar{\tau}_{jk}\)</span> is as defined above.</p>
-<p>In addition, for ternary variable <span class="math inline">\(j\)</span>, it always holds that <span class="math inline">\(\Delta_{j}^{2}&gt;\Delta_{j}^{1}\)</span> since <span class="math inline">\(\Delta_{j}^{1}=\Phi^{-1}(\pi_{0j})\)</span> and <span class="math inline">\(\Delta_{j}^{2}=\Phi^{-1}(\pi_{0j}+\pi_{1j})\)</span>. Thus, the grid should not cover the the area corresponding to <span class="math inline">\(\Delta_{j}^{2}\ge\Delta_{j}^{1}\)</span>. We thus rescale as follows: <span class="math inline">\(\check{\Delta}_{j}^{1}=\Delta_{j}^{1}/\Delta_{j}^{2}\in[0, 1]\)</span>; <span class="math inline">\(\check{\Delta}_{j}^{2}=\Delta_{j}^{2}\in[0, 1]\)</span>.</p>
-</div>
-<div id="shrinkage" class="section level2">
-<h2 class="hasAnchor">
-<a href="#shrinkage" class="anchor"></a>Adjustment of pointwise-estimator for positive-definiteness</h2>
-<p>Since the estimation is performed point-wise, the resulting matrix of estimated latent correlations is not guaranteed to be positive semi-definite. For example, this could be expected when the sample size is small (and so the estimation error for each pairwise correlation is larger)</p>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="st">"234820"</span><span class="op">)</span>
-<span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/gen_data.html">gen_data</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
-<span class="va">X</span>
-<span class="co">#&gt;            [,1] [,2] [,3]      [,4]</span>
-<span class="co">#&gt; [1,] -0.5182800    0    1 0.1021738</span>
-<span class="co">#&gt; [2,] -1.3017092    0    0 0.0000000</span>
-<span class="co">#&gt; [3,]  0.3145191    1    2 0.4213514</span>
-<span class="co">#&gt; [4,] -0.6093291    0    1 1.2771610</span>
-<span class="co">#&gt; [5,] -1.3175490    1    0 0.0000000</span>
-<span class="co">#&gt; [6,] -0.7807245    1    1 0.0000000</span>
-<span class="va">out</span> <span class="op">=</span> <span class="fu"><a href="../reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span><span class="op">)</span>
-<span class="va">out</span><span class="op">$</span><span class="va">Rpointwise</span>
-<span class="co">#&gt;            [,1]       [,2]      [,3]       [,4]</span>
-<span class="co">#&gt; [1,]  1.0000000 -0.1477240 0.9990000  0.8548518</span>
-<span class="co">#&gt; [2,] -0.1477240  1.0000000 0.3523666 -0.5030324</span>
-<span class="co">#&gt; [3,]  0.9990000  0.3523666 1.0000000  0.9114307</span>
-<span class="co">#&gt; [4,]  0.8548518 -0.5030324 0.9114307  1.0000000</span>
-<span class="fu"><a href="https://rdrr.io/r/base/eigen.html">eigen</a></span><span class="op">(</span><span class="va">out</span><span class="op">$</span><span class="va">Rpointwise</span><span class="op">)</span><span class="op">$</span><span class="va">values</span>
-<span class="co">#&gt; [1]  2.85954424  1.29130852  0.09944544 -0.25029820</span></code></pre></div>
-<p><code>latentcor</code> automatically corrects the pointwise estimator to be positive definite by making two adjustments. First, if <code>Rpointwise</code> has smallest eigenvalue less than zero, the <code>latentcor</code> projects this matrix to the nearest positive semi-definite matrix. The user is notified of this adjustment through the message (supressed in previous code chunk), e.g.</p>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">out</span> <span class="op">=</span> <span class="fu"><a href="../reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; Using Matrix::nearPD since Minimum eigenvalue of latent correlation matrix is -0.25029819695076 smaller than 0.</span></code></pre></div>
-<p>Second, <code>latentcor</code> shrinks the adjusted matrix of correlations towards identity matrix using the parameter <span class="math inline">\(\nu\)</span> with default value of 0.001 (<code>nu = 0.001</code>), so that the resulting <code>R</code> is strictly positive definite with the minimal eigenvalue being greater or equal to <span class="math inline">\(\nu\)</span>. That is <span class="math display">\[
-R = (1 - \nu) \widetilde R + \nu I,
-\]</span> where <span class="math inline">\(\widetilde R\)</span> is the nearest positive semi-definite matrix to <code>Rpointwise</code>.</p>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">out</span> <span class="op">=</span> <span class="fu"><a href="../reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span>, nu <span class="op">=</span> <span class="fl">0.001</span><span class="op">)</span>
-<span class="co">#&gt; Using Matrix::nearPD since Minimum eigenvalue of latent correlation matrix is -0.25029819695076 smaller than 0.</span>
-<span class="va">out</span><span class="op">$</span><span class="va">Rpointwise</span>
-<span class="co">#&gt;            [,1]       [,2]      [,3]       [,4]</span>
-<span class="co">#&gt; [1,]  1.0000000 -0.1477240 0.9990000  0.8548518</span>
-<span class="co">#&gt; [2,] -0.1477240  1.0000000 0.3523666 -0.5030324</span>
-<span class="co">#&gt; [3,]  0.9990000  0.3523666 1.0000000  0.9114307</span>
-<span class="co">#&gt; [4,]  0.8548518 -0.5030324 0.9114307  1.0000000</span>
-<span class="va">out</span><span class="op">$</span><span class="va">R</span>
-<span class="co">#&gt;            [,1]       [,2]      [,3]       [,4]</span>
-<span class="co">#&gt; [1,]  1.0000000 -0.1053533 0.9232992  0.9048072</span>
-<span class="co">#&gt; [2,] -0.1053533  1.0000000 0.2372115 -0.4244433</span>
-<span class="co">#&gt; [3,]  0.9232992  0.2372115 1.0000000  0.7723678</span>
-<span class="co">#&gt; [4,]  0.9048072 -0.4244433 0.7723678  1.0000000</span></code></pre></div>
-<p>As a result, <code>R</code> and <code>Rpointwise</code> could be quite different when sample size <span class="math inline">\(n\)</span> is small. When <span class="math inline">\(n\)</span> is large and <span class="math inline">\(p\)</span> is moderate, the difference is typically driven by parameter <code>nu</code>.</p>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/Random.html">set.seed</a></span><span class="op">(</span><span class="st">"234820"</span><span class="op">)</span>
-<span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/gen_data.html">gen_data</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">100</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
-<span class="va">out</span> <span class="op">=</span> <span class="fu"><a href="../reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span>, nu <span class="op">=</span> <span class="fl">0.001</span><span class="op">)</span>
-<span class="va">out</span><span class="op">$</span><span class="va">Rpointwise</span>
-<span class="co">#&gt;           [,1]      [,2]      [,3]      [,4]</span>
-<span class="co">#&gt; [1,] 1.0000000 0.5528213 0.4476819 0.5823120</span>
-<span class="co">#&gt; [2,] 0.5528213 1.0000000 0.4058967 0.5808889</span>
-<span class="co">#&gt; [3,] 0.4476819 0.4058967 1.0000000 0.4567771</span>
-<span class="co">#&gt; [4,] 0.5823120 0.5808889 0.4567771 1.0000000</span>
-<span class="va">out</span><span class="op">$</span><span class="va">R</span>
-<span class="co">#&gt;           [,1]      [,2]      [,3]      [,4]</span>
-<span class="co">#&gt; [1,] 1.0000000 0.5522684 0.4472342 0.5817297</span>
-<span class="co">#&gt; [2,] 0.5522684 1.0000000 0.4054908 0.5803080</span>
-<span class="co">#&gt; [3,] 0.4472342 0.4054908 1.0000000 0.4563203</span>
-<span class="co">#&gt; [4,] 0.5817297 0.5803080 0.4563203 1.0000000</span></code></pre></div>
-</div>
-</div>
-<div id="appendix" class="section level1">
-<h1 class="hasAnchor">
-<a href="#appendix" class="anchor"></a>Appendix</h1>
-<div id="derivation-of-bridge-function-f-for-ternarytruncated-case" class="section level2">
-<h2 class="hasAnchor">
-<a href="#derivation-of-bridge-function-f-for-ternarytruncated-case" class="anchor"></a>Derivation of bridge function <span class="math inline">\(F\)</span> for ternary/truncated case</h2>
-<p>Without loss of generality, let <span class="math inline">\(j=1\)</span> and <span class="math inline">\(k=2\)</span>. By the definition of Kendall’s <span class="math inline">\(\tau\)</span>, <span class="math display">\[
-    \tau_{12}=E(\hat{\tau}_{12})=E[\frac{2}{n(n-1)}\sum_{1\leq i\leq i' \leq n} sign\{(X_{i1}-X_{i'1})(X_{i2}-X_{i'2})\}].
-\]</span> Since <span class="math inline">\(X_{1}\)</span> is ternary, <span class="math display">\[\begin{align}
-    &amp;sign(X_{1}-X_{1}') \nonumber\\ =&amp;[I(U_{1}&gt;C_{11},U_{1}'\leq C_{11})+I(U_{1}&gt;C_{12},U_{1}'\leq C_{12})-I(U_{1}&gt;C_{12},U_{1}'\leq C_{11})] \nonumber\\
-    &amp;-[I(U_{1}\leq C_{11}, U_{1}'&gt;C_{11})+I(U_{1}\leq C_{12}, U_{1}'&gt;C_{12})-I(U_{1}\leq C_{11}, U_{1}'&gt;C_{12})] \nonumber\\
-    =&amp;[I(U_{1}&gt;C_{11})-I(U_{1}&gt;C_{11},U_{1}'&gt;C_{11})+I(U_{1}&gt;C_{12})-I(U_{1}&gt;C_{12},U_{1}'&gt;C_{12}) \nonumber\\
-    &amp;-I(U_{1}&gt;C_{12})+I(U_{1}&gt;C_{12},U_{1}'&gt;C_{11})] \nonumber\\
-    &amp;-[I(U_{1}'&gt;C_{11})-I(U_{1}&gt;C_{11},U_{1}'&gt;C_{11})+I(U_{1}'&gt;C_{12})-I(U_{1}&gt;C_{12},U_{1}'&gt;C_{12}) \nonumber\\
-    &amp;-I(U_{1}'&gt;C_{12})+I(U_{1}&gt;C_{11},U_{1}'&gt;C_{12})] \nonumber\\
-    =&amp;I(U_{1}&gt;C_{11})+I(U_{1}&gt;C_{12},U_{1}'&gt;C_{11})-I(U_{1}'&gt;C_{11})-I(U_{1}&gt;C_{11},U_{1}'&gt;C_{12}) \nonumber\\
-    =&amp;I(U_{1}&gt;C_{11},U_{1}'\leq C_{12})-I(U_{1}'&gt;C_{11},U_{1}\leq C_{12}).
-\end{align}\]</span> Since <span class="math inline">\(X_{2}\)</span> is truncated, <span class="math inline">\(C_{1}&gt;0\)</span> and <span class="math display">\[\begin{align}
-    sign(X_{2}-X_{2}')=&amp;-I(X_{2}=0,X_{2}'&gt;0)+I(X_{2}&gt;0,X_{2}'=0) \nonumber\\
-    &amp;+I(X_{2}&gt;0,X_{2}'&gt;0)sign(X_{2}-X_{2}') \nonumber\\
-    =&amp;-I(X_{2}=0)+I(X_{2}'=0)+I(X_{2}&gt;0,X_{2}'&gt;0)sign(X_{2}-X_{2}').
-\end{align}\]</span> Since <span class="math inline">\(f\)</span> is monotonically increasing, <span class="math inline">\(sign(X_{2}-X_{2}')=sign(Z_{2}-Z_{2}')\)</span>, <span class="math display">\[\begin{align}
-    \tau_{12}=&amp;E[I(U_{1}&gt;C_{11},U_{1}'\leq C_{12}) sign(X_{2}-X_{2}')] \nonumber\\ &amp;-E[I(U_{1}'&gt;C_{11},U_{1}\leq C_{12}) sign(X_{2}-X_{2}')] \nonumber\\
-    =&amp;-E[I(U_{1}&gt;C_{11},U_{1}'\leq C_{12}) I(X_{2}=0)] \nonumber\\
-    &amp;+E[I(U_{1}&gt;C_{11},U_{1}'\leq C_{12}) I(X_{2}'=0)] \nonumber\\
-    &amp;+E[I(U_{1}&gt;C_{11},U_{1}'\leq C_{12})I(X_{2}&gt;0,X_{2}'&gt;0)sign(Z_{2}-Z_{2}')] \nonumber\\
-    &amp;+E[I(U_{1}'&gt;C_{11},U_{1}\leq C_{12}) I(X_{2}=0)] \nonumber\\
-    &amp;-E[I(U_{1}'&gt;C_{11},U_{1}\leq C_{12}) I(X_{2}'=0)] \nonumber\\
-    &amp;-E[I(U_{1}'&gt;C_{11},U_{1}\leq C_{12})I(X_{2}&gt;0,X_{2}'&gt;0)sign(Z_{2}-Z_{2}')]  \nonumber\\
-    =&amp;-2E[I(U_{1}&gt;C_{11},U_{1}'\leq C_{12}) I(X_{2}=0)] \nonumber\\
-    &amp;+2E[I(U_{1}&gt;C_{11},U_{1}'\leq C_{12}) I(X_{2}'=0)] \nonumber\\
-    &amp;+E[I(U_{1}&gt;C_{11},U_{1}'\leq C_{12})I(X_{2}&gt;0,X_{2}'&gt;0)sign(Z_{2}-Z_{2}')] \nonumber\\
-    &amp;-E[I(U_{1}'&gt;C_{11},U_{1}\leq C_{12})I(X_{2}&gt;0,X_{2}'&gt;0)sign(Z_{2}-Z_{2}')].
-\end{align}\]</span> From the definition of <span class="math inline">\(U\)</span>, let <span class="math inline">\(Z_{j}=f_{j}(U_{j})\)</span> and <span class="math inline">\(\Delta_{j}=f_{j}(C_{j})\)</span> for <span class="math inline">\(j=1,2\)</span>. Using <span class="math inline">\(sign(x)=2I(x&gt;0)-1\)</span>, we obtain <span class="math display">\[\begin{align}
-    \tau_{12}=&amp;-2E[I(Z_{1}&gt;\Delta_{11},Z_{1}'\leq \Delta_{12},Z_{2}\leq \Delta_{2})]+2E[I(Z_{1}&gt;\Delta_{11},Z_{1}'\leq \Delta_{12},Z_{2}'\leq \Delta_{2})] \nonumber\\
-    &amp;+2E[I(Z_{1}&gt;\Delta_{11},Z_{1}'\leq \Delta_{12})I(Z_{2}&gt;\Delta_{2},Z_{2}'&gt;\Delta_{2},Z_{2}-Z_{2}'&gt;0)] \nonumber\\
-    &amp;-2E[I(Z_{1}'&gt;\Delta_{11},Z_{1}\leq \Delta_{12})I(Z_{2}&gt;\Delta_{2},Z_{2}'&gt;\Delta_{2},Z_{2}-Z_{2}'&gt;0)] \nonumber\\
-    =&amp;-2E[I(Z_{1}&gt;\Delta_{11},Z_{1}'\leq \Delta_{12}, Z_{2}\leq \Delta_{2})]+2E[I(Z_{1}&gt;\Delta_{11},Z_{1}'\leq \Delta_{12}, Z_{2}'\leq \Delta_{2})] \nonumber\\
-    &amp;+2E[I(Z_{1}&gt;\Delta_{11},Z_{1}'\leq\Delta_{12},Z_{2}'&gt;\Delta_{2},Z_{2}&gt;Z_{2}')] \nonumber\\
-    &amp;-2E[I(Z_{1}'&gt;\Delta_{11},Z_{1}\leq\Delta_{12},Z_{2}'&gt;\Delta_{2},Z_{2}&gt;Z_{2}')].
-\end{align}\]</span> Since <span class="math inline">\(\{\frac{Z_{2}'-Z_{2}}{\sqrt{2}}, -Z{1}\}\)</span>, <span class="math inline">\(\{\frac{Z_{2}'-Z_{2}}{\sqrt{2}}, Z{1}'\}\)</span> and <span class="math inline">\(\{\frac{Z_{2}'-Z_{2}}{\sqrt{2}}, -Z{2}'\}\)</span> are standard bivariate normally distributed variables with correlation <span class="math inline">\(-\frac{1}{\sqrt{2}}\)</span>, <span class="math inline">\(r/\sqrt{2}\)</span> and <span class="math inline">\(-\frac{r}{\sqrt{2}}\)</span>, respectively, by the definition of <span class="math inline">\(\Phi_3(\cdot,\cdot, \cdot;\cdot)\)</span> and <span class="math inline">\(\Phi_4(\cdot,\cdot, \cdot,\cdot;\cdot)\)</span> we have <span class="math display">\[\begin{align}
-    F_{NT}(r;\Delta_{j}^{1},\Delta_{j}^{2},\Delta_{k})= &amp; -2\Phi_{3}\left\{-\Delta_{j}^{1},\Delta_{j}^{2},\Delta_{k};\begin{pmatrix}
-1 &amp; 0 &amp; -r \\
-0 &amp; 1 &amp; 0 \\
--r &amp; 0 &amp; 1
-\end{pmatrix} \right\} \nonumber\\
-    &amp;+2\Phi_{3}\left\{-\Delta_{j}^{1},\Delta_{j}^{2},\Delta_{k};\begin{pmatrix}
-1 &amp; 0 &amp; 0 \\
-0 &amp; 1 &amp; r \\
-0 &amp; r &amp; 1
-\end{pmatrix}\right\}\nonumber \\
-    &amp; +2\Phi_{4}\left\{-\Delta_{j}^{1},\Delta_{j}^{2},-\Delta_{k},0;\begin{pmatrix}
-1 &amp; 0 &amp; 0 &amp; \frac{r}{\sqrt{2}} \\
-0 &amp; 1 &amp; -r &amp; \frac{r}{\sqrt{2}} \\
-0 &amp; -r &amp; 1 &amp; -\frac{1}{\sqrt{2}} \\
-\frac{r}{\sqrt{2}} &amp; \frac{r}{\sqrt{2}} &amp; -\frac{1}{\sqrt{2}} &amp; 1
-\end{pmatrix}\right\} \nonumber\\
-    &amp;-2\Phi_{4}\left\{-\Delta_{j}^{1},\Delta_{j}^{2},-\Delta_{k},0;\begin{pmatrix}
-1 &amp; 0 &amp; r &amp; -\frac{r}{\sqrt{2}} \\
-0 &amp; 1 &amp; 0 &amp; -\frac{r}{\sqrt{2}} \\
-r &amp; 0 &amp; 1 &amp; -\frac{1}{\sqrt{2}} \\
--\frac{r}{\sqrt{2}} &amp; -\frac{r}{\sqrt{2}} &amp; -\frac{1}{\sqrt{2}} &amp; 1
-\end{pmatrix}\right\}.
-\end{align}\]</span> Using the facts that <span class="math display">\[\begin{align}
-&amp;\Phi_{4}\left\{-\Delta_{j}^{1},\Delta_{j}^{2},-\Delta_{k},0;\begin{pmatrix}
-1 &amp; 0 &amp; r &amp; -\frac{r}{\sqrt{2}} \\
-0 &amp; 1 &amp; 0 &amp; -\frac{r}{\sqrt{2}} \\
-r &amp; 0 &amp; 1 &amp; -\frac{1}{\sqrt{2}} \\
--\frac{r}{\sqrt{2}} &amp; -\frac{r}{\sqrt{2}} &amp; -\frac{1}{\sqrt{2}} &amp; 1
-\end{pmatrix}\right\} \nonumber\\ &amp;+\Phi_{4}\left\{-\Delta_{j}^{1},\Delta_{j}^{2},-\Delta_{k},0;\begin{pmatrix}
-1 &amp; 0 &amp; r &amp; \frac{r}{\sqrt{2}} \\
-0 &amp; 1 &amp; 0 &amp; \frac{r}{\sqrt{2}} \\
-r &amp; 0 &amp; 1 &amp; \frac{1}{\sqrt{2}} \\
-\frac{r}{\sqrt{2}} &amp; \frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} &amp; 1
-\end{pmatrix}\right\} \nonumber\\
-=&amp;\Phi_{3}\left\{-\Delta_{j}^{1},\Delta_{j}^{2},-\Delta_{k};\begin{pmatrix}
-1 &amp; 0 &amp; 0 \\
-0 &amp; 1 &amp; r \\
-0 &amp; r &amp; 1
-\end{pmatrix}\right\}
-\end{align}\]</span> and <span class="math display">\[\begin{align}
-&amp;\Phi_{3}\left\{-\Delta_{j}^{1},\Delta_{j}^{2},-\Delta_{k};\begin{pmatrix}
-1 &amp; 0 &amp; 0 \\
-0 &amp; 1 &amp; r \\
-0 &amp; r &amp; 1
-\end{pmatrix}\right\}+\Phi_{3}\left\{-\Delta_{j}^{1},\Delta_{j}^{2},\Delta_{k};\begin{pmatrix}
-1 &amp; 0 &amp; -r \\
-0 &amp; 1 &amp; 0 \\
--r &amp; 0 &amp; 1
-\end{pmatrix} \right\} \nonumber\\
-=&amp;\Phi_{2}(-\Delta_{j}^{1},\Delta_{j}^{2};0)
-=\Phi(-\Delta_{j}^{1})\Phi(\Delta_{j}^{2}).
-\end{align}\]</span> So that, <span class="math display">\[\begin{align}
-    F_{NT}(r;\Delta_{j}^{1},\Delta_{j}^{2},\Delta_{k})= &amp; -2\Phi(-\Delta_{j}^{1})\Phi(\Delta_{j}^{2}) \nonumber\\
-    &amp;+2\Phi_{3}\left\{-\Delta_{j}^{1},\Delta_{j}^{2},\Delta_{k};\begin{pmatrix}
-1 &amp; 0 &amp; 0 \\
-0 &amp; 1 &amp; r \\
-0 &amp; r &amp; 1
-\end{pmatrix}\right\}\nonumber \\
-    &amp; +2\Phi_{4}\left\{-\Delta_{j}^{1},\Delta_{j}^{2},-\Delta_{k},0;\begin{pmatrix}
-1 &amp; 0 &amp; 0 &amp; \frac{r}{\sqrt{2}} \\
-0 &amp; 1 &amp; -r &amp; \frac{r}{\sqrt{2}} \\
-0 &amp; -r &amp; 1 &amp; -\frac{1}{\sqrt{2}} \\
-\frac{r}{\sqrt{2}} &amp; \frac{r}{\sqrt{2}} &amp; -\frac{1}{\sqrt{2}} &amp; 1
-\end{pmatrix}\right\} \nonumber\\
-    &amp;+2\Phi_{4}\left\{-\Delta_{j}^{1},\Delta_{j}^{2},-\Delta_{k},0;\begin{pmatrix}
-1 &amp; 0 &amp; r &amp; \frac{r}{\sqrt{2}} \\
-0 &amp; 1 &amp; 0 &amp; \frac{r}{\sqrt{2}} \\
-r &amp; 0 &amp; 1 &amp; \frac{1}{\sqrt{2}} \\
-\frac{r}{\sqrt{2}} &amp; \frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} &amp; 1
-\end{pmatrix}\right\}.
-\end{align}\]</span></p>
-<p>It is easy to get the bridge function for truncated/ternary case by switching <span class="math inline">\(j\)</span> and <span class="math inline">\(k\)</span>.</p>
-</div>
-<div id="derivation-of-approximate-bound-for-the-ternarycontinuous-case" class="section level2">
-<h2 class="hasAnchor">
-<a href="#derivation-of-approximate-bound-for-the-ternarycontinuous-case" class="anchor"></a>Derivation of approximate bound for the ternary/continuous case</h2>
-<p>Let <span class="math inline">\(n_{0x}=\sum_{i=1}^{n_x}I(x_{i}=0)\)</span>, <span class="math inline">\(n_{2x}=\sum_{i=1}^{n_x}I(x_{i}=2)\)</span>, <span class="math inline">\(\pi_{0x}=\frac{n_{0x}}{n_{x}}\)</span> and <span class="math inline">\(\pi_{2x}=\frac{n_{2x}}{n_{x}}\)</span>, then <span class="math display">\[\begin{align}
-    |\tau(\mathbf{x})|\leq &amp; \frac{n_{0x}(n-n_{0x})+n_{2x}(n-n_{0x}-n_{2x})}{\begin{pmatrix} n \\ 2 \end{pmatrix}} \nonumber\\
-    = &amp; 2\{\frac{n_{0x}}{n-1}-(\frac{n_{0x}}{n})(\frac{n_{0x}}{n-1})+\frac{n_{2x}}{n-1}-(\frac{n_{2x}}{n})(\frac{n_{0x}}{n-1})-(\frac{n_{2x}}{n})(\frac{n_{2x}}{n-1})\} \nonumber\\
-    \approx &amp; 2\{\frac{n_{0x}}{n}-(\frac{n_{0x}}{n})^2+\frac{n_{2x}}{n}-(\frac{n_{2x}}{n})(\frac{n_{0x}}{n})-(\frac{n_{2x}}{n})^2\} \nonumber\\
-    = &amp; 2\{\pi_{0x}(1-\pi_{0x})+\pi_{2x}(1-\pi_{0x}-\pi_{2x})\}
-\end{align}\]</span></p>
-<p>For ternary/binary and ternary/ternary cases, we combine the two individual bounds.</p>
-</div>
-<div id="derivation-of-approximate-bound-for-the-ternarytruncated-case" class="section level2">
-<h2 class="hasAnchor">
-<a href="#derivation-of-approximate-bound-for-the-ternarytruncated-case" class="anchor"></a>Derivation of approximate bound for the ternary/truncated case</h2>
-<p>Let <span class="math inline">\(\mathbf{x}\in\mathcal{R}^{n}\)</span> and <span class="math inline">\(\mathbf{y}\in\mathcal{R}^{n}\)</span> be the observed <span class="math inline">\(n\)</span> realizations of ternary and truncated variables, respectively. Let <span class="math inline">\(n_{0x}=\sum_{i=0}^{n}I(x_{i}=0)\)</span>, <span class="math inline">\(\pi_{0x}=\frac{n_{0x}}{n}\)</span>, <span class="math inline">\(n_{1x}=\sum_{i=0}^{n}I(x_{i}=1)\)</span>, <span class="math inline">\(\pi_{1x}=\frac{n_{1x}}{n}\)</span>, <span class="math inline">\(n_{2x}=\sum_{i=0}^{n}I(x_{i}=2)\)</span>, <span class="math inline">\(\pi_{2x}=\frac{n_{2x}}{n}\)</span>, <span class="math inline">\(n_{0y}=\sum_{i=0}^{n}I(y_{i}=0)\)</span>, <span class="math inline">\(\pi_{0y}=\frac{n_{0y}}{n}\)</span>, <span class="math inline">\(n_{0x0y}=\sum_{i=0}^{n}I(x_{i}=0 \;\&amp; \; y_{i}=0)\)</span>, <span class="math inline">\(n_{1x0y}=\sum_{i=0}^{n}I(x_{i}=1 \;\&amp; \; y_{i}=0)\)</span> and <span class="math inline">\(n_{2x0y}=\sum_{i=0}^{n}I(x_{i}=2 \;\&amp; \; y_{i}=0)\)</span> then <span class="math display">\[\begin{align}
-    |\tau(\mathbf{x}, \mathbf{y})|\leq &amp;
-    \frac{\begin{pmatrix}n \\ 2\end{pmatrix}-\begin{pmatrix}n_{0x} \\ 2\end{pmatrix}-\begin{pmatrix}n_{1x} \\ 2\end{pmatrix}-\begin{pmatrix} n_{2x} \\ 2 \end{pmatrix}-\begin{pmatrix}n_{0y} \\ 2\end{pmatrix}+\begin{pmatrix}n_{0x0y} \\ 2 \end{pmatrix}+\begin{pmatrix}n_{1x0y} \\ 2\end{pmatrix}+\begin{pmatrix}n_{2x0y} \\ 2\end{pmatrix}}{\begin{pmatrix}n \\ 2\end{pmatrix}} \nonumber
-\end{align}\]</span> Since <span class="math inline">\(n_{0x0y}\leq\min(n_{0x},n_{0y})\)</span>, <span class="math inline">\(n_{1x0y}\leq\min(n_{1x},n_{0y})\)</span> and <span class="math inline">\(n_{2x0y}\leq\min(n_{2x},n_{0y})\)</span> we obtain <span class="math display">\[\begin{align}
-     |\tau(\mathbf{x}, \mathbf{y})|\leq &amp;
-    \frac{\begin{pmatrix}n \\ 2\end{pmatrix}-\begin{pmatrix}n_{0x} \\ 2\end{pmatrix}-\begin{pmatrix}n_{1x} \\ 2\end{pmatrix}-\begin{pmatrix} n_{2x} \\ 2 \end{pmatrix}-\begin{pmatrix}n_{0y} \\ 2\end{pmatrix}}{\begin{pmatrix}n \\ 2\end{pmatrix}} \nonumber\\
-    &amp; +  \frac{\begin{pmatrix}\min(n_{0x},n_{0y}) \\ 2 \end{pmatrix}+\begin{pmatrix}\min(n_{1x},n_{0y}) \\ 2\end{pmatrix}+\begin{pmatrix}\min(n_{2x},n_{0y}) \\ 2\end{pmatrix}}{\begin{pmatrix}n \\ 2\end{pmatrix}} \nonumber\\
-    \leq &amp; \frac{\begin{pmatrix}n \\ 2\end{pmatrix}-\begin{pmatrix}\max(n_{0x},n_{1x},n_{2x},n_{0y}) \\ 2\end{pmatrix}}{\begin{pmatrix}n \\ 2\end{pmatrix}} \nonumber\\
-    \leq &amp; 1-\frac{\max(n_{0x},n_{1x},n_{2x},n_{0y})(\max(n_{0x},n_{1x},n_{2x},n_{0y})-1)}{n(n-1)} \nonumber\\
-    \approx &amp; 1-(\frac{\max(n_{0x},n_{1x},n_{2x},n_{0y})}{n})^{2} \nonumber\\
-    =&amp; 1-\{\max(\pi_{0x},\pi_{1x},\pi_{2x},\pi_{0y})\}^{2} \nonumber\\
-    =&amp; 1-\{\max(\pi_{0x},(1-\pi_{0x}-\pi_{2x}),\pi_{2x},\pi_{0y})\}^{2}
-\end{align}\]</span></p>
-<p>It is easy to get the approximate bound for truncated/ternary case by switching <span class="math inline">\(\mathbf{x}\)</span> and <span class="math inline">\(\mathbf{y}\)</span>.</p>
+<span class="co">#&gt;    0.06    0.00    0.07</span></code></pre></div>
 </div>
 </div>
 <div id="references" class="section level1 unnumbered">
@@ -1043,29 +469,14 @@ r &amp; 0 &amp; 1 &amp; \frac{1}{\sqrt{2}} \\
 <div id="ref-croux2013robust" class="csl-entry">
 Croux, Christophe, Peter Filzmoser, and Heinrich Fritz. 2013. <span>“Robust Sparse Principal Component Analysis.”</span> <em>Technometrics</em> 55 (2): 202–14.
 </div>
-<div id="ref-fan2017high" class="csl-entry">
-Fan, Jianqing, Han Liu, Yang Ning, and Hui Zou. 2017. <span>“High Dimensional Semiparametric Latent Graphical Model for Mixed Data.”</span> <em>Journal of the Royal Statistical Society. Series B: Statistical Methodology</em> 79 (2): 405–21.
-</div>
 <div id="ref-filzmoser2021pcapp" class="csl-entry">
 Filzmoser, Peter, Heinrich Fritz, and Klaudius Kalcher. 2021. <em>pcaPP: Robust PCA by Projection Pursuit</em>. <a href="https://CRAN.R-project.org/package=pcaPP">https://CRAN.R-project.org/package=pcaPP</a>.
 </div>
 <div id="ref-fox2019poly" class="csl-entry">
 Fox, John. 2019. <em>Polycor: Polychoric and Polyserial Correlations</em>. <a href="https://CRAN.R-project.org/package=polycor">https://CRAN.R-project.org/package=polycor</a>.
 </div>
-<div id="ref-R-chebpol" class="csl-entry">
-Gaure, Simen. 2019. <em>Chebpol: Multivariate Interpolation</em>. <a href="https://github.com/sgaure/chebpol">https://github.com/sgaure/chebpol</a>.
-</div>
 <div id="ref-liu2009nonparanormal" class="csl-entry">
 Liu, Han, John Lafferty, and Larry Wasserman. 2009. <span>“The Nonparanormal: Semiparametric Estimation of High Dimensional Undirected Graphs.”</span> <em>Journal of Machine Learning Research</em> 10 (10).
-</div>
-<div id="ref-quan2018rank" class="csl-entry">
-Quan, Xiaoyun, James G Booth, and Martin T Wells. 2018. <span>“Rank-Based Approach for Estimating Correlations in Mixed Ordinal Data.”</span> <em>arXiv Preprint arXiv:1809.06255</em>.
-</div>
-<div id="ref-yoon2020sparse" class="csl-entry">
-Yoon, Grace, Raymond J Carroll, and Irina Gaynanova. 2020. <span>“Sparse Semiparametric Canonical Correlation Analysis for Data of Mixed Types.”</span> <em>Biometrika</em> 107 (3): 609–25.
-</div>
-<div id="ref-yoon2021fast" class="csl-entry">
-Yoon, Grace, Christian L Müller, and Irina Gaynanova. 2021. <span>“Fast Computation of Latent Correlations.”</span> <em>Journal of Computational and Graphical Statistics</em>, 1–8.
 </div>
 </div>
 </div>

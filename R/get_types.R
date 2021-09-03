@@ -14,7 +14,7 @@
 #' get_types(X)
 #'
 get_types = function(X, tru_prop = 0.05) {
-  X = data.matrix(X)
+  X = as.matrix(X)
   if (!(is.numeric(X))) {
     stop("Input data matrix should be numeric.")
   }

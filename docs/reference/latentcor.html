@@ -90,6 +90,18 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/latentcor_math.html">Mathematical Framework for latentcor</a>
+    </li>
+  </ul>
+</li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
@@ -197,7 +209,7 @@
 <span class='va'>R_nc_org</span> <span class='op'>=</span> <span class='fu'>latentcor</span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>X</span>, types <span class='op'>=</span> <span class='st'>"tru"</span>, method <span class='op'>=</span> <span class='st'>"original"</span><span class='op'>)</span><span class='op'>$</span><span class='va'>R</span>
 <span class='fu'><a href='https://rdrr.io/r/base/proc.time.html'>proc.time</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>-</span> <span class='va'>start_time</span>
 </div><div class='output co'>#&gt;    user  system elapsed 
-#&gt;     0.5     0.0     0.5 </div><div class='input'><span class='co'># Estimate latent correlation matrix with approximation method and check the timing</span>
+#&gt;    0.52    0.00    0.52 </div><div class='input'><span class='co'># Estimate latent correlation matrix with approximation method and check the timing</span>
 <span class='va'>start_time</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/proc.time.html'>proc.time</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='va'>R_nc_approx</span> <span class='op'>=</span> <span class='fu'>latentcor</span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>X</span>, types <span class='op'>=</span> <span class='st'>"tru"</span>, method <span class='op'>=</span> <span class='st'>"approx"</span><span class='op'>)</span><span class='op'>$</span><span class='va'>R</span>
 <span class='fu'><a href='https://rdrr.io/r/base/proc.time.html'>proc.time</a></span><span class='op'>(</span><span class='op'>)</span> <span class='op'>-</span> <span class='va'>start_time</span>
