@@ -109,57 +109,58 @@ Memory footprints (in KB):
 | ternary/truncated | - | 860.9 |
 | ternary/ternary | - | 950.61 |
 
-## Illustrative example 
+## Illustrative examples 
 
-To illustrate the excellent performance of latent correlation estimation on mixed data, we consider the simple example of estimating correlations between continuous and ternary variables. In this synthetic scenario, we have access to the true underlying correlation between the variables. Figure \ref{fig:R_all}A displays the values obtained by using standard Pearson correlation, revealing a significant estimation bias with respect to the true correlations. Figure \ref{fig:R_all}B displays the estimated latent correlations using the original approach versus the true values of underlying ternary/continuous correlations. 
+To illustrate the excellent performance of latent correlation estimation on mixed data, we consider the simple example of estimating correlations between continuous and ternary variables. 
+
+First, we use `latentcor` to generate synthetic data with two variables of sample size 500, and true latent correlation value of 0.5.
+```r
+library(latentcor)
+
+# The first variable is ternary 
+# The second variable is continuous. 
+# No copula transformation is applied.
+set.seed(2346)
+X = gen_data(n = 500, types = c("ter", "con"), rhos = 0.5)$X
+```
+Applying the original estimation method gives the estimated latent correlation equal to 0.4766.
+```r
+latentcor(X = X, types = c("ter", "con"), method = "original")$R
+```
+Applying the approximation estimation method (default) gives the estimated latent correlation equal to 0.4762.
+```r
+latentcor(X = X, types = c("ter", "con"))$R
+```
+In contrast, applying Pearson correlation gives an estimate of 0.4224, which is further from the true value 0.5.
+```r
+cor(X)
+```
+
+To illustrate the bias for Pearson correlation, we consider truncated/continuous case for many different values of true correlation. Figure \ref{fig:R_all}A displays the values obtained by using standard Pearson correlation, revealing a significant estimation bias with respect to the true correlations. Figure \ref{fig:R_all}B displays the estimated latent correlations using the original approach versus the true values of underlying ternary/continuous correlations. 
 The alignment of points around $y=x$ line confirms that the estimation is empirically unbiased. Figure \ref{fig:R_all}C displays the estimated latent correlations using the approximation approach (`method = "approx"`) versus true values of underlying latent correlation. The results are almost indistinguishable from Figure \ref{fig:R_all}B at a fraction of the computational cost.
 
 ![Scatter plots of estimated Pearson correlation (panel A) and latent correlations (`original` in panel B, `approx` in panel C) vs. ground truth correlations \label{fig:R_all}](./CombinedCorrelations.pdf)
 
 The script to reproduce the displayed results is available at [latentcor_evaluation](https://github.com/mingzehuang/latentcor_evaluation/blob/master/unbias_check.R).
 
-# Basic Usage
 
-We provide two basic code examples of how to use `latentcor` in R. 
 
-The first example illustrates how to estimate latent correlation from pairs of ternary/continuous variables.
-
-```r
-library(latentcor)
-
-# Generate two variables of sample size 100
-# The first variable is ternary (pi0 = 0.3, pi1 = 0.5, pi2 = 1-0.3-0.5 = 0.2) 
-# The second variable is continuous. 
-# No copula transformation is applied.
-X = gen_data(types = c("ter", "con"), XP = list(c(0.3, .5), NA))$X
-
-# Estimate latent correlation matrix with original method
-latentcor(X = X, types = c("ter", "con"), method = "original")$R
-
-# Estimate latent correlation matrix with approximation method
-latentcor(X = X, types = c("ter", "con"))$R
-
-# Heatmap for latent correlation matrix.
-latentcor(X = X, types = c("ter", "con"), showplot = TRUE)$plotR
-```
-The second example considers the `mtcars` dataset, available in standard R. 
-The `mtcars` dataset comprises eleven variables of continuous, binary, and ternary data type.
+We next illustrate application to `mtcars` dataset, available in standard R. The `mtcars` dataset comprises eleven variables of continuous, binary, and ternary data type. The function `get_types` can be used to automaticlaly extract these types from the data.
 
 ```r
 library(latentcor)
 # Use build-in dataset mtcars
 X = mtcars
-# Check variable types
-apply(mtcars, 2, table)
-# Estimate latent correlation matrix with original method
-latentcor(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin",
-                       "bin", "ter", "con"), method = "original")$R
-# Estimate latent correlation matrix with approximation method
-latentcor(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin",
-                       "bin", "ter", "con"))$R
-# Heatmap for latent correlation matrix.
-latentcor(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin",
-                       "bin", "ter", "con"), showplot = TRUE)$plotR
+# Extract variable types
+type = get_types(X)
+```
+After the types are determined, the correlation matrix can be estimated using either the original method
+```r
+latentcor(mtcars, types = types, method = "original")$R
+```
+or using the approximation method
+```r
+latentcor(mtcars, types = types)$R
 ```
 
 Figure \ref{fig:R_cars} shows the $11 \times 11$ matrices with latent correlation estimates (with default `approx` method, left panel), Pearson correlation estimates (middle panel), and their difference in estimation (right panel). Even on this small dataset, we observe absolute differences larger than $0.2$.    
@@ -169,9 +170,9 @@ Figure \ref{fig:R_cars} shows the $11 \times 11$ matrices with latent correlatio
 The script to reproduce Figure \ref{fig:R_cars} is available [here](https://github.com/mingzehuang/latentcor_evaluation/blob/master/all_heatmap.R).
 We also provide interactive heatmaps for [estimated latent correlations](https://rpubs.com/mingzehuang/797937), [Pearson correlations](https://rpubs.com/mingzehuang/797945), and [their differences (estimated latent correlations minus Pearson correlations)](https://rpubs.com/mingzehuang/798060) for the `mtcars` data set.
 
-# Availability
+# Basic Usage and Availability
 
-The R package `latentcor` is available on [Github](https://github.com/mingzehuang/latentcor/). A comprehensive vignette with additional mathematical and computational details is available [here](https://mingzehuang.github.io/latentcor/articles/latentcor.html).
+The R package `latentcor` is available on [Github](https://github.com/mingzehuang/latentcor/). A getting started vignette with basic examples is available [here](https://mingzehuang.github.io/latentcor/articles/latentcor.html). A vignette with mathematical background of estimation process as well as effect of optional parameters is available [here](https://mingzehuang.github.io/latentcor/articles/latentcor_math.html).
 
 # Acknowledgments
 
