@@ -113,7 +113,7 @@ Memory footprints (in KB):
 
 To illustrate the excellent performance of latent correlation estimation on mixed data, we consider the simple example of estimating correlations between continuous and ternary variables. 
 
-First, we use `latentcor` to generate synthetic data with two variables of sample size 500, and true latent correlation value of 0.5.
+First, we use `latentcor` to generate synthetic data with two variables of sample size 500, and true latent correlation value of 0.5. We then estimate the correlation using the original method, approximation method (default) and standard Pearson correlation.
 ```r
 library(latentcor)
 
@@ -122,19 +122,13 @@ library(latentcor)
 # No copula transformation is applied.
 set.seed(2346)
 X = gen_data(n = 500, types = c("ter", "con"), rhos = 0.5)$X
-```
-Applying the original estimation method gives the estimated latent correlation equal to 0.4766.
-```r
+# Estimate correlations
 latentcor(X = X, types = c("ter", "con"), method = "original")$R
-```
-Applying the approximation estimation method (default) gives the estimated latent correlation equal to 0.4762.
-```r
 latentcor(X = X, types = c("ter", "con"))$R
-```
-In contrast, applying Pearson correlation gives an estimate of 0.4224, which is further from the true value 0.5.
-```r
 cor(X)
 ```
+The original method estimates the latent correlation equal as 0.4766 (and approximation method is very close with the value 0.4762). 
+In contrast, applying Pearson correlation gives an estimate of 0.4224, which is further from the true value 0.5.
 
 To illustrate the bias for Pearson correlation, we consider truncated/continuous case for many different values of true correlation. Figure \ref{fig:R_all}A displays the values obtained by using standard Pearson correlation, revealing a significant estimation bias with respect to the true correlations. Figure \ref{fig:R_all}B displays the estimated latent correlations using the original approach versus the true values of underlying ternary/continuous correlations. 
 The alignment of points around $y=x$ line confirms that the estimation is empirically unbiased. Figure \ref{fig:R_all}C displays the estimated latent correlations using the approximation approach (`method = "approx"`) versus true values of underlying latent correlation. The results are almost indistinguishable from Figure \ref{fig:R_all}B at a fraction of the computational cost.
@@ -145,21 +139,15 @@ The script to reproduce the displayed results is available at [latentcor_evaluat
 
 
 
-We next illustrate application to `mtcars` dataset, available in standard R. The `mtcars` dataset comprises eleven variables of continuous, binary, and ternary data type. The function `get_types` can be used to automaticlaly extract these types from the data.
+We next illustrate application to `mtcars` dataset, available in standard R. The `mtcars` dataset comprises eleven variables of continuous, binary, and ternary data type. The function `get_types` can be used to automatically extract these types from the data. After the types are determined, the correlation matrix can be estimated using either the original method or the approximation method.
 
 ```r
 library(latentcor)
-# Use build-in dataset mtcars
 X = mtcars
 # Extract variable types
 type = get_types(X)
-```
-After the types are determined, the correlation matrix can be estimated using either the original method
-```r
+# Estimate correlations
 latentcor(mtcars, types = types, method = "original")$R
-```
-or using the approximation method
-```r
 latentcor(mtcars, types = types)$R
 ```
 
