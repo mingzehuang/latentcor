@@ -102,6 +102,8 @@ pdf(file = "", width = , height = )
 dev.off()
 
 ## Speed comparison
+library(microbenchmark)
+library(latentcor)
 # p = 20
 types_20 = rep(c("con", "bin", "ter", "tru"), 5)
 X_20 = gen_data(types = types_20)$X
@@ -118,23 +120,20 @@ X_200 = gen_data(types = types_200)$X
 types_400 = rep(c("con", "bin", "ter", "tru"), 100)
 X_400 = gen_data(types = types_400)$X
 
-library(microbenchmark)
-library(latentcor)
-library(parallel)
-library(doFuture)
-types = list(types_20, types_40, types_100, types_200, types_400)
-X = list(X_20, X_40, X_100, X_200, X_400)
-md = c("original", "approx")
-registerDoFuture()
-plan(multicore, workers = detectCores())
-timing =
-foreach (i = 1:length(types), .combine = rbind) %dopar%  {
-  value = rep(NA, 2)
-  for (j in 1:length(md)) {
-    value[j] = median(microbenchmark(latentcor(X = X[[i]], types = types[[i]], method = md[j]), times = 5L)$time)
-  }
-  timing_vector = value
-}
-df = data.frame(c("log10(20)", "log10(40)", "log10(100)", "log10(200)", "log10(400)"), log10(cbind(timing)))
-print(ggplot(df, aes(x = df[ , 1])) + geom_line(y = df[ , 2], color = "blue") + geom_line(y = df[ , 3], color = "red")
-      + ggtitle("Speed comparison") + xlab("log10 of dimension") + ylab("log10 of computation times"))
+timing = microbenchmark(latentcor(X = X_20, types = types_20, method = "original"), latentcor(X = X_20, types = types_20),
+                        latentcor(X = X_40, types = types_40, method = "original"), latentcor(X = X_40, types = types_40),
+                        latentcor(X = X_100, types = types_100, method = "original"), latentcor(X = X_100, types = types_100),
+                        latentcor(X = X_200, types = types_200, method = "original"), latentcor(X = X_200, types = types_200),
+                        latentcor(X = X_400, types = types_400, method = "original"), latentcor(X = X_400, types = types_400), times = 5L, unit = "s")
+time_mat = matrix(print(timing)$median, ncol = 2, byrow = TRUE)
+dim = rep(c(log10(20), log10(40), log10(100), log10(200), log10(400)), each = 2)
+method = rep(c("original", "approx"), 5)
+time = data.frame(dim, time = log10(print(timing)$median), method)
+library(ggplot2)
+timing_plot = print(ggplot(time, aes(x = dim, y = time, color = method, group = method)) + geom_line() + geom_point()
+      + ggtitle("Speed comparison") + xlab("log10 of dimension") + ylab("log10 of computation times (in seconds)")
++ scale_x_continuous(breaks=c(log10(20), log10(40), log10(100), log10(200), log10(400)), labels=c("log10(20)", "log10(40)", "log10(100)", "log10(200)", "log10(400)")))
+save(time, file = "timing.rda")
+pdf(file = "timing_plot.pdf", width = 7, height = 5)
+timing_plot
+dev.off()
