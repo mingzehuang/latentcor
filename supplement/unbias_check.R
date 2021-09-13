@@ -100,3 +100,41 @@ for (tp1 in c("con", "bin", "ter", "tru")) {
 
 pdf(file = "", width = , height = )
 dev.off()
+
+## Speed comparison
+# p = 20
+types_20 = rep(c("con", "bin", "ter", "tru"), 5)
+X_20 = gen_data(types = types_20)$X
+# p = 40
+types_40 = rep(c("con", "bin", "ter", "tru"), 10)
+X_40 = gen_data(types = types_40)$X
+# p = 100
+types_100 = rep(c("con", "bin", "ter", "tru"), 25)
+X_100 = gen_data(types = types_100)$X
+# p = 200
+types_200 = rep(c("con", "bin", "ter", "tru"), 50)
+X_200 = gen_data(types = types_200)$X
+# p = 400
+types_400 = rep(c("con", "bin", "ter", "tru"), 100)
+X_400 = gen_data(types = types_400)$X
+
+library(microbenchmark)
+library(latentcor)
+library(parallel)
+library(doFuture)
+types = list(types_20, types_40, types_100, types_200, types_400)
+X = list(X_20, X_40, X_100, X_200, X_400)
+md = c("original", "approx")
+registerDoFuture()
+plan(multicore, workers = detectCores())
+timing =
+foreach (i = 1:length(types), .combine = rbind) %dopar%  {
+  value = rep(NA, 2)
+  for (j in 1:length(md)) {
+    value[j] = median(microbenchmark(latentcor(X = X[[i]], types = types[[i]], method = md[j]), times = 5L)$time)
+  }
+  timing_vector = value
+}
+df = data.frame(c("log10(20)", "log10(40)", "log10(100)", "log10(200)", "log10(400)"), log10(cbind(timing)))
+print(ggplot(df, aes(x = df[ , 1])) + geom_line(y = df[ , 2], color = "blue") + geom_line(y = df[ , 3], color = "red")
+      + ggtitle("Speed comparison") + xlab("log10 of dimension") + ylab("log10 of computation times"))
