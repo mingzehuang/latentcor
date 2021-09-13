@@ -335,6 +335,13 @@ $\check{\tau}_{jk}=\tau_{jk}/\bar{\tau}_{jk}\in[-1, 1]$, where $\bar{\tau}_{jk}$
 
 In addition, for ternary variable $j$, it always holds that $\Delta_{j}^{2}>\Delta_{j}^{1}$ since $\Delta_{j}^{1}=\Phi^{-1}(\pi_{0j})$ and $\Delta_{j}^{2}=\Phi^{-1}(\pi_{0j}+\pi_{1j})$. Thus, the grid should not cover the the area corresponding to $\Delta_{j}^{2}\ge\Delta_{j}^{1}$. We thus rescale as follows: $\check{\Delta}_{j}^{1}=\Delta_{j}^{1}/\Delta_{j}^{2}\in[0, 1]$; $\check{\Delta}_{j}^{2}=\Delta_{j}^{2}\in[0, 1]$.
 
+**Speed Comparison**
+
+To illustrate the speed improvement by `method = "approx"`, we plot the run time scaling behavior of `method = "approx"` and `method = "original"` (setting `types` for `gen_data` by replicating `c("con", "bin", "ter", "tru")` multiple times) with increasing dimensions $p = [20, 40, 100, 200, 400]$ at sample size $n = 100$ using simulation data. Figure below summarizes the observed scaling in a log-log plot. For both methods we observe the expected $O(p^2)$ scaling
+behavior with dimension p, i.e., a linear scaling in the log-log plot. However, `method = "approx"` is at least one order of magnitude faster than `method = "original"` independent of the dimension of the problem.
+
+![](./timing_plot.png)
+
 ## Adjustment of pointwise-estimator for positive-definiteness {#shrinkage}
 
 Since the estimation is performed point-wise, the resulting matrix of estimated latent correlations is not guaranteed to be positive semi-definite. For example, this could be expected when the sample size is small (and so the estimation error for each pairwise correlation is larger)

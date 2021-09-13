@@ -134,6 +134,6 @@ timing_plot = print(ggplot(time, aes(x = dim, y = time, color = method, group = 
       + ggtitle("Speed comparison") + xlab("log10 of dimension") + ylab("log10 of computation times (in seconds)")
 + scale_x_continuous(breaks=c(log10(20), log10(40), log10(100), log10(200), log10(400)), labels=c("log10(20)", "log10(40)", "log10(100)", "log10(200)", "log10(400)")))
 save(time, file = "timing.rda")
-pdf(file = "timing_plot.pdf", width = 7, height = 5)
+pdf(file = "./supplement/timing_plot.pdf", width = 21, height = 15)
 timing_plot
 dev.off()
