@@ -119,17 +119,20 @@ X_200 = gen_data(types = types_200)$X
 # p = 400
 types_400 = rep(c("con", "bin", "ter", "tru"), 100)
 X_400 = gen_data(types = types_400)$X
-
+library(parallel)
+library(doFuture)
+plan(multisession, workers = availableCores())
 timing = microbenchmark(latentcor(X = X_20, types = types_20, method = "original"), latentcor(X = X_20, types = types_20),
                         latentcor(X = X_40, types = types_40, method = "original"), latentcor(X = X_40, types = types_40),
                         latentcor(X = X_100, types = types_100, method = "original"), latentcor(X = X_100, types = types_100),
                         latentcor(X = X_200, types = types_200, method = "original"), latentcor(X = X_200, types = types_200),
                         latentcor(X = X_400, types = types_400, method = "original"), latentcor(X = X_400, types = types_400), times = 5L, unit = "s")
-time_mat = matrix(print(timing)$median, ncol = 2, byrow = TRUE)
 dim = rep(c(log10(20), log10(40), log10(100), log10(200), log10(400)), each = 2)
 method = rep(c("original", "approx"), 5)
 time = data.frame(dim, time = log10(print(timing)$median), method)
+
 library(ggplot2)
+
 timing_plot = print(ggplot(time, aes(x = dim, y = time, color = method, group = method)) + geom_line() + geom_point()
       + ggtitle("Speed comparison") + xlab("log10 of dimension") + ylab("log10 of computation times (in seconds)")
 + scale_x_continuous(breaks=c(log10(20), log10(40), log10(100), log10(200), log10(400)), labels=c("log10(20)", "log10(40)", "log10(100)", "log10(200)", "log10(400)")))

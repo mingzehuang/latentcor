@@ -4,6 +4,8 @@
 [![CRAN status](https://www.r-pkg.org/badges/version-last-release/latentcor)](https://CRAN.R-project.org/package=latentcor)
 [![Launch binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/mingzehuang/latentcor/master)
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
+[![status](https://joss.theoj.org/papers/4a6c419d1fb73148cbf13881b97c5ba9/status.svg)](https://joss.theoj.org/papers/4a6c419d1fb73148cbf13881b97c5ba9)
+
 <!-- badges: end -->
 
 
