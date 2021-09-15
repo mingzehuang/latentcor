@@ -106,6 +106,8 @@ latentcor(mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bi
                        "bin", "ter", "con"), showplot = TRUE)$plotR
 ```
 
+![](https://github.com/mingzehuang/latentcor/blob/master/vignettes/timing_plot.png)
+
 Interactive heatmap see: [interactive heatmap of latent correlations (approx) for mtcars](https://rpubs.com/mingzehuang/797937)
 
 Community Guidelines
