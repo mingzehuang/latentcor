@@ -20,9 +20,9 @@ authors:
   orcid: 0000-0002-4116-0268
   affiliation: 1
 affiliations:
-- name: Department of Statistics, Texas A& M University, College Station, TX
+- name: Department of Statistics, Texas A&M University, College Station, TX
   index: 1
-- name: Department of Economics, Texas A& M University, College Station, TX
+- name: Department of Economics, Texas A&M University, College Station, TX
   index: 2
 - name: Ludwig-Maximilians-Universität München, Germany
   index: 3
