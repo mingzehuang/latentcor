@@ -24,7 +24,7 @@ Authors@R: c(
            email = "irinag@stat.tamu.edu",
            comment = c(ORCID = "0000-0002-4116-0268")))
 Maintainer: Mingze Huang <mingzehuang@gmail.com>
-Description: This package represents the first stand-alone R package for computation of latent correlation that takes into account all variable types (continuous/binary/ordinal/zero-inflated),
+Description: The first stand-alone R package for computation of latent correlation that takes into account all variable types (continuous/binary/ordinal/zero-inflated),
              comes with an optimized memory footprint, and is computationally efficient, essentially making latent correlation estimation almost as fast as rank-based correlation estimation.
              The estimation is based on latent copula Gaussian models.
              For continuous/binary types, see Fan, J., Liu, H., Ning, Y., and Zou, H. (2017) <doi:10.1111/rssb.12168>.

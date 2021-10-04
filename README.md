@@ -4,7 +4,7 @@
 [![CRAN status](https://www.r-pkg.org/badges/version-last-release/latentcor)](https://CRAN.R-project.org/package=latentcor)
 [![Launch binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/mingzehuang/latentcor/master)
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
-[![JOSS status](https://joss.theoj.org/papers/4a6c419d1fb73148cbf13881b97c5ba9/status.svg)](https://joss.theoj.org/papers/4a6c419d1fb73148cbf13881b97c5ba9)
+[![JOSS](https://joss.theoj.org/papers/10.21105/joss.03634/status.svg)](https://doi.org/10.21105/joss.03634)
 [![DOI](https://zenodo.org/badge/336304814.svg)](https://zenodo.org/badge/latestdoi/336304814)
 <!-- badges: end -->
 
@@ -23,7 +23,7 @@
 
 ## Statement of need
 
-No R software package is currently available that allows accurate and fast correlation estimation from mixed variable data in a unifying manner. The R package [`latentcor`](https://cran.r-project.org/web/packages/latentcor/index.html), introduced here, thus represents the first stand-alone R package for 
+No R software package is currently available that allows accurate and fast correlation estimation from mixed variable data in a unifying manner. The R package [`latentcor`](https://CRAN.R-project.org/package=latentcor), introduced here, thus represents the first stand-alone R package for 
 computation of latent correlation that takes into account all variable types (continuous/binary/ordinal/zero-inflated), comes with an optimized memory footprint, 
 and is computationally efficient, essentially making latent correlation estimation almost as fast as rank-based correlation estimation. 
 
@@ -114,12 +114,11 @@ Community Guidelines
 --------------------
 
 1.  Contributions and suggestions to the software are always welcome.
-    Please consult our [contribution guidelines](CONTRIBUTING.md) prior
+    Please consult our [contribution guidelines](https://github.com/mingzehuang/latentcor/blob/master/CONTRIBUTING.md) prior
     to submitting a pull request.
 2.  Report issues or problems with the software using github’s [issue
     tracker](https://github.com/mingzehuang/latentcor/issues).
-3.  Contributors must adhere to the [Code of
-    Conduct](CODE_OF_CONDUCT.md).
+3.  Contributors must adhere to the [Code of Conduct](https://github.com/mingzehuang/latentcor/blob/master/CODE_OF_CONDUCT.md).
 
 Acknowledgments
 --------------

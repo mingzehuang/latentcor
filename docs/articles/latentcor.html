@@ -81,7 +81,7 @@
       <h1 data-toc-skip>latentcor</h1>
                         <h4 class="author">Mingze Huang, Christian L. Müller, Irina Gaynanova</h4>
             
-            <h4 class="date">2021-09-20</h4>
+            <h4 class="date">2021-10-04</h4>
       
       
       <div class="hidden name"><code>latentcor.Rmd</code></div>
@@ -121,12 +121,12 @@
 <code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="va">simdata</span><span class="op">$</span><span class="va">X</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">X</span>, n <span class="op">=</span> <span class="fl">6L</span><span class="op">)</span>
 <span class="co">#&gt;      [,1]       [,2]</span>
-<span class="co">#&gt; [1,]    1  1.3868222</span>
-<span class="co">#&gt; [2,]    0  0.5305995</span>
-<span class="co">#&gt; [3,]    0 -0.5270740</span>
-<span class="co">#&gt; [4,]    2  1.2132077</span>
-<span class="co">#&gt; [5,]    1 -0.9062235</span>
-<span class="co">#&gt; [6,]    1  0.0287370</span></code></pre></div>
+<span class="co">#&gt; [1,]    2  1.8126865</span>
+<span class="co">#&gt; [2,]    1 -0.2695559</span>
+<span class="co">#&gt; [3,]    0 -1.2875879</span>
+<span class="co">#&gt; [4,]    0 -0.9572641</span>
+<span class="co">#&gt; [5,]    1 -0.7797077</span>
+<span class="co">#&gt; [6,]    0 -0.2640859</span></code></pre></div>
 <ul>
 <li>
 <code>plotX</code>: NULL (<code>showplot = FALSE</code>, can be changed to display the plot of generated data in<code>gen_data</code> input).</li>
@@ -159,8 +159,8 @@
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">K</span>
 <span class="co">#&gt;           [,1]      [,2]</span>
-<span class="co">#&gt; [1,] 1.0000000 0.1911111</span>
-<span class="co">#&gt; [2,] 0.1911111 1.0000000</span></code></pre></div>
+<span class="co">#&gt; [1,] 1.0000000 0.3458586</span>
+<span class="co">#&gt; [2,] 0.3458586 1.0000000</span></code></pre></div>
 <ul>
 <li>
 <code>Rpointwise</code>: matrix of pointwise estimated correlations. Due to pointwise estimation, <code>Rpointwise</code> is not guaranteed to be positive semi-definite</li>
@@ -168,8 +168,8 @@
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">Rpointwise</span>
 <span class="co">#&gt;           [,1]      [,2]</span>
-<span class="co">#&gt; [1,] 1.0000000 0.3516249</span>
-<span class="co">#&gt; [2,] 0.3516249 1.0000000</span></code></pre></div>
+<span class="co">#&gt; [1,] 1.0000000 0.6154569</span>
+<span class="co">#&gt; [2,] 0.6154569 1.0000000</span></code></pre></div>
 <ul>
 <li>
 <code>R</code>: estimated final latent correlation matrix, this matrix is guaranteed to be strictly positive definite (through <code>nearPD</code> projection and parameter <code>nu</code>, see Mathematical framework for estimation)</li>
@@ -177,8 +177,8 @@
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">R</span>
 <span class="co">#&gt;           [,1]      [,2]</span>
-<span class="co">#&gt; [1,] 1.0000000 0.3512733</span>
-<span class="co">#&gt; [2,] 0.3512733 1.0000000</span></code></pre></div>
+<span class="co">#&gt; [1,] 1.0000000 0.6148414</span>
+<span class="co">#&gt; [2,] 0.6148414 1.0000000</span></code></pre></div>
 <ul>
 <li>
 <code>plotR</code>: NULL by default as <code>showplot = FALSE</code> in <code>latentcor</code>. Otherwise displays a heatmap of latent correlation matrix.</li>
@@ -447,7 +447,7 @@
 <span class="op">}</span>
 <span class="fu"><a href="https://rdrr.io/r/base/proc.time.html">proc.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">start_time</span>
 <span class="co">#&gt;    user  system elapsed </span>
-<span class="co">#&gt;   0.030   0.000   0.031</span></code></pre></div>
+<span class="co">#&gt;    0.03    0.00    0.03</span></code></pre></div>
 <p>Compared with</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">start_time</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/proc.time.html">proc.time</a></span><span class="op">(</span><span class="op">)</span>
@@ -459,7 +459,7 @@
 <span class="op">}</span>
 <span class="fu"><a href="https://rdrr.io/r/base/proc.time.html">proc.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">start_time</span>
 <span class="co">#&gt;    user  system elapsed </span>
-<span class="co">#&gt;   0.034   0.000   0.033</span></code></pre></div>
+<span class="co">#&gt;    0.02    0.00    0.01</span></code></pre></div>
 </div>
 </div>
 <div id="references" class="section level1 unnumbered">

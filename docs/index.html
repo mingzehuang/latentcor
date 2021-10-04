@@ -12,7 +12,7 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="pkgdown.css" rel="stylesheet">
 <script src="pkgdown.js"></script><meta property="og:title" content="Fast Computation of Latent Correlations for Mixed Data">
-<meta property="og:description" content="This package represents the first stand-alone R package for computation of latent correlation that takes into account all variable types (continuous/binary/ordinal/zero-inflated),
+<meta property="og:description" content="The first stand-alone R package for computation of latent correlation that takes into account all variable types (continuous/binary/ordinal/zero-inflated),
              comes with an optimized memory footprint, and is computationally efficient, essentially making latent correlation estimation almost as fast as rank-based correlation estimation.
              The estimation is based on latent copula Gaussian models.
              For continuous/binary types, see Fan, J., Liu, H., Ning, Y., and Zou, H. (2017) &lt;doi:10.1111/rssb.12168&gt;.
@@ -85,21 +85,20 @@
   <div class="contents col-md-9">
 
 
-<!-- badges: end -->
 <div id="latentcor-latent-correlation-for-mixed-types-of-data" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#latentcor-latent-correlation-for-mixed-types-of-data" class="anchor"></a>latentcor: Latent Correlation for Mixed Types of Data</h1></div>
 <p><code>latentcor</code> is an <code>R</code> package for estimation of latent correlations with mixed data types (continuous, binary, truncated, and ternary) under the latent Gaussian copula model. For references on the estimation framework, see</p>
 <ul>
 <li><p><a href="https://doi.org/10.1111/rssb.12168">Fan, J., Liu, H., Ning, Y., and Zou, H. (2017), “High Dimensional Semiparametric Latent Graphical Model for Mixed Data.” <em>JRSS B</em></a>. <strong>Continuous/binary</strong> types.</p></li>
-<li><p><a href="https://arxiv.org/abs/1809.06255">Quan X., Booth J.G. and Wells M.T.“Rank-based approach for estimating correlations in mixed ordinal data.” <em>arXiv</em></a> <strong>Ternary</strong> type.</p></li>
+<li><p><a href="https://arxiv.org/abs/1809.06255">Quan X., Booth J.G. and Wells M.T.”Rank-based approach for estimating correlations in mixed ordinal data.” <em>arXiv</em></a> <strong>Ternary</strong> type.</p></li>
 <li><p><a href="https://doi.org/10.1093/biomet/asaa007">Yoon G., Carroll R.J. and Gaynanova I. (2020). “Sparse semiparametric canonical correlation analysis for data of mixed types”. <em>Biometrika</em></a>. <strong>Truncated</strong> type for zero-inflated data.</p></li>
 <li><p><a href="https://doi.org/10.1080/10618600.2021.1882468">Yoon G., Müller C.L. and Gaynanova I. (2021). “Fast computation of latent correlations” <em>JCGS</em></a>. <strong>Approximation method of computation</strong>, see <a href="https://mingzehuang.github.io/latentcor/articles/latentcor.html">vignette</a> for details.</p></li>
 </ul>
 <div id="statement-of-need" class="section level2">
 <h2 class="hasAnchor">
 <a href="#statement-of-need" class="anchor"></a>Statement of need</h2>
-<p>No R software package is currently available that allows accurate and fast correlation estimation from mixed variable data in a unifying manner. The R package <a href="https://cran.r-project.org/web/packages/latentcor/index.html"><code>latentcor</code></a>, introduced here, thus represents the first stand-alone R package for computation of latent correlation that takes into account all variable types (continuous/binary/ordinal/zero-inflated), comes with an optimized memory footprint, and is computationally efficient, essentially making latent correlation estimation almost as fast as rank-based correlation estimation.</p>
+<p>No R software package is currently available that allows accurate and fast correlation estimation from mixed variable data in a unifying manner. The R package <a href="https://CRAN.R-project.org/package=latentcor"><code>latentcor</code></a>, introduced here, thus represents the first stand-alone R package for computation of latent correlation that takes into account all variable types (continuous/binary/ordinal/zero-inflated), comes with an optimized memory footprint, and is computationally efficient, essentially making latent correlation estimation almost as fast as rank-based correlation estimation.</p>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
@@ -180,9 +179,9 @@
 <h2 class="hasAnchor">
 <a href="#community-guidelines" class="anchor"></a>Community Guidelines</h2>
 <ol>
-<li>Contributions and suggestions to the software are always welcome. Please consult our <a href="CONTRIBUTING.html">contribution guidelines</a> prior to submitting a pull request.</li>
+<li>Contributions and suggestions to the software are always welcome. Please consult our <a href="https://github.com/mingzehuang/latentcor/blob/master/CONTRIBUTING.md">contribution guidelines</a> prior to submitting a pull request.</li>
 <li>Report issues or problems with the software using github’s <a href="https://github.com/mingzehuang/latentcor/issues">issue tracker</a>.</li>
-<li>Contributors must adhere to the <a href="CODE_OF_CONDUCT.html">Code of Conduct</a>.</li>
+<li>Contributors must adhere to the <a href="https://github.com/mingzehuang/latentcor/blob/master/CODE_OF_CONDUCT.md">Code of Conduct</a>.</li>
 </ol>
 </div>
 <div id="acknowledgments" class="section level2">
@@ -233,7 +232,8 @@
 <li><a href="https://CRAN.R-project.org/package=latentcor"><img src="https://www.r-pkg.org/badges/version-last-release/latentcor" alt="CRAN status"></a></li>
 <li><a href="https://mybinder.org/v2/gh/mingzehuang/latentcor/master"><img src="https://mybinder.org/badge_logo.svg" alt="Launch binder"></a></li>
 <li><a href="https://lifecycle.r-lib.org/articles/stages.html#stable"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="Lifecycle: stable"></a></li>
-<li><a href="https://joss.theoj.org/papers/4a6c419d1fb73148cbf13881b97c5ba9"><img src="https://joss.theoj.org/papers/4a6c419d1fb73148cbf13881b97c5ba9/status.svg" alt="status"></a></li>
+<li><a href="https://doi.org/10.21105/joss.03634"><img src="https://joss.theoj.org/papers/10.21105/joss.03634/status.svg" alt="JOSS"></a></li>
+<li><a href="https://zenodo.org/badge/latestdoi/336304814"><img src="https://zenodo.org/badge/336304814.svg" alt="DOI"></a></li>
 </ul>
 </div>
 </div>
