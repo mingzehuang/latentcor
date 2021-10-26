@@ -81,7 +81,7 @@
       <h1 data-toc-skip>Mathematical Framework for latentcor</h1>
                         <h4 class="author">Mingze Huang, Christian L. Müller, Irina Gaynanova</h4>
             
-            <h4 class="date">2021-10-23</h4>
+            <h4 class="date">2021-10-26</h4>
       
       
       <div class="hidden name"><code>latentcor_math.Rmd</code></div>
@@ -99,13 +99,13 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/gen_data.html">gen_data</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6</span>, types <span class="op">=</span> <span class="st">"con"</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
 <span class="va">X</span>
-<span class="co">#&gt;            [,1]</span>
-<span class="co">#&gt; [1,]  0.4025547</span>
-<span class="co">#&gt; [2,] -1.8580315</span>
-<span class="co">#&gt; [3,]  0.5661408</span>
-<span class="co">#&gt; [4,]  0.9396718</span>
-<span class="co">#&gt; [5,]  1.1227662</span>
-<span class="co">#&gt; [6,]  0.2103554</span></code></pre></div>
+<span class="co">#&gt;             [,1]</span>
+<span class="co">#&gt; [1,] -1.29527168</span>
+<span class="co">#&gt; [2,]  1.06119558</span>
+<span class="co">#&gt; [3,]  0.13742747</span>
+<span class="co">#&gt; [4,] -0.34778880</span>
+<span class="co">#&gt; [5,] -0.09179067</span>
+<span class="co">#&gt; [6,]  1.30810763</span></code></pre></div>
 <p><strong><em>Definition of binary model</em></strong> <span class="citation">(Fan et al. 2017)</span></p>
 <p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span> satisfies the binary latent Gaussian copula model if there exists <span class="math inline">\(W\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})\)</span>, where <span class="math inline">\(I(\cdot)\)</span> is the indicator function and <span class="math inline">\(c_{j}\)</span> are constants.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
@@ -113,8 +113,8 @@
 <span class="va">X</span>
 <span class="co">#&gt;      [,1]</span>
 <span class="co">#&gt; [1,]    0</span>
-<span class="co">#&gt; [2,]    0</span>
-<span class="co">#&gt; [3,]    1</span>
+<span class="co">#&gt; [2,]    1</span>
+<span class="co">#&gt; [3,]    0</span>
 <span class="co">#&gt; [4,]    1</span>
 <span class="co">#&gt; [5,]    1</span>
 <span class="co">#&gt; [6,]    0</span></code></pre></div>
@@ -124,12 +124,12 @@
 <code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/gen_data.html">gen_data</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6</span>, types <span class="op">=</span> <span class="st">"ter"</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
 <span class="va">X</span>
 <span class="co">#&gt;      [,1]</span>
-<span class="co">#&gt; [1,]    2</span>
-<span class="co">#&gt; [2,]    0</span>
-<span class="co">#&gt; [3,]    1</span>
+<span class="co">#&gt; [1,]    1</span>
+<span class="co">#&gt; [2,]    2</span>
+<span class="co">#&gt; [3,]    0</span>
 <span class="co">#&gt; [4,]    1</span>
-<span class="co">#&gt; [5,]    1</span>
-<span class="co">#&gt; [6,]    0</span></code></pre></div>
+<span class="co">#&gt; [5,]    0</span>
+<span class="co">#&gt; [6,]    1</span></code></pre></div>
 <p><strong><em>Definition of truncated or zero-inflated model</em></strong> <span class="citation">(Yoon, Carroll, and Gaynanova 2020)</span></p>
 <p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span> satisfies the truncated latent Gaussian copula model if there exists <span class="math inline">\(W\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})W_{j}\)</span>, where <span class="math inline">\(I(\cdot)\)</span> is the indicator function and <span class="math inline">\(c_{j}\)</span> are constants.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
@@ -137,11 +137,11 @@
 <span class="va">X</span>
 <span class="co">#&gt;           [,1]</span>
 <span class="co">#&gt; [1,] 0.0000000</span>
-<span class="co">#&gt; [2,] 0.3722412</span>
-<span class="co">#&gt; [3,] 1.7384663</span>
-<span class="co">#&gt; [4,] 0.4421813</span>
-<span class="co">#&gt; [5,] 0.0000000</span>
-<span class="co">#&gt; [6,] 0.0000000</span></code></pre></div>
+<span class="co">#&gt; [2,] 0.0000000</span>
+<span class="co">#&gt; [3,] 0.9140393</span>
+<span class="co">#&gt; [4,] 0.0000000</span>
+<span class="co">#&gt; [5,] 0.6134295</span>
+<span class="co">#&gt; [6,] 1.3696686</span></code></pre></div>
 <p><strong><em>Mixed latent Gaussian copula model</em></strong></p>
 <p>The mixed latent Gaussian copula model jointly models <span class="math inline">\(W=(W_{1}, W_{2}, W_{3}, W_{4})\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{1j}=W_{1j}\)</span>, <span class="math inline">\(X_{2j}=I(W_{2j}&gt;c_{2j})\)</span>, <span class="math inline">\(X_{3j}=I(W_{3j}&gt;c_{3j})+I(W_{3j}&gt;c'_{3j})\)</span> and <span class="math inline">\(X_{4j}=I(W_{4j}&gt;c_{4j})W_{4j}\)</span>.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
@@ -445,20 +445,20 @@ r &amp; 1 &amp; \frac{r}{\sqrt{2}} &amp; \frac{1}{\sqrt{2}} \\
 <span class="co">#&gt; Unit: milliseconds</span>
 <span class="co">#&gt;                                                                                         expr</span>
 <span class="co">#&gt;  latentcor(X, types = c("con", "bin", "ter", "tru"), method = "approx",      ratio = 0.99)$R</span>
-<span class="co">#&gt;       min       lq    mean   median       uq      max neval</span>
-<span class="co">#&gt;  1.850901 1.885451 1.96345 1.928851 1.988401 2.542001   100</span>
+<span class="co">#&gt;     min     lq     mean median      uq    max neval</span>
+<span class="co">#&gt;  1.1526 1.2006 1.255244 1.2332 1.29825 1.6805   100</span>
 <span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html">microbenchmark</a></span><span class="op">(</span><span class="fu"><a href="../reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"approx"</span>, ratio <span class="op">=</span> <span class="fl">0.4</span><span class="op">)</span><span class="op">$</span><span class="va">R</span><span class="op">)</span>
 <span class="co">#&gt; Unit: milliseconds</span>
 <span class="co">#&gt;                                                                                        expr</span>
 <span class="co">#&gt;  latentcor(X, types = c("con", "bin", "ter", "tru"), method = "approx",      ratio = 0.4)$R</span>
-<span class="co">#&gt;       min       lq    mean   median     uq      max neval</span>
-<span class="co">#&gt;  4.641901 4.874801 5.20046 4.958602 5.2306 9.188902   100</span>
+<span class="co">#&gt;     min    lq    mean  median     uq    max neval</span>
+<span class="co">#&gt;  2.8267 3.029 3.33442 3.15265 3.4319 6.6579   100</span>
 <span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html">microbenchmark</a></span><span class="op">(</span><span class="fu"><a href="../reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"tru"</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"original"</span><span class="op">)</span><span class="op">$</span><span class="va">R</span><span class="op">)</span>
 <span class="co">#&gt; Unit: milliseconds</span>
 <span class="co">#&gt;                                                                        expr</span>
 <span class="co">#&gt;  latentcor(X, types = c("con", "bin", "ter", "tru"), method = "original")$R</span>
 <span class="co">#&gt;      min      lq     mean   median      uq     max neval</span>
-<span class="co">#&gt;  41.7035 44.2992 46.26826 45.16685 47.1695 57.4721   100</span></code></pre></div>
+<span class="co">#&gt;  28.8985 29.3449 30.11893 29.87245 30.2928 41.9292   100</span></code></pre></div>
 <p><strong>Rescaled Grid for Interpolation</strong></p>
 <p>Since <span class="math inline">\(|\hat{\tau}|\le \bar{\tau}\)</span>, the grid does not need to cover the whole domain <span class="math inline">\(\tau\in[-1, 1]\)</span>. To optimize memory associated with storing the grid, we rescale <span class="math inline">\(\tau\)</span> as follows: <span class="math inline">\(\check{\tau}_{jk}=\tau_{jk}/\bar{\tau}_{jk}\in[-1, 1]\)</span>, where <span class="math inline">\(\bar{\tau}_{jk}\)</span> is as defined above.</p>
 <p>In addition, for ternary variable <span class="math inline">\(j\)</span>, it always holds that <span class="math inline">\(\Delta_{j}^{2}&gt;\Delta_{j}^{1}\)</span> since <span class="math inline">\(\Delta_{j}^{1}=\Phi^{-1}(\pi_{0j})\)</span> and <span class="math inline">\(\Delta_{j}^{2}=\Phi^{-1}(\pi_{0j}+\pi_{1j})\)</span>. Thus, the grid should not cover the the area corresponding to <span class="math inline">\(\Delta_{j}^{2}\ge\Delta_{j}^{1}\)</span>. We thus rescale as follows: <span class="math inline">\(\check{\Delta}_{j}^{1}=\Delta_{j}^{1}/\Delta_{j}^{2}\in[0, 1]\)</span>; <span class="math inline">\(\check{\Delta}_{j}^{2}=\Delta_{j}^{2}\in[0, 1]\)</span>.</p>

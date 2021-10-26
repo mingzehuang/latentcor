@@ -95,7 +95,7 @@ estimate$K
 estimate$Rpointwise
 ``` 
 
-  - `R`: estimated final latent correlation matrix, this matrix is guaranteed to be strictly positive definite (through `nearPD` projection and parameter `nu`, see Mathematical framework for estimation)
+  - `R`: estimated final latent correlation matrix, this matrix is guaranteed to be strictly positive definite (through `nearPD` projection and parameter `nu`, see Mathematical framework for estimation) if `use.nearPD = TRUE`.
 
 ```{r latent_correlation}
 estimate$R
