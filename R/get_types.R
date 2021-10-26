@@ -23,7 +23,8 @@ get_types = function(X, tru_prop = 0.05) {
   # Determine the type of each variable
   for (i in 1:p) {
     # Extract the number of unique levels
-    levels = unique(X[ , i])
+    x = X[ , i]
+    levels = unique(x[!(is.na(x))])
     if (length(levels) <= 1) {
       # Only one level means no variation
       stop("No variation in ", i, "th variable (", i, "th column of input data).")
@@ -39,7 +40,7 @@ get_types = function(X, tru_prop = 0.05) {
         # Since ordinals of more than 3 levels are not supported, alert the user those are treated as continuous
         message("ordinal levels between 4 and 10 will be approximated by either continuous or truncated type.")
       }
-      if ((min(X[ , i], na.rm = TRUE) == 0) & (mean(X[ , i] == 0, na.rm = TRUE) > tru_prop)) {
+      if ((min(x, na.rm = TRUE) == 0) & (mean(x == 0, na.rm = TRUE) > tru_prop)) {
         # If the minimal value is zero and there are at least tru_prop zeros -> truncated (zero-inflated)
         types[i] = "tru"
       } else {
