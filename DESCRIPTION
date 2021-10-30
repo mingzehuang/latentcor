@@ -32,12 +32,14 @@ Description: The first stand-alone R package for computation of latent correlati
              For truncated type or zero-inflated type, see Yoon G., Carroll R.J. and Gaynanova I. (2020) <doi:10.1093/biomet/asaa007>.
              For approximation method of computation, see Yoon G., Müller C.L. and Gaynanova I. (2021) <doi:10.1080/10618600.2021.1882468>.
 Depends: R (>= 3.0.0)
-Imports: stats, rmarkdown, pcaPP, fMultivar, mnormt, chebpol, Matrix, utils, MASS, heatmaply, ggplot2, plotly, graphics, foreach, parallel, doFuture, future, microbenchmark, doRNG
+Imports: stats, pcaPP, fMultivar, mnormt, chebpol, Matrix, MASS, heatmaply, ggplot2, plotly, graphics
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.1.2
 Suggests:
+    microbenchmark,
+    rmarkdown,
     markdown,
     knitr,
     testthat (>= 3.0.0),
