@@ -22,7 +22,7 @@ latentcor(
 
 \item{method}{The calculation method for latent correlations. Either \code{"original"} or \code{"approx"}. If \code{method = "approx"}, multilinear approximation method is used, which is much faster than the original method, see Yoon et al. (2021) for timing comparisons for various variable types. If \code{method = "original"}, optimization of the bridge inverse function is used. The default is \code{"approx"}.}
 
-\item{use.nearPD}{Logical indicator. \code{use.nearPD = TRUE} checks semi-positive definiteness of latent correlation matrix, get nearest positive definite matrix with shrinkage adjustment by \code{nu}. output \code{R} is the same as \code{Rpointwise} if \code{use.nearPD = FALSE}. Default value is TRUE.}
+\item{use.nearPD}{Logical indicator. \code{use.nearPD = TRUE} get nearest positive definite matrix with shrinkage adjustment by \code{nu}. Output \code{R} is the same as \code{Rpointwise} if \code{use.nearPD = FALSE}. Default value is TRUE.}
 
 \item{nu}{Shrinkage parameter for the correlation matrix, must be between 0 and 1. Guarantees that the minimal eigenvalue of returned correlation matrix is greater or equal to \code{nu}. When \code{nu = 0}, no shrinkage is performed, the returned correlation matrix will be semi-positive definite but not necessarily strictly positive definite. When \code{nu = 1}, the identity matrix is returned (not recommended).  The default (recommended) value is 0.001.}
 
