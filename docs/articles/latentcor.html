@@ -81,7 +81,7 @@
       <h1 data-toc-skip>latentcor</h1>
                         <h4 class="author">Mingze Huang, Christian L. Müller, Irina Gaynanova</h4>
             
-            <h4 class="date">2021-10-26</h4>
+            <h4 class="date">2021-10-30</h4>
       
       
       <div class="hidden name"><code>latentcor.Rmd</code></div>
@@ -120,13 +120,13 @@
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="va">simdata</span><span class="op">$</span><span class="va">X</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">X</span>, n <span class="op">=</span> <span class="fl">6L</span><span class="op">)</span>
-<span class="co">#&gt;      [,1]       [,2]</span>
-<span class="co">#&gt; [1,]    2 -0.1343476</span>
-<span class="co">#&gt; [2,]    0 -0.5672198</span>
-<span class="co">#&gt; [3,]    1 -0.4293213</span>
-<span class="co">#&gt; [4,]    2  0.3282706</span>
-<span class="co">#&gt; [5,]    1 -0.8118241</span>
-<span class="co">#&gt; [6,]    0 -0.3581997</span></code></pre></div>
+<span class="co">#&gt;      [,1]        [,2]</span>
+<span class="co">#&gt; [1,]    1 -0.57414952</span>
+<span class="co">#&gt; [2,]    0  0.52745481</span>
+<span class="co">#&gt; [3,]    0 -1.00674739</span>
+<span class="co">#&gt; [4,]    2 -0.96109867</span>
+<span class="co">#&gt; [5,]    1  0.02216911</span>
+<span class="co">#&gt; [6,]    1  1.56215623</span></code></pre></div>
 <ul>
 <li>
 <code>plotX</code>: NULL (<code>showplot = FALSE</code>, can be changed to display the plot of generated data in<code>gen_data</code> input).</li>
@@ -159,8 +159,8 @@
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">K</span>
 <span class="co">#&gt;           [,1]      [,2]</span>
-<span class="co">#&gt; [1,] 1.0000000 0.2670707</span>
-<span class="co">#&gt; [2,] 0.2670707 1.0000000</span></code></pre></div>
+<span class="co">#&gt; [1,] 1.0000000 0.1406061</span>
+<span class="co">#&gt; [2,] 0.1406061 1.0000000</span></code></pre></div>
 <ul>
 <li>
 <code>Rpointwise</code>: matrix of pointwise estimated correlations. Due to pointwise estimation, <code>Rpointwise</code> is not guaranteed to be positive semi-definite</li>
@@ -168,17 +168,17 @@
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">Rpointwise</span>
 <span class="co">#&gt;           [,1]      [,2]</span>
-<span class="co">#&gt; [1,] 1.0000000 0.4846176</span>
-<span class="co">#&gt; [2,] 0.4846176 1.0000000</span></code></pre></div>
+<span class="co">#&gt; [1,] 1.0000000 0.2604121</span>
+<span class="co">#&gt; [2,] 0.2604121 1.0000000</span></code></pre></div>
 <ul>
 <li>
 <code>R</code>: estimated final latent correlation matrix, this matrix is guaranteed to be strictly positive definite (through <code>nearPD</code> projection and parameter <code>nu</code>, see Mathematical framework for estimation) if <code>use.nearPD = TRUE</code>.</li>
 </ul>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">R</span>
-<span class="co">#&gt;          [,1]     [,2]</span>
-<span class="co">#&gt; [1,] 1.000000 0.484133</span>
-<span class="co">#&gt; [2,] 0.484133 1.000000</span></code></pre></div>
+<span class="co">#&gt;           [,1]      [,2]</span>
+<span class="co">#&gt; [1,] 1.0000000 0.2601517</span>
+<span class="co">#&gt; [2,] 0.2601517 1.0000000</span></code></pre></div>
 <ul>
 <li>
 <code>plotR</code>: NULL by default as <code>showplot = FALSE</code> in <code>latentcor</code>. Otherwise displays a heatmap of latent correlation matrix.</li>
@@ -277,8 +277,7 @@
 <span class="co">#&gt;  7 10  3 10  1  1</span></code></pre></div>
 <p>Then we can estimate the latent correlation matrix for all variables of <code>mtcars</code> by using <code>latentcor</code> function.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">estimate_mtcars</span> <span class="op">=</span> <span class="fu"><a href="../reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">mtcars</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"ter"</span>, <span class="st">"con"</span>, <span class="st">"con"</span>, <span class="st">"con"</span>, <span class="st">"con"</span>, <span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"con"</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; Using Matrix::nearPD since Minimum eigenvalue of latent correlation matrix is -0.203053866491842 smaller than 0.</span></code></pre></div>
+<code class="sourceCode R"><span class="va">estimate_mtcars</span> <span class="op">=</span> <span class="fu"><a href="../reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">mtcars</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"ter"</span>, <span class="st">"con"</span>, <span class="st">"con"</span>, <span class="st">"con"</span>, <span class="st">"con"</span>, <span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"con"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>Note that the determination of variable types can also be done automatically by <code>latentcor</code> package using <code>get_types</code> function:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/get_types.html">get_types</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>
@@ -447,7 +446,7 @@
 <span class="op">}</span>
 <span class="fu"><a href="https://rdrr.io/r/base/proc.time.html">proc.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">start_time</span>
 <span class="co">#&gt;    user  system elapsed </span>
-<span class="co">#&gt;    0.01    0.00    0.02</span></code></pre></div>
+<span class="co">#&gt;    0.02    0.00    0.01</span></code></pre></div>
 <p>Compared with</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">start_time</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/proc.time.html">proc.time</a></span><span class="op">(</span><span class="op">)</span>
@@ -459,7 +458,7 @@
 <span class="op">}</span>
 <span class="fu"><a href="https://rdrr.io/r/base/proc.time.html">proc.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">start_time</span>
 <span class="co">#&gt;    user  system elapsed </span>
-<span class="co">#&gt;    0.02    0.00    0.02</span></code></pre></div>
+<span class="co">#&gt;    0.01    0.00    0.01</span></code></pre></div>
 </div>
 </div>
 <div id="references" class="section level1 unnumbered">

@@ -86,7 +86,7 @@ latentcor = function(X, types = NULL, method = c("approx", "original"), use.near
   X = encodeX$X; types = encodeX$types; negate = encodeX$negate
   R = matrix(0, p, p); cp = rbind(row(R)[lower.tri(R)], col(R)[lower.tri(R)]); cp.col = ncol(cp)
   if (any(is.na(X))) {
-    K_a.lower = sapply(seq(p), function(i) Kendalltau(X[ , cp[ , i]]))
+    K_a.lower = sapply(seq(cp.col), function(i) Kendalltau(X[ , cp[ , i]]))
   } else {
     K_a.lower = Kendalltau(X)
   }
@@ -115,12 +115,8 @@ latentcor = function(X, types = NULL, method = c("approx", "original"), use.near
   # Save values from pointwise estimation
   Rpointwise = R
   if (use.nearPD) {
-    # Check if the matrix is semi-pos.definite
-    R_min_eig = min(eigen(R)$values)
-    if (R_min_eig < 0) {
-      message("Using Matrix::nearPD since Minimum eigenvalue of latent correlation matrix is ", R_min_eig, " smaller than 0.")
-      R = as.matrix(Matrix::nearPD(R, corr = TRUE)$mat)
-    }
+    # Get nearest positive definite matrix.
+    R = as.matrix(Matrix::nearPD(R, corr = TRUE)$mat)
     # Do adjustmnet by nu - makes it strictly positive definite like ridge
     R = (1 - nu) * R + nu * diag(nrow(R))
   }
