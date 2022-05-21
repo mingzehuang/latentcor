@@ -312,13 +312,14 @@ r_sol = function(K, zratio1, zratio2, comb, tol, ratio) {
 }
 
 r_ml = function(K, zratio1, zratio2, comb, tol, ratio) {
-  ipol_switch = get(paste("ipol", comb, sep = "_"))
+#  ipol_switch = get(paste("ipol", comb, sep = "_"))
   zratio1 = matrix(zratio1, ncol = length(K)); zratio1.row = nrow(zratio1)
   zratio2 = matrix(zratio2, ncol = length(K)); zratio2.row = nrow(zratio2)
   if (zratio1.row > 1) {zratio1[1:(zratio1.row - 1), ] = zratio1[1:(zratio1.row - 1), ] / zratio1[2:zratio1.row, ]}
   if (zratio2.row > 1) {zratio2[1:(zratio2.row - 1), ] = zratio2[1:(zratio2.row - 1), ] / zratio2[2:zratio2.row, ]}
   if (any(is.na(zratio2))) {zratio2 = NULL}
-  out = ipol_switch(rbind(K, zratio1, zratio2)) / 10^7
+#  out = ipol_switch(rbind(K, zratio1, zratio2)) / 10^7
+  out <- NULL
   return(out)
 }
 

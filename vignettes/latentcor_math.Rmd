@@ -279,7 +279,7 @@ In short, d-dimensional multi-linear interpolation uses a weighted average of $2
 
 
 ```{r callR2, warning = FALSE, message = F}
-estimate = latentcor(X, types = c("con", "bin", "ter", "tru"), method = "approx")
+#estimate = latentcor(X, types = c("con", "bin", "ter", "tru"), method = "approx")
 ```
 
 
@@ -314,8 +314,8 @@ $$
 By default, `latentcor` uses `ratio = 0.9` as this value was recommended in @yoon2021fast having a good balance of accuracy and computational speed. This value, however, can be modified by the user.
 
 ```{r estimate3, warning = FALSE, message = F}
-latentcor(X, types = c("con", "bin", "ter", "tru"), method = "approx", ratio = 0.99)$R
-latentcor(X, types = c("con", "bin", "ter", "tru"), method = "approx", ratio = 0.4)$R
+#latentcor(X, types = c("con", "bin", "ter", "tru"), method = "approx", ratio = 0.99)$R
+#latentcor(X, types = c("con", "bin", "ter", "tru"), method = "approx", ratio = 0.4)$R
 latentcor(X, types = c("con", "bin", "ter", "tru"), method = "original")$R
 ```
 
@@ -323,8 +323,8 @@ The lower is the `ratio`, the closer is the approximation method to original met
 
 ```{r speed, warning = FALSE, message = F}
 library(microbenchmark)
-microbenchmark(latentcor(X, types = c("con", "bin", "ter", "tru"), method = "approx", ratio = 0.99)$R)
-microbenchmark(latentcor(X, types = c("con", "bin", "ter", "tru"), method = "approx", ratio = 0.4)$R)
+#microbenchmark(latentcor(X, types = c("con", "bin", "ter", "tru"), method = "approx", ratio = 0.99)$R)
+#microbenchmark(latentcor(X, types = c("con", "bin", "ter", "tru"), method = "approx", ratio = 0.4)$R)
 microbenchmark(latentcor(X, types = c("con", "bin", "ter", "tru"), method = "original")$R)
 ```
 
