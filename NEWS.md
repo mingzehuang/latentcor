@@ -10,3 +10,7 @@
 * Add user-defined `use.nearPD`, so that user can decide if latent correlation matrix should be adjusted to be positive definite automatically.
 * Remove redundant code for checking positive definiteness.
 * Minor correction on types detection to accommodate `NA` values. 
+
+# latentcor 1.2.1
+
+* Temporarily disable approximation method due to deprication of package `chebpol`.

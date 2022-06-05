@@ -19,6 +19,8 @@
 <![endif]-->
 </head>
 <body data-spy="scroll" data-target="#toc">
+    
+
     <div class="container template-article">
       <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -31,18 +33,12 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">latentcor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.1</span>
       </span>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-<li>
-  <a href="../index.html">
-    <span class="fas fa-home fa-lg"></span>
-     
-  </a>
-</li>
 <li>
   <a href="../articles/latentcor.html">Get started</a>
 </li>
@@ -50,7 +46,7 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
@@ -75,13 +71,14 @@
 
       
 
-      </header><script src="latentcor_files/header-attrs-2.11/header-attrs.js"></script><div class="row">
+      </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>latentcor</h1>
-                        <h4 class="author">Mingze Huang, Christian L. Müller, Irina Gaynanova</h4>
+                        <h4 data-toc-skip class="author">Mingze Huang,
+Christian L. Müller, Irina Gaynanova</h4>
             
-            <h4 class="date">2021-10-30</h4>
+            <h4 data-toc-skip class="date">2022-06-05</h4>
       
       
       <div class="hidden name"><code>latentcor.Rmd</code></div>
@@ -90,60 +87,90 @@
 
     
     
-<div id="introduction" class="section level1">
-<h1 class="hasAnchor">
-<a href="#introduction" class="anchor"></a>Introduction</h1>
-<p>R package <code>latentcor</code> utilizes the powerful semi-parametric latent Gaussian copula models to estimate latent correlations between mixed data types. The package allows to estimate correlations between any of continuous/binary/ternary/zero-inflated (truncated) variable types. The underlying implementation takes advantage of fast multi-linear interpolation scheme with a clever choice of grid points that give the package a small memory footprint, and allows to use the latent correlations with sub-sampling and bootstrapping.</p>
+<div class="section level2">
+<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h2>
+<p>R package <code>latentcor</code> utilizes the powerful
+semi-parametric latent Gaussian copula models to estimate latent
+correlations between mixed data types. The package allows to estimate
+correlations between any of continuous/binary/ternary/zero-inflated
+(truncated) variable types. The underlying implementation takes
+advantage of fast multi-linear interpolation scheme with a clever choice
+of grid points that give the package a small memory footprint, and
+allows to use the latent correlations with sub-sampling and
+bootstrapping.</p>
 </div>
-<div id="statement-of-need" class="section level1">
-<h1 class="hasAnchor">
-<a href="#statement-of-need" class="anchor"></a>Statement of need</h1>
-<p>No R software package is currently available that allows accurate and fast correlation estimation from mixed variable data in a unifying manner. The R package <code>latentcor</code>, introduced here, thus represents the first stand-alone R package for computation of latent correlation that takes into account all variable types (continuous/binary/ordinal/zero-inflated), comes with an optimized memory footprint, and is computationally efficient, essentially making latent correlation estimation almost as fast as rank-based correlation estimation.</p>
+<div class="section level2">
+<h2 id="statement-of-need">Statement of need<a class="anchor" aria-label="anchor" href="#statement-of-need"></a>
+</h2>
+<p>No R software package is currently available that allows accurate and
+fast correlation estimation from mixed variable data in a unifying
+manner. The R package <code>latentcor</code>, introduced here, thus
+represents the first stand-alone R package for computation of latent
+correlation that takes into account all variable types
+(continuous/binary/ordinal/zero-inflated), comes with an optimized
+memory footprint, and is computationally efficient, essentially making
+latent correlation estimation almost as fast as rank-based correlation
+estimation.</p>
 </div>
-<div id="getting-started" class="section level1">
-<h1 class="hasAnchor">
-<a href="#getting-started" class="anchor"></a>Getting started</h1>
-<div id="a-simple-example-with-two-variables" class="section level2">
-<h2 class="hasAnchor">
-<a href="#a-simple-example-with-two-variables" class="anchor"></a>A simple example with two variables</h2>
-<p>First, we will generate a pair of variables with different types using a sample size <span class="math inline">\(n=100\)</span> which will serve as example data. Here first variable will be ternary, and second variable will be continuous.</p>
+<div class="section level2">
+<h2 id="getting-started">Getting started<a class="anchor" aria-label="anchor" href="#getting-started"></a>
+</h2>
+<div class="section level3">
+<h3 id="a-simple-example-with-two-variables">A simple example with two variables<a class="anchor" aria-label="anchor" href="#a-simple-example-with-two-variables"></a>
+</h3>
+<p>First, we will generate a pair of variables with different types
+using a sample size <span class="math inline">\(n=100\)</span> which
+will serve as example data. Here first variable will be ternary, and
+second variable will be continuous.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">simdata</span> <span class="op">=</span> <span class="fu"><a href="../reference/gen_data.html">gen_data</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">100</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ter"</span>, <span class="st">"con"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="va">simdata</span> <span class="op">=</span> <span class="fu"><a href="../reference/gen_data.html">gen_data</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">100</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ter"</span>, <span class="st">"con"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p>The output of <code>gen_data</code> is a list with 2 elements:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">simdata</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">simdata</span><span class="op">)</span>
 <span class="co">#&gt; [1] "X"     "plotX"</span></code></pre></div>
 <ul>
 <li>
-<code>X</code>: a matrix (<span class="math inline">\(100\times 2\)</span>), the first column is the ternary variable; the second column is the continuous variable.</li>
+<code>X</code>: a matrix (<span class="math inline">\(100\times
+2\)</span>), the first column is the ternary variable; the second column
+is the continuous variable.</li>
 </ul>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">X</span> <span class="op">=</span> <span class="va">simdata</span><span class="op">$</span><span class="va">X</span>
-<span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">X</span>, n <span class="op">=</span> <span class="fl">6L</span><span class="op">)</span>
-<span class="co">#&gt;      [,1]       [,2]</span>
-<span class="co">#&gt; [1,]    1 -0.6371064</span>
-<span class="co">#&gt; [2,]    0  0.8030896</span>
-<span class="co">#&gt; [3,]    0 -1.1746368</span>
-<span class="co">#&gt; [4,]    1 -0.5388016</span>
-<span class="co">#&gt; [5,]    1 -1.2007063</span>
-<span class="co">#&gt; [6,]    1  0.1019988</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">X</span>, n <span class="op">=</span> <span class="fl">6L</span><span class="op">)</span>
+<span class="co">#&gt;      [,1]        [,2]</span>
+<span class="co">#&gt; [1,]    2  0.08447393</span>
+<span class="co">#&gt; [2,]    2 -0.11478100</span>
+<span class="co">#&gt; [3,]    1  0.38549507</span>
+<span class="co">#&gt; [4,]    1 -0.95071473</span>
+<span class="co">#&gt; [5,]    2 -0.12015103</span>
+<span class="co">#&gt; [6,]    2  1.16771379</span></code></pre></div>
 <ul>
 <li>
-<code>plotX</code>: NULL (<code>showplot = FALSE</code>, can be changed to display the plot of generated data in<code>gen_data</code> input).</li>
+<code>plotX</code>: NULL (<code>showplot = FALSE</code>, can be
+changed to display the plot of generated data in<code>gen_data</code>
+input).</li>
 </ul>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">simdata</span><span class="op">$</span><span class="va">plotX</span>
 <span class="co">#&gt; NULL</span></code></pre></div>
-<p>Then we can estimate the latent correlation matrix based on these 2 variables using <code>latentcor</code> function.</p>
+<p>Then we can estimate the latent correlation matrix based on these 2
+variables using <code>latentcor</code> function.</p>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">estimate</span> <span class="op">=</span> <span class="fu"><a href="../reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"ter"</span>, <span class="st">"con"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p>The output of <code>latentcor</code> is a list with several elements:</p>
+<code class="sourceCode R"><span class="va">estimate</span> <span class="op">=</span> <span class="fu"><a href="../reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ter"</span>, <span class="st">"con"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p>The output of <code>latentcor</code> is a list with several
+elements:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">estimate</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">estimate</span><span class="op">)</span>
 <span class="co">#&gt; [1] "zratios"    "K"          "R"          "Rpointwise" "plotR"</span></code></pre></div>
 <ul>
 <li>
-<code>zratios</code> is a list has the same length as the number of variables. Here the first element is a (<span class="math inline">\(2\times1\)</span>) vector indicating the cumulative proportions for zeros and ones in the ternary variable (e.g. first element in vector is the proportion of zeros, second element in vector is the proportion of zeros and ones.) The second element of the list is NA for continuous variable.</li>
+<code>zratios</code> is a list has the same length as the number of
+variables. Here the first element is a (<span class="math inline">\(2\times1\)</span>) vector indicating the
+cumulative proportions for zeros and ones in the ternary variable
+(e.g. first element in vector is the proportion of zeros, second element
+in vector is the proportion of zeros and ones.) The second element of
+the list is NA for continuous variable.</li>
 </ul>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">zratios</span>
@@ -154,45 +181,55 @@
 <span class="co">#&gt; [1] NA</span></code></pre></div>
 <ul>
 <li>
-<code>K</code>: Kendall <span class="math inline">\(\tau\)</span> (<span class="math inline">\(\tau_{a}\)</span>) correlation matrix for these 2 variables.</li>
+<code>K</code>: Kendall <span class="math inline">\(\tau\)</span>
+(<span class="math inline">\(\tau_{a}\)</span>) correlation matrix for
+these 2 variables.</li>
 </ul>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">K</span>
 <span class="co">#&gt;           [,1]      [,2]</span>
-<span class="co">#&gt; [1,] 1.0000000 0.3123232</span>
-<span class="co">#&gt; [2,] 0.3123232 1.0000000</span></code></pre></div>
+<span class="co">#&gt; [1,] 1.0000000 0.3034343</span>
+<span class="co">#&gt; [2,] 0.3034343 1.0000000</span></code></pre></div>
 <ul>
 <li>
-<code>Rpointwise</code>: matrix of pointwise estimated correlations. Due to pointwise estimation, <code>Rpointwise</code> is not guaranteed to be positive semi-definite</li>
+<code>Rpointwise</code>: matrix of pointwise estimated correlations.
+Due to pointwise estimation, <code>Rpointwise</code> is not guaranteed
+to be positive semi-definite</li>
 </ul>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">Rpointwise</span>
 <span class="co">#&gt;           [,1]      [,2]</span>
-<span class="co">#&gt; [1,] 1.0000000 0.5607473</span>
-<span class="co">#&gt; [2,] 0.5607473 1.0000000</span></code></pre></div>
+<span class="co">#&gt; [1,] 1.0000000 0.5464189</span>
+<span class="co">#&gt; [2,] 0.5464189 1.0000000</span></code></pre></div>
 <ul>
 <li>
-<code>R</code>: estimated final latent correlation matrix, this matrix is guaranteed to be strictly positive definite (through <code>nearPD</code> projection and parameter <code>nu</code>, see Mathematical framework for estimation) if <code>use.nearPD = TRUE</code>.</li>
+<code>R</code>: estimated final latent correlation matrix, this
+matrix is guaranteed to be strictly positive definite (through
+<code>nearPD</code> projection and parameter <code>nu</code>, see
+Mathematical framework for estimation) if
+<code>use.nearPD = TRUE</code>.</li>
 </ul>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">R</span>
 <span class="co">#&gt;           [,1]      [,2]</span>
-<span class="co">#&gt; [1,] 1.0000000 0.5601866</span>
-<span class="co">#&gt; [2,] 0.5601866 1.0000000</span></code></pre></div>
+<span class="co">#&gt; [1,] 1.0000000 0.5458725</span>
+<span class="co">#&gt; [2,] 0.5458725 1.0000000</span></code></pre></div>
 <ul>
 <li>
-<code>plotR</code>: NULL by default as <code>showplot = FALSE</code> in <code>latentcor</code>. Otherwise displays a heatmap of latent correlation matrix.</li>
+<code>plotR</code>: NULL by default as <code>showplot = FALSE</code>
+in <code>latentcor</code>. Otherwise displays a heatmap of latent
+correlation matrix.</li>
 </ul>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate</span><span class="op">$</span><span class="va">plotR</span>
 <span class="co">#&gt; NULL</span></code></pre></div>
 </div>
-<div id="example-with-mtcars-dataset" class="section level2">
-<h2 class="hasAnchor">
-<a href="#example-with-mtcars-dataset" class="anchor"></a>Example with mtcars dataset</h2>
+<div class="section level3">
+<h3 id="example-with-mtcars-dataset">Example with mtcars dataset<a class="anchor" aria-label="anchor" href="#example-with-mtcars-dataset"></a>
+</h3>
 <p>We use the build-in dataset <code>mtcars</code>:</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">mtcars</span>, n <span class="op">=</span> <span class="fl">6L</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">mtcars</span>, n <span class="op">=</span> <span class="fl">6L</span><span class="op">)</span>
 <span class="co">#&gt;                    mpg cyl disp  hp drat    wt  qsec vs am gear carb</span>
 <span class="co">#&gt; Mazda RX4         21.0   6  160 110 3.90 2.620 16.46  0  1    4    4</span>
 <span class="co">#&gt; Mazda RX4 Wag     21.0   6  160 110 3.90 2.875 17.02  0  1    4    4</span>
@@ -200,9 +237,10 @@
 <span class="co">#&gt; Hornet 4 Drive    21.4   6  258 110 3.08 3.215 19.44  1  0    3    1</span>
 <span class="co">#&gt; Hornet Sportabout 18.7   8  360 175 3.15 3.440 17.02  0  0    3    2</span>
 <span class="co">#&gt; Valiant           18.1   6  225 105 2.76 3.460 20.22  1  0    3    1</span></code></pre></div>
-<p>Let’s take a look at the unique values for each variable to determine the corresponding data type.</p>
+<p>Let’s take a look at the unique values for each variable to determine
+the corresponding data type.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fl">2</span>, <span class="va">table</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fl">2</span>, <span class="va">table</span><span class="op">)</span>
 <span class="co">#&gt; $mpg</span>
 <span class="co">#&gt; </span>
 <span class="co">#&gt; 10.4 13.3 14.3 14.7   15 15.2 15.5 15.8 16.4 17.3 17.8 18.1 18.7 19.2 19.7   21 </span>
@@ -275,21 +313,28 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt;  1  2  3  4  6  8 </span>
 <span class="co">#&gt;  7 10  3 10  1  1</span></code></pre></div>
-<p>Then we can estimate the latent correlation matrix for all variables of <code>mtcars</code> by using <code>latentcor</code> function.</p>
+<p>Then we can estimate the latent correlation matrix for all variables
+of <code>mtcars</code> by using <code>latentcor</code> function.</p>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">estimate_mtcars</span> <span class="op">=</span> <span class="fu"><a href="../reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">mtcars</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"ter"</span>, <span class="st">"con"</span>, <span class="st">"con"</span>, <span class="st">"con"</span>, <span class="st">"con"</span>, <span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"con"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p>Note that the determination of variable types can also be done automatically by <code>latentcor</code> package using <code>get_types</code> function:</p>
+<code class="sourceCode R"><span class="va">estimate_mtcars</span> <span class="op">=</span> <span class="fu"><a href="../reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">mtcars</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"ter"</span>, <span class="st">"con"</span>, <span class="st">"con"</span>, <span class="st">"con"</span>, <span class="st">"con"</span>, <span class="st">"con"</span>, <span class="st">"bin"</span>, <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"con"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p>Note that the determination of variable types can also be done
+automatically by <code>latentcor</code> package using
+<code>get_types</code> function:</p>
 <div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/get_types.html">get_types</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>
 <span class="co">#&gt;  [1] "con" "ter" "con" "con" "con" "con" "con" "bin" "bin" "ter" "con"</span></code></pre></div>
-<p>This function is run automatically inside <code>latentcor</code> if the <code>types</code> are not supplied by the user, however the automatic determination of types takes extra time, so we recommend to specify <code>types</code> explicitly if they are known in advance.</p>
+<p>This function is run automatically inside <code>latentcor</code> if
+the <code>types</code> are not supplied by the user, however the
+automatic determination of types takes extra time, so we recommend to
+specify <code>types</code> explicitly if they are known in advance.</p>
 <p>The output of <code>latentcor</code> for <code>mtcars</code>:</p>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">estimate_mtcars</span><span class="op">)</span>
+<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">estimate_mtcars</span><span class="op">)</span>
 <span class="co">#&gt; [1] "zratios"    "K"          "R"          "Rpointwise" "plotR"</span></code></pre></div>
 <ul>
 <li>
-<code>zratios</code>: zratios for corresponding variables in <code>mtcars</code>.</li>
+<code>zratios</code>: zratios for corresponding variables in
+<code>mtcars</code>.</li>
 </ul>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate_mtcars</span><span class="op">$</span><span class="va">zratios</span>
@@ -327,7 +372,9 @@
 <span class="co">#&gt; [1] NA</span></code></pre></div>
 <ul>
 <li>
-<code>K</code>: Kendall <span class="math inline">\(\tau\)</span> (<span class="math inline">\(\tau_{a}\)</span>) correlation matrix for variables in <code>mtcars</code>.</li>
+<code>K</code>: Kendall <span class="math inline">\(\tau\)</span>
+(<span class="math inline">\(\tau_{a}\)</span>) correlation matrix for
+variables in <code>mtcars</code>.</li>
 </ul>
 <div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate_mtcars</span><span class="op">$</span><span class="va">K</span>
@@ -357,125 +404,145 @@
 <span class="co">#&gt; carb -0.44354839 -0.36088710 -0.03629032  0.06854839  1.00000000</span></code></pre></div>
 <ul>
 <li>
-<code>Rpointwise</code>: matrix of pointwise estimated correlations for <code>mtcars</code>.</li>
+<code>Rpointwise</code>: matrix of pointwise estimated correlations
+for <code>mtcars</code>.</li>
 </ul>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate_mtcars</span><span class="op">$</span><span class="va">Rpointwise</span>
 <span class="co">#&gt;             mpg        cyl       disp         hp        drat         wt</span>
 <span class="co">#&gt; mpg   1.0000000 -0.9990000 -0.9286530 -0.9099905  0.65616525 -0.9046652</span>
-<span class="co">#&gt; cyl  -0.9990000  1.0000000  0.9990000  0.9900378 -0.77195772  0.9525997</span>
+<span class="co">#&gt; cyl  -0.9990000  1.0000000  0.9990000  0.9900378 -0.77249088  0.9525997</span>
 <span class="co">#&gt; disp -0.9286530  0.9990000  1.0000000  0.8552768 -0.69582182  0.9151697</span>
 <span class="co">#&gt; hp   -0.9099905  0.9900378  0.8552768  1.0000000 -0.55293425  0.8097609</span>
-<span class="co">#&gt; drat  0.6561652 -0.7719577 -0.6958218 -0.5529342  1.00000000 -0.7483492</span>
+<span class="co">#&gt; drat  0.6561652 -0.7724909 -0.6958218 -0.5529342  1.00000000 -0.7483492</span>
 <span class="co">#&gt; wt   -0.9046652  0.9525997  0.9151697  0.8097609 -0.74834918  1.0000000</span>
-<span class="co">#&gt; qsec  0.4713967 -0.6540431 -0.4517316 -0.6680316  0.05064917 -0.2198737</span>
-<span class="co">#&gt; vs    0.8727316 -0.9623421 -0.8905658 -0.9188458  0.57685875 -0.7416377</span>
-<span class="co">#&gt; am    0.7178533 -0.7124468 -0.7888268 -0.4746999  0.85723711 -0.9121559</span>
-<span class="co">#&gt; gear  0.6234660 -0.6441105 -0.6786359 -0.4119442  0.80260415 -0.7617271</span>
-<span class="co">#&gt; carb -0.6368382  0.6025491  0.5370028  0.7247928 -0.12947951  0.4880685</span>
+<span class="co">#&gt; qsec  0.4713967 -0.6546712 -0.4517316 -0.6680316  0.05064917 -0.2198737</span>
+<span class="co">#&gt; vs    0.8728630 -0.9623421 -0.8907279 -0.9188458  0.57712804 -0.7419429</span>
+<span class="co">#&gt; am    0.7180179 -0.7126399 -0.7889528 -0.4748333  0.85733375 -0.9122083</span>
+<span class="co">#&gt; gear  0.6239541 -0.7084703 -0.6789845 -0.4122124  0.80293582 -0.7620924</span>
+<span class="co">#&gt; carb -0.6368382  0.6029528  0.5370028  0.7247928 -0.12947951  0.4880685</span>
 <span class="co">#&gt;             qsec         vs          am       gear        carb</span>
-<span class="co">#&gt; mpg   0.47139674  0.8727316  0.71785333  0.6234660 -0.63683817</span>
-<span class="co">#&gt; cyl  -0.65404313 -0.9623421 -0.71244682 -0.6441105  0.60254911</span>
-<span class="co">#&gt; disp -0.45173164 -0.8905658 -0.78882677 -0.6786359  0.53700280</span>
-<span class="co">#&gt; hp   -0.66803158 -0.9188458 -0.47469992 -0.4119442  0.72479279</span>
-<span class="co">#&gt; drat  0.05064917  0.5768588  0.85723711  0.8026041 -0.12947951</span>
-<span class="co">#&gt; wt   -0.21987367 -0.7416377 -0.91215587 -0.7617271  0.48806852</span>
-<span class="co">#&gt; qsec  1.00000000  0.9599123 -0.27004807 -0.1385035 -0.64170875</span>
-<span class="co">#&gt; vs    0.95991229  1.0000000  0.27236999  0.4087924 -0.76863616</span>
-<span class="co">#&gt; am   -0.27004807  0.2723700  1.00000000  0.9941469 -0.08284094</span>
-<span class="co">#&gt; gear -0.13850346  0.4087924  0.99414687  1.0000000  0.13086286</span>
-<span class="co">#&gt; carb -0.64170875 -0.7686362 -0.08284094  0.1308629  1.00000000</span></code></pre></div>
+<span class="co">#&gt; mpg   0.47139674  0.8728630  0.71801794  0.6239541 -0.63683817</span>
+<span class="co">#&gt; cyl  -0.65467117 -0.9623421 -0.71263992 -0.7084703  0.60295281</span>
+<span class="co">#&gt; disp -0.45173164 -0.8907279 -0.78895282 -0.6789845  0.53700280</span>
+<span class="co">#&gt; hp   -0.66803158 -0.9188458 -0.47483329 -0.4122124  0.72479279</span>
+<span class="co">#&gt; drat  0.05064917  0.5771280  0.85733375  0.8029358 -0.12947951</span>
+<span class="co">#&gt; wt   -0.21987367 -0.7419429 -0.91220830 -0.7620924  0.48806852</span>
+<span class="co">#&gt; qsec  1.00000000  0.9599123 -0.27020739 -0.1386652 -0.64170875</span>
+<span class="co">#&gt; vs    0.95991229  1.0000000  0.27235685  0.4085779 -0.76890808</span>
+<span class="co">#&gt; am   -0.27020739  0.2723569  1.00000000  0.9989985 -0.08287215</span>
+<span class="co">#&gt; gear -0.13866516  0.4085779  0.99899853  1.0000000  0.13099316</span>
+<span class="co">#&gt; carb -0.64170875 -0.7689081 -0.08287215  0.1309932  1.00000000</span></code></pre></div>
 <ul>
 <li>
-<code>R</code>: estimated final latent correlation matrix for <code>mtcars</code>.</li>
+<code>R</code>: estimated final latent correlation matrix for
+<code>mtcars</code>.</li>
 </ul>
 <div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate_mtcars</span><span class="op">$</span><span class="va">R</span>
 <span class="co">#&gt;             mpg        cyl       disp         hp        drat         wt</span>
-<span class="co">#&gt; mpg   1.0000000 -0.9609031 -0.9415043 -0.9158428  0.66735827 -0.9184175</span>
-<span class="co">#&gt; cyl  -0.9609031  1.0000000  0.9642266  0.9413892 -0.73792461  0.9100566</span>
-<span class="co">#&gt; disp -0.9415043  0.9642266  1.0000000  0.8623242 -0.71394453  0.9357387</span>
-<span class="co">#&gt; hp   -0.9158428  0.9413892  0.8623242  1.0000000 -0.55916149  0.8168236</span>
-<span class="co">#&gt; drat  0.6673583 -0.7379246 -0.7139445 -0.5591615  1.00000000 -0.7655481</span>
-<span class="co">#&gt; wt   -0.9184175  0.9100566  0.9357387  0.8168236 -0.76554810  1.0000000</span>
-<span class="co">#&gt; qsec  0.4823428 -0.5822593 -0.4633043 -0.6776150  0.07314342 -0.2320168</span>
-<span class="co">#&gt; vs    0.8544713 -0.9256791 -0.8492790 -0.9218190  0.53281338 -0.7091408</span>
-<span class="co">#&gt; am    0.6969207 -0.6621142 -0.7398814 -0.4763248  0.82651611 -0.8702507</span>
-<span class="co">#&gt; gear  0.6335341 -0.6404076 -0.7007359 -0.4148761  0.81916584 -0.7795446</span>
-<span class="co">#&gt; carb -0.6389233  0.6083585  0.5440334  0.7239277 -0.13666971  0.4925960</span>
+<span class="co">#&gt; mpg   1.0000000 -0.9608747 -0.9404131 -0.9152802  0.66642619 -0.9179963</span>
+<span class="co">#&gt; cyl  -0.9608747  1.0000000  0.9650010  0.9349197 -0.74128052  0.9124383</span>
+<span class="co">#&gt; disp -0.9404131  0.9650010  1.0000000  0.8621830 -0.71257487  0.9338857</span>
+<span class="co">#&gt; hp   -0.9152802  0.9349197  0.8621830  1.0000000 -0.55840804  0.8154479</span>
+<span class="co">#&gt; drat  0.6664262 -0.7412805 -0.7125749 -0.5584080  1.00000000 -0.7641521</span>
+<span class="co">#&gt; wt   -0.9179963  0.9124383  0.9338857  0.8154479 -0.76415208  1.0000000</span>
+<span class="co">#&gt; qsec  0.4828342 -0.5746332 -0.4633543 -0.6784444  0.07287856 -0.2323983</span>
+<span class="co">#&gt; vs    0.8542399 -0.9215304 -0.8490640 -0.9228387  0.53245113 -0.7087644</span>
+<span class="co">#&gt; am    0.6958925 -0.6708196 -0.7388726 -0.4747629  0.82554325 -0.8692830</span>
+<span class="co">#&gt; gear  0.6383813 -0.6628455 -0.7068625 -0.4233901  0.82357786 -0.7841403</span>
+<span class="co">#&gt; carb -0.6403397  0.5951207  0.5465031  0.7269460 -0.13831943  0.4939547</span>
 <span class="co">#&gt;             qsec         vs          am       gear        carb</span>
-<span class="co">#&gt; mpg   0.48234281  0.8544713  0.69692066  0.6335341 -0.63892330</span>
-<span class="co">#&gt; cyl  -0.58225925 -0.9256791 -0.66211416 -0.6404076  0.60835846</span>
-<span class="co">#&gt; disp -0.46330426 -0.8492790 -0.73988144 -0.7007359  0.54403338</span>
-<span class="co">#&gt; hp   -0.67761499 -0.9218190 -0.47632483 -0.4148761  0.72392768</span>
-<span class="co">#&gt; drat  0.07314342  0.5328134  0.82651611  0.8191658 -0.13666971</span>
-<span class="co">#&gt; wt   -0.23201675 -0.7091408 -0.87025068 -0.7795446  0.49259599</span>
-<span class="co">#&gt; qsec  1.00000000  0.8394639 -0.21423820 -0.1320981 -0.65840975</span>
-<span class="co">#&gt; vs    0.83946385  1.0000000  0.34069073  0.3558147 -0.72748608</span>
-<span class="co">#&gt; am   -0.21423820  0.3406907  1.00000000  0.9329160 -0.06824438</span>
-<span class="co">#&gt; gear -0.13209815  0.3558147  0.93291605  1.0000000  0.12065393</span>
-<span class="co">#&gt; carb -0.65840975 -0.7274861 -0.06824438  0.1206539  1.00000000</span></code></pre></div>
+<span class="co">#&gt; mpg   0.48283423  0.8542399  0.69589255  0.6383813 -0.64033967</span>
+<span class="co">#&gt; cyl  -0.57463321 -0.9215304 -0.67081964 -0.6628455  0.59512065</span>
+<span class="co">#&gt; disp -0.46335433 -0.8490640 -0.73887260 -0.7068625  0.54650313</span>
+<span class="co">#&gt; hp   -0.67844443 -0.9228387 -0.47476288 -0.4233901  0.72694597</span>
+<span class="co">#&gt; drat  0.07287856  0.5324511  0.82554325  0.8235779 -0.13831943</span>
+<span class="co">#&gt; wt   -0.23239826 -0.7087644 -0.86928295 -0.7841403  0.49395472</span>
+<span class="co">#&gt; qsec  1.00000000  0.8397730 -0.21462948 -0.1260015 -0.65996479</span>
+<span class="co">#&gt; vs    0.83977303  1.0000000  0.33939416  0.3611504 -0.72945700</span>
+<span class="co">#&gt; am   -0.21462948  0.3393942  1.00000000  0.9354150 -0.06698013</span>
+<span class="co">#&gt; gear -0.12600152  0.3611504  0.93541504  1.0000000  0.11730955</span>
+<span class="co">#&gt; carb -0.65996479 -0.7294570 -0.06698013  0.1173095  1.00000000</span></code></pre></div>
 <ul>
 <li>
-<code>plotR</code>: NULL by default as <code>showplot = FALSE</code> in <code>latentcor</code>. Otherwise displays a heatmap of latent correlation matrix for <code>mtcars</code> (See <a href="https://rpubs.com/mingzehuang/797937">heatmap of latent correlation (approx) for mtcars</a>).</li>
+<code>plotR</code>: NULL by default as <code>showplot = FALSE</code>
+in <code>latentcor</code>. Otherwise displays a heatmap of latent
+correlation matrix for <code>mtcars</code> (See <a href="https://rpubs.com/mingzehuang/797937" class="external-link">heatmap of latent
+correlation (approx) for mtcars</a>).</li>
 </ul>
 <div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">estimate_mtcars</span><span class="op">$</span><span class="va">plotR</span>
 <span class="co">#&gt; NULL</span></code></pre></div>
 </div>
-<div id="example-using-latentcor-with-subsampling" class="section level2">
-<h2 class="hasAnchor">
-<a href="#example-using-latentcor-with-subsampling" class="anchor"></a>Example using latentcor with subsampling</h2>
-<p>While <code>latentcor</code> can determine the types of each variable automatically, it is recommended to call <code>get_types</code> first and then supply <code>types</code> explicitly to save the computation time, especially when using latentcor with sub-sampling (which we illustrate below).</p>
-<p>First, we will generate variables with different types using a sample size <span class="math inline">\(n=100\)</span> which will serve as an example data for subsampling.</p>
+<div class="section level3">
+<h3 id="example-using-latentcor-with-subsampling">Example using latentcor with subsampling<a class="anchor" aria-label="anchor" href="#example-using-latentcor-with-subsampling"></a>
+</h3>
+<p>While <code>latentcor</code> can determine the types of each variable
+automatically, it is recommended to call <code>get_types</code> first
+and then supply <code>types</code> explicitly to save the computation
+time, especially when using latentcor with sub-sampling (which we
+illustrate below).</p>
+<p>First, we will generate variables with different types using a sample
+size <span class="math inline">\(n=100\)</span> which will serve as an
+example data for subsampling.</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">simdata2</span> <span class="op">=</span> <span class="fu"><a href="../reference/gen_data.html">gen_data</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">100</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"ter"</span>, <span class="fl">3</span><span class="op">)</span>, <span class="st">"con"</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="st">"bin"</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
-<p>To use the data with subsampling, we recommend to first run <code>get_types</code> on the full data</p>
+<code class="sourceCode R"><span class="va">simdata2</span> <span class="op">=</span> <span class="fu"><a href="../reference/gen_data.html">gen_data</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">100</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"ter"</span>, <span class="fl">3</span><span class="op">)</span>, <span class="st">"con"</span>, <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"bin"</span>, <span class="fl">3</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<p>To use the data with subsampling, we recommend to first run
+<code>get_types</code> on the full data</p>
 <div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">types</span> <span class="op">=</span> <span class="fu"><a href="../reference/get_types.html">get_types</a></span><span class="op">(</span><span class="va">simdata2</span><span class="op">$</span><span class="va">X</span><span class="op">)</span>
 <span class="va">types</span>
 <span class="co">#&gt; [1] "ter" "ter" "ter" "con" "bin" "bin" "bin"</span></code></pre></div>
-<p>Then, when doing subsampling, we recommend to explicitly supply identified types to <code>latentcor</code>. We illustrate using 10 subsamples, each of size 80.</p>
+<p>Then, when doing subsampling, we recommend to explicitly supply
+identified types to <code>latentcor</code>. We illustrate using 10
+subsamples, each of size 80.</p>
 <div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">start_time</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/proc.time.html">proc.time</a></span><span class="op">(</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">start_time</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/proc.time.html" class="external-link">proc.time</a></span><span class="op">(</span><span class="op">)</span>
 <span class="kw">for</span> <span class="op">(</span><span class="va">s</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span><span class="op">{</span>
   <span class="co"># Select a random subsample of size 80</span>
-  <span class="va">subsample</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span>, <span class="fl">80</span><span class="op">)</span>
+  <span class="va">subsample</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span>, <span class="fl">80</span><span class="op">)</span>
   <span class="co"># Estimate latent correlation on subsample specifying the types</span>
   <span class="va">Rs</span> <span class="op">=</span> <span class="fu"><a href="../reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">simdata2</span><span class="op">$</span><span class="va">X</span><span class="op">[</span><span class="va">subsample</span>, <span class="op">]</span>, types <span class="op">=</span> <span class="va">types</span><span class="op">)</span>
 <span class="op">}</span>
-<span class="fu"><a href="https://rdrr.io/r/base/proc.time.html">proc.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">start_time</span>
+<span class="fu"><a href="https://rdrr.io/r/base/proc.time.html" class="external-link">proc.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">start_time</span>
 <span class="co">#&gt;    user  system elapsed </span>
-<span class="co">#&gt;    0.02    0.00    0.01</span></code></pre></div>
+<span class="co">#&gt;    0.83    0.01    0.85</span></code></pre></div>
 <p>Compared with</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">start_time</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/proc.time.html">proc.time</a></span><span class="op">(</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">start_time</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/proc.time.html" class="external-link">proc.time</a></span><span class="op">(</span><span class="op">)</span>
 <span class="kw">for</span> <span class="op">(</span><span class="va">s</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fl">10</span><span class="op">)</span><span class="op">{</span>
   <span class="co"># Select a random subsample of size 80</span>
-  <span class="va">subsample</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span>, <span class="fl">80</span><span class="op">)</span>
+  <span class="va">subsample</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span>, <span class="fl">80</span><span class="op">)</span>
   <span class="co"># Estimate latent correlation on subsample specifying the types</span>
   <span class="va">Rs</span> <span class="op">=</span> <span class="fu"><a href="../reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">simdata2</span><span class="op">$</span><span class="va">X</span><span class="op">[</span><span class="va">subsample</span>, <span class="op">]</span>, types <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span>
 <span class="op">}</span>
-<span class="fu"><a href="https://rdrr.io/r/base/proc.time.html">proc.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">start_time</span>
+<span class="fu"><a href="https://rdrr.io/r/base/proc.time.html" class="external-link">proc.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">start_time</span>
 <span class="co">#&gt;    user  system elapsed </span>
-<span class="co">#&gt;    0.02    0.00    0.01</span></code></pre></div>
+<span class="co">#&gt;    0.83    0.02    0.84</span></code></pre></div>
 </div>
 </div>
-<div id="references" class="section level1 unnumbered">
-<h1 class="hasAnchor">
-<a href="#references" class="anchor"></a>References</h1>
+<div class="section level2">
+<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-croux2013robust" class="csl-entry">
-Croux, Christophe, Peter Filzmoser, and Heinrich Fritz. 2013. <span>“Robust Sparse Principal Component Analysis.”</span> <em>Technometrics</em> 55 (2): 202–14.
+Croux, Christophe, Peter Filzmoser, and Heinrich Fritz. 2013.
+<span>“Robust Sparse Principal Component Analysis.”</span>
+<em>Technometrics</em> 55 (2): 202–14.
 </div>
 <div id="ref-filzmoser2021pcapp" class="csl-entry">
-Filzmoser, Peter, Heinrich Fritz, and Klaudius Kalcher. 2021. <em>pcaPP: Robust PCA by Projection Pursuit</em>. <a href="https://CRAN.R-project.org/package=pcaPP">https://CRAN.R-project.org/package=pcaPP</a>.
+Filzmoser, Peter, Heinrich Fritz, and Klaudius Kalcher. 2021. <em>pcaPP:
+Robust PCA by Projection Pursuit</em>. <a href="https://CRAN.R-project.org/package=pcaPP" class="external-link">https://CRAN.R-project.org/package=pcaPP</a>.
 </div>
 <div id="ref-fox2019poly" class="csl-entry">
-Fox, John. 2019. <em>Polycor: Polychoric and Polyserial Correlations</em>. <a href="https://CRAN.R-project.org/package=polycor">https://CRAN.R-project.org/package=polycor</a>.
+Fox, John. 2019. <em>Polycor: Polychoric and Polyserial
+Correlations</em>. <a href="https://CRAN.R-project.org/package=polycor" class="external-link">https://CRAN.R-project.org/package=polycor</a>.
 </div>
 <div id="ref-liu2009nonparanormal" class="csl-entry">
-Liu, Han, John Lafferty, and Larry Wasserman. 2009. <span>“The Nonparanormal: Semiparametric Estimation of High Dimensional Undirected Graphs.”</span> <em>Journal of Machine Learning Research</em> 10 (10).
+Liu, Han, John Lafferty, and Larry Wasserman. 2009. <span>“The
+Nonparanormal: Semiparametric Estimation of High Dimensional Undirected
+Graphs.”</span> <em>Journal of Machine Learning Research</em> 10 (10).
 </div>
 </div>
 </div>
@@ -492,11 +559,13 @@ Liu, Han, John Lafferty, and Larry Wasserman. 2009. <span>“The Nonparanormal: 
 
 
       <footer><div class="copyright">
-  <p>Developed by Mingze Huang, Grace Yoon, Christian Müller, Irina Gaynanova.</p>
+  <p></p>
+<p>Developed by Mingze Huang, Grace Yoon, Christian Müller, Irina Gaynanova.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
+  <p></p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
 </div>
 
       </footer>
@@ -504,6 +573,8 @@ Liu, Han, John Lafferty, and Larry Wasserman. 2009. <span>“The Nonparanormal: 
 
   
 
+
+  
 
   </body>
 </html>
