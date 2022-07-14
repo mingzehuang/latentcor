@@ -18,7 +18,7 @@ static inline int binsearch(const int n,double *arr, const double val) {
       toolarge = test;
     } else if(arr[test] < val) {
       toosmall = test;
-    } 
+    }
   }
   return toolarge;
 }
@@ -38,7 +38,7 @@ static void C_predmlip(const int rank, double **grid, int *dims, double *values,
       if(dim[i] >= dims[i]) {
 	dim[i] -= dims[i];
 	dim[i+1]++;
-      } else 
+      } else
 	break;
     }
     //    printf("j %d: ",j);for(int i = 0; i < rank; i++) printf("%d ",dim[i]); printf("\n");
@@ -82,7 +82,7 @@ static SEXP R_mlippred(SEXP sgrid, SEXP values) {
   return resvec;
 }
 
-static double C_evalmlip(const int rank, double *x, double **grid, int *dims, 
+static double C_evalmlip(const int rank, double *x, double **grid, int *dims,
 			 double *values, int blend) {
 
   double weight[rank];
@@ -143,9 +143,9 @@ static SEXP R_evalmlip(SEXP sgrid, SEXP values, SEXP x, SEXP Rthreads, SEXP Sble
   double *grid[rank];
   int blend = 0;
   if(!IS_NUMERIC(values)) error("values must be numeric");
-  if(!IS_NUMERIC(x)) error("argument x must be numeric");  
+  if(!IS_NUMERIC(x)) error("argument x must be numeric");
   if(isMatrix(x) ? (nrows(x) != rank) : (LENGTH(x) != rank))
-    error("grid has dimension %d, you supplied a length %d vector", 
+    error("grid has dimension %d, you supplied a length %d vector",
 	  rank, isMatrix(x) ? nrows(x) : LENGTH(x));
 
   /* Make some pointers into the grid data */
@@ -254,10 +254,10 @@ R_CallMethodDef callMethods[] = {
 };
 
 
-void attribute_visible R_init_ipol(DllInfo *info) {
+void attribute_visible R_init_latentcor(DllInfo *info) {
   if(info != NULL) {}; // avoid warning about unused parameter
   /* register our routines */
   R_registerRoutines(info,NULL,callMethods,NULL,NULL);
   R_useDynamicSymbols(info, FALSE);
-  R_RegisterCCallable("ipol", "evalmlip", (DL_FUNC) C_evalmlip);
+  R_RegisterCCallable("latentcor", "evalmlip", (DL_FUNC) C_evalmlip);
 }

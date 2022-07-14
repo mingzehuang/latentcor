@@ -14,3 +14,7 @@
 # latentcor 1.2.1
 
 * Temporarily disable approximation method due to deprication of package `chebpol`.
+
+# latentcor 1.2.2
+
+* Add interpolation functions into package to enable approximation method.
