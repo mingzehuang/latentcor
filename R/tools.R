@@ -1,6 +1,6 @@
 .onLoad <- function(libname,pkgname) {
-  if(is.na(thr <- as.integer(Sys.getenv('IPOL_THREADS')))) thr <- 1L
-  options(ipol.threads=thr)
+  if(is.na(thr <- as.integer(Sys.getenv('LATENTCOR_THREADS')))) thr <- 1L
+  options(latentcor.threads=thr)
 }
 
 vectorfun <- function(fun,arity,domain=NULL) {
@@ -25,7 +25,7 @@ vectorfun <- function(fun,arity,domain=NULL) {
   }
   formals(f) <- formals(fun)
   structure(f,arity=arity,domain=as.data.frame(domain),
-            ipol.version=utils::packageVersion('ipol'))
+            latentcor.version=utils::packageVersion('latentcor'))
 }
 
 defaultblend <- c('linear','cubic','sigmoid','parodic','square','mean')
@@ -46,20 +46,6 @@ blenddef <- function(fun,blend=defaultblend) {
   fun
 }
 
-separgs <- function(fun,...) {
-  fun <- match.fun(fun)
-  f <- function() {
-    mc <- match.call()
-    mc[[1L]] <- quote(list)
-    arg <- eval.parent(mc)
-    nn <- sapply(arg,length)
-    if(all(nn == 1)) return(fun(as.numeric(arg)))
-    return(fun(do.call(rbind,arg)))
-  }
-  args <- as.list(sys.call())[-(1:2)]
-  formals(f) <- args
-  compiler::cmpfun(f)
-}
 
 
 

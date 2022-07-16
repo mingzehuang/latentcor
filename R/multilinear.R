@@ -1,14 +1,14 @@
 #' Multilinear interpolation on a grid
-#' 
+#'
 #' Multilinear interpolation on an arbitrary Cartesian product.
-#' 
+#'
 #' A call \code{fun <- mlappx(val,grid)} creates a multilinear interpolant on
 #' the grid.  The value on the grid points will be exact, the value between the
 #' grid points is a convex combination of the values in the corners of the
-#' hypercube surrounding it. 
-#' 
+#' hypercube surrounding it.
+#'
 #' If \code{val} is a function it will be evaluated on the grid.
-#' 
+#'
 #' @aliases mlappx mlappxf
 #' @param val Array or function. Function values on a grid, or the function
 #' itself. If it is the values, the \code{dim}-attribute must be appropriately
@@ -30,11 +30,11 @@ mlappx.real <- function(val, grid, ...) {
   if(length(val) != gl)
     stop("length of values ",length(val)," do not match size of grid ",gl)
   val <- as.numeric(val)
-  vectorfun(function(x,threads=getOption('ipol.threads'),
+  vectorfun(function(x,threads=getOption('latentcor.threads'),
                      blend=c('linear','cubic','sigmoid','parodic','square')) {
     blend <- switch(match.arg(blend),linear=0L,sigmoid=1L,parodic=2L,cubic=3L,square=4L)
     .Call(C_evalmlip,grid,val,x,threads,blend)
   },
-  arity=length(grid), 
+  arity=length(grid),
   domain=lapply(grid,range))
 }

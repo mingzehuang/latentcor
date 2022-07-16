@@ -1,5 +1,5 @@
-#ifndef _IPOL
-#define _IPOL
+#ifndef _LATENTCOR
+#define _LATENTCOR
 #include <math.h>
 #include <Rmath.h>
 #include <R.h>
