@@ -47,7 +47,7 @@ grid_list_33 = list(round(pnorm(seq(-1.8, 1.8, by =.15), sd = .8), 6) * 2 - 1, r
 combs = c("10", "11", "20", "21", "22", "30", "31", "32", "33")
 
 for (comb in combs) {
-  output = interpolation(evalfun = evalfun, grid_list = get(paste("grid_list", comb, sep = "_")), cores = 80, int = TRUE, comb = comb, tol = 1e-8, ratio = .9)
+  output = interpolation(evalfun = evalfun, grid_list = get(paste("grid_list", comb, sep = "_")), cores = 80, int = TRUE, comb = comb, tol = 1e-8, ratio = NULL)
   assign(paste("ipol", comb, sep = "_"), output$interpolant)
 }
 
