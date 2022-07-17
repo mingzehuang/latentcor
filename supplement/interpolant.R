@@ -16,6 +16,7 @@ library(Matrix)
 library(pcaPP)
 library(doRNG)
 library(doFuture)
+library(latentcor)
 
 evalfun = function(grid_input, comb, tol, ratio) {
   if (comb == "10" | comb == "20") {
@@ -27,10 +28,10 @@ evalfun = function(grid_input, comb, tol, ratio) {
   } else if (comb == "31" | comb == "32") {
     zratio1 = matrix(c(grid_input[2] * grid_input[3], grid_input[3]), ncol = 1); zratio2 = grid_input[4]
   } else if (comb == "33") {
-    zratio1 = matrix(c(grid_input[2] * grid_input[3], grid_input[3]), ncol = 1); zratio2 = matrix(c(grid_input[4:5]), ncol = 1)
+    zratio1 = matrix(c(grid_input[2] * grid_input[3], grid_input[3]), ncol = 1); zratio2 = matrix(c(grid_input[4] * grid_input[5], grid_input[5]), ncol = 1)
   }
-  K = grid_input[1] * bound_switch(comb = comb, zratio1 = zratio1, zratio2 = zratio2)
-  out = r_switch(method = "original", K = K, zratio1 = zratio1, zratio2 = zratio2, comb = comb, tol = tol, ratio = ratio)
+  K = grid_input[1] * latentcor:::bound_switch(comb = comb, zratio1 = zratio1, zratio2 = zratio2)
+  out = latentcor:::r_sol(K = K, zratio1 = zratio1, zratio2 = zratio2, comb = comb, tol = tol, ratio = ratio)
   return(out)
 }
 
@@ -38,7 +39,7 @@ grid_list_10 = list(round(pnorm(seq(-1.2, 1.2, by =.06), sd = .5), 6) * 2 - 1, r
 grid_list_11 = list(round(pnorm(seq(-1.2, 1.2, by =.06), sd = .5), 6) * 2 - 1, round(pnorm(seq(-1.2, 1.2, by =.06), sd = .5), 6), round(pnorm(seq(-1.2, 1.2, by =.06), sd = .5), 6))
 grid_list_20 = list(round(pnorm(seq(-1.2, 1.2, by =.06), sd = .5), 6) * 2 - 1, round(pnorm(seq(.1, 2.5, by = .05)), 6) * 2 - 1)
 grid_list_21 = list(round(pnorm(seq(-1.8, 1.8, by =.15), sd = .8), 6) * 2 - 1, round(pnorm(seq(-1.2, 1.2, by =.06), sd = .5), 6), round(pnorm(seq(-1.2, 1.2, by =.06), sd = .5), 6))
-grid_list_22 = list(round(pnorm(seq(-1.8, 1.8, by =.15), sd = .8), 6) * 2 - 1, round(pnorm(seq(.1, 2.5, by = .05)), 6) * 2 - 1, round(pnorm(seq(.1, 2.5, by = .05)), 6) * 2 - 1)
+grid_list_22 = list(round(pnorm(seq(-1.2, 1.2, by =.06), sd = .5), 6) * 2 - 1, round(pnorm(seq(.1, 2.5, by = .05)), 6) * 2 - 1, round(pnorm(seq(.1, 2.5, by = .05)), 6) * 2 - 1)
 grid_list_30 = list(round(pnorm(seq(-1.2, 1.2, by =.06), sd = .5), 6) * 2 - 1, round(pnorm(seq(-2.1, 2.1, by =.1)), 6), round(pnorm(seq(-2.1, 2.1, by =.1)), 6))
 grid_list_31 = list(round(pnorm(seq(-1.8, 1.8, by =.15), sd = .8), 6) * 2 - 1, round(pnorm(seq(-1.8, 1.8, by =.15), sd = .8), 6), round(pnorm(seq(-1.8, 1.8, by =.15), sd = .8), 6), round(pnorm(seq(-1.8, 1.8, by =.15), sd = .8), 6))
 grid_list_32 = list(round(pnorm(seq(-1.8, 1.8, by =.15), sd = .8), 6) * 2 - 1, round(pnorm(seq(-1.8, 1.8, by =.15), sd = .8), 6), round(pnorm(seq(-1.8, 1.8, by =.15), sd = .8), 6), round(pnorm(seq(.1, 2.5, by = .1)), 6) * 2 - 1)
@@ -46,8 +47,8 @@ grid_list_33 = list(round(pnorm(seq(-1.8, 1.8, by =.15), sd = .8), 6) * 2 - 1, r
 
 combs = c("10", "11", "20", "21", "22", "30", "31", "32", "33")
 
-for (comb in combs) {
-  output = interpolation(evalfun = evalfun, grid_list = get(paste("grid_list", comb, sep = "_")), int = TRUE, comb = comb, tol = 1e-8, ratio = NULL)
+for (comb in c("10", "11", "20", "21", "22")) {
+  output = latentcor::interpolation(evalfun = evalfun, grid_list = get(paste("grid_list", comb, sep = "_")), int = TRUE, comb = comb, tol = 1e-8, ratio = NULL)
   assign(paste("ipol", comb, sep = "_"), output$interpolant)
 }
 
