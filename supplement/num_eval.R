@@ -42,7 +42,7 @@ estfun_2 = function(X, ...) {
   out = latentcor(X = X, method = "approx", ...)$R[1, 2]
   return(out)
 }
-evaluation_BC = evaluation(genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2, grid_list = grid_list, showplot = TRUE, cores = 72, types = c("bin", "con"))
+evaluation_BC = evaluation(genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2, grid_list = grid_list, cores = 72, types = c("bin", "con"))
 
 ## For BB case
 genfun = function (grid_input, ...) {
@@ -57,7 +57,7 @@ estfun_2 = function(X, ...) {
   out = latentcor(X = X, method = "approx", ...)$R[1, 2]
   return(out)
 }
-evaluation_BB = evaluation(genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2, grid_list = grid_list, showplot = TRUE, cores = 72, types = c("bin", "bin"))
+evaluation_BB = evaluation(genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2, grid_list = grid_list, cores = 72, types = c("bin", "bin"))
 
 ## For TC case
 genfun = function (grid_input, ...) {
@@ -72,7 +72,7 @@ estfun_2 = function(X, ...) {
   out = latentcor(X = X, method = "approx", ...)$R[1, 2]
   return(out)
 }
-evaluation_TC = evaluation(genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2, grid_list = grid_list, showplot = TRUE, cores = 72, types = c("tru", "con"))
+evaluation_TC = evaluation(genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2, grid_list = grid_list, cores = 72, types = c("tru", "con"))
 
 ## For TB case
 genfun = function (grid_input, ...) {
@@ -87,7 +87,7 @@ estfun_2 = function(X, ...) {
   out = latentcor(X = X, method = "approx", ...)$R[1, 2]
   return(out)
 }
-evaluation_TB = evaluation(genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2, grid_list = grid_list, showplot = TRUE, cores = 72, types = c("tru", "bin"))
+evaluation_TB = evaluation(genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2, grid_list = grid_list, cores = 72, types = c("tru", "bin"))
 
 ## For TT case
 genfun = function (grid_input, ...) {
@@ -102,7 +102,7 @@ estfun_2 = function(X, ...) {
   out = latentcor(X = X, method = "approx", ...)$R[1, 2]
   return(out)
 }
-evaluation_TT = evaluation(genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2, grid_list = grid_list, showplot = TRUE, cores = 72, types = c("tru", "tru"))
+evaluation_TT = evaluation(genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2, grid_list = grid_list, cores = 72, types = c("tru", "tru"))
 
 ## For NC case
 genfun = function (grid_input, ...) {
@@ -117,7 +117,7 @@ estfun_2 = function(X, ...) {
   out = latentcor(X = X, method = "approx", ...)$R[1, 2]
   return(out)
 }
-evaluation_NC = evaluation(genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2, grid_list = grid_list, showplot = TRUE, cores = 72, types = c("ter", "con"))
+evaluation_NC = evaluation(genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2, grid_list = grid_list, cores = 72, types = c("ter", "con"))
 
 ## For NB case
 genfun = function (grid_input, ...) {
@@ -132,7 +132,7 @@ estfun_2 = function(X, ...) {
   out = latentcor(X = X, method = "approx", ...)$R[1, 2]
   return(out)
 }
-evaluation_NB = evaluation(genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2, grid_list = grid_list, showplot = TRUE, cores = 72, types = c("ter", "bin"))
+evaluation_NB = evaluation(genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2, grid_list = grid_list, cores = 72, types = c("ter", "bin"))
 
 ## For NT case
 genfun = function (grid_input, ...) {
@@ -147,7 +147,7 @@ estfun_2 = function(X, ...) {
   out = latentcor(X = X, method = "approx", ...)$R[1, 2]
   return(out)
 }
-evaluation_NT = evaluation(genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2, grid_list = grid_list, showplot = TRUE, cores = 72, types = c("ter", "tru"))
+evaluation_NT = evaluation(genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2, grid_list = grid_list, cores = 72, types = c("ter", "tru"))
 
 ## For NN case
 genfun = function (grid_input, ...) {
@@ -162,6 +162,6 @@ estfun_2 = function(X, ...) {
   out = latentcor(X = X, method = "approx", ...)$R[1, 2]
   return(out)
 }
-evaluation_NN = evaluation(genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2, grid_list = grid_list, showplot = TRUE, cores = 72, types = c("ter", "ter"))
+evaluation_NN = evaluation(genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2, grid_list = grid_list, cores = 72, types = c("ter", "ter"))
 save(evaluation_BC, evaluation_BB, evaluation_TC, evaluation_TB, evaluation_TT, evaluation_NC, evaluation_NB, evaluation_NT, evaluation_NN, file = "all_evaluation.rda", compress = "xz")
 
