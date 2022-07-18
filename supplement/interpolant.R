@@ -1,6 +1,6 @@
 ## The following script generate interpolant on my HPRC. Users should modify source directory and cores to replicate it.
-source("/scratch/user/sharkmanhmz/latentcor_git/latentcor/R/internal.R")
-source("/scratch/user/sharkmanhmz/latentcor_git/latentcor/R/interpolation.R")
+#source("/scratch/user/sharkmanhmz/latentcor_git/latentcor/R/internal.R")
+#source("/scratch/user/sharkmanhmz/latentcor_git/latentcor/R/interpolation.R")
 
 library(devtools)
 library(usethis)
@@ -30,8 +30,8 @@ evalfun = function(grid_input, comb, tol, ratio) {
   } else if (comb == "33") {
     zratio1 = matrix(c(grid_input[2] * grid_input[3], grid_input[3]), ncol = 1); zratio2 = matrix(c(grid_input[4] * grid_input[5], grid_input[5]), ncol = 1)
   }
-  K = grid_input[1] * latentcor:::bound_switch(comb = comb, zratio1 = zratio1, zratio2 = zratio2)
-  out = latentcor:::r_sol(K = K, zratio1 = zratio1, zratio2 = zratio2, comb = comb, tol = tol, ratio = ratio)
+  K = grid_input[1] * bound_switch(comb = comb, zratio1 = zratio1, zratio2 = zratio2)
+  out = r_sol(K = K, zratio1 = zratio1, zratio2 = zratio2, comb = comb, tol = tol, ratio = ratio)
   return(out)
 }
 
@@ -47,9 +47,10 @@ grid_list_33 = list(round(pnorm(seq(-1.8, 1.8, by =.15), sd = .8), 6) * 2 - 1, r
 
 combs = c("10", "11", "20", "21", "22", "30", "31", "32", "33")
 
-for (comb in c("10", "11", "20", "21", "22")) {
-  output = latentcor::interpolation(evalfun = evalfun, grid_list = get(paste("grid_list", comb, sep = "_")), int = TRUE, comb = comb, tol = 1e-8, ratio = NULL)
+for (comb in combs) {
+  output = interpolation(evalfun = evalfun, grid_list = get(paste("grid_list", comb, sep = "_")), cores = 72, int = TRUE, comb = comb, tol = 1e-8, ratio = NULL)
   assign(paste("ipol", comb, sep = "_"), output$interpolant)
+  save(list = paste("ipol", comb, sep = "_"), file = paste(comb, ".rda"), compress = "xz")
 }
 
-usethis::use_data(ipol_10, ipol_11, ipol_20, ipol_21, ipol_22, ipol_30, ipol_31, ipol_32, ipol_33, internal = TRUE, overwrite = TRUE, compress = "xz")
+#usethis::use_data(ipol_10, ipol_11, ipol_20, ipol_21, ipol_22, ipol_30, ipol_31, ipol_32, ipol_33, internal = TRUE, overwrite = TRUE, compress = "xz")
