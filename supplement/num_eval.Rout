@@ -1,7 +1,4 @@
 Loading required package: usethis
-Loading required package: timeDate
-Loading required package: timeSeries
-Loading required package: fBasics
 Loading required package: rngtools
 Loading required package: plotly
 Loading required package: ggplot2
@@ -16,10 +13,6 @@ The following object is masked from 'package:MASS':
 
     select
 
-The following object is masked from 'package:timeSeries':
-
-    filter
-
 The following object is masked from 'package:stats':
 
     filter
@@ -32,16 +25,17 @@ Loading required package: viridis
 Loading required package: viridisLite
 
 ======================
-Welcome to heatmaply version 1.2.1
+Welcome to heatmaply version 1.3.0
 
 Type citation('heatmaply') for how to cite the package.
 Type ?heatmaply for the main documentation.
 
 The github page is: https://github.com/talgalili/heatmaply/
 Please submit your suggestions and bug-reports at: https://github.com/talgalili/heatmaply/issues
-Or contact: <tal.galili@gmail.com>
+You may ask questions at stackoverflow, use the r and heatmaply tags: 
+	 https://stackoverflow.com/questions/tagged/heatmaply
 ======================
 
 > proc.time()
-    user   system  elapsed 
-  24.014   39.494 2402.352 
+      user     system    elapsed 
+333975.891 143131.307   9537.866 
