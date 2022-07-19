@@ -1,3 +1,7 @@
+library(heatmaply)
+library(ggplot2)
+library(plotly)
+library(graphics)
 load("~/latentcor_git/latentcor/supplement/all_evaluation.rda")
 grid_list = list(LatentR = seq(-0.9, 0.9, by = 0.1), TruncRate = seq(0.1, 0.9, by = 0.1))
 eval_data = evaluation_BC$meanAE_diff
