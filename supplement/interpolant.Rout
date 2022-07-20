@@ -1,8 +1,7 @@
 Loading required package: usethis
-Loading required package: timeDate
-Loading required package: timeSeries
-Loading required package: fBasics
 Loading required package: rngtools
+v Setting active project to '/scratch/user/sharkmanhmz/latentcor_git/latentcor'
+v Saving 'ipol_10', 'ipol_11', 'ipol_20', 'ipol_21', 'ipol_22', 'ipol_30', 'ipol_31', 'ipol_32', 'ipol_33' to 'R/sysdata.rda'
 > proc.time()
       user     system    elapsed 
-317966.589    556.474   8328.040 
+330997.060    597.640   8953.873 

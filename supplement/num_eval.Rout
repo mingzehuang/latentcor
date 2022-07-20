@@ -38,4 +38,4 @@ You may ask questions at stackoverflow, use the r and heatmaply tags:
 
 > proc.time()
       user     system    elapsed 
-333975.891 143131.307   9537.866 
+323784.626 142546.857   9244.303 
