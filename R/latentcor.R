@@ -47,7 +47,7 @@
 #' @export
 #' @example man/examples/latentcor_ex.R
 
-latentcor = function(X, types = NULL, method = c("original", "approx"), use.nearPD = TRUE, nu = 0.001, tol = 1e-8, ratio = 0.9, showplot = FALSE){
+latentcor = function(X, types = NULL, method = c("approx", "original"), use.nearPD = TRUE, nu = 0.001, tol = 1e-8, ratio = 0.9, showplot = FALSE){
   # Check the supplied parameters are compatible with what is expected
   if(nu < 0 | nu > 1){
     stop("nu must be between 0 and 1.")
