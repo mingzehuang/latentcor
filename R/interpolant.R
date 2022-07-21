@@ -10,9 +10,7 @@
 #' \code{ipol} are parallelized. If given a matrix argument \code{x}, the vectors can
 #' be evaluated in parallel.
 #' @param ... Other parameters. Currently used for simplex linear interpolants with the logical argument
-#' \code{epol} which makes the interpolant extrapolate to points outside the domain.
-#' The stalker spline has the argument \code{blend=c("linear","cubic","sigmoid")} where a
-#' blending function can be chosen as described in a vignette. The \code{"multilinear"} interpolant also
-#' has such a blending function.
+#' The \code{"multilinear"} interpolant also has the argument \code{blend=c("linear","cubic","sigmoid")} where a
+#' blending function can be chosen.
 #' @return A numeric. If more than one point was evaluated, a vector.
 NULL
