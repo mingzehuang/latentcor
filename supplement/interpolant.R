@@ -41,7 +41,7 @@ grid_list_20 = list(round(pnorm(seq(-1.2, 1.2, by =.06), sd = .5), 6) * 2 - 1, r
 grid_list_21 = list(round(pnorm(seq(-1.8, 1.8, by =.15), sd = .8), 6) * 2 - 1, round(pnorm(seq(-1.2, 1.2, by =.06), sd = .5), 6), round(pnorm(seq(-1.2, 1.2, by =.06), sd = .5), 6))
 grid_list_22 = list(round(pnorm(seq(-1.2, 1.2, by =.06), sd = .5), 6) * 2 - 1, round(pnorm(seq(.1, 2.5, by = .05)), 6) * 2 - 1, round(pnorm(seq(.1, 2.5, by = .05)), 6) * 2 - 1)
 grid_list_30 = list(round(pnorm(seq(-1.2, 1.2, by =.06), sd = .5), 6) * 2 - 1, round(pnorm(seq(-2.1, 2.1, by =.1)), 6), round(pnorm(seq(-2.1, 2.1, by =.1)), 6))
-grid_list_31 = list(round(pnorm(seq(-1.8, 1.8, by =.15), sd = .8), 6) * 2 - 1, round(pnorm(seq(-1.8, 1.8, by =.12), sd = .8), 6), round(pnorm(seq(-1.8, 1.8, by =.12), sd = .8), 6), round(pnorm(seq(-1.8, 1.8, by =.15), sd = .8), 6))
+grid_list_31 = list(round(pnorm(seq(-1.8, 1.8, by =.15), sd = .8), 6) * 2 - 1, round(pnorm(seq(-1.8, 1.8, by =.15), sd = .8), 6), round(pnorm(seq(-1.8, 1.8, by =.15), sd = .8), 6), round(pnorm(seq(-1.8, 1.8, by =.15), sd = .8), 6))
 grid_list_32 = list(round(pnorm(seq(-1.8, 1.8, by =.15), sd = .8), 6) * 2 - 1, round(pnorm(seq(-1.8, 1.8, by =.15), sd = .8), 6), round(pnorm(seq(-1.8, 1.8, by =.15), sd = .8), 6), round(pnorm(seq(.1, 2.5, by = .1)), 6) * 2 - 1)
 grid_list_33 = list(round(pnorm(seq(-1.8, 1.8, by =.15), sd = .8), 6) * 2 - 1, round(pnorm(seq(-1.8, 1.8, by =.3), sd = .8), 6), round(pnorm(seq(-1.8, 1.8, by =.3), sd = .8), 6), round(pnorm(seq(-1.8, 1.8, by =.3), sd = .8), 6), round(pnorm(seq(-1.8, 1.8, by =.3), sd = .8), 6))
 
