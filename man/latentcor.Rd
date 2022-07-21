@@ -7,7 +7,7 @@
 latentcor(
   X,
   types = NULL,
-  method = c("original", "approx"),
+  method = c("approx", "original"),
   use.nearPD = TRUE,
   nu = 0.001,
   tol = 1e-08,

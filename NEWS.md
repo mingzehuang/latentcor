@@ -15,6 +15,6 @@
 
 * Temporarily disable approximation method due to deprication of package `chebpol`.
 
-# latentcor 1.2.2
+# latentcor 2.0.0
 
-* Add interpolation functions into package to enable approximation method.
+* Add interpolation functions `ipol` into package to enable approximation method. Also export evaluation functions `evaluation` to help compare the accuracy between `original` and `approx` methods.
