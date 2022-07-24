@@ -2,8 +2,9 @@ library(heatmaply)
 library(ggplot2)
 library(plotly)
 library(graphics)
-load("~/latentcor_git/latentcor/supplement/all_evaluation.rda")
+load("~/latentcor/latentcor/supplement/all_evaluation.rda")
 grid_list = list(LatentR = seq(-0.9, 0.9, by = 0.1), TruncRate = seq(0.1, 0.9, by = 0.1))
+names(grid_list)=c("Latent Correlation", "Proportion of Zeros")
 eval_data = evaluation_BC$meanAE_diff
 rownames(eval_data) = as.character(grid_list[[1]]); colnames(eval_data) = as.character(grid_list[[2]])
 heatmaply(eval_data, dendrogram = "none", main = "Mean Absolute Approximation Error for Binary/Continuous", margins = c(80,80,80,80), ylab = names(grid_list[1]), xlab = names(grid_list[2]),
