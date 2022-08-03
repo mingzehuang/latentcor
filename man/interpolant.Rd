@@ -22,3 +22,6 @@ A numeric. If more than one point was evaluated, a vector.
 An interpolant is a function returned by \code{\link{ipol}} which has prespecified values in some
 points, and which fills in between with some reasonable values.
 }
+\author{
+Simen Gaure
+}
