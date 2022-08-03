@@ -1,4 +1,4 @@
-#' Methods for creating multivariate interpolations on hypercubes.
+#' Methods for creating multivariate interpolations on hypercubes (originally in chebpol R package implemented by Simon Gaure).
 #'
 #' The primary method is \code{\link{ipol}} which
 #' dispatches to some other method.  All the generated
