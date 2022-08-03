@@ -27,6 +27,8 @@ No R software package is currently available that allows accurate and fast corre
 computation of latent correlation that takes into account all variable types (continuous/binary/ordinal/zero-inflated), comes with an optimized memory footprint, 
 and is computationally efficient, essentially making latent correlation estimation almost as fast as rank-based correlation estimation. 
 
+**Note:** Earlier versions of `latentcor` used multi-linear interpolation based on functionality of R package [`chebpol`](https://cran.r-project.org/package=chebpol) written by Simen Gaure. This functionality is needed for faster computations of latent correlations with approximation method. However, `chebpol` was removed from CRAN on 2022-02-07. The current version of `latentcor` reuses the multi-linear interpolation part of the  `chebpol` (provided under Artistic-2 license) integrated directly within `latentcor`. To cite multi-linear interpolation only, please use original [`chebpol`](https://cran.r-project.org/package=chebpol).
+
 ## Installation
 
 To use `latentcor`, you need to install [`R`](https://cran.r-project.org/). To enhance your user experience, you may use some IDE for it (e.g. [`RStudio`](https://www.rstudio.com/)).
