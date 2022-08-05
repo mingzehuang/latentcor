@@ -1,4 +1,4 @@
-#' Methods for creating multivariate interpolations on hypercubes.
+#' Methods for creating multivariate interpolations on hypercubes (originally in chebpol R package implemented by Simen Gaure).
 #'
 #' The primary method is \code{\link{ipol}} which
 #' dispatches to some other method.  All the generated
@@ -39,6 +39,7 @@ NULL
 #' specifying the number of parallel threads which should be used when
 #' evaluating a matrix of column vectors.
 #' @import stats geometry
+#' @author Simen Gaure
 #' @examples
 #'
 #' ## evenly spaced grid-points

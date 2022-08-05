@@ -13,4 +13,5 @@
 #' The \code{"multilinear"} interpolant also has the argument \code{blend=c("linear","cubic","sigmoid")} where a
 #' blending function can be chosen.
 #' @return A numeric. If more than one point was evaluated, a vector.
+#' @author Simen Gaure
 NULL

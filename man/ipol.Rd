@@ -53,3 +53,6 @@ m <- matrix(runif(3*7),3)
 rbind(true=apply(m,2,f), ml=ml2(m))
 
 }
+\author{
+Simen Gaure
+}
