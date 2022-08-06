@@ -130,8 +130,9 @@ estimate_mtcars = latentcor(mtcars, types = c("con", "ter", "con", "con", "con",
 
 Note that the determination of variable types can also be done automatically by `latentcor` package using `get_types` function:
 ```{r mtcars_types, message = FALSE}
-get_types(mtcars)
+estimate_mtcars = latentcor(mtcars, types = get_types(mtcars))
 ```
+
 This function is run automatically inside `latentcor` if the `types` are not supplied by the user, however the automatic determination of types takes extra time, so we recommend to specify `types` explicitly if they are known in advance.
 
 The output of `latentcor` for `mtcars`:

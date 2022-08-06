@@ -18,7 +18,7 @@
              For continuous/binary types, see Fan, J., Liu, H., Ning, Y., and Zou, H. (2017) &lt;doi:10.1111/rssb.12168&gt;.
              For ternary type, see Quan X., Booth J.G. and Wells M.T. (2018) &lt;arXiv:1809.06255&gt;.
              For truncated type or zero-inflated type, see Yoon G., Carroll R.J. and Gaynanova I. (2020) &lt;doi:10.1093/biomet/asaa007&gt;.
-             For approximation method of computation, see Yoon G., Müller C.L. and Gaynanova I. (2021) &lt;doi:10.1080/10618600.2021.1882468&gt;.">
+             For approximation method of computation, see Yoon G., Müller C.L. and Gaynanova I. (2021) &lt;doi:10.1080/10618600.2021.1882468&gt;. The latter method uses multi-linear interpolation originally implemented in the R package chebpol `&lt;https://cran.r-project.org/package=chebpol&gt;`.">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
@@ -39,7 +39,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">latentcor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.0</span>
       </span>
     </div>
 
@@ -95,6 +95,8 @@
 <h2 id="statement-of-need">Statement of Need<a class="anchor" aria-label="anchor" href="#statement-of-need"></a>
 </h2>
 <p>No R software package is currently available that allows accurate and fast correlation estimation from mixed variable data in a unifying manner. The R package <a href="https://CRAN.R-project.org/package=latentcor" class="external-link"><code>latentcor</code></a>, introduced here, thus represents the first stand-alone R package for computation of latent correlation that takes into account all variable types (continuous/binary/ordinal/zero-inflated), comes with an optimized memory footprint, and is computationally efficient, essentially making latent correlation estimation almost as fast as rank-based correlation estimation.</p>
+<p><strong>Multi-linear interpolation:</strong> Earlier versions of <code>latentcor</code> used multi-linear interpolation based on functionality of R package <a href="https://cran.r-project.org/package=chebpol" class="external-link"><code>chebpol</code></a> written by Simen Gaure. This functionality is needed for faster computations of latent correlations with approximation method. However, <code>chebpol</code> was removed from CRAN on 2022-02-07. The current version of <code>latentcor</code> reuses the multi-linear interpolation part of the <code>chebpol</code> (provided under Artistic-2 license) integrated directly within <code>latentcor</code>. To cite multi-linear interpolation only, please use original <a href="https://cran.r-project.org/package=chebpol" class="external-link"><code>chebpol</code></a>.</p>
+<p><strong>Accuracy:</strong> The approximation method for ternary/ternary, truncated(zero-inflated)/ternary, and ternary/binary cases are less accurate close to boundary (zero proportions) due to size limitations of CRAN packages on the pre-stored grid. If higher accuracy is desired and original method is computationally prohibitive, latencor is also available as <a href="https://pypi.org/project/latentcor/" class="external-link">Python package</a> with <a href="https://github.com/mingzehuang/latentcor_py" class="external-link">Github development python version</a></p>
 </div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
@@ -102,73 +104,73 @@
 <p>To use <code>latentcor</code>, you need to install <a href="https://cran.r-project.org/" class="external-link"><code>R</code></a>. To enhance your user experience, you may use some IDE for it (e.g. <a href="https://www.rstudio.com/" class="external-link"><code>RStudio</code></a>).</p>
 <p>The development version of <a href="https://github.com/mingzehuang/latentcor" class="external-link"><code>latentcor</code></a> is available on GitHub. You can download it with the help of the <code>devtools</code> package in <code>R</code> as follow:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span>
-<span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"https://github.com/mingzehuang/latentcor"</span>, build_vignettes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"devtools"</span><span class="op">)</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"https://github.com/mingzehuang/latentcor"</span>, build_vignettes <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></code></pre></div>
 <p>The stable release version <a href="https://CRAN.R-project.org/package=latentcor" class="external-link"><code>latentcor</code></a> is available on CRAN. You can download it in <code>R</code> as follow:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"latentcor"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"latentcor"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
 <p>A simple example estimating latent correlation is shown below.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">latentcor</span><span class="op">)</span>
-
-<span class="co"># Generate two variables of sample size 100</span>
-<span class="co"># The first variable is ternary (pi0 = 0.3, pi1 = 0.5, pi2 = 1-0.3-0.5 = 0.2) </span>
-<span class="co"># The second variable is continuous. </span>
-<span class="co"># No copula transformation is applied.</span>
-<span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="reference/gen_data.html">gen_data</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1000</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ter"</span>, <span class="st">"con"</span><span class="op">)</span>, XP <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.3</span>, <span class="fl">.5</span><span class="op">)</span>, <span class="cn">NA</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">X</span>
-
-<span class="co"># Estimate latent correlation matrix with the original method</span>
-<span class="fu"><a href="reference/latentcor.html">latentcor</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ter"</span>, <span class="st">"con"</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"original"</span><span class="op">)</span><span class="op">$</span><span class="va">R</span>
-
-<span class="co"># Estimate latent correlation matrix with the approximation method</span>
-<span class="fu"><a href="reference/latentcor.html">latentcor</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ter"</span>, <span class="st">"con"</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">R</span>
-
-<span class="co"># Speed improvement by approximation method compared with original method</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/joshuaulrich/microbenchmark/" class="external-link">microbenchmark</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html" class="external-link">microbenchmark</a></span><span class="op">(</span><span class="fu"><a href="reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ter"</span>, <span class="st">"con"</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"original"</span><span class="op">)</span>,
-               <span class="fu"><a href="reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ter"</span>, <span class="st">"con"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="co"># Unit: milliseconds</span>
-<span class="co"># min     lq     mean    median     uq     max     neval</span>
-<span class="co"># 5.3444 5.8301 7.033555 6.06740 6.74975 20.8878   100</span>
-<span class="co"># 1.5049 1.6245 2.009371 1.73805 1.99820  5.0027   100</span>
-<span class="co"># This is run on Windows 10 with Intel(R) Core(TM) i5-4570 CPU @ 3.20GHz   3.20 GHz</span>
-
-<span class="co"># Heatmap for latent correlation matrix.</span>
-<span class="fu"><a href="reference/latentcor.html">latentcor</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ter"</span>, <span class="st">"con"</span><span class="op">)</span>, showplot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">$</span><span class="va">plotR</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">latentcor</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Generate two variables of sample size 100</span></span>
+<span><span class="co"># The first variable is ternary (pi0 = 0.3, pi1 = 0.5, pi2 = 1-0.3-0.5 = 0.2) </span></span>
+<span><span class="co"># The second variable is continuous. </span></span>
+<span><span class="co"># No copula transformation is applied.</span></span>
+<span><span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="reference/gen_data.html">gen_data</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">1000</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ter"</span>, <span class="st">"con"</span><span class="op">)</span>, XP <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.3</span>, <span class="fl">.5</span><span class="op">)</span>, <span class="cn">NA</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">X</span></span>
+<span></span>
+<span><span class="co"># Estimate latent correlation matrix with the original method</span></span>
+<span><span class="fu"><a href="reference/latentcor.html">latentcor</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ter"</span>, <span class="st">"con"</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"original"</span><span class="op">)</span><span class="op">$</span><span class="va">R</span></span>
+<span></span>
+<span><span class="co"># Estimate latent correlation matrix with the approximation method</span></span>
+<span><span class="fu"><a href="reference/latentcor.html">latentcor</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ter"</span>, <span class="st">"con"</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">R</span></span>
+<span></span>
+<span><span class="co"># Speed improvement by approximation method compared with original method</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/joshuaulrich/microbenchmark/" class="external-link">microbenchmark</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html" class="external-link">microbenchmark</a></span><span class="op">(</span><span class="fu"><a href="reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ter"</span>, <span class="st">"con"</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"original"</span><span class="op">)</span>,</span>
+<span>               <span class="fu"><a href="reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ter"</span>, <span class="st">"con"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co"># Unit: milliseconds</span></span>
+<span><span class="co"># min     lq     mean    median     uq     max     neval</span></span>
+<span><span class="co"># 5.3444 5.8301 7.033555 6.06740 6.74975 20.8878   100</span></span>
+<span><span class="co"># 1.5049 1.6245 2.009371 1.73805 1.99820  5.0027   100</span></span>
+<span><span class="co"># This is run on Windows 10 with Intel(R) Core(TM) i5-4570 CPU @ 3.20GHz   3.20 GHz</span></span>
+<span></span>
+<span><span class="co"># Heatmap for latent correlation matrix.</span></span>
+<span><span class="fu"><a href="reference/latentcor.html">latentcor</a></span><span class="op">(</span>X <span class="op">=</span> <span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ter"</span>, <span class="st">"con"</span><span class="op">)</span>, showplot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">$</span><span class="va">plotR</span></span></code></pre></div>
 <p>Another example with the <code>mtcars</code> dataset.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">latentcor</span><span class="op">)</span>
-<span class="co"># Use build-in dataset mtcars</span>
-<span class="va">X</span> <span class="op">=</span> <span class="va">mtcars</span>
-<span class="co"># Check variable types for manual determination</span>
-<span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fl">2</span>, <span class="va">table</span><span class="op">)</span>
-<span class="co"># Or use built-in get_types function to get types suggestions</span>
-<span class="fu"><a href="reference/get_types.html">get_types</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span>
-
-<span class="co"># Estimate latent correlation matrix with original method</span>
-<span class="fu"><a href="reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">mtcars</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"ter"</span>, <span class="st">"con"</span>, <span class="st">"con"</span>, <span class="st">"con"</span>, <span class="st">"con"</span>, <span class="st">"con"</span>, <span class="st">"bin"</span>,
-                       <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"con"</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"original"</span><span class="op">)</span><span class="op">$</span><span class="va">R</span>
-<span class="co"># Estimate latent correlation matrix with approximation method</span>
-<span class="fu"><a href="reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">mtcars</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"ter"</span>, <span class="st">"con"</span>, <span class="st">"con"</span>, <span class="st">"con"</span>, <span class="st">"con"</span>, <span class="st">"con"</span>, <span class="st">"bin"</span>,
-                       <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"con"</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">R</span>
-
-<span class="co"># Speed improvement by approximation method compared with original method</span>
-<span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/joshuaulrich/microbenchmark/" class="external-link">microbenchmark</a></span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html" class="external-link">microbenchmark</a></span><span class="op">(</span><span class="fu"><a href="reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">mtcars</span>, types <span class="op">=</span> <span class="va">types</span>, method <span class="op">=</span> <span class="st">"original"</span><span class="op">)</span>,
-               <span class="fu"><a href="reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">mtcars</span>, types <span class="op">=</span> <span class="va">types</span>, method <span class="op">=</span> <span class="st">"approx"</span><span class="op">)</span><span class="op">)</span>
-<span class="co"># Unit: milliseconds</span>
-<span class="co">#  min       lq        mean      median        uq      max    neval</span>
-<span class="co">#  201.9872 215.6438   225.30385 221.5364 226.58330 411.4940   100</span>
-<span class="co">#   71.8457  75.1681   82.42531  80.1688  84.77845 238.3793    100</span>
-<span class="co"># This is run on Windows 10 with Intel(R) Core(TM) i5-4570 CPU @ 3.20GHz   3.20 GHz</span>
-
-<span class="co"># Heatmap for latent correlation matrix with approximation method.</span>
-<span class="fu"><a href="reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">mtcars</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"ter"</span>, <span class="st">"con"</span>, <span class="st">"con"</span>, <span class="st">"con"</span>, <span class="st">"con"</span>, <span class="st">"con"</span>, <span class="st">"bin"</span>,
-                       <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"con"</span><span class="op">)</span>, showplot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">$</span><span class="va">plotR</span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">latentcor</span><span class="op">)</span></span>
+<span><span class="co"># Use build-in dataset mtcars</span></span>
+<span><span class="va">X</span> <span class="op">=</span> <span class="va">mtcars</span></span>
+<span><span class="co"># Check variable types for manual determination</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/apply.html" class="external-link">apply</a></span><span class="op">(</span><span class="va">mtcars</span>, <span class="fl">2</span>, <span class="va">table</span><span class="op">)</span></span>
+<span><span class="co"># Or use built-in get_types function to get types suggestions</span></span>
+<span><span class="fu"><a href="reference/get_types.html">get_types</a></span><span class="op">(</span><span class="va">mtcars</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Estimate latent correlation matrix with original method</span></span>
+<span><span class="fu"><a href="reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">mtcars</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"ter"</span>, <span class="st">"con"</span>, <span class="st">"con"</span>, <span class="st">"con"</span>, <span class="st">"con"</span>, <span class="st">"con"</span>, <span class="st">"bin"</span>,</span>
+<span>                       <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"con"</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"original"</span><span class="op">)</span><span class="op">$</span><span class="va">R</span></span>
+<span><span class="co"># Estimate latent correlation matrix with approximation method</span></span>
+<span><span class="fu"><a href="reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">mtcars</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"ter"</span>, <span class="st">"con"</span>, <span class="st">"con"</span>, <span class="st">"con"</span>, <span class="st">"con"</span>, <span class="st">"con"</span>, <span class="st">"bin"</span>,</span>
+<span>                       <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"con"</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">R</span></span>
+<span></span>
+<span><span class="co"># Speed improvement by approximation method compared with original method</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/joshuaulrich/microbenchmark/" class="external-link">microbenchmark</a></span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/pkg/microbenchmark/man/microbenchmark.html" class="external-link">microbenchmark</a></span><span class="op">(</span><span class="fu"><a href="reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">mtcars</span>, types <span class="op">=</span> <span class="va">types</span>, method <span class="op">=</span> <span class="st">"original"</span><span class="op">)</span>,</span>
+<span>               <span class="fu"><a href="reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">mtcars</span>, types <span class="op">=</span> <span class="va">types</span>, method <span class="op">=</span> <span class="st">"approx"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co"># Unit: milliseconds</span></span>
+<span><span class="co">#  min       lq        mean      median        uq      max    neval</span></span>
+<span><span class="co">#  201.9872 215.6438   225.30385 221.5364 226.58330 411.4940   100</span></span>
+<span><span class="co">#   71.8457  75.1681   82.42531  80.1688  84.77845 238.3793    100</span></span>
+<span><span class="co"># This is run on Windows 10 with Intel(R) Core(TM) i5-4570 CPU @ 3.20GHz   3.20 GHz</span></span>
+<span></span>
+<span><span class="co"># Heatmap for latent correlation matrix with approximation method.</span></span>
+<span><span class="fu"><a href="reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">mtcars</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"con"</span>, <span class="st">"ter"</span>, <span class="st">"con"</span>, <span class="st">"con"</span>, <span class="st">"con"</span>, <span class="st">"con"</span>, <span class="st">"con"</span>, <span class="st">"bin"</span>,</span>
+<span>                       <span class="st">"bin"</span>, <span class="st">"ter"</span>, <span class="st">"con"</span><span class="op">)</span>, showplot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">$</span><span class="va">plotR</span></span></code></pre></div>
 <p>Interactive heatmap see: <a href="https://rpubs.com/mingzehuang/797937" class="external-link">interactive heatmap of latent correlations (approx) for mtcars</a></p>
 </div>
 <div class="section level2">
@@ -253,7 +255,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>

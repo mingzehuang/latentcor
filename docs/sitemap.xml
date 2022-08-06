@@ -34,6 +34,9 @@
     <loc>/news/index.html</loc>
   </url>
   <url>
+    <loc>/reference/evaluation.html</loc>
+  </url>
+  <url>
     <loc>/reference/gen_data.html</loc>
   </url>
   <url>
@@ -43,6 +46,18 @@
     <loc>/reference/index.html</loc>
   </url>
   <url>
+    <loc>/reference/interpolant.html</loc>
+  </url>
+  <url>
+    <loc>/reference/interpolation.html</loc>
+  </url>
+  <url>
+    <loc>/reference/ipol.html</loc>
+  </url>
+  <url>
     <loc>/reference/latentcor.html</loc>
+  </url>
+  <url>
+    <loc>/reference/mlappx.real.html</loc>
   </url>
 </urlset>

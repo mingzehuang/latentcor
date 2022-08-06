@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">latentcor</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">2.0.0</span>
       </span>
     </div>
 
@@ -60,40 +60,57 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">latentcor</span><span class="op">(</span>
-  <span class="va">X</span>,
-  types <span class="op">=</span> <span class="cn">NULL</span>,
-  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"original"</span>, <span class="st">"approx"</span><span class="op">)</span>,
-  use.nearPD <span class="op">=</span> <span class="cn">TRUE</span>,
-  nu <span class="op">=</span> <span class="fl">0.001</span>,
-  tol <span class="op">=</span> <span class="fl">1e-08</span>,
-  ratio <span class="op">=</span> <span class="fl">0.9</span>,
-  showplot <span class="op">=</span> <span class="cn">FALSE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">latentcor</span><span class="op">(</span></span>
+<span>  <span class="va">X</span>,</span>
+<span>  types <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  method <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"approx"</span>, <span class="st">"original"</span><span class="op">)</span>,</span>
+<span>  use.nearPD <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  nu <span class="op">=</span> <span class="fl">0.001</span>,</span>
+<span>  tol <span class="op">=</span> <span class="fl">1e-08</span>,</span>
+<span>  ratio <span class="op">=</span> <span class="fl">0.9</span>,</span>
+<span>  showplot <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>X</dt>
 <dd><p>A numeric matrix or numeric data frame (n by p), where n is number of samples, and p is number of variables. Missing values (NA) are allowed, in which case the estimation is based on pairwise complete observations.</p></dd>
+
+
 <dt>types</dt>
 <dd><p>A vector of length p indicating the type of each of the p variables in <code>X</code>. Each element must be one of <code>"con"</code> (continuous), <code>"bin"</code> (binary), <code>"ter"</code> (ternary) or <code>"tru"</code> (truncated). If the vector has length 1, then all p variables are assumed to be of the same type that is supplied. The default value is <code>NULL</code>, and the variable types are determined automatically using function <code><a href="get_types.html">get_types</a></code>. As automatic determination of variable types takes extra time, it is recommended to supply the types explicitly when they are known in advance.</p></dd>
+
+
 <dt>method</dt>
 <dd><p>The calculation method for latent correlations. Either <code>"original"</code> or <code>"approx"</code>. If <code>method = "approx"</code>, multilinear approximation method is used, which is much faster than the original method, see Yoon et al. (2021) for timing comparisons for various variable types. If <code>method = "original"</code>, optimization of the bridge inverse function is used. The default is <code>"approx"</code>.</p></dd>
+
+
 <dt>use.nearPD</dt>
 <dd><p>Logical indicator. <code>use.nearPD = TRUE</code> gets nearest positive definite matrix for the estimated latent correlation matrix with shrinkage adjustment by <code>nu</code>. Output <code>R</code> is the same as <code>Rpointwise</code> if <code>use.nearPD = FALSE</code>. Default value is <code>TRUE</code>.</p></dd>
+
+
 <dt>nu</dt>
 <dd><p>Shrinkage parameter for the correlation matrix, must be between 0 and 1. Guarantees that the minimal eigenvalue of returned correlation matrix is greater or equal to <code>nu</code>. When <code>nu = 0</code>, no shrinkage is performed, the returned correlation matrix will be semi-positive definite but not necessarily strictly positive definite. When <code>nu = 1</code>, the identity matrix is returned (not recommended).  The default (recommended) value is 0.001.</p></dd>
+
+
 <dt>tol</dt>
 <dd><p>When <code>method = "original"</code>, specifies the desired accuracy of the bridge function inversion via uniroot optimization and is passed to <code><a href="https://rdrr.io/r/stats/optimize.html" class="external-link">optimize</a></code>. The default value is 1e-8. When <code>method = "approx"</code>, this parameter is ignored.</p></dd>
+
+
 <dt>ratio</dt>
 <dd><p>When <code>method = "approx"</code>, specifies the boundary value for multilinear interpolation, must be between 0 and 1. When <code>ratio = 0</code>, no linear interpolation is performed (the slowest execution) which is equivalent to <code>method = "original"</code>. When <code>ratio = 1</code>, linear interpolation is always performed (the fastest execution) but may lead to high approximation errors. The default (recommended) value is 0.9 which controls the approximation error and has fast execution, see Yoon et al. (2021) for details. When <code>method = "original"</code>, this parameter is ignored.</p></dd>
+
+
 <dt>showplot</dt>
 <dd><p>Logical indicator. <code>showplot = TRUE</code> generates a ggplot object <code>plotR</code> with the heatmap of latent correlation matrix <code>R</code>. <code>plotR = NULL</code> if <code>showplot = FALSE</code>. Default value is <code>FALSE</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p><code>latentcor</code> returns</p><ul><li><p>zratios: A list of of length p corresponding to each variable. Returns NA for continuous variable; proportion of zeros for binary/truncated variables; the cumulative proportions of zeros and ones (e.g. first value is proportion of zeros, second value is proportion of zeros and ones) for ternary variable.</p></li>
+    
+
+<p><code>latentcor</code> returns</p><ul><li><p>zratios: A list of of length p corresponding to each variable. Returns NA for continuous variable; proportion of zeros for binary/truncated variables; the cumulative proportions of zeros and ones (e.g. first value is proportion of zeros, second value is proportion of zeros and ones) for ternary variable.</p></li>
 <li><p>K: (p x p) Kendall Tau (Tau-a) Matrix for <code>X</code></p></li>
 <li><p>R: (p x p) Estimated latent correlation matrix for <code>X</code></p></li>
 <li><p>Rpointwise: (p x p) Point-wise estimates of latent correlations for <code>X</code>. This matrix is not guaranteed to be semi-positive definite. This is the original estimated latent correlation matrix without adjustment for positive-definiteness.</p></li>
@@ -120,29 +137,31 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># Example 1 - truncated data type, same type for all variables</span></span>
-<span class="r-in"><span class="co"># Generate data</span></span>
-<span class="r-in"><span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="gen_data.html">gen_data</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">300</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"tru"</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">X</span></span>
-<span class="r-in"><span class="co"># Estimate latent correlation matrix with original method and check the timing</span></span>
-<span class="r-in"><span class="va">start_time</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/proc.time.html" class="external-link">proc.time</a></span><span class="op">(</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">R_nc_org</span> <span class="op">=</span> <span class="fu">latentcor</span><span class="op">(</span>X <span class="op">=</span> <span class="va">X</span>, types <span class="op">=</span> <span class="st">"tru"</span>, method <span class="op">=</span> <span class="st">"original"</span><span class="op">)</span><span class="op">$</span><span class="va">R</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/proc.time.html" class="external-link">proc.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">start_time</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Example 1 - truncated data type, same type for all variables</span></span></span>
+<span class="r-in"><span><span class="co"># Generate data</span></span></span>
+<span class="r-in"><span><span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="gen_data.html">gen_data</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">300</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="st">"tru"</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span><span class="op">$</span><span class="va">X</span></span></span>
+<span class="r-in"><span><span class="co"># Estimate latent correlation matrix with original method and check the timing</span></span></span>
+<span class="r-in"><span><span class="va">start_time</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/proc.time.html" class="external-link">proc.time</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">R_org</span> <span class="op">=</span> <span class="fu">latentcor</span><span class="op">(</span>X <span class="op">=</span> <span class="va">X</span>, types <span class="op">=</span> <span class="st">"tru"</span>, method <span class="op">=</span> <span class="st">"original"</span><span class="op">)</span><span class="op">$</span><span class="va">R</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/proc.time.html" class="external-link">proc.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">start_time</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    0.56    0.00    0.56 </span>
-<span class="r-in"><span class="co"># # Estimate latent correlation matrix with approximation method and check the timing</span></span>
-<span class="r-in"><span class="co"># start_time = proc.time()</span></span>
-<span class="r-in"><span class="co"># R_nc_approx = latentcor(X = X, types = "tru", method = "approx")$R</span></span>
-<span class="r-in"><span class="co"># proc.time() - start_time</span></span>
-<span class="r-in"><span class="co"># # Heatmap for latent correlation matrix.</span></span>
-<span class="r-in"><span class="co"># Heatmap_R_nc_approx = latentcor(X = X, types = "tru", method = "approx",</span></span>
-<span class="r-in"><span class="co">#                                 showplot = TRUE)$plotR</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Example 2 - ternary/continuous case</span></span>
-<span class="r-in"><span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="gen_data.html">gen_data</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">X</span></span>
-<span class="r-in"><span class="co"># Estimate latent correlation matrix with original method</span></span>
-<span class="r-in"><span class="va">R_nc_org</span> <span class="op">=</span> <span class="fu">latentcor</span><span class="op">(</span>X <span class="op">=</span> <span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ter"</span>, <span class="st">"con"</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"original"</span><span class="op">)</span><span class="op">$</span><span class="va">R</span></span>
-<span class="r-in"><span class="co"># # Estimate latent correlation matrix with aprroximation method</span></span>
-<span class="r-in"><span class="co"># R_nc_approx = latentcor(X = X, types = c("ter", "con"), method = "approx")$R</span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    0.53    0.00    0.53 </span>
+<span class="r-in"><span><span class="co"># Estimate latent correlation matrix with approximation method and check the timing</span></span></span>
+<span class="r-in"><span><span class="va">start_time</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/proc.time.html" class="external-link">proc.time</a></span><span class="op">(</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">R_approx</span> <span class="op">=</span> <span class="fu">latentcor</span><span class="op">(</span>X <span class="op">=</span> <span class="va">X</span>, types <span class="op">=</span> <span class="st">"tru"</span>, method <span class="op">=</span> <span class="st">"approx"</span><span class="op">)</span><span class="op">$</span><span class="va">R</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/proc.time.html" class="external-link">proc.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">start_time</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>       0       0       0 </span>
+<span class="r-in"><span><span class="co"># Heatmap for latent correlation matrix.</span></span></span>
+<span class="r-in"><span><span class="va">Heatmap_R_approx</span> <span class="op">=</span> <span class="fu">latentcor</span><span class="op">(</span>X <span class="op">=</span> <span class="va">X</span>, types <span class="op">=</span> <span class="st">"tru"</span>, method <span class="op">=</span> <span class="st">"approx"</span>,</span></span>
+<span class="r-in"><span>                             showplot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">$</span><span class="va">plotR</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Example 2 - ternary/continuous case</span></span></span>
+<span class="r-in"><span><span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="gen_data.html">gen_data</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">X</span></span></span>
+<span class="r-in"><span><span class="co"># Estimate latent correlation matrix with original method</span></span></span>
+<span class="r-in"><span><span class="va">R_nc_org</span> <span class="op">=</span> <span class="fu">latentcor</span><span class="op">(</span>X <span class="op">=</span> <span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ter"</span>, <span class="st">"con"</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"original"</span><span class="op">)</span><span class="op">$</span><span class="va">R</span></span></span>
+<span class="r-in"><span><span class="co"># Estimate latent correlation matrix with aprroximation method</span></span></span>
+<span class="r-in"><span><span class="va">R_nc_approx</span> <span class="op">=</span> <span class="fu">latentcor</span><span class="op">(</span>X <span class="op">=</span> <span class="va">X</span>, types <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ter"</span>, <span class="st">"con"</span><span class="op">)</span>, method <span class="op">=</span> <span class="st">"approx"</span><span class="op">)</span><span class="op">$</span><span class="va">R</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -157,7 +176,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.3.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>
