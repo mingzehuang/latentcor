@@ -9,6 +9,7 @@
 #include <R_ext/Lapack.h>
 #include <R_ext/Applic.h>
 #include <R_ext/Visibility.h>
+#include "config.h"
 
 static R_INLINE double blendfun(double w,int blend) {
   switch(blend) {
