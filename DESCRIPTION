@@ -44,6 +44,7 @@ Suggests:
     testthat (>= 3.0.0),
     lattice,
     cubature, 
-    plot3D
-Config/testthat/edition: 3
+    plot3D,
+    covr
 VignetteBuilder: knitr
+Config/testthat/edition: 3
