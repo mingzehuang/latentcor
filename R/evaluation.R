@@ -39,7 +39,7 @@
 #' @export
 #' @examples
 #' library(latentcor)
-#' grid_list = list(LatentR = seq(-0.9, 0.9, by = 0.3), TruncRate = seq(0.1, 0.9, by = 0.3))
+#' grid_list = list(LatentR = seq(-0.5, 0.5, by = 0.5), TruncRate = seq(0.1, 0.9, by = 0.4))
 #' genfun = function (grid_input, ...) {
 #'   out = gen_data(rhos = grid_input[1], XP = list(grid_input[2], NA), ...)$X
 #'   return(out)
@@ -53,7 +53,7 @@
 #'   return(out)
 #' }
 #'evaluation_BC = evaluation(genfun = genfun, estfun_1 = estfun_1, estfun_2 = estfun_2,
-#' grid_list = grid_list, nrep = 3, cores = 80, showplot = TRUE, types = c("bin", "con"))
+#' grid_list = grid_list, nrep = 2, showplot = FALSE, types = c("bin", "con"))
 #'evaluation_BC$meanAE_diff
 #'evaluation_BC$plot_meanAE_diff
 
