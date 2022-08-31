@@ -78,7 +78,7 @@
                         <h4 data-toc-skip class="author">Mingze Huang,
 Christian L. Müller, Irina Gaynanova</h4>
             
-            <h4 data-toc-skip class="date">2022-08-05</h4>
+            <h4 data-toc-skip class="date">2022-08-31</h4>
       
       
       <div class="hidden name"><code>latentcor_math.Rmd</code></div>
@@ -101,13 +101,13 @@ monotonically increasing <span class="math inline">\(f=(f_{j})_{j=1}^{p}\)</span
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/gen_data.html">gen_data</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6</span>, types <span class="op">=</span> <span class="st">"con"</span><span class="op">)</span><span class="op">$</span><span class="va">X</span></span>
 <span><span class="va">X</span></span>
-<span><span class="co">#&gt;            [,1]</span></span>
-<span><span class="co">#&gt; [1,]  0.1307106</span></span>
-<span><span class="co">#&gt; [2,] -0.5151011</span></span>
-<span><span class="co">#&gt; [3,]  1.8143743</span></span>
-<span><span class="co">#&gt; [4,] -0.6077274</span></span>
-<span><span class="co">#&gt; [5,] -1.3916014</span></span>
-<span><span class="co">#&gt; [6,] -0.6185839</span></span></code></pre></div>
+<span><span class="co">#&gt;             [,1]</span></span>
+<span><span class="co">#&gt; [1,] -0.05894138</span></span>
+<span><span class="co">#&gt; [2,]  0.61420386</span></span>
+<span><span class="co">#&gt; [3,]  1.62989498</span></span>
+<span><span class="co">#&gt; [4,]  1.34911221</span></span>
+<span><span class="co">#&gt; [5,]  0.39471148</span></span>
+<span><span class="co">#&gt; [6,] -0.32654291</span></span></code></pre></div>
 <p><strong><em>Definition of binary model</em></strong> <span class="citation">(Fan et al. 2017)</span></p>
 <p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span>
 satisfies the binary latent Gaussian copula model if there exists <span class="math inline">\(W\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})\)</span>, where <span class="math inline">\(I(\cdot)\)</span> is the indicator function and
@@ -120,8 +120,8 @@ satisfies the binary latent Gaussian copula model if there exists <span class="m
 <span><span class="co">#&gt; [2,]    0</span></span>
 <span><span class="co">#&gt; [3,]    1</span></span>
 <span><span class="co">#&gt; [4,]    1</span></span>
-<span><span class="co">#&gt; [5,]    0</span></span>
-<span><span class="co">#&gt; [6,]    1</span></span></code></pre></div>
+<span><span class="co">#&gt; [5,]    1</span></span>
+<span><span class="co">#&gt; [6,]    0</span></span></code></pre></div>
 <p><strong><em>Definition of ternary model</em></strong> <span class="citation">(Quan, Booth, and Wells 2018)</span></p>
 <p>A random <span class="math inline">\(X\in\cal{R}^{p}\)</span>
 satisfies the ternary latent Gaussian copula model if there exists <span class="math inline">\(W\sim NPN(0, \Sigma, f)\)</span> such that <span class="math inline">\(X_{j}=I(W_{j}&gt;c_{j})+I(W_{j}&gt;c'_{j})\)</span>,
@@ -136,8 +136,8 @@ are constants.</p>
 <span><span class="co">#&gt; [2,]    2</span></span>
 <span><span class="co">#&gt; [3,]    1</span></span>
 <span><span class="co">#&gt; [4,]    1</span></span>
-<span><span class="co">#&gt; [5,]    0</span></span>
-<span><span class="co">#&gt; [6,]    1</span></span></code></pre></div>
+<span><span class="co">#&gt; [5,]    1</span></span>
+<span><span class="co">#&gt; [6,]    0</span></span></code></pre></div>
 <p><strong><em>Definition of truncated or zero-inflated
 model</em></strong> <span class="citation">(Yoon, Carroll, and Gaynanova
 2020)</span></p>
@@ -151,12 +151,12 @@ and <span class="math inline">\(c_{j}\)</span> are constants.</p>
 <code class="sourceCode R"><span><span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="../reference/gen_data.html">gen_data</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">6</span>, types <span class="op">=</span> <span class="st">"tru"</span><span class="op">)</span><span class="op">$</span><span class="va">X</span></span>
 <span><span class="va">X</span></span>
 <span><span class="co">#&gt;           [,1]</span></span>
-<span><span class="co">#&gt; [1,] 0.0000000</span></span>
-<span><span class="co">#&gt; [2,] 0.3445053</span></span>
-<span><span class="co">#&gt; [3,] 0.6749467</span></span>
-<span><span class="co">#&gt; [4,] 0.4118347</span></span>
+<span><span class="co">#&gt; [1,] 1.1646683</span></span>
+<span><span class="co">#&gt; [2,] 0.1497381</span></span>
+<span><span class="co">#&gt; [3,] 0.0000000</span></span>
+<span><span class="co">#&gt; [4,] 0.0000000</span></span>
 <span><span class="co">#&gt; [5,] 0.0000000</span></span>
-<span><span class="co">#&gt; [6,] 0.0000000</span></span></code></pre></div>
+<span><span class="co">#&gt; [6,] 0.5315542</span></span></code></pre></div>
 <p><strong><em>Mixed latent Gaussian copula model</em></strong></p>
 <p>The mixed latent Gaussian copula model jointly models <span class="math inline">\(W=(W_{1}, W_{2}, W_{3}, W_{4})\sim NPN(0, \Sigma,
 f)\)</span> such that <span class="math inline">\(X_{1j}=W_{1j}\)</span>, <span class="math inline">\(X_{2j}=I(W_{2j}&gt;c_{2j})\)</span>, <span class="math inline">\(X_{3j}=I(W_{3j}&gt;c_{3j})+I(W_{3j}&gt;c'_{3j})\)</span>
@@ -594,8 +594,8 @@ computations.</p>
 <span><span class="co">#&gt; Unit: milliseconds</span></span>
 <span><span class="co">#&gt;                                                                        expr</span></span>
 <span><span class="co">#&gt;  latentcor(X, types = c("con", "bin", "ter", "tru"), method = "original")$R</span></span>
-<span><span class="co">#&gt;    min      lq     mean   median       uq     max neval</span></span>
-<span><span class="co">#&gt;  29.91 30.4108 32.38777 31.07465 34.12225 39.8118   100</span></span></code></pre></div>
+<span><span class="co">#&gt;      min       lq    mean   median      uq     max neval</span></span>
+<span><span class="co">#&gt;  29.6928 30.16525 30.8096 30.53385 31.0322 35.1031   100</span></span></code></pre></div>
 <p><strong>Rescaled Grid for Interpolation</strong></p>
 <p>Since <span class="math inline">\(|\hat{\tau}|\le
 \bar{\tau}\)</span>, the grid does not need to cover the whole domain

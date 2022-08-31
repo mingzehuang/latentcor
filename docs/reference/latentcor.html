@@ -145,16 +145,20 @@
 <span class="r-in"><span><span class="va">R_org</span> <span class="op">=</span> <span class="fu">latentcor</span><span class="op">(</span>X <span class="op">=</span> <span class="va">X</span>, types <span class="op">=</span> <span class="st">"tru"</span>, method <span class="op">=</span> <span class="st">"original"</span><span class="op">)</span><span class="op">$</span><span class="va">R</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/proc.time.html" class="external-link">proc.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">start_time</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>    0.53    0.00    0.53 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    0.52    0.00    0.52 </span>
 <span class="r-in"><span><span class="co"># Estimate latent correlation matrix with approximation method and check the timing</span></span></span>
 <span class="r-in"><span><span class="va">start_time</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/proc.time.html" class="external-link">proc.time</a></span><span class="op">(</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="va">R_approx</span> <span class="op">=</span> <span class="fu">latentcor</span><span class="op">(</span>X <span class="op">=</span> <span class="va">X</span>, types <span class="op">=</span> <span class="st">"tru"</span>, method <span class="op">=</span> <span class="st">"approx"</span><span class="op">)</span><span class="op">$</span><span class="va">R</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/proc.time.html" class="external-link">proc.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">start_time</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    user  system elapsed </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span>       0       0       0 </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span>    0.01    0.00    0.01 </span>
 <span class="r-in"><span><span class="co"># Heatmap for latent correlation matrix.</span></span></span>
 <span class="r-in"><span><span class="va">Heatmap_R_approx</span> <span class="op">=</span> <span class="fu">latentcor</span><span class="op">(</span>X <span class="op">=</span> <span class="va">X</span>, types <span class="op">=</span> <span class="st">"tru"</span>, method <span class="op">=</span> <span class="st">"approx"</span>,</span></span>
 <span class="r-in"><span>                             showplot <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">$</span><span class="va">plotR</span></span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>`gather_()` was deprecated in tidyr 1.2.0.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> Please use `gather()` instead.</span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #555555;">This warning is displayed once every 8 hours.</span></span>
+<span class="r-wrn co"><span class="r-pr">#&gt;</span> <span style="color: #555555;">Call `lifecycle::last_lifecycle_warnings()` to see where this warning was generated.</span></span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Example 2 - ternary/continuous case</span></span></span>
 <span class="r-in"><span><span class="va">X</span> <span class="op">=</span> <span class="fu"><a href="gen_data.html">gen_data</a></span><span class="op">(</span><span class="op">)</span><span class="op">$</span><span class="va">X</span></span></span>

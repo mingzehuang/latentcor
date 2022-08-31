@@ -78,7 +78,7 @@
                         <h4 data-toc-skip class="author">Mingze Huang,
 Christian L. Müller, Irina Gaynanova</h4>
             
-            <h4 data-toc-skip class="date">2022-08-05</h4>
+            <h4 data-toc-skip class="date">2022-08-31</h4>
       
       
       <div class="hidden name"><code>latentcor.Rmd</code></div>
@@ -138,13 +138,13 @@ is the continuous variable.</li>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">X</span> <span class="op">=</span> <span class="va">simdata</span><span class="op">$</span><span class="va">X</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">X</span>, n <span class="op">=</span> <span class="fl">6L</span><span class="op">)</span></span>
-<span><span class="co">#&gt;      [,1]        [,2]</span></span>
-<span><span class="co">#&gt; [1,]    2  0.55763378</span></span>
-<span><span class="co">#&gt; [2,]    1  0.06435615</span></span>
-<span><span class="co">#&gt; [3,]    1 -1.30073345</span></span>
-<span><span class="co">#&gt; [4,]    2  0.90419766</span></span>
-<span><span class="co">#&gt; [5,]    1 -0.29623658</span></span>
-<span><span class="co">#&gt; [6,]    0  0.42780494</span></span></code></pre></div>
+<span><span class="co">#&gt;      [,1]       [,2]</span></span>
+<span><span class="co">#&gt; [1,]    0 -1.1452083</span></span>
+<span><span class="co">#&gt; [2,]    1 -1.5583566</span></span>
+<span><span class="co">#&gt; [3,]    2 -1.1125013</span></span>
+<span><span class="co">#&gt; [4,]    1  0.3972036</span></span>
+<span><span class="co">#&gt; [5,]    1 -0.4723548</span></span>
+<span><span class="co">#&gt; [6,]    1 -0.3982294</span></span></code></pre></div>
 <ul>
 <li>
 <code>plotX</code>: NULL (<code>showplot = FALSE</code>, can be
@@ -188,8 +188,8 @@ these 2 variables.</li>
 <div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">estimate</span><span class="op">$</span><span class="va">K</span></span>
 <span><span class="co">#&gt;           [,1]      [,2]</span></span>
-<span><span class="co">#&gt; [1,] 1.0000000 0.3115152</span></span>
-<span><span class="co">#&gt; [2,] 0.3115152 1.0000000</span></span></code></pre></div>
+<span><span class="co">#&gt; [1,] 1.0000000 0.1923232</span></span>
+<span><span class="co">#&gt; [2,] 0.1923232 1.0000000</span></span></code></pre></div>
 <ul>
 <li>
 <code>Rpointwise</code>: matrix of pointwise estimated correlations.
@@ -199,8 +199,8 @@ to be positive semi-definite</li>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">estimate</span><span class="op">$</span><span class="va">Rpointwise</span></span>
 <span><span class="co">#&gt;           [,1]      [,2]</span></span>
-<span><span class="co">#&gt; [1,] 1.0000000 0.5594015</span></span>
-<span><span class="co">#&gt; [2,] 0.5594015 1.0000000</span></span></code></pre></div>
+<span><span class="co">#&gt; [1,] 1.0000000 0.3537794</span></span>
+<span><span class="co">#&gt; [2,] 0.3537794 1.0000000</span></span></code></pre></div>
 <ul>
 <li>
 <code>R</code>: estimated final latent correlation matrix, this
@@ -212,8 +212,8 @@ Mathematical framework for estimation) if
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">estimate</span><span class="op">$</span><span class="va">R</span></span>
 <span><span class="co">#&gt;           [,1]      [,2]</span></span>
-<span><span class="co">#&gt; [1,] 1.0000000 0.5588421</span></span>
-<span><span class="co">#&gt; [2,] 0.5588421 1.0000000</span></span></code></pre></div>
+<span><span class="co">#&gt; [1,] 1.0000000 0.3534256</span></span>
+<span><span class="co">#&gt; [2,] 0.3534256 1.0000000</span></span></code></pre></div>
 <ul>
 <li>
 <code>plotR</code>: NULL by default as <code>showplot = FALSE</code>
@@ -506,7 +506,7 @@ subsamples, each of size 80.</p>
 <span><span class="op">}</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/proc.time.html" class="external-link">proc.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">start_time</span></span>
 <span><span class="co">#&gt;    user  system elapsed </span></span>
-<span><span class="co">#&gt;    0.03    0.00    0.04</span></span></code></pre></div>
+<span><span class="co">#&gt;    0.03    0.00    0.03</span></span></code></pre></div>
 <p>Compared with</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">start_time</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/proc.time.html" class="external-link">proc.time</a></span><span class="op">(</span><span class="op">)</span></span>
@@ -514,11 +514,11 @@ subsamples, each of size 80.</p>
 <span>  <span class="co"># Select a random subsample of size 80</span></span>
 <span>  <span class="va">subsample</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sample.html" class="external-link">sample</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">100</span>, <span class="fl">80</span><span class="op">)</span></span>
 <span>  <span class="co"># Estimate latent correlation on subsample specifying the types</span></span>
-<span>  <span class="va">Rs</span> <span class="op">=</span> <span class="fu"><a href="../reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">simdata2</span><span class="op">$</span><span class="va">X</span><span class="op">[</span><span class="va">subsample</span>, <span class="op">]</span>, types <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span>  <span class="va">Rs</span> <span class="op">=</span> <span class="fu"><a href="../reference/latentcor.html">latentcor</a></span><span class="op">(</span><span class="va">simdata2</span><span class="op">$</span><span class="va">X</span><span class="op">[</span><span class="va">subsample</span>, <span class="op">]</span>, types <span class="op">=</span> <span class="fu"><a href="../reference/get_types.html">get_types</a></span><span class="op">(</span><span class="va">simdata2</span><span class="op">$</span><span class="va">X</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/proc.time.html" class="external-link">proc.time</a></span><span class="op">(</span><span class="op">)</span> <span class="op">-</span> <span class="va">start_time</span></span>
 <span><span class="co">#&gt;    user  system elapsed </span></span>
-<span><span class="co">#&gt;    0.04    0.00    0.03</span></span></code></pre></div>
+<span><span class="co">#&gt;    0.03    0.00    0.03</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
