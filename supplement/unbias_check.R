@@ -21,7 +21,7 @@ for (tp1 in c("con", "bin", "ter", "tru")) {
       R_org = latentcor(X, types = c(tp1, tp2), method = "original")$R
       R_approx = latentcor(X, types = c(tp1, tp2), method = "approx")$R
       R_conapprox = latentcor(X, types = c(ifelse(tp1 == "ter", "con", tp1), ifelse(tp2 == "ter", "con", tp2)), method = "original")$R
-      rhorep[rep] = rho; Rrep[rep, 1] = R_org[2, 1]; Rrep[rep, 2] = R_approx[2, 1]; Rrep[rep, 3] = cor(X)[2, 1]; Rrep[rep, 4] = R_conapprox[2, 1]
+      Rrep[rep, 1] = R_org[2, 1]; Rrep[rep, 2] = R_approx[2, 1]; Rrep[rep, 3] = cor(X)[2, 1]; Rrep[rep, 4] = R_conapprox[2, 1]
     }
     assign(paste("R", cp1, cp2, tp1, tp2, "org", sep = "_"), Rrep[ , 1])
     assign(paste("R", cp1, cp2, tp1, tp2, "approx", sep = "_"), Rrep[ , 2])

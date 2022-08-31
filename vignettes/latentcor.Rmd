@@ -205,7 +205,7 @@ for (s in 1:10){
   # Select a random subsample of size 80
   subsample = sample(1:100, 80)
   # Estimate latent correlation on subsample specifying the types
-  Rs = latentcor(simdata2$X[subsample, ], types = NULL)
+  Rs = latentcor(simdata2$X[subsample, ], types = get_types(simdata2$X))
 }
 proc.time() - start_time
 ```
