@@ -18,3 +18,7 @@
 # latentcor 2.0.0
 
 * Add interpolation functions `ipol` into package to enable approximation method. Also export evaluation functions `evaluation` to help compare the accuracy between `original` and `approx` methods.
+
+# latentcor 2.0.1
+
+* Export `r_ml_wrapper` function as a port function to call interpolants for continuous developers.
