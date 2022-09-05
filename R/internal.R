@@ -314,10 +314,12 @@ r_sol = function(K, zratio1, zratio2, comb, tol, ratio) {
 #' Port function to call multilinear interpolants for continuous developers.
 #'
 #' @param K Kendall's tau, can be provided as a number or a vector for interpolation in batch.
-#' @param zratio1 First zratio number. NA for continuous variables, zeros proportions for binary, truncated or ternary variables.
-#'                It can be provided as a vector for interpolation in batch. See vignettes for detail.
-#' @param zratio2 Second zratio number. NA for continuous, binary and truncated variables, zeros and ones proportions for ternary variables.
-#'                It can be provided as a vector for interpolation in batch. See vignettes for detail.
+#' @param zratio1 zratio for first variable. NA for continuous variables, zeros proportions for binary, truncated variables.
+#'                For ternary variables, a vector of proportion of zeros as first element, proportions of zeros and ones as second element.
+#'                It can be provided as a vector (matrix) for interpolation in batch. See vignettes for detail.
+#' @param zratio2 zratio for second variable. NA for continuous variables, zeros proportions for binary, truncated variables.
+#'                For ternary variables, a vector of proportion of zeros as first element, proportions of zeros and ones as second element.
+#'                It can be provided as a vector (matrix) for interpolation in batch. See vignettes for detail.
 #' @param comb    Numeric code for types: "10" for binary/continuous; "11" for binary/binary; "20" for truncated/continuous;
 #'                "21" for truncated/binary; "22" for truncated/truncated; "30" for ternary/continuous; "31" for ternary/binary;
 #'                "32" for ternary/truncated; "33" for ternary/ternary.
@@ -329,6 +331,7 @@ r_sol = function(K, zratio1, zratio2, comb, tol, ratio) {
 r_ml_wrapper = function(K, zratio1, zratio2, comb) {
   comb = match.arg(comb, c("10", "11", "20", "21", "22", "30", "31", "32", "33"), several.ok = FALSE)
   output = r_ml(K, zratio1, zratio2, comb, tol = NULL, ratio = NULL)
+  return(output)
 }
 
 r_ml = function(K, zratio1, zratio2, comb, tol, ratio) {

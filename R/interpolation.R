@@ -16,11 +16,11 @@
 #' @importFrom parallel detectCores
 #' @export
 #' @examples
-#' grid_list = list(seq(-0.5, 0.5, by = 0.5), seq(-0.5, 0.5, by = 0.5))
+#' \dontrun{grid_list = list(seq(-0.5, 0.5, by = 0.5), seq(-0.5, 0.5, by = 0.5))
 #' objfun = function(x, y) {x^2 + sqrt(y)}
 #' evalfun = function(X) {objfun(X[1], X[2])}
 #' value = interpolation(evalfun = evalfun, grid_list = grid_list)$value
-#' interpolant = interpolation(evalfun = evalfun, grid_list = grid_list)$interpolant
+#' interpolant = interpolation(evalfun = evalfun, grid_list = grid_list)$interpolant}
 
 
 interpolation = function(evalfun, grid_list, cores = detectCores(), int = FALSE, ...) {

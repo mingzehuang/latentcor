@@ -44,11 +44,11 @@ to ensure that generated interpolants are compatible with future versions of \pk
 I can issue no such absolute guarantee.
 }
 \examples{
-grid_list = list(seq(-0.5, 0.5, by = 0.5), seq(-0.5, 0.5, by = 0.5))
+\dontrun{grid_list = list(seq(-0.5, 0.5, by = 0.5), seq(-0.5, 0.5, by = 0.5))
 objfun = function(x, y) {x^2 + sqrt(y)}
 evalfun = function(X) {objfun(X[1], X[2])}
 value = interpolation(evalfun = evalfun, grid_list = grid_list)$value
-interpolant = interpolation(evalfun = evalfun, grid_list = grid_list)$interpolant
+interpolant = interpolation(evalfun = evalfun, grid_list = grid_list)$interpolant}
 }
 \seealso{
 \link{ipol}, \link{interpolant}
