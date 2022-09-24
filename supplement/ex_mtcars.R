@@ -19,6 +19,9 @@ ggsave("hist_mtcars_1.pdf", plot_all_1, width = 10, height = 15)
 plot_all_2 = gridExtra::marrangeGrob(grobs = list(hist_qsec, hist_vs, hist_am, hist_gear, hist_carb), widths = rep(1, 2), top = NULL, layout_matrix = matrix(c(1:5, NA), 3, 2, byrow = T))
 ggsave("hist_mtcars_2.pdf", plot_all_2, width = 10, height = 15)
 
+plot_12 = gridExtra::marrangeGrob(grobs = list(hist_mpg, hist_cyl), widths = rep(1, 2), top = NULL, layout_matrix = matrix(c(1:2), 1, 2, byrow = T))
+ggsave('hist_mtcars_12.pdf', plot_12, width = 10, height = 5)
+
 rm(list=ls())
 library(latentcor)
 library(heatmaply)
