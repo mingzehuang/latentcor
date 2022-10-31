@@ -19,6 +19,7 @@ rho = abs(col(rho) - row(rho))
 r = 0.9
 rho = r^rho
 p = 2
+r_bar = (sum(rho)-n)/(n*(n-1))
 for (i in 1:length(corrrep)) {
     Z = matrix(mvrnorm(mu = rep(0, n * p), Sigma = kronecker(rho, matrix(c(1, corrrep[i], corrrep[i], 1), p, p))), ncol = p, byrow = TRUE)
     latentcor_CC = latentcor(Z, types = c("con", "con"))$Rpointwise[2, 1]
@@ -80,13 +81,16 @@ plot_NB = PlotPair(datapair = cbind(corrrep, Rrep[ , 8]),
          title = paste("ternary vs. binary", " (autocorrelation = ", r, ")", sep = ""))
 plot_NT = PlotPair(datapair = cbind(corrrep, Rrep[ , 9]),
          namepair = c("True latent correlation", "Estimated latent correlation"),
-         title = paste("ternary vs. truncated", " (autocorrelation = ", r, ")", sep = ""))
+         title = paste("truncated vs. ternary", " (autocorrelation = ", r, ")", sep = ""))
 plot_NN = PlotPair(datapair = cbind(corrrep, Rrep[ , 10]),
          namepair = c("True latent correlation", "Estimated latent correlation"),
          title = paste("ternary vs. ternary", " (autocorrelation = ", r, ")", sep = ""))
 plot_all = gridExtra::marrangeGrob(grobs = list(plot_CC, plot_BC, plot_BB, plot_TC, plot_TB, plot_TT, plot_NC, plot_NB, plot_NT, plot_NN), widths = rep(1, 3), top = NULL, layout_matrix = matrix(c(1:12), 4, 3, byrow = T))
 ggsave("serial_corr_sim.pdf", plot_all, width = 15, height = 20)
-
+plot_con_ord = gridExtra::marrangeGrob(grobs = list(plot_CC, plot_BC, plot_BB, plot_NC, plot_NB, plot_NN), widths = rep(1, 3), top = NULL, layout_matrix = matrix(c(1:6), 2, 3, byrow = T))
+ggsave("serial_corr_con_ord.pdf", plot_con_ord, width = 15, height = 10)
+plot_tru = gridExtra::marrangeGrob(grobs = list(plot_TC, plot_TB, plot_TT, plot_NT), widths = rep(1, 3), top = NULL, layout_matrix = matrix(c(1:6), 2, 3, byrow = T))
+ggsave("serial_corr_tru.pdf", plot_tru, width = 15, height = 10)
 
 ## BC case (AR(1))
 rm(list = ls())

@@ -40,7 +40,8 @@ heatmaply(mtcars_pearson, dendrogram = "none", main = "Pearson correlation", mar
 mtcars_latentcor = latentcor(X = mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin", "bin", "ter", "con"), method = "original")$R
 heatmaply(mtcars_latentcor, dendrogram = "none", main = "Estimated latent correlation", margins = c(80,80,80,80),
                             grid_color = "white", grid_width = 0.00001)
-
+library(microbenchmark)
+microbenchmark(latentcor(X = mtcars, types = c("con", "ter", "con", "con", "con", "con", "con", "bin", "bin", "ter", "con"), method = "original")$R, times = 5L)
 mtcars_diff = mtcars_latentcor - mtcars_pearson
 heatmaply(mtcars_diff, dendrogram = "none", main = "Difference", col = cool_warm(50), margins = c(80,80,80,80),
                              grid_color = "white", grid_width = 0.00001)
