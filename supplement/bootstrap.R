@@ -1,7 +1,7 @@
 rm(list=ls())
 library(boot)
 library(latentcor)
-# Bootstrap 95% CI
+# Create objective statistics
 statistic <- function(data, indices) {
   d <- data[indices,] # allows boot to select sample
   latent_R <- latentcor(X=d)$R[lower.tri(diag(ncol(d)))]
