@@ -33,8 +33,7 @@ for ternary variable, the corresponding value is a pair of numbers between 0 and
 \code{gen_data} returns a list containing
 \itemize{
       \item X: Generated data matrix (n by p) of observed variables.
-      \item plotX: Visualization of the data matrix X.
-                    Histogram if \code{p=1}. 2D Scatter plot if \code{p=2}. 3D scatter plot if \code{p=3}. Returns NULL if \code{showplot = FALSE}.
+      \item plotX: Visualization of the data matrix X. Histogram if \code{p=1}. 2D Scatter plot if \code{p=2}. 3D scatter plot if \code{p=3}. Returns NULL if \code{showplot = FALSE}.
 }
 }
 \description{
