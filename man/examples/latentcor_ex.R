@@ -9,9 +9,6 @@ proc.time() - start_time
 start_time = proc.time()
 R_approx = latentcor(X = X, types = "tru", method = "approx")$R
 proc.time() - start_time
-# Heatmap for latent correlation matrix.
-Heatmap_R_approx = latentcor(X = X, types = "tru", method = "approx",
-                             showplot = TRUE)$plotR
 
 # Example 2 - ternary/continuous case
 X = gen_data()$X
