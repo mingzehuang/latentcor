@@ -23,7 +23,7 @@ Authors@R: c(
            role = c("aut"),
            email = "irinagn@umich.edu",
            comment = c(ORCID = "0000-0002-4116-0268")))
-Maintainer: Mingze Huang <mingzehuang@gmail.com>
+Maintainer: Irina Gaynanova <irinagn@umich.edu>
 Description: The first stand-alone R package for computation of latent correlation that takes into account all variable types (continuous/binary/ordinal/zero-inflated),
              comes with an optimized memory footprint, and is computationally efficient, essentially making latent correlation estimation almost as fast as rank-based correlation estimation.
              The estimation is based on latent copula Gaussian models.

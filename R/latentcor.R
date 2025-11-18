@@ -19,7 +19,7 @@
 #'
 #'  In case the pointwise estimator \code{Rpointwise} is has negative eigenvalues, it is projected onto the space of positive semi-definite matrices using \code{\link[Matrix]{nearPD}}. The parameter \code{nu} further allows to perform additional shrinkage towards identity matrix (desirable in cases where the number of variables p is very large) as
 #'  \deqn{R = (1 - \nu) \tilde R + \nu I,}
-#'  where \eqn{\tilde R} is \code{Rpointwise} after projection by \code{\link{nearPD}}.
+#'  where \eqn{\tilde R} is \code{Rpointwise} after projection by \code{\link[Matrix]{nearPD}}.
 #'
 #' @return \code{latentcor} returns
 #' \itemize{
