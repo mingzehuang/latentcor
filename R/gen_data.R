@@ -14,9 +14,9 @@
 #'
 #' @return \code{gen_data} returns a list containing
 #' \itemize{
-#'       \item{X: }{Generated data matrix (n by p) of observed variables.}
-#'       \item{plotX: }{Visualization of the data matrix X.
-#'                     Histogram if \code{p=1}. 2D Scatter plot if \code{p=2}. 3D scatter plot if \code{p=3}. Returns NULL if \code{showplot = FALSE}.}
+#'       \item X: Generated data matrix (n by p) of observed variables.
+#'       \item plotX: Visualization of the data matrix X.
+#'                     Histogram if \code{p=1}. 2D Scatter plot if \code{p=2}. 3D scatter plot if \code{p=3}. Returns NULL if \code{showplot = FALSE}.
 #' }
 #' @references
 #' Fan J., Liu H., Ning Y. and Zou H. (2017) "High dimensional semiparametric latent graphicalmodel for mixed data" \doi{10.1111/rssb.12168}.

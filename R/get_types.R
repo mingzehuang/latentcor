@@ -6,7 +6,7 @@
 #'
 #' @return \code{get_types} returns
 #' \itemize{
-#'       \item{types: }{A vector of length p indicating the type of each of the p variables in \code{X}. Each element is one of \code{"con"} (continuous), \code{"bin"} (binary), \code{"ter"} (ternary) or \code{"tru"} (truncated).}
+#'       \item types: A vector of length p indicating the type of each of the p variables in \code{X}. Each element is one of \code{"con"} (continuous), \code{"bin"} (binary), \code{"ter"} (ternary) or \code{"tru"} (truncated).
 #' }
 #' @export
 #' @examples

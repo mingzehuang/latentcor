@@ -10,28 +10,28 @@
 #' @param ... Other inputs for data generation or estimation functions to be passed through.
 #' @return \code{evaluation} returns
 #' \itemize{
-#'      \item{meanAE_1: }{An array for mean absolute error of first estimation method.}
-#'      \item{meanAE_2: }{An array for mean absolute error of second estimation method.}
-#'      \item{medianAE_1: }{An array for median absolute error of first estimation method.}
-#'      \item{medianAE_2: }{An array for median absolute error of second estimation method.}
-#'      \item{maxAE_1: }{An array for maximum absolute error of first estimation method.}
-#'      \item{maxAE_2: }{An array for maximum absolute error of second estimation method.}
-#'      \item{meanAE_diff: }{An array for mean absolute error of difference between two estimations.}
-#'      \item{medianAE_diff: }{An array for median absolute error of difference between two estimations.}
-#'      \item{maxAE_diff: }{An array for maximum absolute error of difference between two estimations.}
-#'      \item{mediantime_1: }{An array for median time of first estimation method.}
-#'      \item{mediantime_2: }{An array for median time of second estimation method.}
-#'      \item{plot_meanAE_1: }{A plot for mean absolute error of first estimation method.}
-#'      \item{plot_meanAE_2: }{A plot for mean absolute error of second estimation method.}
-#'      \item{plot_medianAE_1: }{A plot for median absolute error of first estimation method.}
-#'      \item{plot_medianAE_2: }{A plot for median absolute error of second estimation method.}
-#'      \item{plot_maxAE_1: }{A plot for maximum absolute error of first estimation method.}
-#'      \item{plot_maxAE_2: }{A plot for maximum absolute error of second estimation method.}
-#'      \item{plot_meanAE_diff: }{A plot for mean absolute error of difference between two estimations.}
-#'      \item{plot_medianAE_diff: }{A plot for median absolute error of difference between two estimations.}
-#'      \item{plot_maxAE_diff: }{A plot for maximum absolute error of difference between two estimations.}
-#'      \item{plot_mediantime_1: }{A plot for median time of first estimation method.}
-#'      \item{plot_mediantime_2: }{A plot for median time of second estimation method.}
+#'      \item meanAE_1: An array for mean absolute error of first estimation method.
+#'      \item meanAE_2: An array for mean absolute error of second estimation method.
+#'      \item medianAE_1: An array for median absolute error of first estimation method.
+#'      \item medianAE_2: An array for median absolute error of second estimation method.
+#'      \item maxAE_1: An array for maximum absolute error of first estimation method.
+#'      \item maxAE_2: An array for maximum absolute error of second estimation method.
+#'      \item meanAE_diff: An array for mean absolute error of difference between two estimations.
+#'      \item medianAE_diff: An array for median absolute error of difference between two estimations.
+#'      \item maxAE_diff: An array for maximum absolute error of difference between two estimations.
+#'      \item mediantime_1: An array for median time of first estimation method.
+#'      \item mediantime_2: An array for median time of second estimation method.
+#'      \item plot_meanAE_1: A plot for mean absolute error of first estimation method.
+#'      \item plot_meanAE_2: A plot for mean absolute error of second estimation method.
+#'      \item plot_medianAE_1: A plot for median absolute error of first estimation method.
+#'      \item plot_medianAE_2: A plot for median absolute error of second estimation method.
+#'      \item plot_maxAE_1: A plot for maximum absolute error of first estimation method.
+#'      \item plot_maxAE_2: A plot for maximum absolute error of second estimation method.
+#'      \item plot_meanAE_diff: A plot for mean absolute error of difference between two estimations.
+#'      \item plot_medianAE_diff: A plot for median absolute error of difference between two estimations.
+#'      \item plot_maxAE_diff: A plot for maximum absolute error of difference between two estimations.
+#'      \item plot_mediantime_1: A plot for median time of first estimation method.
+#'      \item plot_mediantime_2: A plot for median time of second estimation method.
 #' }
 #' @import doRNG
 #' @importFrom stats median

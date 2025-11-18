@@ -23,11 +23,11 @@
 #'
 #' @return \code{latentcor} returns
 #' \itemize{
-#'       \item{zratios: }{A list of of length p corresponding to each variable. Returns NA for continuous variable; proportion of zeros for binary/truncated variables; the cumulative proportions of zeros and ones (e.g. first value is proportion of zeros, second value is proportion of zeros and ones) for ternary variable. }
-#'       \item{K: }{(p x p) Kendall Tau (Tau-a) Matrix for \code{X} }
-#'       \item{R: }{(p x p) Estimated latent correlation matrix for \code{X} }
-#'       \item{Rpointwise: }{(p x p) Point-wise estimates of latent correlations for \code{X}. This matrix is not guaranteed to be semi-positive definite. This is the original estimated latent correlation matrix without adjustment for positive-definiteness.}
-#'       \item{plotR: }{Heatmap plot of latent correlation matrix \code{R}, NULL if \code{showplot = FALSE}}
+#'       \item zratios: A list of of length p corresponding to each variable. Returns NA for continuous variable; proportion of zeros for binary/truncated variables; the cumulative proportions of zeros and ones (e.g. first value is proportion of zeros, second value is proportion of zeros and ones) for ternary variable.
+#'       \item K: (p x p) Kendall Tau (Tau-a) Matrix for \code{X}
+#'       \item R: (p x p) Estimated latent correlation matrix for \code{X}
+#'       \item Rpointwise: (p x p) Point-wise estimates of latent correlations for \code{X}. This matrix is not guaranteed to be semi-positive definite. This is the original estimated latent correlation matrix without adjustment for positive-definiteness.
+#'       \item plotR: Heatmap plot of latent correlation matrix \code{R}, NULL if \code{showplot = FALSE}
 #' }
 #'
 #' @references
